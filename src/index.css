@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.otp-input {
+	padding: 0.5rem;
+	flex: 1;
+	border-radius: 0.5rem;
+	font-size: 2rem;
+	background-color: rgba(0, 0, 0, 0.1);
+	-moz-appearance: textfield;
+	appearance: textfield;
+}
+
+.otp-container {
+	display: flex;
+	justify-content: space-between;
+	gap: 1.5rem;
+}
+
+input[type="number"] {
+	/* Remove the default spin buttons */
+	-moz-appearance: textfield;
+	appearance: textfield;
+}
