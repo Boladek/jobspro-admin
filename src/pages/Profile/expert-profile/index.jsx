@@ -1,33 +1,71 @@
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { colors } from "../../../helpers/theme";
-import { BaseButton } from "../../../component/button";
-import { BaseInput } from "../../../component/input";
-import avatar from "../../../assets/profile-avatar.png";
-import bump from "../../../assets/bump.png";
-import info from "../../../assets/info.png";
-import illustration from "../../../assets/illustration.png";
-import { BaseSelect } from "../../../component/select";
-import { Modal } from "../../../component/modal";
-import { Step1 } from "./step1";
-import { Step2 } from "./step2";
-import { Step3 } from "./step3";
+import { useState } from "react";
+import { Industry } from "./industry";
+import { Resume } from "./resume";
+import { Experience } from "./experience";
+import { Education } from "./education";
+import { Skill } from "./skill";
+import { ShortBio } from "./short-bio";
+import { WorkingRate } from "./working-rate";
+import { Profile } from "./profile";
+import { PhoneNumber } from "./phone-number";
+import { VerifyPhoneNumber } from "./verfiy-phone-number";
 
 function ExpertProfile() {
-	const [step, setStep] = useState(3);
+	const [step, setStep] = useState(10);
 
 	return (
 		<div style={{ width: "100%" }} className="p-4">
-			{step === 1 && <Step1 gotoNext={() => setStep((prev) => prev + 1)} />}
+			{step === 1 && <Industry gotoNext={() => setStep((prev) => prev + 1)} />}
 			{step === 2 && (
-				<Step2
+				<Resume
 					gotoNext={() => setStep((prev) => prev + 1)}
 					gotoPrevious={() => setStep((prev) => prev - 1)}
 				/>
 			)}
 			{step === 3 && (
-				<Step3
+				<Experience
+					gotoNext={() => setStep((prev) => prev + 1)}
+					gotoPrevious={() => setStep((prev) => prev - 1)}
+				/>
+			)}
+			{step === 4 && (
+				<Education
+					gotoNext={() => setStep((prev) => prev + 1)}
+					gotoPrevious={() => setStep((prev) => prev - 1)}
+				/>
+			)}
+			{step === 5 && (
+				<Skill
+					gotoNext={() => setStep((prev) => prev + 1)}
+					gotoPrevious={() => setStep((prev) => prev - 1)}
+				/>
+			)}
+			{step === 6 && (
+				<ShortBio
+					gotoNext={() => setStep((prev) => prev + 1)}
+					gotoPrevious={() => setStep((prev) => prev - 1)}
+				/>
+			)}
+			{step === 7 && (
+				<WorkingRate
+					gotoNext={() => setStep((prev) => prev + 1)}
+					gotoPrevious={() => setStep((prev) => prev - 1)}
+				/>
+			)}
+			{step === 8 && (
+				<Profile
+					gotoNext={() => setStep((prev) => prev + 1)}
+					gotoPrevious={() => setStep((prev) => prev - 1)}
+				/>
+			)}
+			{step === 9 && (
+				<PhoneNumber
+					gotoNext={() => setStep((prev) => prev + 1)}
+					gotoPrevious={() => setStep((prev) => prev - 1)}
+				/>
+			)}
+			{step === 10 && (
+				<VerifyPhoneNumber
 					gotoNext={() => setStep((prev) => prev + 1)}
 					gotoPrevious={() => setStep((prev) => prev - 1)}
 				/>

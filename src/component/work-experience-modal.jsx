@@ -1,21 +1,16 @@
-import React, { useState, useRef } from "react";
+import { useState } from "react";
 import { Modal } from "./modal";
 import { BaseButton } from "./button";
 import work from "../assets/work-experience.png";
 import { colors } from "../helpers/theme";
 import { BaseInput } from "./input";
 import { BaseTextArea } from "./text-area";
+import PropTypes from "prop-types";
 
 export function WorkExperienceModal({ open, handleClose, form = {} }) {
 	const [remember, setRemember] = useState(false);
 	const [files, setFiles] = useState([]);
 	const [previews, setPreviews] = useState([]);
-	const fileInputRef = useRef(null);
-
-	const handleDivClick = () => {
-		// Trigger the click event on the hidden file input
-		fileInputRef.current.click();
-	};
 
 	const handleFile = (e) => {
 		// if (!checkFile(e)) return;
@@ -48,16 +43,19 @@ export function WorkExperienceModal({ open, handleClose, form = {} }) {
 				<div className="block gap-4 mb-4 md:flex">
 					<div className="w-full md:w-1/2">
 						<div className="mb-2">
-							<BaseInput label="Title" />
+							<BaseInput label="Title" defaultValue={form.title} />
 						</div>
 						<div className="mb-2">
-							<BaseInput label="Place of work" />
+							<BaseInput
+								label="Place of work"
+								defaultValue={form.placeOfWork}
+							/>
 						</div>
 						<div className="mb-2">
-							<BaseInput label="City" />
+							<BaseInput label="City" defaultValue={form.city} />
 						</div>
 						<div className="mb-2">
-							<BaseInput label="Country" />
+							<BaseInput label="Country" defaultValue={form.country} />
 						</div>
 					</div>
 					<div className="w-full md:w-1/2">
@@ -74,7 +72,11 @@ export function WorkExperienceModal({ open, handleClose, form = {} }) {
 						</div>
 						<div className="flex gap-2">
 							<div className="mb-2">
-								<BaseInput label="Start Date" type="date" />
+								<BaseInput
+									label="Start Date"
+									defaultValue={form.startDate}
+									type="date"
+								/>
 							</div>
 							<div className="mb-2">
 								<BaseInput label="End Date" disabled={remember} type="date" />
@@ -133,3 +135,9 @@ export function WorkExperienceModal({ open, handleClose, form = {} }) {
 		</Modal>
 	);
 }
+
+WorkExperienceModal.propTypes = {
+	open: PropTypes.bool.isRequired,
+	form: PropTypes.object,
+	handleClose: PropTypes.func.isRequired, // Proper usage of PropTypes
+};

@@ -1,4 +1,4 @@
-import React from "react";
+import PropTypes from "prop-types";
 
 export function Modal({ children, handleClose, title, maxWidth = 400 }) {
 	return (
@@ -18,3 +18,11 @@ export function Modal({ children, handleClose, title, maxWidth = 400 }) {
 		</div>
 	);
 }
+
+Modal.propTypes = {
+	maxWidth: PropTypes.number,
+	handleClose: PropTypes.func,
+	value: PropTypes.any,
+	title: PropTypes.string,
+	children: PropTypes.any,
+};

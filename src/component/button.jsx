@@ -1,20 +1,39 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { Spinner } from "./spinner";
 // import styled, { keyframes } from "styled-components";
 
 export const BaseButton = ({
 	children,
 	loading,
-	disabled,
-	variant,
+	variant = "solid",
 	...rest
 }) => {
 	return (
 		<button
-			type="button"
-			className="bg-[#206DB0] w-full p-3 rounded-full text-white text-sm font-bold hover:outline hover:outline-2 hover:outline-[#206DB0] hover:bg-white hover:text-[#206DB0]"
+			className={`
+			${
+				loading
+					? "bg-white outline outline-2 outline-[#206DB0] cursor-not-allowed"
+					: "cursor-pointer"
+			}  
+			${
+				variant === "sec"
+					? "bg-white text-[#206DB0] outline outline-2 outline-[#206DB0] hover:bg-blue-100"
+					: "bg-[#206DB0] text-white hover:bg-opacity-80"
+			}
+			flex justify-center 
+			w-full p-3 rounded-full  text-sm font-bold`}
 			{...rest}
+			disabled={loading}
 		>
-			{loading ? "---" : children}
+			{loading ? <Spinner size={1} /> : children}
 		</button>
 	);
+};
+
+BaseButton.propTypes = {
+	loading: PropTypes.bool,
+	variant: PropTypes.string,
+	children: PropTypes.any,
 };

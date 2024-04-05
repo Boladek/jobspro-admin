@@ -1,29 +1,35 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-// import { useNavigate } from "react-router-dom";
-import { colors } from "../../helpers/theme";
-import { BaseButton } from "../../component/button";
-import { BaseInput } from "../../component/input";
-import avatar from "../../assets/profile-avatar.png";
-import bump from "../../assets/bump.png";
-import info from "../../assets/info.png";
-import illustration from "../../assets/illustration.png";
-import { BaseSelect } from "../../component/select";
-import { Modal } from "../../component/modal";
+import { colors } from "../../../helpers/theme";
+import { BaseButton } from "../../../component/button";
+import { BaseInput } from "../../../component/input";
+import avatar from "../../../assets/profile-avatar.png";
+import bump from "../../../assets/bump.png";
+import { BaseSelect } from "../../../component/select";
+import { Modal } from "../../../component/modal";
 
-function ClientProfile() {
+export function Profile() {
+	// eslint-disable-next-line no-unused-vars
+	const [file, setFile] = useState(null);
+	const [preview, setPreview] = useState(null);
 	// const navigate = useNavigate();
 	const {
 		register,
 		formState: { errors },
 		handleSubmit,
 	} = useForm();
-	const [open, setOpen] = useState(false);
-	const [openSuccess, setOpenSuccess] = useState(true);
-	// const [password, setPassword] = useState(true);
-	// const [remember, setRemember] = useState(false);
+	const [openSuccess, setOpenSuccess] = useState(false);
 	const onSubmit = (data) => {
 		console.log({ data });
+	};
+
+	const handleFile = (e) => {
+		const reader = new FileReader();
+		reader.onload = () => {
+			setPreview(reader.result);
+		};
+		reader.readAsDataURL(e.target.files[0]);
+		setFile(e.target.files[0]);
 	};
 
 	return (
@@ -42,10 +48,31 @@ function ClientProfile() {
 				style={{ maxWidth: 500, width: "100%" }}
 				className="border rounded-md p-6"
 			>
-				<div className="w-full flex justify-center mb-2">
-					<img src={avatar} className="h-24" />
-				</div>
+				<label id="profile-upload" className="w-full flex justify-center mb-2">
+					<div className="border rounded-full w-24 overflow-hidden">
+						<img src={preview ?? avatar} className="h-24 w-24" />
+					</div>
+					<input
+						id="profile-upload"
+						type="file"
+						className="hidden absolute z-1"
+						onChange={handleFile}
+						accept="image/*"
+					/>
+				</label>
 				<div className="mb-2">
+					<div className="mb-2">
+						<BaseInput
+							label="Birth Day"
+							{...register("birthday", {
+								required: "This field is required",
+							})}
+							error={errors.birthday}
+							errorText={errors.birthday && errors.birthday.message}
+							type="date"
+							defaultValue={new Date().toISOString().split("T")[0]}
+						/>
+					</div>
 					<BaseSelect
 						label="Country"
 						{...register("country", {
@@ -102,42 +129,11 @@ function ClientProfile() {
 					/>
 				</div>
 				<div className="flex justify-end">
-					<div className="w-1/4">
+					<div className="w-full md:w-1/4">
 						<BaseButton type="submit">Next</BaseButton>
 					</div>
 				</div>
 			</div>
-
-			{open && (
-				<Modal open={open} handleClose={() => setOpen(false)}>
-					<div className="w-full p-2">
-						<div className="flex flex-col items-center gap-2 mb-4 w-2/3 my-0 mx-auto">
-							<div>
-								<img src={illustration} alt="Illustration" />
-							</div>
-							<p className={`font-bold text-black`}>Hey Nneka</p>
-							<p className="text-xs text-gray-500 text-center">
-								Please click Get started to complete the setup your profile
-							</p>
-						</div>
-						<div className="flex gap-1 items-center border rounded-md p-2 mb-4">
-							<img src={info} alt="Information" />
-							<div className="w-4/5 text-xs text-gray-500">
-								You only need 1-2 minutes, and you can make edits later.
-								We&lsquo;ll save your progress as you go.
-							</div>
-						</div>
-						<div className="flex gap-2">
-							<div className="mb-4 w-1/2">
-								<BaseButton>Skip</BaseButton>
-							</div>
-							<div className="mb-4 w-1/2">
-								<BaseButton>Get Started</BaseButton>
-							</div>
-						</div>
-					</div>
-				</Modal>
-			)}
 			{openSuccess && (
 				<Modal open={openSuccess} handleClose={() => setOpenSuccess(false)}>
 					<div className="w-full p-2">
@@ -160,5 +156,3 @@ function ClientProfile() {
 		</form>
 	);
 }
-
-export default ClientProfile;

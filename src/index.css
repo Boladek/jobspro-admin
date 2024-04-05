@@ -23,3 +23,72 @@ input[type="number"] {
 	-moz-appearance: textfield;
 	appearance: textfield;
 }
+
+.progress {
+	width: 100%;
+	height: 16.8px;
+	border-radius: 16.8px;
+	background: repeating-linear-gradient(
+				135deg,
+				#083861 0 8.4px,
+				rgba(8, 56, 97, 0.75) 0 16.8px
+			)
+			left/0% 100% no-repeat,
+		repeating-linear-gradient(
+				135deg,
+				rgba(8, 56, 97, 0.2) 0 8.4px,
+				rgba(8, 56, 97, 0.1) 0 16.8px
+			)
+			left/100% 100%;
+	animation: progress-p43u5e 1.6s infinite;
+}
+
+@keyframes progress-p43u5e {
+	100% {
+		background-size: 100% 100%;
+	}
+}
+
+.spinner {
+	width: 56px;
+	height: 56px;
+	display: grid;
+	animation: spinner-plncf9 4s infinite;
+}
+
+.spinner::before,
+.spinner::after {
+	content: "";
+	grid-area: 1/1;
+	border: 9px solid;
+	border-radius: 50%;
+	border-color: #206db0 #206db0 #0000 #0000;
+	mix-blend-mode: darken;
+	animation: spinner-plncf9 1s infinite linear;
+}
+
+.spinner::after {
+	border-color: #0000 #0000 #cacacb #cacacb;
+	animation-direction: reverse;
+}
+
+@keyframes spinner-plncf9 {
+	100% {
+		transform: rotate(1turn);
+	}
+}
+
+/* .spinner {
+	width: 1.5rem;
+	height: 1.5rem;
+	border: 11.2px #206db0 double;
+	border-left-style: solid;
+	border-radius: 50%;
+	animation: spinner-aib1d7 0.75s infinite linear;
+}
+
+@keyframes spinner-aib1d7 {
+	to {
+		transform: rotate(360deg);
+	}
+} */

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 export const BaseSelect = React.forwardRef(
 	(
@@ -8,11 +9,8 @@ export const BaseSelect = React.forwardRef(
 			id,
 			handleChange,
 			value,
-			style,
 			error,
 			errorText,
-			hasHint,
-			hint,
 			...rest
 		},
 		ref
@@ -28,7 +26,7 @@ export const BaseSelect = React.forwardRef(
 					onChange={handleChange}
 					ref={ref}
 					{...rest}
-					className="bg-gray-100 w-full px-3 py-3 border text-sm rounded-lg focus:outline-none focus:border-blue-500"
+					className="bg-gray-100 w-full px-3 py-3 border text-sm rounded-lg focus:outline-none focus:border-[#004B88]"
 				>
 					{children}
 				</select>
@@ -39,3 +37,15 @@ export const BaseSelect = React.forwardRef(
 		);
 	}
 );
+
+BaseSelect.displayName = "NativeSelect";
+
+BaseSelect.propTypes = {
+	label: PropTypes.string,
+	errorText: PropTypes.string,
+	id: PropTypes.string,
+	handleChange: PropTypes.func,
+	value: PropTypes.any,
+	error: PropTypes.bool,
+	children: PropTypes.any,
+};

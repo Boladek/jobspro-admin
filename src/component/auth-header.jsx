@@ -1,0 +1,81 @@
+import logo from "../assets/logo.png";
+import menu from "../assets/menu-icon.png";
+import notification from "../assets/notification.png";
+import settings from "../assets/setting.png";
+import avatar from "../assets/profile-avatar.png";
+import { LinkElement } from "./link";
+import { useState } from "react";
+import { SearchComponent } from "./search-component";
+import { useNavigate } from "react-router-dom";
+
+const links = ["dashboard", "tasks", "messages", "wallets"];
+
+export function AuthHeader() {
+	const navigate = useNavigate();
+	const [isOpen, setIsOpen] = useState(false);
+
+	const toggleSidebar = () => {
+		setIsOpen(!isOpen);
+	};
+
+	return (
+		<div className="py-3 px-2 sm:px-6 w-full flex justify-between items-center border-gray-300 border-b sticky top-0 bg-white">
+			<div className="flex items-center gap-4 w-2/5">
+				<div
+					className="relative cursor-pointer"
+					onClick={() => navigate("/dashboard")}
+				>
+					<img src={logo} alt="Favicon" className="cursor-pointer" />
+					<div className="absolute inset-0 opacity-50 hover:bg-gray-50 z-10"></div>
+				</div>
+				<div className="hidden md:flex gap-2 px-8 ml-auto">
+					{links.map((link) => (
+						<LinkElement key={link} link={link} />
+					))}
+				</div>
+			</div>
+			<div className="w-3/5 hidden md:flex justify-end items-center gap-2">
+				<div>
+					<SearchComponent />
+				</div>
+				<img src={settings} className="h-5" />
+				<img src={notification} className="h-5" />
+
+				<img src={avatar} className="h-9" />
+			</div>
+			<span
+				className="relative cursor-pointer rounded-sm block md:hidden"
+				onClick={toggleSidebar}
+			>
+				<img src={menu} className="h-8" />
+				<div className="absolute inset-0 opacity-50 rounded-md hover:bg-gray-300 z-20"></div>
+			</span>
+
+			<div
+				className={`fixed inset-y-0 right-0 z-50 w-64 bg-white shadow-lg transition-transform transform ${
+					isOpen ? "translate-x-0" : "translate-x-full"
+				}`}
+			>
+				<div className="p-4">
+					<button
+						onClick={toggleSidebar}
+						className="text-gray-600 focus:outline-none"
+					>
+						Close
+					</button>
+				</div>
+				<div className="px-4">
+					<SearchComponent />
+					<br />
+					<div className="flex flex-col gap-2">
+						{links.map((link) => (
+							<div key={link} className="w-24">
+								<LinkElement link={link} />
+							</div>
+						))}
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+}

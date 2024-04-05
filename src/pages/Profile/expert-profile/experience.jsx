@@ -1,9 +1,13 @@
-import { useRef, useState } from "react";
+/* eslint-disable no-unused-vars */
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { colors } from "../../../helpers/theme";
 import { BaseButton } from "../../../component/button";
 import info from "../../../assets/info.png";
 import { WorkExperienceModal } from "../../../component/work-experience-modal";
+import PropTypes from "prop-types";
+import edit from "../../../assets/edit-icon.png";
+import deleteIcon from "../../../assets/delete-icon.png";
 
 const experiences = [
 	{
@@ -19,7 +23,7 @@ const experiences = [
 	},
 ];
 
-export function Step3({ gotoNext, gotoPrevious }) {
+export function Experience() {
 	const {
 		register,
 		formState: { errors },
@@ -27,7 +31,6 @@ export function Step3({ gotoNext, gotoPrevious }) {
 	} = useForm();
 	const [open, setOpen] = useState(false);
 	const [openEdit, setOpenEdit] = useState(false);
-	const fileInputRef = useRef(null);
 	const [selected, setSelected] = useState(null);
 	const [files, setFiles] = useState([]);
 
@@ -40,7 +43,7 @@ export function Step3({ gotoNext, gotoPrevious }) {
 	};
 
 	return (
-		<div style={{ width: "100%" }} className="p-4">
+		<div style={{ width: "100%", maxWidth: 400 }} className="">
 			<div className="flex gap-1 items-center border rounded-md p-2 mb-4">
 				<img src={info} alt="Information" />
 				<div className="w-4/5 text-xs text-gray-500">
@@ -78,15 +81,7 @@ export function Step3({ gotoNext, gotoPrevious }) {
 							))}
 						</div>
 						<div className="flex justify-end items-center gap-2 text-xs">
-							<span
-								className="material-symbols-outlined p-1 border rounded-full border-black cursor-pointer hover:border-gray-500 hover:text-gray-500"
-								onClick={() => handleEdit(experience)}
-							>
-								edit
-							</span>
-							<span className="material-symbols-outlined p-1 border rounded-full bg-red-100 border-red-500 text-red-500 cursor-pointer hover:border-red-300 hover:text-red-300">
-								delete
-							</span>
+							<img src={edit} /> <img src={deleteIcon} />{" "}
 						</div>
 					</div>
 				))}
@@ -103,14 +98,12 @@ export function Step3({ gotoNext, gotoPrevious }) {
 				style={{ maxWidth: 500, width: "100%" }}
 			>
 				<div className="w-1/4">
-					<BaseButton type="button" onClick={gotoPrevious}>
+					<BaseButton type="button" variant="sec">
 						Previous
 					</BaseButton>
 				</div>
 				<div className="w-1/4">
-					<BaseButton type="button" onClick={gotoNext}>
-						Next
-					</BaseButton>
+					<BaseButton type="button">Next</BaseButton>
 				</div>
 			</div>
 
@@ -122,8 +115,14 @@ export function Step3({ gotoNext, gotoPrevious }) {
 				<WorkExperienceModal
 					open={open}
 					handleClose={() => setOpenEdit(false)}
+					form={selected}
 				/>
 			)}
 		</div>
 	);
 }
+
+Experience.propTypes = {
+	gotoNext: PropTypes.func,
+	gotoPrevious: PropTypes.func, // Proper usage of PropTypes
+};

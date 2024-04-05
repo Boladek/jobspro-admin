@@ -1,4 +1,3 @@
-import React from "react";
 import logo from "../assets/logo.png";
 import { colors } from "../helpers/theme";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -8,7 +7,7 @@ export function Header() {
 	const location = useLocation();
 	const pathname = location.pathname;
 	return (
-		<div className="py-3 px-2 w-full flex justify-between items-center border-gray-300 border-b sticky top-0 bg-white">
+		<div className="py-3 px-2 sm:px-6 w-full flex justify-between items-center border-gray-300 border-b sticky top-0 bg-white">
 			<img src={logo} alt="Favicon" />
 			{pathname === "/" && (
 				<div className="text-xs">

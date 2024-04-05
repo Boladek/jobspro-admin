@@ -1,10 +1,8 @@
-import React from "react";
+import PropTypes from "prop-types";
 
 export const Checkbox = ({
 	id,
 	label,
-	// checked,
-	// onChange,
 	textPosition,
 	...rest
 }) => {
@@ -38,4 +36,10 @@ export const Checkbox = ({
 			)}
 		</div>
 	);
+};
+
+Checkbox.propTypes = {
+	label: PropTypes.string,
+	textPosition: PropTypes.string,
+	id: PropTypes.string,
 };
