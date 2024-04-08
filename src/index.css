@@ -78,6 +78,45 @@ input[type="number"] {
 	}
 }
 
+.dot-to-dash {
+	/* position: relative; */
+	/* width: 100px; */
+	/* height: 20px; */
+	/* background-color: #fff; */
+	/* border-radius: 10px; */
+	/* overflow: hidden; */
+}
+
+.dot-to-dash::after {
+	/* content: ""; */
+	/* position: absolute; */
+	/* top: 50%; */
+	/* left: 0; */
+	/* width: 50%; */
+	height: 2px;
+	/* background-color: #fff; */
+	/* transform: translateX(-100%); */
+}
+
+.dot-transition {
+	animation: dotToDash 2s infinite;
+}
+
+@keyframes dotToDash {
+	0% {
+		width: 0%;
+		transform: translateX(-100%);
+	}
+	50% {
+		width: 100%;
+		transform: translateX(0%);
+	}
+	100% {
+		width: 0%;
+		transform: translateX(100%);
+	}
+}
+
 /* .spinner {
 	width: 1.5rem;
 	height: 1.5rem;
