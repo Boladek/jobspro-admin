@@ -24,8 +24,6 @@ function CreateAccountPage() {
 		console.log({ data });
 	};
 
-	console.log({ role, accountType });
-
 	return (
 		<form
 			style={{ maxWidth: 400, width: "100%" }}
