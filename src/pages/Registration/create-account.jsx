@@ -5,6 +5,8 @@ import { BaseInput } from "../../component/input";
 import { colors } from "../../helpers/theme";
 import { BaseButton } from "../../component/button";
 import { BaseSelect } from "../../component/select";
+import eye from "../../assets/eye.png";
+import eyeSlash from "../../assets/eye-slash.png";
 
 function CreateAccountPage() {
 	const { role } = useParams();
@@ -14,6 +16,7 @@ function CreateAccountPage() {
 		handleSubmit,
 	} = useForm();
 	const [password, setPassword] = useState(true);
+	const [confirmPassword, setConfirmPassword] = useState(true);
 	const [remember, setRemember] = useState(false);
 	const onSubmit = (data) => {
 		console.log({ data });
@@ -95,29 +98,39 @@ function CreateAccountPage() {
 					error={errors.password}
 					errorText={errors.password && errors.password.message}
 				/>
-				<span
-					className="absolute right-4 top-2/3 transform -translate-y-1/2 material-symbols-outlined cursor-pointer  text-2xl"
+				<img
+					src={password ? eye : eyeSlash}
 					onClick={() => setPassword(!password)}
-				>
-					{password ? "visibility" : "visibility_off"}
-				</span>
+					className={`absolute cursor-pointer ${
+						password ? "h-5" : "h-7"
+					} transition-all duration-300`}
+					style={{
+						top: password ? "2.5rem" : "2.25rem",
+						right: "1rem",
+					}}
+				/>
 			</div>
 			<div className="relative mb-2">
 				<BaseInput
 					label="Confirm Password"
-					type={password ? "password" : "text"}
-					{...register("password", {
+					type={confirmPassword ? "password" : "text"}
+					{...register("confirmPassword", {
 						required: "The field is required",
 					})}
-					error={errors.password}
-					errorText={errors.password && errors.password.message}
+					error={errors.confirmPassword}
+					errorText={errors.confirmPassword && errors.confirmPassword.message}
 				/>
-				<span
-					className="absolute right-4 top-2/3 transform -translate-y-1/2 material-symbols-outlined cursor-pointer  text-2xl"
-					onClick={() => setPassword(!password)}
-				>
-					{password ? "visibility" : "visibility_off"}
-				</span>
+				<img
+					src={confirmPassword ? eye : eyeSlash}
+					onClick={() => setConfirmPassword(!confirmPassword)}
+					className={`absolute cursor-pointer ${
+						confirmPassword ? "h-5" : "h-7"
+					} transition-all duration-300`}
+					style={{
+						top: confirmPassword ? "2.5rem" : "2.25rem",
+						right: "1rem",
+					}}
+				/>
 			</div>
 			<div className="flex items-center justify-between mb-4">
 				<div className="flex items-center gap-2">

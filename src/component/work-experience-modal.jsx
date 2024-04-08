@@ -6,6 +6,8 @@ import { colors } from "../helpers/theme";
 import { BaseInput } from "./input";
 import { BaseTextArea } from "./text-area";
 import PropTypes from "prop-types";
+import upload from "../assets/upload-icon.png";
+import close from "../assets/close-circle.png";
 
 export function WorkExperienceModal({ open, handleClose, form = {} }) {
 	const [remember, setRemember] = useState(false);
@@ -87,12 +89,30 @@ export function WorkExperienceModal({ open, handleClose, form = {} }) {
 						</div>
 						<div className="flex gap-2 flex-wrap">
 							<label
+								className="block border rounded-xl p-2 mb-1 w-1/4"
+								id="file-upload"
+							>
+								<div className="w-full text-center">
+									<div className="flex justify-center">
+										<img src={upload} className="h-8" />
+									</div>
+									<p className="text-xs text-gray-500 underline">
+										Upload your file
+									</p>
+								</div>
+								<input
+									id="photo-upload"
+									type="file"
+									className="hidden relative z-1"
+									onChange={handleFile}
+									accept="image/*"
+								/>
+							</label>
+							{/* <label
 								id="files-upload"
 								className="block border rounded-md p-2 text-center w-1/4"
 							>
-								<span className="text material-symbols-outlined">
-									upload_file
-								</span>
+								<img src={upload} className="h-8" />
 								<p className="text-xs text-gray-500 underline">Upload Work</p>
 								<input
 									id="files-upload"
@@ -102,21 +122,33 @@ export function WorkExperienceModal({ open, handleClose, form = {} }) {
 									// onClick={handleDivClick}
 									accept="image/*"
 								/>
-							</label>
+							</label> */}
 							{previews.map((item, index) => (
 								<div
-									className="relative h-20 w-1/4 overflow-hidden border rounded-md"
+									className="relative h-20 w-1/4 overflow-hidden border rounded-xl bg-gray-900"
 									key={item}
+									style={{
+										backgroundImage: `url(${item})`,
+										backgroundSize: "cover", // Optional: adjust according to your needs
+										backgroundPosition: "center", // Optional: adjust according to your needs
+									}}
 								>
-									<span
+									{/* <span
 										className="material-symbols-outlined text-white absolute transform -translate-x-1/2 -translate-y-1/2 z-10 top-1/2 left-1/2 cursor-pointer"
 										// onClick={() => setFile(null)}
 										onClick={() => filterPreviews(item, index)}
 									>
 										cancel
-									</span>
-									<div className="absolute inset-0 bg-gray-900 opacity-50"></div>
-									<img src={item} className="h-full w-full object-cover" />
+									</span> */}
+
+									<div className="absolute inset-0 flex justify-center items-center">
+										<img
+											src={close}
+											className="h-8"
+											onClick={() => filterPreviews(item, index)}
+										/>
+									</div>
+									{/* <img src={item} className="h-full w-full object-cover" /> */}
 								</div>
 							))}
 						</div>
@@ -125,7 +157,7 @@ export function WorkExperienceModal({ open, handleClose, form = {} }) {
 				<hr />
 				<div className="flex justify-center gap-2 mt-4">
 					<div className="w-1/4">
-						<BaseButton>Cancel</BaseButton>
+						<BaseButton variant="sec">Cancel</BaseButton>
 					</div>
 					<div className="w-1/4">
 						<BaseButton>Save</BaseButton>

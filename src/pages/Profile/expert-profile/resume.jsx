@@ -4,6 +4,8 @@ import { colors } from "../../../helpers/theme";
 import { BaseButton } from "../../../component/button";
 import info from "../../../assets/info.png";
 import upload from "../../../assets/upload-icon.png";
+import document from "../../../assets/document.png";
+import trash from "../../../assets/trash-bold.png";
 
 export function Resume() {
 	const {
@@ -88,19 +90,14 @@ export function Resume() {
 					</p>
 					{file && (
 						<div className="border rounded-md p-3 mb-2 flex gap-2">
-							<span className="material-symbols-outlined">description</span>
+							<img src={document} className="h-6" />
 							<div className="flex-1">
 								<p className="text-base font-bold">{file.name}</p>{" "}
 								<p className="text-xs text-gray-500">
 									{parseFloat(file.size / (1024 * 1024)).toFixed(4)} MB
 								</p>
 							</div>
-							<span
-								className="material-symbols-outlined text-rose-700"
-								onClick={() => setFile(null)}
-							>
-								delete
-							</span>
+							<img src={trash} onClick={() => setFile(null)} className="h-6" />
 						</div>
 					)}
 				</div>

@@ -5,6 +5,8 @@ import { colors } from "../../helpers/theme";
 import { BaseButton } from "../../component/button";
 import { Checkbox } from "../../component/checkbox";
 import { useNavigate } from "react-router-dom";
+import eye from "../../assets/eye.png";
+import eyeSlash from "../../assets/eye-slash.png";
 
 function LoginPage() {
 	const navigate = useNavigate();
@@ -52,12 +54,17 @@ function LoginPage() {
 					error={errors.password}
 					errorText={errors.password && errors.password.message}
 				/>
-				<span
-					className="absolute right-4 top-2/3 transform -translate-y-1/2 material-symbols-outlined cursor-pointer  text-2xl"
+				<img
+					src={password ? eye : eyeSlash}
 					onClick={() => setPassword(!password)}
-				>
-					{password ? "visibility" : "visibility_off"}
-				</span>
+					className={`absolute cursor-pointer ${
+						password ? "h-5" : "h-7"
+					} transition-all duration-300`}
+					style={{
+						top: password ? "2.5rem" : "2.25rem",
+						right: "1rem",
+					}}
+				/>
 			</div>
 			<div className="flex items-center justify-between mb-8">
 				<div>
