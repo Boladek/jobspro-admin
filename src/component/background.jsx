@@ -1,8 +1,8 @@
-import React from "react";
 import { Outlet } from "react-router-dom";
 import bg from "../assets/background.png";
 import { Header } from "./header";
 import { Footer } from "./footer";
+import { Carousel } from "./carousel";
 
 export function Background() {
 	return (
@@ -15,9 +15,11 @@ export function Background() {
 				<Footer />
 			</div>
 			<div
-				className="w-3/5 h-full hidden md:block bg-cover bg-center"
+				className="w-3/5 h-full hidden md:block bg-cover bg-center p-4"
 				style={{ backgroundImage: `url(${bg})` }}
-			></div>
+			>
+				<Carousel />
+			</div>
 		</div>
 	);
 }

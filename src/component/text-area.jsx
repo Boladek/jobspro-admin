@@ -1,20 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 
 export const BaseTextArea = React.forwardRef(
 	(
-		{
-			label,
-			id,
-			handleChange,
-			value,
-			style,
-			error,
-			errorText,
-			hasHint,
-			hint,
-			helper,
-			...rest
-		},
+		{ label, id, handleChange, value, error, height = 8, errorText, ...rest },
 		ref
 	) => {
 		return (
@@ -23,7 +12,8 @@ export const BaseTextArea = React.forwardRef(
 					{label}
 				</label>
 				<textarea
-					className="bg-gray-100 w-full resize-none px-3 py-3 border text-sm rounded-lg focus:outline-none focus:border-blue-500"
+					className={`bg-gray-100 w-full resize-none px-3 py-3 border text-sm rounded-lg focus:outline-none focus:border-blue-500`}
+					style={{ height: `${height}rem` }}
 					ref={ref}
 					id={id}
 					value={value}
@@ -37,3 +27,16 @@ export const BaseTextArea = React.forwardRef(
 		);
 	}
 );
+
+BaseTextArea.displayName = "NativeInput";
+
+BaseTextArea.propTypes = {
+	label: PropTypes.string,
+	errorText: PropTypes.string,
+	id: PropTypes.string,
+	handleChange: PropTypes.func,
+	value: PropTypes.any,
+	style: PropTypes.object,
+	error: PropTypes.bool,
+	height: PropTypes.number,
+};

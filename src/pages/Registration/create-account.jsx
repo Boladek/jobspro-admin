@@ -1,12 +1,16 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { BaseInput } from "../../component/input";
 import { colors } from "../../helpers/theme";
 import { BaseButton } from "../../component/button";
 import { BaseSelect } from "../../component/select";
+import eye from "../../assets/eye.png";
+import eyeSlash from "../../assets/eye-slash.png";
 
 function CreateAccountPage() {
+	const location = useLocation();
+	const accountType = location?.state?.accountType || "individual";
 	const { role } = useParams();
 	const {
 		register,
@@ -14,6 +18,7 @@ function CreateAccountPage() {
 		handleSubmit,
 	} = useForm();
 	const [password, setPassword] = useState(true);
+	const [confirmPassword, setConfirmPassword] = useState(true);
 	const [remember, setRemember] = useState(false);
 	const onSubmit = (data) => {
 		console.log({ data });
@@ -32,34 +37,50 @@ function CreateAccountPage() {
 			</p>
 			<p className="text-sm text-gray-500">Let’s get to know you better</p>
 			<br />
+			{accountType === "business" ? (
+				<div className="mb-2">
+					<BaseInput
+						label="Company Name"
+						{...register("companyName", {
+							required: "This field is required",
+						})}
+						error={errors.companyName}
+						errorText={errors.companyName && errors.companyName.message}
+					/>
+				</div>
+			) : (
+				<>
+					<div className="mb-2">
+						<BaseInput
+							label="First Name"
+							{...register("firstName", {
+								required: "This field is required",
+							})}
+							error={errors.firstName}
+							errorText={errors.firstName && errors.firstName.message}
+						/>
+					</div>
+					<div className="mb-2">
+						<BaseInput
+							label="Last Name"
+							{...register("lastName", {
+								required: "This field is required",
+							})}
+							error={errors.lastName}
+							errorText={errors.lastName && errors.lastName.message}
+						/>
+					</div>
+				</>
+			)}
+
 			<div className="mb-2">
 				<BaseInput
-					label="First Name"
-					{...register("firstName", {
+					label="Email"
+					{...register("email", {
 						required: "This field is required",
 					})}
-					error={errors.firstName}
-					errorText={errors.firstName && errors.firstName.message}
-				/>
-			</div>
-			<div className="mb-2">
-				<BaseInput
-					label="Last Name"
-					{...register("lastName", {
-						required: "This field is required",
-					})}
-					error={errors.lastName}
-					errorText={errors.lastName && errors.lastName.message}
-				/>
-			</div>
-			<div className="mb-2">
-				<BaseInput
-					label="Email or Phone Number"
-					{...register("username", {
-						required: "This field is required",
-					})}
-					error={errors.username}
-					errorText={errors.username && errors.username.message}
+					error={errors.email}
+					errorText={errors.email && errors.email.message}
 				/>
 			</div>
 			<div className="relative mb-2">
@@ -75,16 +96,18 @@ function CreateAccountPage() {
 					<option></option>
 				</BaseSelect>
 			</div>
-			<div className="mb-2">
-				<BaseInput
-					label="Phone Number"
-					{...register("phoneNumber", {
-						required: "This field is required",
-					})}
-					error={errors.phoneNumber}
-					errorText={errors.phoneNumber && errors.phoneNumber.message}
-				/>
-			</div>
+			{accountType !== "business" && (
+				<div className="mb-2">
+					<BaseInput
+						label="Phone Number"
+						{...register("phoneNumber", {
+							required: "This field is required",
+						})}
+						error={errors.phoneNumber}
+						errorText={errors.phoneNumber && errors.phoneNumber.message}
+					/>
+				</div>
+			)}
 			<div className="relative mb-2">
 				<BaseInput
 					label="Password"
@@ -95,29 +118,39 @@ function CreateAccountPage() {
 					error={errors.password}
 					errorText={errors.password && errors.password.message}
 				/>
-				<span
-					className="absolute right-4 top-2/3 transform -translate-y-1/2 material-symbols-outlined cursor-pointer  text-2xl"
+				<img
+					src={password ? eye : eyeSlash}
 					onClick={() => setPassword(!password)}
-				>
-					{password ? "visibility" : "visibility_off"}
-				</span>
+					className={`absolute cursor-pointer ${
+						password ? "h-5" : "h-7"
+					} transition-all duration-300`}
+					style={{
+						top: password ? "2.5rem" : "2.25rem",
+						right: "1rem",
+					}}
+				/>
 			</div>
 			<div className="relative mb-2">
 				<BaseInput
 					label="Confirm Password"
-					type={password ? "password" : "text"}
-					{...register("password", {
+					type={confirmPassword ? "password" : "text"}
+					{...register("confirmPassword", {
 						required: "The field is required",
 					})}
-					error={errors.password}
-					errorText={errors.password && errors.password.message}
+					error={errors.confirmPassword}
+					errorText={errors.confirmPassword && errors.confirmPassword.message}
 				/>
-				<span
-					className="absolute right-4 top-2/3 transform -translate-y-1/2 material-symbols-outlined cursor-pointer  text-2xl"
-					onClick={() => setPassword(!password)}
-				>
-					{password ? "visibility" : "visibility_off"}
-				</span>
+				<img
+					src={confirmPassword ? eye : eyeSlash}
+					onClick={() => setConfirmPassword(!confirmPassword)}
+					className={`absolute cursor-pointer ${
+						confirmPassword ? "h-5" : "h-7"
+					} transition-all duration-300`}
+					style={{
+						top: confirmPassword ? "2.5rem" : "2.25rem",
+						right: "1rem",
+					}}
+				/>
 			</div>
 			<div className="flex items-center justify-between mb-4">
 				<div className="flex items-center gap-2">

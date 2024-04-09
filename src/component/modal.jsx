@@ -1,8 +1,11 @@
-import React from "react";
+import PropTypes from "prop-types";
 
 export function Modal({ children, handleClose, title, maxWidth = 400 }) {
 	return (
-		<div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-400 bg-opacity-70 z-1000">
+		<div
+			className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-400 bg-opacity-70"
+			style={{ zIndex: 10000 }}
+		>
 			<div
 				className="bg-white p-4 rounded-xl relative inline-block"
 				style={{ width: "100%", maxWidth }}
@@ -18,3 +21,11 @@ export function Modal({ children, handleClose, title, maxWidth = 400 }) {
 		</div>
 	);
 }
+
+Modal.propTypes = {
+	maxWidth: PropTypes.number,
+	handleClose: PropTypes.func,
+	value: PropTypes.any,
+	title: PropTypes.string,
+	children: PropTypes.any,
+};
