@@ -15,10 +15,12 @@ export function Background() {
 				<Footer />
 			</div>
 			<div
-				className="w-3/5 h-full hidden md:block bg-cover bg-center p-4"
+				className="w-3/5 h-full hidden bg-cover bg-center p-4 md:flex items-end"
 				style={{ backgroundImage: `url(${bg})` }}
 			>
-				<Carousel />
+				<div className="w-full py-4">
+					<Carousel />
+				</div>
 			</div>
 		</div>
 	);

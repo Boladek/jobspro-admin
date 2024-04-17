@@ -56,7 +56,7 @@ export function Carousel() {
 	console.log({ index });
 
 	return (
-		<div className="py-4 px-6 rounded-2xl bg-white/20 w-full">
+		<div className="py-4 px-6 rounded-2xl bg-white/20 max-w-2xl w-full mx-auto">
 			<div className="w-full flex overflow-hidden">
 				{data.map((item) => (
 					<div

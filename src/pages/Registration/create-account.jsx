@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { BaseInput } from "../../component/input";
