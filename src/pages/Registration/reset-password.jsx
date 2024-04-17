@@ -5,6 +5,8 @@ import { BaseButton } from "../../component/button";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "../../component/modal";
 import tick from "../../assets/tick.png";
+import eye from "../../assets/eye.png";
+import eyeSlash from "../../assets/eye-slash.png";
 
 function ResetPasswordPage() {
 	const navigate = useNavigate();
@@ -68,12 +70,17 @@ function ResetPasswordPage() {
 					value={passwordText}
 					type={password ? "password" : "text"}
 				/>
-				<span
-					className="absolute right-4 top-2/3 transform -translate-y-1/2 material-symbols-outlined cursor-pointer  text-2xl"
+				<img
+					src={password ? eye : eyeSlash}
 					onClick={() => setPassword(!password)}
-				>
-					{password ? "visibility" : "visibility_off"}
-				</span>
+					className={`absolute cursor-pointer ${
+						password ? "h-5" : "h-7"
+					} transition-all duration-300`}
+					style={{
+						top: password ? "2.5rem" : "2.25rem",
+						right: "1rem",
+					}}
+				/>
 			</div>
 			<div className="relative mb-2">
 				<BaseInput
@@ -82,12 +89,17 @@ function ResetPasswordPage() {
 					value={confirmPasswordText}
 					type={confirmPassword ? "password" : "text"}
 				/>
-				<span
-					className="absolute right-4 top-2/3 transform -translate-y-1/2 material-symbols-outlined cursor-pointer  text-2xl"
+				<img
+					src={confirmPassword ? eye : eyeSlash}
 					onClick={() => setConfirmPassword(!confirmPassword)}
-				>
-					{confirmPassword ? "visibility" : "visibility_off"}
-				</span>
+					className={`absolute cursor-pointer ${
+						confirmPassword ? "h-5" : "h-7"
+					} transition-all duration-300`}
+					style={{
+						top: confirmPassword ? "2.5rem" : "2.25rem",
+						right: "1rem",
+					}}
+				/>
 			</div>
 			<div className="mb-8 italic">
 				<p
