@@ -1,0 +1,28 @@
+version: '3'
+services:
+  jobspro:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # command: yarn dev
+    cache_from:
+        - '${JOBSPRO_IMAGE}'
+    image: '${JOBSPRO_IMAGE}'
+    ports:
+      - "8080:8080"
+    volumes:
+     - jobspro:/jobspro/dist/  # build files will be added at this directory !!!
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    cache_from:
+        - '${NGINX_IMAGE}'
+    image: '${NGINX_IMAGE}'
+    ports:
+      - "80:80"
+    volumes:
+      - jobspro:/usr/share/nginx/html/jobspro # Copy React App's build files to the Nginx directory
+
+
