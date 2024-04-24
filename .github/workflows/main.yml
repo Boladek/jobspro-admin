@@ -9,8 +9,8 @@ env:
   # AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   AWS_REGION: ${{ secrets.AWS_REGION }}
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-  JOBSPRO_IMAGE: "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/jobspro"
-  NGINX_IMAGE: "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/nginx"
+  JOBSPRO_IMAGE: "${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${AWS_REGION}.amazonaws.com/jobspro"
+  NGINX_IMAGE: "${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${AWS_REGION}.amazonaws.com/nginx"
    
   
 
@@ -25,9 +25,7 @@ jobs:
 
       - name: Login to AWS ECR
         run: |
-          docker login --username AWS --password-stdin $(aws ecr get-login-password --region $AWS_REGION) $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
-          echo ${AWS_REGION}
-          echo ${{ secrets.AWS_ACCOUNT_ID }}
+          docker login --username AWS --password-stdin $(aws ecr get-login-password --region ${{ secrets.AWS_REGION }}) ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
 
       - name: Pull images
         run: |
