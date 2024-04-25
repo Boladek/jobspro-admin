@@ -87,10 +87,5 @@ jobs:
         run: |
           scp -o StrictHostKeyChecking=no -r ./.env ./Docker-compose.prod.yml ${{secrets.AWS_HOST_USER}}@${{ secrets.AWS_EC2_IP_ADDRESS }}:
           ssh -o StrictHostKeyChecking=no ${{secrets.AWS_HOST_USER}}@${{ secrets.AWS_EC2_IP_ADDRESS }} << EOF
-              docker-compose down --rmi all -v 
-              docker login ghcr.io -u ${{secrets.NAMESPACE}} -p ${{secrets.PERSONAL_ACCESS_TOKEN}}
-              docker pull $JOBSPRO_IMAGE
-              docker pull $NGINX_IMAGE 
-              docker-compose --env-file=.env -f Docker-compose.prod.yml up -d
-              docker logout
+            cd JobsPro-Web-App && git stash && git pull && yarn && ./stop.sh && ./daemon.sh
           EOF
