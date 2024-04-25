@@ -4,9 +4,9 @@ on:
   push:
     branches: [feature/deploy-to-EC2]
 
-env:
-  JOBSPRO_IMAGE: "${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/jobspro"
-  NGINX_IMAGE: "${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/nginx"
+# env:
+#   JOBSPRO_IMAGE: "${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/jobspro"
+#   NGINX_IMAGE: "${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/nginx"
 
 
 jobs:
@@ -76,53 +76,53 @@ jobs:
             echo "defined=false" >> $GITHUB_OUTPUT;
           fi
 
-  deploy:
-    name: Deploy to AWS EC2
-    runs-on: ubuntu-latest
-    needs: checking-secrets
-    if: needs.checking-secrets.outputs.secret_key_exists == 'true'
-    steps:
-      - name: Checkout main
-        uses: actions/checkout@v3
+  # deploy:
+  #   name: Deploy to AWS EC2
+  #   runs-on: ubuntu-latest
+  #   needs: checking-secrets
+  #   if: needs.checking-secrets.outputs.secret_key_exists == 'true'
+  #   steps:
+  #     - name: Checkout main
+  #       uses: actions/checkout@v3
 
-      - name: Add environment variables to .env
-        run: |
-          echo JOBSPRO_IMAGE=${JOBSPRO_IMAGE} >> .env
-          echo NGINX_IMAGE=${NGINX_IMAGE} >> .env
-          echo AWS_ACCOUNT_ID=${AWS_ACCOUNT_ID} >> .env
-          echo AWS_REGION=${AWS_REGION} >> .env
+  #     - name: Add environment variables to .env
+  #       run: |
+  #         echo JOBSPRO_IMAGE=${JOBSPRO_IMAGE} >> .env
+  #         echo NGINX_IMAGE=${NGINX_IMAGE} >> .env
+  #         echo AWS_ACCOUNT_ID=${AWS_ACCOUNT_ID} >> .env
+  #         echo AWS_REGION=${AWS_REGION} >> .env
 
-      - name: Add the private SSH key to the ssh-agent
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: |
-          mkdir -p ~/.ssh
-          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
-          ssh-add - <<< "${{ secrets.PRIVATE_KEY }}"
+  #     - name: Add the private SSH key to the ssh-agent
+  #       env:
+  #         SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+  #       run: |
+  #         mkdir -p ~/.ssh
+  #         ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+  #         ssh-keyscan github.com >> ~/.ssh/known_hosts
+  #         ssh-add - <<< "${{ secrets.PRIVATE_KEY }}"
 
-      - name: Deploy images on AWS EC2
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          JOBSPRO_IMAGE: ${{ env.JOBSPRO_IMAGE }}
-          NGINX_IMAGE: ${{ env.NGINX_IMAGE }}
-          AWS_REGION: ${{ env.AWS_REGION }}
-          AWS_ACCOUNT_ID: ${{ env.AWS_ACCOUNT_ID }}
+  #     - name: Deploy images on AWS EC2
+  #       env:
+  #         SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+  #         JOBSPRO_IMAGE: ${{ env.JOBSPRO_IMAGE }}
+  #         NGINX_IMAGE: ${{ env.NGINX_IMAGE }}
+  #         AWS_REGION: ${{ env.AWS_REGION }}
+  #         AWS_ACCOUNT_ID: ${{ env.AWS_ACCOUNT_ID }}
 
-        run: |
-          scp -o StrictHostKeyChecking=no -r ./.env ./docker-compose.prod.yml ${{ secrets.AWS_HOST_USER }}@${{ secrets.AWS_EC2_IP_ADDRESS }}:
-          ssh -o StrictHostKeyChecking=no ${{ secrets.AWS_HOST_USER }}@${{ secrets.AWS_EC2_IP_ADDRESS }} << 'EOF'
-            export AWS_ACCOUNT_ID=$1
-            export AWS_REGION=$2
-            export JOBSPRO_IMAGE=$3
-            export NGINX_IMAGE=$4
+  #       run: |
+  #         scp -o StrictHostKeyChecking=no -r ./.env ./docker-compose.prod.yml ${{ secrets.AWS_HOST_USER }}@${{ secrets.AWS_EC2_IP_ADDRESS }}:
+  #         ssh -o StrictHostKeyChecking=no ${{ secrets.AWS_HOST_USER }}@${{ secrets.AWS_EC2_IP_ADDRESS }} << 'EOF'
+  #           export AWS_ACCOUNT_ID=$1
+  #           export AWS_REGION=$2
+  #           export JOBSPRO_IMAGE=$3
+  #           export NGINX_IMAGE=$4
 
-            aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
+  #           aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
 
-            docker pull $JOBSPRO_IMAGE
-            docker pull $NGINX_IMAGE 
+  #           docker pull $JOBSPRO_IMAGE
+  #           docker pull $NGINX_IMAGE 
 
-            docker-compose --env-file=.env -f docker-compose.prod.yml up -d
+  #           docker-compose --env-file=.env -f docker-compose.prod.yml up -d
 
-            docker logout
-          EOF
+  #           docker logout
+  #         EOF
