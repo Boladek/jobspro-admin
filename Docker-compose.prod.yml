@@ -9,7 +9,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-     - ./jobspro/dist/:/usr/share/nginx/html/jobspro  # build files will be added at this directory !!!
+      - ./jobspro/dist/:/usr/share/nginx/html/jobspro  # build files will be added at this directory !!!
 
   nginx:
     build:
