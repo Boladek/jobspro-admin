@@ -72,29 +72,4 @@ jobs:
             docker pull ghcr.io/finclusionapps/jobspro-web-app/jobspro-app:latest
             sudo lsof -t -i:8000 | xargs -r sudo kill -9
             docker rm -f jobsproContainer || true
-            docker run -d -p 80:80 --name jobsproContainer ghcr.io/finclusionapps/jobspro-web-app/jobspro-app:latest
-      # - name: Add environment variables to .env
-      #   run: |
-      #     echo JOBSPRO_IMAGE=${{ env.JOBSPRO_IMAGE }} >> .env
-      #     echo NAMESPACE=${{ secrets.NAMESPACE }} >> .env
-      #     echo PERSONAL_ACCESS_TOKEN=${{ secrets.PERSONAL_ACCESS_TOKEN }} >> .env
-      # - name: Add the private SSH key to the ssh-agent
-      #   env:
-      #     SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-      #   run: |
-      #     mkdir -p ~/.ssh
-      #     ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-      #     ssh-keyscan github.com >> ~/.ssh/known_hosts
-      #     ssh-add - <<< "${{ secrets.PRIVATE_KEY }}"  
-
-      # - name: Deploy images on AWS EC2
-      #   env:
-      #     SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-
-      #   run: |
-      #     ssh -o StrictHostKeyChecking=no ${{secrets.AWS_HOST_USER}}@${{ secrets.AWS_EC2_IP_ADDRESS }} << EOF
-      #       docker login ghcr.io -u ${{secrets.NAMESPACE}} -p ${{secrets.PERSONAL_ACCESS_TOKEN}}
-      #       docker pull $JOBSPRO_IMAGE
-      #       docker run -d -p 8080:8080 $JOBSPRO_IMAGE 
-      #       docker logout
-      #     EOF
+            docker run -d -p 8000:80 --name jobsproContainer ghcr.io/finclusionapps/jobspro-web-app/jobspro-app:latest
