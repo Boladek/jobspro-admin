@@ -72,7 +72,7 @@ jobs:
             docker pull ghcr.io/finclusionapps/jobspro-web-app/jobspro-app:latest
             sudo lsof -t -i:8000 | xargs -r sudo kill -9
             docker rm -f jobsproContainer || true
-            docker run -d -p 8000:80 --name jobsproContainer ghcr.io/finclusionapps/jobspro-web-app/jobspro-app:latest
+            docker run -d -p 80:80 --name jobsproContainer ghcr.io/finclusionapps/jobspro-web-app/jobspro-app:latest
       # - name: Add environment variables to .env
       #   run: |
       #     echo JOBSPRO_IMAGE=${{ env.JOBSPRO_IMAGE }} >> .env
