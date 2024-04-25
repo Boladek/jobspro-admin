@@ -9,7 +9,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-     - jobspro:/jobspro/dist/  # build files will be added at this directory !!!
+     - ./jobspro/dist/:/usr/share/nginx/html/jobspro  # build files will be added at this directory !!!
 
   nginx:
     build:
@@ -19,6 +19,6 @@ services:
     ports:
       - "80:80"
     volumes:
-      - jobspro:/usr/share/nginx/html/jobspro # Copy React App's build files to the Nginx directory
+      - ./jobspro/dist/:/usr/share/nginx/html/jobspro # Copy React App's build files to the Nginx directory
 
 
