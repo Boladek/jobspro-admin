@@ -2,7 +2,7 @@
 FROM node:20-alpine
 
 # Set the working directory within the container
-WORKDIR /app
+WORKDIR /jobspro
 
 # Copy package.json and yarn.lock to the container
 COPY package.json yarn.lock ./
@@ -17,5 +17,5 @@ COPY . .
 RUN yarn build
 
 
-# Command to run the app
-# CMD ["yarn", "dev"]
+# # Build the React app
+# EXPOSE 8080
