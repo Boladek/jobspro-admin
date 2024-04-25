@@ -91,5 +91,6 @@ jobs:
 
         run: |
           ssh -o StrictHostKeyChecking=no ${{secrets.AWS_HOST_USER}}@${{ secrets.AWS_EC2_IP_ADDRESS }} << EOF
+            git clone https://github.com/FinclusionApps/JobsPro-Web-App.git
             cd JobsPro-Web-App && git stash && git pull && yarn && ./stop.sh && ./daemon.sh
           EOF
