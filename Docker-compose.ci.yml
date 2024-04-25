@@ -6,11 +6,11 @@ services:
       dockerfile: Dockerfile
     cache_from:
         - '${JOBSPRO_IMAGE}'
-    image: '${WEBSITE_IMAGE}'
+    image: '${JOBSPRO_IMAGE}'
     ports:
       - "8080:8080"
     volumes:
-      - website:./website/build/  # build files will be added at this directory !!!
+      - website:./jobspro/build/  # build files will be added at this directory !!!
 
   nginx:
     build:
