@@ -6,7 +6,7 @@ on:
       - feature/deploy-to-EC2
 
 env:
-  JOBSPRO_IMAGE: ghcr.io/${{ github.repository_owner }}/${{ github.repository_name }}/jobspro
+  JOBSPRO_IMAGE: ghcr.io/$(echo $GITHUB_REPOSITORY | tr '[:upper:]' '[:lower:]')/jobspro
   REGISTRY: ghcr.io
 
 jobs:
