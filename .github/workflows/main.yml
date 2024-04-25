@@ -84,7 +84,6 @@ jobs:
           ssh -o StrictHostKeyChecking=no ${{secrets.AWS_HOST_USER}}@${{ secrets.AWS_EC2_IP_ADDRESS }} << EOF
             docker login ghcr.io -u ${{secrets.NAMESPACE}} -p ${{secrets.PERSONAL_ACCESS_TOKEN}}
             docker pull $JOBSPRO_IMAGE
-            docker rm -f jobsproContainer
             docker run -d -p 8080:8080 --name jobsproContainer $JOBSPRO_IMAGE 
             docker logout
           EOF
