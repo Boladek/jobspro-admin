@@ -69,9 +69,9 @@ jobs:
           username: ${{ secrets.AWS_HOST_USER }}
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
-            docker pull $JOBSPRO_IMAGE
+            docker pull ghcr.io/finclusionapps/jobspro-web-app/jobspro-app:latest
             docker rm -f jobsproContainer || true
-            docker run -d -p 3000:80 --name jobsproContainer $JOBSPRO_IMAGE
+            docker run -d -p 8080:80 --name jobsproContainer ghcr.io/finclusionapps/jobspro-web-app/jobspro-app:latest
       # - name: Add environment variables to .env
       #   run: |
       #     echo JOBSPRO_IMAGE=${{ env.JOBSPRO_IMAGE }} >> .env
