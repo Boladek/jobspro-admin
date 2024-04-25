@@ -10,7 +10,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - jobspro:./jobspro/build/  # build files will be added at this directory !!!
+      - jobspro:./jobspro/dist/  # build files will be added at this directory !!!
 
   nginx:
     build:
