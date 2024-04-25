@@ -7,7 +7,6 @@ on:
 env:
   #
   JOBSPRO_IMAGE: ghcr.io/$(echo $GITHUB_REPOSITORY | tr '[:upper:]' '[:lower:]')/jobspro
-  NGINX_IMAGE: ghcr.io/$(echo $GITHUB_REPOSITORY | tr '[:upper:]' '[:lower:]')/nginx
   REGISTRY: ghcr.io
 
 jobs:
@@ -21,29 +20,21 @@ jobs:
 
       - name: Set environment variables to .env
         run: |
-          yarn
-          yarn build
+          echo "JOBSPRO_IMAGE=$(echo ${{env.JOBSPRO_IMAGE}} )" >> $GITHUB_ENV
+      - name: Log in to GitHub Packages
+        env:
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: echo ${PERSONAL_ACCESS_TOKEN} | docker login ghcr.io -u ${{ secrets.NAMESPACE }} --password-stdin
 
-      # - name: Set environment variables to .env
-      #   run: |
-      #     echo "JOBSPRO_IMAGE=$(echo ${{env.JOBSPRO_IMAGE}} )" >> $GITHUB_ENV
-      #     echo "NGINX_IMAGE=$(echo ${{env.NGINX_IMAGE}} )" >> $GITHUB_ENV
-      # - name: Log in to GitHub Packages
-      #   env:
-      #     PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-      #   run: echo ${PERSONAL_ACCESS_TOKEN} | docker login ghcr.io -u ${{ secrets.NAMESPACE }} --password-stdin
-
-      # - name: Pull images
-      #   run: |
-      #     docker pull ${{ env.JOBSPRO_IMAGE }} || true
-      #     docker pull ${{ env.NGINX_IMAGE }} || true
-      # - name: Build images
-      #   run: |
-      #     docker-compose -f Docker-compose.ci.yml build
-      # - name: Push images
-      #   run: |
-      #     docker push ${{ env.JOBSPRO_IMAGE }}
-      #     docker push ${{ env.NGINX_IMAGE }}
+      - name: Pull images
+        run: |
+          docker pull ${{ env.JOBSPRO_IMAGE }} || true
+      - name: Build images
+        run: |
+          docker build .
+      - name: Push images
+        run: |
+          docker push ${{ env.JOBSPRO_IMAGE }}
 
   checking-secrets:
     name: Checking secrets
@@ -91,6 +82,11 @@ jobs:
 
         run: |
           ssh -o StrictHostKeyChecking=no ${{secrets.AWS_HOST_USER}}@${{ secrets.AWS_EC2_IP_ADDRESS }} << EOF
-            git clone https://github.com/FinclusionApps/JobsPro-Web-App.git
-            cd JobsPro-Web-App && git stash && git pull && yarn && ./stop.sh && ./daemon.sh
+            docker login ghcr.io -u ${{secrets.NAMESPACE}} -p ${{secrets.PERSONAL_ACCESS_TOKEN}}
+            docker pull $JOBSPRO_IMAGE
+            docker rm -f jobsproContainer
+            docker run -d -p 8080:8080 --name jobsproContainer $JOBSPRO_IMAGE 
+            docker logout
           EOF
+
+        

@@ -21,7 +21,7 @@ COPY --from=build /app/build /usr/share/nginx/html
 # the default location of the configuration file is /etc/nginx/nginx.conf
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Expose port 8081
+# Expose port 8080
 EXPOSE 8080
 
 # Start Nginx server
