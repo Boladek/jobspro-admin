@@ -2,7 +2,7 @@ name: Continuous Integration and Delivery
 
 on:
   push:
-    branches: [feature/deploy-to-EC2]
+    branches: [dev]
 
 env:
   #
