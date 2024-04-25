@@ -90,7 +90,6 @@ jobs:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
 
         run: |
-          scp -o StrictHostKeyChecking=no -r ./.env ./Docker-compose.prod.yml ${{secrets.AWS_HOST_USER}}@${{ secrets.AWS_EC2_IP_ADDRESS }}:
           ssh -o StrictHostKeyChecking=no ${{secrets.AWS_HOST_USER}}@${{ secrets.AWS_EC2_IP_ADDRESS }} << EOF
             cd JobsPro-Web-App && git stash && git pull && yarn && ./stop.sh && ./daemon.sh
           EOF
