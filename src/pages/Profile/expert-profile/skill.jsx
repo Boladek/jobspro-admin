@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
-import { colors } from "../../../helpers/theme";
 import { BaseButton } from "../../../component/button";
 import { BaseSelect } from "../../../component/select";
 
@@ -40,7 +39,7 @@ export function Skill() {
 		>
 			<div className="flex-1 md:flex md:justify-center md:items-center">
 				<div>
-					<p className={`text-[${colors.primary}] text-3xl font-bold`}>Skill</p>
+					<p className={`text-primary text-3xl font-bold`}>Skill</p>
 					<p className="text-sm text-gray-500 mb-4">
 						We need to get a sense of your education, experience and skills.
 						It’s quickest to import your information
@@ -67,7 +66,7 @@ export function Skill() {
 							{selectedText.map((text) => (
 								<div
 									key={text}
-									className={`flex gap-2 py-1 px-2 border-2 border-[${colors.primary}] text-[${colors.primary}] text-xs rounded-full items-center font-bold`}
+									className={`flex gap-2 py-1 px-2 border-2 border-primary text-primary text-xs rounded-full items-center font-bold`}
 								>
 									<span>{text}</span>
 									<span
@@ -84,7 +83,9 @@ export function Skill() {
 			</div>
 			<div className="flex justify-end gap-2">
 				<div className="w-1/2 md:w-1/4">
-					<BaseButton type="button" variant="sec">Previous</BaseButton>
+					<BaseButton type="button" variant="sec">
+						Previous
+					</BaseButton>
 				</div>
 				<div className="w-1/2 md:w-1/4">
 					<BaseButton type="button">Next</BaseButton>

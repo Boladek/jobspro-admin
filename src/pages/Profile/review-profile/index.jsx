@@ -46,7 +46,7 @@ function ReviewProfilePage() {
 													(text) => (
 														<div
 															key={text}
-															className={`py-1 px-2 border border-[${colors.primary}] text-[${colors.primary}] text-xs rounded-full items-center font-bold bg-blue-50`}
+															className={`py-1 px-2 border border-primary text-primary text-xs rounded-full items-center font-bold bg-blue-50`}
 														>
 															<span>{text}</span>
 														</div>
@@ -70,7 +70,7 @@ function ReviewProfilePage() {
 													(text) => (
 														<div
 															key={text}
-															className={`py-1 px-2 border border-[${colors.primary}] text-[${colors.primary}] text-xs rounded-full items-center font-bold bg-blue-50`}
+															className={`py-1 px-2 border border-primary text-primary text-xs rounded-full items-center font-bold bg-blue-50`}
 														>
 															<span>{text}</span>
 														</div>
@@ -86,7 +86,7 @@ function ReviewProfilePage() {
 													(text) => (
 														<div
 															key={text}
-															className={`py-1 px-2 border border-[${colors.primary}] text-[${colors.primary}] text-xs rounded-full items-center font-bold bg-blue-50`}
+															className={`py-1 px-2 border border-primary text-primary text-xs rounded-full items-center font-bold bg-blue-50`}
 														>
 															<span>{text}</span>
 														</div>

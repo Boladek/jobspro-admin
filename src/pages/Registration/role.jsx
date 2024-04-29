@@ -1,5 +1,3 @@
-import React from "react";
-import { colors } from "../../helpers/theme";
 import hammer from "../../assets/hammer-icon.png";
 import phone from "../../assets/phone-icon.png";
 import search from "../../assets/phone-icon.png";
@@ -35,9 +33,7 @@ function RolePage() {
 
 	return (
 		<div style={{ maxWidth: 400, width: "100%" }} className="py-6 px-4">
-			<p className={`text-[${colors.primary}] text-3xl font-bold mb-2`}>
-				Join as a
-			</p>
+			<p className={`text-primary text-3xl font-bold mb-2`}>Join as a</p>
 			<p className="text-sm text-gray-500 mb-4">
 				Join the freelance ecosystem: Talent, agents, clients, together.
 			</p>
@@ -52,9 +48,7 @@ function RolePage() {
 							<img src={role.image} alt={role.description} />
 						</div>
 						<div className="w-4/5">
-							<div
-								className={`text-[${colors.primary}] capitalize text-2xl font-bold`}
-							>
+							<div className={`text-primary capitalize text-2xl font-bold`}>
 								{role.role}
 							</div>
 							<div className="text-xs text-gray-500">{role.description}</div>

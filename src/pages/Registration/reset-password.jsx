@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { colors } from "../../helpers/theme";
 import { BaseInput } from "../../component/input";
 import { BaseButton } from "../../component/button";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { Modal } from "../../component/modal";
 import tick from "../../assets/tick.png";
 import eye from "../../assets/eye.png";
 import eyeSlash from "../../assets/eye-slash.png";
+import { Overlay } from "../../component/overlay-component";
 
 function ResetPasswordPage() {
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
+	const [loading, setLoading] = useState(false);
 	const [open, setOpen] = useState(false);
 	const [password, setPassword] = useState(true);
 	const [confirmPassword, setConfirmPassword] = useState(true);
@@ -24,12 +26,11 @@ function ResetPasswordPage() {
 
 	const onSubmit = (e) => {
 		e.preventDefault();
-		setOpen(true);
-		// navigate("/verify-email", {
-		// 	state: {
-		// 		info,
-		// 	},
-		// });
+		setLoading(true);
+		setTimeout(() => {
+			setLoading(false);
+			setOpen(true);
+		}, 3000);
 	};
 
 	const handleChange = (e) => {
@@ -56,9 +57,8 @@ function ResetPasswordPage() {
 			className="py-6 px-4"
 			onSubmit={onSubmit}
 		>
-			<p className={`text-[${colors.primary}] text-3xl font-bold`}>
-				Reset Password
-			</p>
+			{loading && <Overlay />}
+			<p className={`text-primary text-3xl font-bold`}>Reset Password</p>
 			<p className="text-sm text-gray-500">
 				Insert your registered email or phone number
 			</p>
@@ -75,7 +75,7 @@ function ResetPasswordPage() {
 					onClick={() => setPassword(!password)}
 					className={`absolute cursor-pointer ${
 						password ? "h-5" : "h-7"
-					} transition-all duration-300`}
+					} transition-all ease-linear duration-300`}
 					style={{
 						top: password ? "2.5rem" : "2.25rem",
 						right: "1rem",
@@ -94,7 +94,7 @@ function ResetPasswordPage() {
 					onClick={() => setConfirmPassword(!confirmPassword)}
 					className={`absolute cursor-pointer ${
 						confirmPassword ? "h-5" : "h-7"
-					} transition-all duration-300`}
+					} transition-all ease-linear duration-300`}
 					style={{
 						top: confirmPassword ? "2.5rem" : "2.25rem",
 						right: "1rem",
@@ -147,9 +147,7 @@ function ResetPasswordPage() {
 							<div>
 								<img src={tick} alt="success" />
 							</div>
-							<p className={`text-[${colors.primary}] text-3xl font-bold`}>
-								Congrats
-							</p>
+							<p className={`text-primary text-3xl font-bold`}>Congrats</p>
 							<p className="text-xs text-gray-500">E don complete</p>
 						</div>
 						<div className="mb-4">
@@ -164,7 +162,7 @@ function ResetPasswordPage() {
 
 export default ResetPasswordPage;
 
-export function checkForSpecialChar(string) {
+function checkForSpecialChar(string) {
 	const specialChars = "<>@!#$%^&*()_+[]{}?:;|'\"\\,./~`-=";
 	for (let i = 0; i < specialChars.length; i++) {
 		if (string.indexOf(specialChars[i]) > -1) {
@@ -174,7 +172,7 @@ export function checkForSpecialChar(string) {
 	return false;
 }
 
-export function checkForNumber(string) {
+function checkForNumber(string) {
 	for (let i = 0; i < string.length; i++) {
 		if (!isNaN(Number(string[i]))) return true;
 	}

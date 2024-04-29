@@ -57,9 +57,7 @@ export function Education() {
 							following information
 						</div>
 					</div>
-					<p className={`text-[${colors.primary}] text-3xl font-bold`}>
-						Add Education
-					</p>
+					<p className={`text-primary text-3xl font-bold`}>Add Education</p>
 					<p className="text-sm text-gray-500 mb-4">
 						More information should be placed here
 					</p>
@@ -116,7 +114,9 @@ export function Education() {
 			</div>
 			<div className="flex justify-end gap-2">
 				<div className="w-1/2 md:w-1/4">
-					<BaseButton type="button" variant="sec">Previous</BaseButton>
+					<BaseButton type="button" variant="sec">
+						Previous
+					</BaseButton>
 				</div>
 				<div className="w-1/2 md:w-1/4">
 					<BaseButton type="button">Next</BaseButton>

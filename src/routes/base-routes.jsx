@@ -10,6 +10,7 @@ import CreateAccountPage from "../pages/Registration/create-account";
 import { ProfileLayout } from "../component/profile-layout";
 import ClientProfile from "../pages/Profile/client-profile";
 import ReviewProfilePage from "../pages/Profile/review-profile";
+import NotFoundPage from "../pages/not-found-page";
 // import { profileRoutes } from "../pages/Profile/expert-profile/routes";
 import { ShortBio } from "../pages/Profile/expert-profile/short-bio";
 import { Education } from "../pages/Profile/expert-profile/education";
@@ -21,6 +22,7 @@ import { Industry } from "../pages/Profile/expert-profile/industry";
 import { Experience } from "../pages/Profile/expert-profile/experience";
 import { Profile } from "../pages/Profile/expert-profile/profile";
 import { Resume } from "../pages/Profile/expert-profile/resume";
+NotFoundPage;
 // console.log(profileRoutes);
 
 const router = createBrowserRouter([
@@ -37,7 +39,7 @@ const router = createBrowserRouter([
 				element: <ForgotPasswordPage />,
 			},
 			{
-				path: "verify-email",
+				path: "verify-email/:email",
 				element: <VerifyEmailPage />,
 			},
 			{
@@ -127,6 +129,14 @@ const router = createBrowserRouter([
 	{
 		path: "profile-review",
 		element: <ReviewProfilePage />,
+	},
+	{
+		path: "dashboard",
+		element: <div>Landing Page</div>,
+	},
+	{
+		path: "*",
+		element: <NotFoundPage />,
 	},
 ]);
 

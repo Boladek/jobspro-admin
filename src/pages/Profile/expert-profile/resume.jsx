@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { colors } from "../../../helpers/theme";
 import { BaseButton } from "../../../component/button";
 import info from "../../../assets/info.png";
 import upload from "../../../assets/upload-icon.png";
@@ -41,7 +40,7 @@ export function Resume() {
 							following information
 						</div>
 					</div>
-					<p className={`text-[${colors.primary}] text-3xl font-bold`}>
+					<p className={`text-primary text-3xl font-bold`}>
 						Do you have a resume?
 					</p>
 					<p className="text-sm text-gray-500 mb-4">
@@ -53,13 +52,11 @@ export function Resume() {
 							<div
 								key={item}
 								onClick={() => setSelected(item)}
-								className={`w-1/2 md:w-1/4 p-2 border-2 border-[${
-									colors.primary
-								}] text-${
-									selected === item ? "white" : `[${colors.primary}]`
-								} rounded-full items-center text-center font-bold capitalize bg-[${
-									selected === item ? colors.primary : "#FFF"
-								}] cursor-pointer`}
+								className={`w-1/2 md:w-1/4 p-2 border-2 border-primary ${
+									selected === item ? "text-white" : `text-primary`
+								} rounded-full items-center text-center font-bold capitalize ${
+									selected === item ? "bg-primary" : "bg-white"
+								} cursor-pointer`}
 							>
 								{item}
 							</div>

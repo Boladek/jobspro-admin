@@ -26,7 +26,7 @@ export const BaseSelect = React.forwardRef(
 					onChange={handleChange}
 					ref={ref}
 					{...rest}
-					className="bg-gray-100 w-full px-3 py-3 border text-sm rounded-lg focus:outline-none focus:border-[#004B88]"
+					className="bg-gray-100 w-full px-3 py-3 border text-sm rounded-lg focus:outline-none focus:border-primary"
 				>
 					{children}
 				</select>

@@ -41,7 +41,7 @@ export function Industry() {
 		>
 			<div className="flex-1 md:flex md:justify-center md:items-center">
 				<div>
-					<p className={`text-[${colors.primary}] text-3xl font-bold`}>
+					<p className={`text-primary text-3xl font-bold`}>
 						What your Industry of specialisation?
 					</p>
 					<p className="text-sm text-gray-500 mb-4">
@@ -72,7 +72,7 @@ export function Industry() {
 							{selectedText.map((text) => (
 								<div
 									key={text}
-									className={`flex gap-2 py-1 px-2 border-2 border-[${colors.primary}] text-[${colors.primary}] text-xs rounded-full items-center font-bold`}
+									className={`flex gap-2 py-1 px-2 border-2 border-primary text-primary text-xs rounded-full items-center font-bold`}
 								>
 									<span>{text}</span>
 									<span
@@ -85,9 +85,7 @@ export function Industry() {
 							))}
 						</div>
 					</div>
-					<p className={`text-[${colors.primary}] text-3xl font-bold`}>
-						Sub category
-					</p>
+					<p className={`text-primary text-3xl font-bold`}>Sub category</p>
 					<p className="text-sm text-gray-500 mb-4">
 						Pick one service that best represents your work, so our algorithm
 						can match you with the right clients.
@@ -117,7 +115,7 @@ export function Industry() {
 							{selectedText.map((text) => (
 								<div
 									key={text}
-									className={`flex gap-2 py-1 px-2 border-2 border-[${colors.primary}] text-[${colors.primary}] text-xs rounded-full items-center font-bold`}
+									className={`flex gap-2 py-1 px-2 border-2 border-primary text-primary text-xs rounded-full items-center font-bold`}
 								>
 									<span>{text}</span>
 									<span

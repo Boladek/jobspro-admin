@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
-import { colors } from "../../../helpers/theme";
 import { BaseButton } from "../../../component/button";
 import { BaseTextArea } from "../../../component/text-area";
 
@@ -22,9 +21,7 @@ export function ShortBio() {
 		>
 			<div className="flex-1 md:flex md:justify-center md:items-center">
 				<div>
-					<p className={`text-[${colors.primary}] text-3xl font-bold`}>
-						Short Bio
-					</p>
+					<p className={`text-primary text-3xl font-bold`}>Short Bio</p>
 					<p className="text-sm text-gray-500 mb-4">
 						More information should be placed here
 					</p>
@@ -46,7 +43,9 @@ export function ShortBio() {
 			</div>
 			<div className="flex justify-end gap-2">
 				<div className="w-1/2 md:w-1/4">
-					<BaseButton type="button" variant="sec">Previous</BaseButton>
+					<BaseButton type="button" variant="sec">
+						Previous
+					</BaseButton>
 				</div>
 				<div className="w-1/2 md:w-1/4">
 					<BaseButton type="button">Next</BaseButton>

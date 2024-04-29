@@ -22,9 +22,7 @@ export function WorkingRate() {
 		>
 			<div className="flex-1 md:flex md:justify-center md:items-center">
 				<div style={{ maxWidth: 500, width: "100%" }}>
-					<p className={`text-[${colors.primary}] text-3xl font-bold`}>
-						Working rate
-					</p>
+					<p className={`text-primary text-3xl font-bold`}>Working rate</p>
 					<p className="text-sm text-gray-500 mb-4">
 						More information should be placed here
 					</p>
@@ -37,7 +35,7 @@ export function WorkingRate() {
 								<div
 									key={item}
 									// onClick={() => handleNavigate(item)}
-									className={`capitalize p-2 flex-1 border-2 border-[#206DB0] text-[${colors.primary}] rounded-full text-center hover:bg-[#206DB0] hover:text-white cursor-pointer font-bold`}
+									className={`capitalize p-2 flex-1 border-2 border-[#206DB0] text-primary rounded-full text-center hover:bg-[#206DB0] hover:text-white cursor-pointer font-bold`}
 								>
 									{item}
 								</div>
