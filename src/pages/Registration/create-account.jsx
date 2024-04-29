@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { BaseInput } from "../../component/input";
-import { colors } from "../../helpers/theme";
 import { BaseButton } from "../../component/button";
 import { BaseSelect } from "../../component/select";
 import eye from "../../assets/eye.png";
@@ -30,7 +29,7 @@ function CreateAccountPage() {
 			className="px-4"
 			onSubmit={handleSubmit(onSubmit)}
 		>
-			<p className={`text-[${colors.primary}] text-3xl font-bold`}>
+			<p className={`text-primary text-3xl font-bold`}>
 				{role === "pros" && "Sign up to a find gig"}
 				{role === "customer" && "Sign up to hire Pros"}
 				{role === "agent" && "Sign up to manage Pros"}
@@ -123,7 +122,7 @@ function CreateAccountPage() {
 					onClick={() => setPassword(!password)}
 					className={`absolute cursor-pointer ${
 						password ? "h-5" : "h-7"
-					} transition-all duration-300`}
+					} transition-all ease-linear duration-300`}
 					style={{
 						top: password ? "2.5rem" : "2.25rem",
 						right: "1rem",
@@ -145,7 +144,7 @@ function CreateAccountPage() {
 					onClick={() => setConfirmPassword(!confirmPassword)}
 					className={`absolute cursor-pointer ${
 						confirmPassword ? "h-5" : "h-7"
-					} transition-all duration-300`}
+					} transition-all ease-linear duration-300`}
 					style={{
 						top: confirmPassword ? "2.5rem" : "2.25rem",
 						right: "1rem",
@@ -161,19 +160,13 @@ function CreateAccountPage() {
 						className="form-checkbox h-5 w-5 text-indigo-600 border-indigo-600 rounded"
 					/>
 					<label className="text-xs">
-						Yes, I understand and agree to the {" "}
-						<span className={`text-[${colors.primary}] underline`}>
+						Yes, I understand and agree to the{" "}
+						<span className={`text-primary underline`}>
 							Upwork Terms of Service
 						</span>
-						 , including the {" "}
-						<span className={`text-[${colors.primary}] underline`}>
-							User Agreement
-						</span>{" "}
-						and {" "}
-						<span className={`text-[${colors.primary}] underline`}>
-							Privacy Policy
-						</span>
-						 .
+						, including the{" "}
+						<span className={`text-primary underline`}>User Agreement</span> and{" "}
+						<span className={`text-primary underline`}>Privacy Policy</span>.
 					</label>
 				</div>
 			</div>

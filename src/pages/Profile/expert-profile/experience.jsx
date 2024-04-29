@@ -57,9 +57,7 @@ export function Experience() {
 							following information
 						</div>
 					</div>
-					<p className={`text-[${colors.primary}] text-3xl font-bold`}>
-						Add Experience
-					</p>
+					<p className={`text-primary text-3xl font-bold`}>Add Experience</p>
 					<p className="text-sm text-gray-500 mb-4">
 						More information should be placed here
 					</p>

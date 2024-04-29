@@ -20,7 +20,7 @@ export function EducationExperienceModal({ open, handleClose, form = {} }) {
 							className="h-24"
 						/>
 					</div>
-					<p className={`font-bold text-[${colors.primary}] text-2xl`}>
+					<p className={`font-bold text-primary text-2xl`}>
 						Add Education Experience
 					</p>
 				</div>

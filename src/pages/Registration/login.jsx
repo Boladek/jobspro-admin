@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { BaseInput } from "../../component/input";
-import { colors } from "../../helpers/theme";
 import { BaseButton } from "../../component/button";
 import { Checkbox } from "../../component/checkbox";
-import { useNavigate } from "react-router-dom";
+import { Overlay } from "../../component/overlay-component";
 import eye from "../../assets/eye.png";
 import eyeSlash from "../../assets/eye-slash.png";
 
 function LoginPage() {
 	const navigate = useNavigate();
+	const [loading, setLoading] = useState(false);
 	const {
 		register,
 		formState: { errors },
@@ -18,6 +19,11 @@ function LoginPage() {
 	const [password, setPassword] = useState(true);
 	const [remember, setRemember] = useState(false);
 	const onSubmit = (data) => {
+		setLoading(true);
+		setTimeout(() => {
+			setLoading(false);
+			navigate("/dashboard");
+		}, 3000);
 		console.log({ data });
 	};
 
@@ -27,9 +33,8 @@ function LoginPage() {
 			className="py-6 px-4"
 			onSubmit={handleSubmit(onSubmit)}
 		>
-			<p className={`text-[${colors.primary}] text-3xl font-bold`}>
-				Welcome Back
-			</p>
+			{loading && <Overlay />}
+			<p className={"text-primary text-3xl font-bold"}>Welcome Back</p>
 			<p className="text-sm text-gray-500">
 				Continue with your email or Phone Number
 			</p>
@@ -59,7 +64,7 @@ function LoginPage() {
 					onClick={() => setPassword(!password)}
 					className={`absolute cursor-pointer ${
 						password ? "h-5" : "h-7"
-					} transition-all duration-300`}
+					} transition-all ease-linear duration-300`}
 					style={{
 						top: password ? "2.5rem" : "2.25rem",
 						right: "1rem",
@@ -76,7 +81,7 @@ function LoginPage() {
 					/>
 				</div>
 				<div
-					className={`text-sm text-[${colors.primary}] font-bold hover:underline`}
+					className={`text-sm text-primary font-semibold hover:underline`}
 					onClick={() => navigate("/forgot-password")}
 				>
 					forgot password

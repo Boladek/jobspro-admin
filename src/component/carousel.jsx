@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import leftIcon from "../assets/left-icon.png";
+import rightIcon from "../assets/right-icon.png";
 
 export function Carousel() {
 	const data = [
@@ -56,26 +58,28 @@ export function Carousel() {
 	console.log({ index });
 
 	return (
-		<div className="py-4 px-6 rounded-2xl bg-white/20 max-w-2xl w-full mx-auto">
-			<div className="w-full flex overflow-hidden">
+		<div className="p-6 rounded-3xl bg-white/20 max-w-2xl w-full mx-auto">
+			<div className="w-full flex overflow-hidden mb-4">
 				{data.map((item) => (
 					<div
 						key={item.title}
-						className="w-full min-w-full transition ease-in 300s"
+						className="w-full min-w-full transition-all ease-linear duration-300"
 						style={{
 							transform: `translate(-${index * 100}%)`,
 						}}
 					>
-						<p className="text-3xl text-white font-semibold">{item.title}</p>
+						<p className="text-3xl text-white font-semibold mb-3">
+							{item.title}
+						</p>
 						<p className="text-sm text-gray-200">{item.description}</p>
 					</div>
 				))}
 			</div>
-			<div className="py-4 flex gap-2">
+			<div className="mb-4 flex gap-2">
 				{data.map((item, pos) => (
 					<div
 						key={item.title}
-						className={`bg-white w-2 h-2 rounded-full transition linear 500s ${
+						className={`bg-white w-2 h-2 rounded-full transition-all ease-linear duration-300 ${
 							index === pos ? "w-6 h-2" : ""
 						}`}
 						style={{
@@ -85,18 +89,16 @@ export function Carousel() {
 				))}
 			</div>
 			<div className="flex justify-end gap-2">
-				<button
-					className="rounded-full border border-white px-2 py-1 text-xs text-white hover:text-gray-200 bg-gray-500/20"
+				<img
+					src={leftIcon}
 					onClick={gotoPrevious}
-				>
-					&larr;
-				</button>
-				<button
-					className="rounded-full border border-white px-2 py-1 text-xs text-white hover:text-gray-200 bg-gray-500/20"
+					className="h-8 cursor-pointer transition-transform transform hover:scale-105"
+				/>
+				<img
+					src={rightIcon}
 					onClick={gotoNext}
-				>
-					&#8594;
-				</button>
+					className="h-8 cursor-pointer transition-transform transform hover:scale-105"
+				/>
 			</div>
 		</div>
 	);

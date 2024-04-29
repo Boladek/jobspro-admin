@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { BaseInput } from "../../component/input";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { BaseButton } from "../../component/button";
-import { colors } from "../../helpers/theme";
 import OtpInput from "react-otp-input";
 import { TimerHook } from "../../hooks/timer-hooks";
 
 function VerifyEmailPage() {
+	// eslint-disable-next-line no-unused-vars
+	const { email } = useParams();
 	const navigate = useNavigate();
 	const { timer } = TimerHook({ time: 60 });
 	// console.log({ location });
@@ -28,9 +28,7 @@ function VerifyEmailPage() {
 			className="py-6 px-4"
 			onSubmit={onSubmit}
 		>
-			<p className={`text-[${colors.primary}] text-3xl font-bold`}>
-				Verify Email Address
-			</p>
+			<p className={`text-primary text-3xl font-bold`}>Verify Email Address</p>
 			<p className="text-sm text-gray-500">
 				Enter the OTP sent to email@example.com
 			</p>
@@ -47,9 +45,7 @@ function VerifyEmailPage() {
 					renderInput={(props) => <input {...props} />}
 				/>
 			</div>
-			<p
-				className={`text-[${colors.primary}] text-xs mb-8 text-center cursor-default`}
-			>
+			<p className={`text-primary text-xs mb-8 text-center cursor-default`}>
 				Request a new code <span className="text-[#42BE65]">{timer}s</span>
 			</p>
 			<div className="mb-4">

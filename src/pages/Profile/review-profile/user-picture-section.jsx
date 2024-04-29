@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { colors } from "../../../helpers/theme";
 import deleteIcon from "../../../assets/delete-icon.png";
 import editIcon from "../../../assets/edit.png";
 import location from "../../../assets/location.png";
@@ -51,7 +50,7 @@ export function UserPictureSection() {
 				</div>
 			</div>
 			<div
-				className={`py-2 px-2 flex items-center gap-2 border border-[${colors.primary}] text-xs rounded-full items-center font-bold bg-blue-50`}
+				className={`py-2 px-2 flex items-center gap-2 border border-primary text-xs rounded-full items-center font-bold bg-blue-50`}
 			>
 				Gardener
 				<img src={editIcon} alt="edit" />

@@ -14,7 +14,7 @@ export function Header() {
 					I don’t have a Job’s Pro account?{" "}
 					<span
 						onClick={() => navigate("/sign-up")}
-						className={`text-[${colors.primary}] underline cursor-pointer`}
+						className={`text-primary underline cursor-pointer`}
 					>
 						Register{" "}
 					</span>
@@ -26,7 +26,7 @@ export function Header() {
 					Already a JobsPro member?{" "}
 					<span
 						onClick={() => navigate("/")}
-						className={`text-[${colors.primary}] underline cursor-pointer`}
+						className={`text-primary underline cursor-pointer`}
 					>
 						Login
 					</span>

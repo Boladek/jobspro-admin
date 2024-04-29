@@ -2,7 +2,6 @@ import OtpInput from "react-otp-input";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
-import { colors } from "../../../helpers/theme";
 import { BaseButton } from "../../../component/button";
 import { TimerHook } from "../../../hooks/timer-hooks";
 
@@ -26,7 +25,7 @@ export function VerifyPhoneNumber() {
 		>
 			<div className="flex-1 md:flex md:justify-center md:items-center">
 				<div style={{ maxWidth: 400, width: "100%" }}>
-					<p className={`text-[${colors.primary}] text-3xl font-bold`}>
+					<p className={`text-primary text-3xl font-bold`}>
 						Verify Phone Number
 					</p>
 					<p className="text-sm text-gray-500 mb-4">
@@ -57,7 +56,9 @@ export function VerifyPhoneNumber() {
 			</div>
 			<div className="flex justify-end gap-2">
 				<div className="w-1/2 md:w-1/4">
-					<BaseButton type="button" variant="sec">Previous</BaseButton>
+					<BaseButton type="button" variant="sec">
+						Previous
+					</BaseButton>
 				</div>
 				<div className="w-1/2 md:w-1/4">
 					<BaseButton type="button">Next</BaseButton>
