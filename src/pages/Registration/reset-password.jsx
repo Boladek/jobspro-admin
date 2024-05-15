@@ -2,35 +2,63 @@ import { useState } from "react";
 import { colors } from "../../helpers/theme";
 import { BaseInput } from "../../component/input";
 import { BaseButton } from "../../component/button";
-// import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Modal } from "../../component/modal";
 import tick from "../../assets/tick.png";
 import eye from "../../assets/eye.png";
 import eyeSlash from "../../assets/eye-slash.png";
 import { Overlay } from "../../component/overlay-component";
+import customAxios from "../../helpers/customAxios";
+import { toast } from "react-toastify";
+import OtpInput from "react-otp-input";
 
 function ResetPasswordPage() {
-	// const navigate = useNavigate();
+	const navigate = useNavigate();
+	const location = useLocation();
+	const email = location.state.info || "";
 	const [loading, setLoading] = useState(false);
 	const [open, setOpen] = useState(false);
 	const [password, setPassword] = useState(true);
 	const [confirmPassword, setConfirmPassword] = useState(true);
 	const [passwordText, setPasswordText] = useState("");
 	const [confirmPasswordText, setConfirmPasswordText] = useState("");
+	const [otp, setOtp] = useState("");
 
 	const [specialCharCheck, setSpecialCharCheck] = useState(false);
 	const [numberCharCheck, setNumberCharCheck] = useState(false);
-	// const [passwordCheck, setPasswordCheck] = useState(false);
 	const [capitalCheck, setCapitalCheck] = useState(false);
 	const isUpperCase = (string) => /[A-Z]/.test(string);
 
 	const onSubmit = (e) => {
 		e.preventDefault();
+		if (
+			!specialCharCheck ||
+			!numberCharCheck ||
+			!isUpperCase(passwordText) ||
+			!capitalCheck
+		) {
+			toast.error(
+				"Please ensure that the password passes the valid character criteria"
+			);
+			return;
+		}
+		if (passwordText !== confirmPasswordText) {
+			toast.error("Please ensure that the password and confirm password match");
+			return;
+		}
 		setLoading(true);
-		setTimeout(() => {
-			setLoading(false);
-			setOpen(true);
-		}, 3000);
+		customAxios
+			.post("/auth/verifyForgetPassword", {
+				email: email,
+				otp: otp,
+				password: passwordText,
+			})
+			.then((res) => {
+				toast.success(res.message);
+				navigate("/");
+			})
+			.catch((err) => toast.error(err.response.data.message))
+			.finally(() => setLoading(false));
 	};
 
 	const handleChange = (e) => {
@@ -38,7 +66,6 @@ function ResetPasswordPage() {
 		setSpecialCharCheck(checkForSpecialChar(value));
 		setNumberCharCheck(checkForNumber(value));
 		setCapitalCheck(isUpperCase(value));
-		// setPasswordCheck(value.length >= 6);
 		setPasswordText(value);
 	};
 
@@ -47,7 +74,6 @@ function ResetPasswordPage() {
 		setSpecialCharCheck(checkForSpecialChar(value));
 		setNumberCharCheck(checkForNumber(value));
 		setCapitalCheck(isUpperCase(value));
-		// setPasswordCheck(value.length >= 6);
 		setConfirmPasswordText(value);
 	};
 
@@ -63,12 +89,41 @@ function ResetPasswordPage() {
 				Insert your registered email or phone number
 			</p>
 			<br />
+			<div className="mb-4">
+				<OtpInput
+					value={otp}
+					onChange={setOtp}
+					numInputs={6}
+					containerStyle="otp-container"
+					inputStyle="otp-input"
+					required
+					renderInput={(props) => <input {...props} />}
+				/>
+			</div>
+			<div className="relative mb-4">
+				<BaseInput
+					label="Email Address"
+					value={email}
+					minLength="6"
+					maxLength="6"
+					required
+				/>
+			</div>
+			{/* <div className="relative mb-4">
+				<BaseInput
+					label="OTP"
+					value={otp}
+					onChange={(e) => setOtp(e.target.value)}
+				/>
+			</div> */}
+
 			<div className="relative mb-4">
 				<BaseInput
 					label="New Password"
 					onChange={handleChange}
 					value={passwordText}
 					type={password ? "password" : "text"}
+					required
 				/>
 				<img
 					src={password ? eye : eyeSlash}
@@ -88,6 +143,7 @@ function ResetPasswordPage() {
 					onChange={handleConfirmPasswordChange}
 					value={confirmPasswordText}
 					type={confirmPassword ? "password" : "text"}
+					required
 				/>
 				<img
 					src={confirmPassword ? eye : eyeSlash}

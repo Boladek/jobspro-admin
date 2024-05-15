@@ -6,11 +6,7 @@ function SelectCustomerTypePage() {
 	const tabs = ["individual", "business"];
 
 	const handleNavigate = (acct) => {
-		navigate(`/sign-up/${role}/create-account`, {
-			state: {
-				accountType: acct,
-			},
-		});
+		navigate(`/sign-up/${acct}/create-account`);
 	};
 
 	return (

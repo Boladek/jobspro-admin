@@ -55,8 +55,6 @@ export function Carousel() {
 		}
 	};
 
-	console.log({ index });
-
 	return (
 		<div className="p-6 rounded-3xl bg-white/20 max-w-2xl w-full mx-auto">
 			<div className="w-full flex overflow-hidden mb-4">

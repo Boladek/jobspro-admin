@@ -1,7 +1,6 @@
 import { BaseButton } from "../../../component/button";
 import { Footer } from "../../../component/footer";
 import { Header } from "../../../component/header";
-import { colors } from "../../../helpers/theme";
 import { UserPictureSection } from "./user-picture-section";
 import { ShortBioSection } from "./short-bio-section";
 import { ExperienceComponent } from "./experience-component";

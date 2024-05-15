@@ -1,5 +1,4 @@
 import logo from "../assets/logo.png";
-import { colors } from "../helpers/theme";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export function Header() {
@@ -7,8 +6,8 @@ export function Header() {
 	const location = useLocation();
 	const pathname = location.pathname;
 	return (
-		<div className="py-3 px-2 sm:px-6 w-full flex justify-between items-center border-gray-300 border-b sticky top-0 bg-white">
-			<img src={logo} alt="Favicon" />
+		<div className="py-3 px-2 gap-2 sm:px-6 w-full flex justify-between items-center border-gray-300 border-b sticky top-0 bg-white">
+			<img src={logo} alt="Favicon" className="h-8" />
 			{pathname === "/" && (
 				<div className="text-xs">
 					I don’t have a Job’s Pro account?{" "}

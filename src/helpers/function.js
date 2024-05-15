@@ -9,3 +9,31 @@ export function appendZero(num) {
 		return num.toString();
 	}
 }
+
+export function formatDate(date) {
+	const newDate = new Date(date);
+	return new Intl.DateTimeFormat("en-US", {
+		year: "numeric",
+		month: "short",
+		day: "numeric",
+	}).format(newDate);
+}
+
+export function formatNumber(num, decimal = 0) {
+	return Intl.NumberFormat("en-US", {
+		style: "decimal",
+		maximumFractionDigits: decimal,
+		minimumFractionDigits: decimal,
+	}).format(num);
+}
+
+export function handleUserTypes(role) {
+	const user = {
+		individual: "individual",
+		business: "business",
+		agent: "agent",
+		pro: "pro",
+		expert: "expert",
+	};
+	return user[role];
+}
