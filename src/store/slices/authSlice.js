@@ -18,6 +18,7 @@ const authSlice = createSlice({
 			window.location = "/";
 		},
 		loginSuccess(state, action) {
+			console.log(action.payload);
 			state.isAuthenticated = !isEmpty(action.payload);
 			state.user = action.payload;
 			state.message = "";
@@ -26,6 +27,6 @@ const authSlice = createSlice({
 	},
 });
 
-export const { logout, loginSuccess } = accountSlice.actions;
+export const { logout, loginSuccess } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -7,6 +7,7 @@ import { useState } from "react";
 import { SearchComponent } from "./search-component";
 import { useNavigate } from "react-router-dom";
 import { AvatarSection } from "./avatar-section";
+// import { useSelector } from "react-redux";
 
 const links = ["dashboard", "tasks", "messages", "wallets", "settings"];
 
@@ -56,14 +57,6 @@ export function AuthHeader() {
 					isOpen ? "translate-x-0" : "translate-x-full"
 				}`}
 			>
-				{/* <div className="p-4">
-					<button
-						onClick={toggleSidebar}
-						className="text-gray-600 focus:outline-none"
-					>
-						Close
-					</button>
-				</div> */}
 				<div className="flex justify-end">
 					<span
 						className="p-2 cursor-pointer hover:scale-110 text-2xl text-red-500"

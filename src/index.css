@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.my-facebook-button-class {
+	border: 1px solid red;
+}
+
 .otp-input {
 	padding: 0.5rem;
 	flex: 1;

@@ -4,18 +4,23 @@ import tickIcon from "../assets/tick-circle.png";
 import available from "../assets/available.png";
 import referral from "../assets/referral.png";
 import settings from "../assets/settings-icon.png";
-import logout from "../assets/logout.png";
+import logoutIcon from "../assets/logout.png";
 import { BaseButton } from "./button";
 import { Switch } from "./switch";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../store/slices/authSlice";
 
 export function AvatarSection() {
+	const dispatch = useDispatch();
+	const { user } = useSelector((state) => state.auth);
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const [availableCheck, setAvailableCheck] = useState(false);
 	const dropdownRef = useRef(null);
 
 	// Function to toggle dropdown visibility
 	const toggleDropdown = () => {
-		setIsDropdownOpen((prevState) => !prevState);
+		setIsDropdownOpen((prev) => !prev);
+		// setIsDropdownOpen((prevState) => !prevState);
 	};
 
 	// Close dropdown when clicking outside of it
@@ -41,14 +46,13 @@ export function AvatarSection() {
 				aria-haspopup="true"
 				onClick={toggleDropdown}
 				alt="Avatar"
-				aria-expanded={isDropdownOpen}
 				title="Click to see more information"
 			/>
 
 			{isDropdownOpen && (
 				<div
 					ref={dropdownRef}
-					className="absolute right-0 z-10 mt-2 w-56 origin-top-right p-3 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+					className="absolute right-0 z-10 mt-2 w-64 origin-top-right p-3 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
 					role="menu"
 					aria-orientation="vertical"
 				>
@@ -62,16 +66,16 @@ export function AvatarSection() {
 						</div>
 						<div>
 							<div className="text-sm font-bold flex gap-1 items-center">
-								<span>Nneka Adeniyi</span>
+								<span>FirstName LastName</span>
 								<img src={tickIcon} alt="Tick circle" className="h-5" />
 							</div>
 							<span
-								className="bg-[#42BE65] px-2 rounded-full text-white text-xs vertical-align"
+								className="bg-[#42BE65] px-2 rounded-full text-white text-xs vertical-align capitalize"
 								style={{
-									padding: ".125rem .5rem",
+									padding: ".25rem .5rem",
 								}}
 							>
-								Pro
+								{user.userType}
 							</span>
 						</div>
 					</div>
@@ -111,8 +115,11 @@ export function AvatarSection() {
 							</div>
 						</div>
 						<div className="p-1">
-							<div className="flex gap-2 items-center cursor-pointer">
-								<img src={logout} alt="Logout" className="h-6" />
+							<div
+								className="flex gap-2 items-center cursor-pointer"
+								onClick={() => dispatch(logout())}
+							>
+								<img src={logoutIcon} alt="Logout" className="h-6" />
 								<span className="text-xs text-red-500 hover:text-red-700">
 									Logout
 								</span>

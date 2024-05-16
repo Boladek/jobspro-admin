@@ -10,11 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@azure/msal-browser": "^3.14.0",
+    "@azure/msal-react": "^2.0.16",
     "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^2.2.5",
     "axios": "^1.6.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-facebook-login": "^4.1.1",
     "react-hook-form": "^7.51.2",
     "react-otp-input": "^3.1.1",
     "react-phone-number-input": "^3.4.0",

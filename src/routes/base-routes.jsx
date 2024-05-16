@@ -33,6 +33,7 @@ import AdminJobsPage from "../pages/admin/admin-jobs-page";
 import AdminDisputesPage from "../pages/admin/admin-disputes-page";
 import AdminUsersPage from "../pages/admin/admin-users-page";
 import { PrivateRoutes } from "./private-routes";
+import LandingPage from "../pages/dashboard/landing-page";
 // console.log(profileRoutes);
 
 const router = createBrowserRouter([
@@ -160,7 +161,7 @@ const router = createBrowserRouter([
 					{ path: "help-and-support", element: <div>Help & Support</div> },
 				],
 			},
-			{ path: "dashboard", element: <div>Landing Page Dashboard</div> },
+			{ path: "dashboard", element: <LandingPage /> },
 		],
 	},
 	{

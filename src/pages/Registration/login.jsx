@@ -12,10 +12,13 @@ import finclusionIcon from "../../assets/finclusion.png";
 import customAxios from "../../helpers/customAxios";
 import { toast } from "react-toastify";
 import StorageService from "../../helpers/storage";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../../store/slices/authSlice";
 
 function LoginPage() {
 	const navigate = useNavigate();
-	const [finLogin, setFinLogin] = useState(false);
+	const dispatch = useDispatch();
+	const [finLogin, setFinLogin] = useState(true);
 	const [loading, setLoading] = useState(false);
 	const {
 		register,
@@ -36,6 +39,7 @@ function LoginPage() {
 			.then((res) => {
 				StorageService.setUser(res.user);
 				StorageService.setToken(res.token);
+				dispatch(loginSuccess(res.user));
 				navigate("/dashboard");
 			})
 			.catch((err) => {

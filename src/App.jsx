@@ -1,7 +1,9 @@
 import { ToastContainer } from "react-toastify";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { MsalProvider } from "@azure/msal-react";
+import { PublicClientApplication } from "@azure/msal-browser";
 import "react-toastify/dist/ReactToastify.css";
 import BaseRoutes from "./routes/base-routes";
-import { GoogleOAuthProvider } from "@react-oauth/google";
 import { configKeys } from "./helpers/config";
 import store from "./store";
 import { loginSuccess } from "./store/slices/authSlice";
@@ -10,14 +12,25 @@ import { auth } from "./helpers/auth";
 
 if (auth()) {
 	const user = StorageService.getUser();
-	store.dispatch(loginSuccess(JSON.parse(user)));
+	console.log({ user });
+	store.dispatch(loginSuccess(user));
 }
+
+const configuration = {
+	auth: {
+		clientId: configKeys.microsoftID,
+	},
+};
+
+const pca = new PublicClientApplication(configuration);
 
 export default function App() {
 	return (
-		<GoogleOAuthProvider clientId={configKeys.googleId}>
-			<ToastContainer />
-			<BaseRoutes />
-		</GoogleOAuthProvider>
+		<MsalProvider instance={pca}>
+			<GoogleOAuthProvider clientId={configKeys.googleId}>
+				<ToastContainer />
+				<BaseRoutes />
+			</GoogleOAuthProvider>
+		</MsalProvider>
 	);
 }

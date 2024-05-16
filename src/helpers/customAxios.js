@@ -1,19 +1,18 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-// import secretKey from "./config";
-
-// const baseURL = secretKey.baseUrl;
+import { configKeys } from "./config";
+import StorageService from "./storage";
 
 const customAxios = axios.create({
-	baseURL: "http://sso-lb-1694833758.us-west-2.elb.amazonaws.com",
+	baseURL: configKeys.baseURL,
 	timeout: 50000,
 });
 
 const requestHandler = (request) => {
 	// Token will be dynamic so we can use any app-specific way to always
 	// fetch the new token before making the cal
-	if (localStorage.getItem("token")) {
-		request.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
+	if (StorageService.getToken()) {
+		request.headers.Authorization = `Bearer ${StorageService.getToken()}`;
 	}
 
 	return request;

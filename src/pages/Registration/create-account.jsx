@@ -1,3 +1,13 @@
+import { toast } from "react-toastify";
+import { useGoogleLogin } from "@react-oauth/google";
+import FacebookLogin from "react-facebook-login";
+import axios from "axios";
+// import {
+// 	MsalProvider,
+// 	AuthenticatedTemplate,
+// 	UnauthenticatedTemplate,
+// } from "@azure/msal-react";
+import { PublicClientApplication } from "@azure/msal-browser";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -12,12 +22,18 @@ import facebook from "../../assets/facebook.png";
 import { countriesCode } from "../../helpers/countries";
 import customAxios from "../../helpers/customAxios";
 import { Overlay } from "../../component/overlay-component";
-import { toast } from "react-toastify";
 import { colors } from "../../helpers/theme";
-import { useGoogleLogin } from "@react-oauth/google";
-import axios from "axios";
+import { configKeys } from "../../helpers/config";
 
 function CreateAccountPage() {
+	const msalConfig = {
+		auth: {
+			clientId: configKeys.microsoftID,
+			redirectUri: "http://localhost:5173",
+		},
+	};
+	const msalInstance = new PublicClientApplication(msalConfig);
+
 	const navigate = useNavigate();
 	const { role } = useParams();
 	const {
@@ -68,7 +84,14 @@ function CreateAccountPage() {
 			.finally(() => setLoading(false));
 	};
 
-	const login = useGoogleLogin({
+	const responseFacebook = (res) => {
+		// console.log(res);
+		setValue("lastName", res.data.first_name);
+		setValue("firstName", res.data.last_name);
+		setValue("email", res.data.email);
+	};
+
+	const googeLogin = useGoogleLogin({
 		onSuccess: (codeResponse) => {
 			axios
 				.get(
@@ -86,12 +109,40 @@ function CreateAccountPage() {
 					setValue("lastName", res.data.family_name);
 					setValue("firstName", res.data.given_name);
 					setValue("email", res.data.email);
-					setValue("companyName", res.data.name);
+					// setValue("companyName", res.data.name);
 				})
 				.catch((err) => console.log(err));
 		},
 		onError: (error) => console.log("Login Failed:", error),
 	});
+
+	const mirosoftLogin = async () => {
+		const loginRequest = {
+			scopes: ["openid", "profile", "User.Read"],
+		};
+		try {
+			const loginResponse = await msalInstance.loginPopup(loginRequest);
+			console.log("loginResponse", loginResponse);
+		} catch (error) {
+			console.log("loginError", error);
+		}
+	};
+
+	// useEffect(() => {
+	// 	async function initializeMsal() {
+	// 		try {
+	// 			console.log("Initializing MSAL...");
+	// 			await msalInstance.handleRedirectPromise();
+	// 			console.log("MSAL initialized successfully.");
+	// 		} catch (error) {
+	// 			console.error("MSAL initialization error:", error);
+	// 		}
+	// 	}
+
+	// 	if (!msalInstance.isInitialized()) {
+	// 		initializeMsal();
+	// 	}
+	// }, [msalInstance]);
 
 	useEffect(() => {
 		const handleChange = (value) => {
@@ -135,25 +186,33 @@ function CreateAccountPage() {
 				<>
 					<div className="flex justify-between gap-2 mb-4">
 						<div
-							className="flex-1 flex gap-1 items-center bg-gray-200 p-2 text-xs rounded-full justify-center hover:bg-gray-100 hover:outline hover:outline-1 cursor-pointer"
-							onClick={login}
+							className="flex-1 flex gap-1 items-center bg-gray-200 p-2 text-xs rounded-full justify-center hover:bg-gray-100 hover:outline hover:outline-1"
+							onClick={googeLogin}
 						>
 							<img src={google} className="h-5" alt="Google login" />{" "}
-							<span>Google</span>
+							<span className="cursor-pointer">Google</span>
 						</div>
 						<div
-							className="flex-1 flex gap-1 items-center bg-gray-200 p-2 text-xs rounded-full justify-center hover:bg-gray-100 hover:outline hover:outline-1 cursor-pointer"
-							onClick={login}
+							className="flex-1 flex gap-1 items-center bg-gray-200 p-2 text-xs rounded-full justify-center hover:bg-gray-100 hover:outline hover:outline-1"
+							// onClick={googeLogin}
 						>
-							<img src={facebook} className="h-5" alt="Google login" />{" "}
-							<span>Facebook</span>
+							<img src={facebook} className="h-5" alt="Facebook login" />{" "}
+							<FacebookLogin
+								appId="608413574262901"
+								autoLoad={true}
+								fields="name,email,picture"
+								cssClass="text-xs cursor-pointer hover:underline"
+								// onClick={componentClicked}
+								callback={responseFacebook}
+								textButton="Facebook"
+							/>
 						</div>
 						<div
 							className="flex-1 flex gap-1 items-center bg-gray-200 p-2 text-xs rounded-full justify-center hover:bg-gray-100 hover:outline hover:outline-1 cursor-pointer"
-							onClick={login}
+							onClick={mirosoftLogin}
 						>
 							<img src={microsoft} className="h-5" alt="Google login" />{" "}
-							<span>Microsoft</span>
+							<span className="cursor-pointer">Microsoft</span>
 						</div>
 					</div>
 					<div className="flex items-center mb-4 text-xs text-gray-400 gap-2">

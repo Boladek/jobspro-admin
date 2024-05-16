@@ -113,7 +113,7 @@ function ClientProfile() {
 							<div>
 								<img src={illustration} alt="Illustration" />
 							</div>
-							<p className={`font-bold text-black`}>Hey Nneka</p>
+							<p className={`font-bold text-black`}>Hey FirstName</p>
 							<p className="text-xs text-gray-500 text-center">
 								Please click Get started to complete the setup your profile
 							</p>
