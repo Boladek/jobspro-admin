@@ -112,6 +112,10 @@ function CreateAccountPage() {
 		if (watchConfirmPassword) handleConfirmPasswordChange(watchConfirmPassword);
 	}, [watchConfirmPassword]);
 
+	useEffect(() => {
+		document.title = "Jobs Pro | Signup";
+	}, []);
+
 	return (
 		<form
 			style={{ maxWidth: 400, width: "100%" }}

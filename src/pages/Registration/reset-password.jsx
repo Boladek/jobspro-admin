@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { colors } from "../../helpers/theme";
 import { BaseInput } from "../../component/input";
 import { BaseButton } from "../../component/button";
@@ -76,6 +76,10 @@ function ResetPasswordPage() {
 		setCapitalCheck(isUpperCase(value));
 		setConfirmPasswordText(value);
 	};
+
+	useEffect(() => {
+		document.title = "Jobs Pro | Reset Password";
+	}, []);
 
 	return (
 		<form

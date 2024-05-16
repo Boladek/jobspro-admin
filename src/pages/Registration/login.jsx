@@ -36,7 +36,7 @@ function LoginPage() {
 			.then((res) => {
 				StorageService.setUser(res.user);
 				StorageService.setToken(res.token);
-				navigate("/");
+				navigate("/dashboard");
 			})
 			.catch((err) => {
 				console.log({ err });

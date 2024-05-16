@@ -32,6 +32,7 @@ import AdminPushNotificationsPage from "../pages/admin/admin-push-notifications-
 import AdminJobsPage from "../pages/admin/admin-jobs-page";
 import AdminDisputesPage from "../pages/admin/admin-disputes-page";
 import AdminUsersPage from "../pages/admin/admin-users-page";
+import { PrivateRoutes } from "./private-routes";
 // console.log(profileRoutes);
 
 const router = createBrowserRouter([
@@ -140,12 +141,12 @@ const router = createBrowserRouter([
 		element: <ReviewProfilePage />,
 	},
 	{
-		path: "dashboard",
-		element: <div>Landing Page</div>,
-	},
-	{
 		path: "/",
-		element: <MainLayout />,
+		element: (
+			<PrivateRoutes>
+				<MainLayout />
+			</PrivateRoutes>
+		),
 		children: [
 			{
 				path: "settings",
@@ -159,6 +160,7 @@ const router = createBrowserRouter([
 					{ path: "help-and-support", element: <div>Help & Support</div> },
 				],
 			},
+			{ path: "dashboard", element: <div>Landing Page Dashboard</div> },
 		],
 	},
 	{
