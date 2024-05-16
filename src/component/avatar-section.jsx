@@ -25,7 +25,11 @@ export function AvatarSection() {
 
 	// Close dropdown when clicking outside of it
 	const handleClickOutside = (event) => {
-		if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+		if (
+			dropdownRef.current &&
+			!dropdownRef.current.contains(event.target) &&
+			event.target.id !== "menu-button"
+		) {
 			setIsDropdownOpen(false);
 		}
 	};
@@ -47,6 +51,7 @@ export function AvatarSection() {
 				onClick={toggleDropdown}
 				alt="Avatar"
 				title="Click to see more information"
+				ref={dropdownRef}
 			/>
 
 			{isDropdownOpen && (
