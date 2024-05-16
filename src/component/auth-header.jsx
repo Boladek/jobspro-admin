@@ -9,7 +9,15 @@ import { useNavigate } from "react-router-dom";
 import { AvatarSection } from "./avatar-section";
 // import { useSelector } from "react-redux";
 
-const links = ["dashboard", "tasks", "messages", "wallets", "settings"];
+// const links = ["dashboard", "tasks", "messages", "wallets", "settings"];
+
+const links = [
+	{ title: "dashboard", url: "/dashboard" },
+	{ title: "tasks", url: "/tasks" },
+	{ title: "messages", url: "/messages" },
+	{ title: "wallets", url: "/wallets" },
+	{ title: "settings", url: "/settings/profile" },
+];
 
 export function AuthHeader() {
 	const navigate = useNavigate();

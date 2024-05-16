@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
+import PropTypes from "prop-types";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { colors } from "../../../helpers/theme";
@@ -8,7 +9,7 @@ import { BaseSelect } from "../../../component/select";
 
 const texts = ["hello", "world", "city", "country", "state"];
 
-export function Industry() {
+export function Industry({ gotoNextStep }) {
 	const {
 		register,
 		formState: { errors },
@@ -16,11 +17,13 @@ export function Industry() {
 	} = useForm();
 	const [allTexts, setAllTexts] = useState(texts);
 	const [selectedText, setSelectedText] = useState([]);
-	const [open, setOpen] = useState(false);
-	const [openSuccess, setOpenSuccess] = useState(false);
+	// const [open, setOpen] = useState(false);
+	// const [openSuccess, setOpenSuccess] = useState(false);
+	// console.log("I'm here");
 
 	const onSubmit = (data) => {
 		console.log({ data });
+		gotoNextStep(true);
 	};
 
 	const handleChange = (e) => {
@@ -35,9 +38,10 @@ export function Industry() {
 	};
 
 	return (
-		<div
+		<form
 			className="p-4 h-full flex flex-col"
 			style={{ maxWidth: 500, width: "100%" }}
+			onSubmit={handleSubmit(onSubmit)}
 		>
 			<div className="flex-1 md:flex md:justify-center md:items-center">
 				<div>
@@ -137,11 +141,15 @@ export function Industry() {
 					</BaseButton>
 				</div>
 				<div className="w-1/2 md:w-1/4">
-					<BaseButton type="button" loading={false}>
+					<BaseButton type="submit" loading={false}>
 						Next
 					</BaseButton>
 				</div>
 			</div>
-		</div>
+		</form>
 	);
 }
+
+Industry.propTypes = {
+	gotoNextStep: PropTypes.func,
+};

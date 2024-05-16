@@ -24,7 +24,7 @@ const experiences = [
 	},
 ];
 
-export function Experience() {
+export function Experience({ gotoNextStep, gotoPrevious }) {
 	const {
 		register,
 		formState: { errors },
@@ -37,6 +37,7 @@ export function Experience() {
 
 	const onSubmit = (data) => {
 		console.log({ data });
+		gotoNextStep();
 	};
 
 	const handleEdit = () => {
@@ -44,9 +45,10 @@ export function Experience() {
 	};
 
 	return (
-		<div
+		<form
 			className="p-4 h-full flex flex-col"
 			style={{ maxWidth: 500, width: "100%" }}
+			onSubmit={handleSubmit(onSubmit)}
 		>
 			<div className="flex-1 md:flex md:justify-center md:items-center">
 				<div>
@@ -110,12 +112,17 @@ export function Experience() {
 			</div>
 			<div className="flex justify-end gap-2">
 				<div className="w-1/2 md:w-1/4">
-					<BaseButton type="button" variant="sec" loading={false}>
+					<BaseButton
+						type="button"
+						variant="sec"
+						loading={false}
+						onClick={gotoPrevious}
+					>
 						Previous
 					</BaseButton>
 				</div>
 				<div className="w-1/2 md:w-1/4">
-					<BaseButton type="button" loading={false}>
+					<BaseButton type="submit" loading={false}>
 						Next
 					</BaseButton>
 				</div>
@@ -132,11 +139,11 @@ export function Experience() {
 					form={selected}
 				/>
 			)}
-		</div>
+		</form>
 	);
 }
 
 Experience.propTypes = {
-	gotoNext: PropTypes.func,
+	gotoNextStep: PropTypes.func,
 	gotoPrevious: PropTypes.func, // Proper usage of PropTypes
 };

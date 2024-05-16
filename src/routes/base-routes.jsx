@@ -8,7 +8,7 @@ import ResetPasswordPage from "../pages/Registration/reset-password";
 import SelectCustomerTypePage from "../pages/Registration/select-customer";
 import CreateAccountPage from "../pages/Registration/create-account";
 import { ProfileLayout } from "../component/profile-layout";
-import ClientProfile from "../pages/Profile/client-profile";
+import { ClientProfile } from "../pages/Profile/client-profile";
 import ReviewProfilePage from "../pages/Profile/review-profile";
 import NotFoundPage from "../pages/not-found-page";
 // import { profileRoutes } from "../pages/Profile/expert-profile/routes";
@@ -34,6 +34,7 @@ import AdminDisputesPage from "../pages/admin/admin-disputes-page";
 import AdminUsersPage from "../pages/admin/admin-users-page";
 import { PrivateRoutes } from "./private-routes";
 import LandingPage from "../pages/dashboard/landing-page";
+import ClientProfileFlow from "../pages/Profile";
 // console.log(profileRoutes);
 
 const router = createBrowserRouter([
@@ -78,70 +79,6 @@ const router = createBrowserRouter([
 		],
 	},
 	{
-		path: "dashboard/profile",
-		element: <ProfileLayout />,
-		children: [
-			{
-				path: "agent/:role",
-				element: <ClientProfile />,
-			},
-			{
-				path: ":role",
-				element: (
-					<>
-						<Outlet />
-					</>
-				),
-				children: [
-					{
-						path: "short-bio",
-						element: <ShortBio />,
-					},
-					{
-						path: "verify-phone",
-						element: <VerifyPhoneNumber />,
-					},
-					{
-						path: "industry",
-						element: <Industry />,
-					},
-					{
-						path: "working-rate",
-						element: <WorkingRate />,
-					},
-					{
-						path: "resume",
-						element: <Resume />,
-					},
-					{
-						path: "experience",
-						element: <Experience />,
-					},
-					{
-						path: "education",
-						element: <Education />,
-					},
-					{
-						path: "skills",
-						element: <Skill />,
-					},
-					{
-						path: "phone-number",
-						element: <PhoneNumber />,
-					},
-					{
-						path: "profile",
-						element: <Profile />,
-					},
-				],
-			},
-		],
-	},
-	{
-		path: "profile-review",
-		element: <ReviewProfilePage />,
-	},
-	{
 		path: "/",
 		element: (
 			<PrivateRoutes>
@@ -162,6 +99,77 @@ const router = createBrowserRouter([
 				],
 			},
 			{ path: "dashboard", element: <LandingPage /> },
+			{
+				path: "dashboard/profile",
+				element: <ProfileLayout />,
+				children: [
+					{
+						path: ":role",
+						element: <ClientProfileFlow />,
+					},
+					{
+						path: "agent/:role",
+						element: <ClientProfile />,
+					},
+					{
+						path: ":role",
+						element: (
+							<>
+								<Outlet />
+							</>
+						),
+						children: [
+							{
+								path: "short-bio",
+								element: <ShortBio />,
+							},
+							{
+								path: "verify-phone",
+								element: <VerifyPhoneNumber />,
+							},
+							{
+								path: "industry",
+								element: <Industry />,
+							},
+							{
+								path: "working-rate",
+								element: <WorkingRate />,
+							},
+							{
+								path: "resume",
+								element: <Resume />,
+							},
+							{
+								path: "experience",
+								element: <Experience />,
+							},
+							{
+								path: "education",
+								element: <Education />,
+							},
+							{
+								path: "skills",
+								element: <Skill />,
+							},
+							{
+								path: "phone-number",
+								element: <PhoneNumber />,
+							},
+							{
+								path: "profile",
+								element: <Profile />,
+							},
+						],
+					},
+				],
+			},
+			{
+				path: "dashboard/review",
+				element: <ReviewProfilePage />,
+			},
+			{ path: "tasks", element: <div>Tasks</div> },
+			{ path: "messages", element: <div>Messages</div> },
+			{ path: "wallets", element: <div>Wallets</div> },
 		],
 	},
 	{

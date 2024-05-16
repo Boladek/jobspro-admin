@@ -12,18 +12,14 @@ export const BaseButton = ({
 	return (
 		<button
 			className={`
-			${
-				loading
-					? "bg-white outline outline-2 outline-primary cursor-not-allowed"
-					: "cursor-pointer"
-			}  
+			${loading ? "bg-white cursor-not-allowed" : "cursor-pointer"}  
 			${
 				variant === "sec"
-					? "bg-white text-primary outline outline-2 outline-primary hover:bg-blue-100"
+					? "bg-white text-primary hover:bg-blue-100"
 					: "bg-primary text-white hover:bg-opacity-80"
 			}
 			${size === "small" ? "p-2 text-xs font-semibold" : "p-3 text-sm font-bold"}
-			flex justify-center 
+			flex justify-center border-2 border-primary 
 			w-full rounded-full`}
 			{...rest}
 			disabled={loading}

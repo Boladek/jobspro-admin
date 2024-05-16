@@ -3,9 +3,18 @@ import { Modal } from "../../component/modal";
 import info from "../../assets/info.png";
 import illustration from "../../assets/illustration.png";
 import { BaseButton } from "../../component/button";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function LandingPage() {
+	const navigate = useNavigate();
+	const { user } = useSelector((state) => state.auth);
 	const [open, setOpen] = useState(true);
+
+	const handleNavigate = () => {
+		navigate(`/dashboard/profile/${user.userType}`);
+	};
+
 	return (
 		<div>
 			{open && (
@@ -29,10 +38,12 @@ function LandingPage() {
 						</div>
 						<div className="flex gap-2">
 							<div className="mb-4 w-1/2">
-								<BaseButton variant="sec">Skip</BaseButton>
+								<BaseButton variant="sec" onClick={() => setOpen(false)}>
+									Skip
+								</BaseButton>
 							</div>
 							<div className="mb-4 w-1/2">
-								<BaseButton>Get Started</BaseButton>
+								<BaseButton onClick={handleNavigate}>Get Started</BaseButton>
 							</div>
 						</div>
 					</div>

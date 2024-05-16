@@ -6,7 +6,7 @@ import { BaseSelect } from "../../../component/select";
 
 const texts = ["hello", "world", "city", "country", "state"];
 
-export function Skill() {
+export function Skill({ gotoPrevious, gotoNextStep }) {
 	const {
 		register,
 		formState: { errors },
@@ -19,6 +19,7 @@ export function Skill() {
 
 	const onSubmit = (data) => {
 		console.log({ data });
+		gotoNextStep();
 	};
 
 	const handleChange = (e) => {
@@ -33,9 +34,10 @@ export function Skill() {
 	};
 
 	return (
-		<div
+		<form
 			className="p-4 h-full flex flex-col"
 			style={{ maxWidth: 500, width: "100%" }}
+			onSubmit={handleSubmit(onSubmit)}
 		>
 			<div className="flex-1 md:flex md:justify-center md:items-center">
 				<div>
@@ -83,19 +85,19 @@ export function Skill() {
 			</div>
 			<div className="flex justify-end gap-2">
 				<div className="w-1/2 md:w-1/4">
-					<BaseButton type="button" variant="sec">
+					<BaseButton type="button" variant="sec" onClick={gotoPrevious}>
 						Previous
 					</BaseButton>
 				</div>
 				<div className="w-1/2 md:w-1/4">
-					<BaseButton type="button">Next</BaseButton>
+					<BaseButton type="submit">Next</BaseButton>
 				</div>
 			</div>
-		</div>
+		</form>
 	);
 }
 
 Skill.propTypes = {
-	gotoNext: PropTypes.func,
+	gotoNextStep: PropTypes.func,
 	gotoPrevious: PropTypes.func, // Proper usage of PropTypes
 };

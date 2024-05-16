@@ -12,12 +12,13 @@ import finclusionIcon from "../../assets/finclusion.png";
 import customAxios from "../../helpers/customAxios";
 import { toast } from "react-toastify";
 import StorageService from "../../helpers/storage";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "../../store/slices/authSlice";
 
 function LoginPage() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const { isAuthenticated } = useSelector((state) => state.auth);
 	const [finLogin, setFinLogin] = useState(true);
 	const [loading, setLoading] = useState(false);
 	const {
@@ -57,6 +58,12 @@ function LoginPage() {
 	useEffect(() => {
 		document.title = "Jobs Pro | Login";
 	}, []);
+
+	useEffect(() => {
+		if (isAuthenticated) {
+			navigate("/dashboard");
+		}
+	}, [isAuthenticated, navigate]);
 
 	return (
 		<form
