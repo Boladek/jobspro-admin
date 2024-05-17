@@ -73,6 +73,11 @@ export function AuthHeader() {
 						&times;
 					</span>
 				</div>
+				<div className="flex items-center mb-4 px-4 gap-2">
+					<img src={settings} className="h-5" />
+					<img src={notification} className="h-5" />
+					<AvatarSection />
+				</div>
 				<div className="px-4">
 					<SearchComponent />
 					<br />
