@@ -45,6 +45,25 @@ export function AvatarSection() {
 		dispatch(logout());
 	}
 
+	useEffect(() => {
+		if (isDropdownOpen) {
+			const dropdownElement = dropdownRef.current;
+			const dropdownRect = dropdownElement.getBoundingClientRect();
+			const dropdownHeight = dropdownRect.height;
+			const dropdownWidth = dropdownRect.width;
+			const { innerHeight, innerWidth } = window;
+			const { top, left } = dropdownRect;
+
+			if (top + dropdownHeight > innerHeight) {
+				dropdownElement.style.top = `${innerHeight - dropdownHeight}px`;
+			}
+
+			if (left + dropdownWidth > innerWidth) {
+				dropdownElement.style.left = `${innerWidth - dropdownWidth}px`;
+			}
+		}
+	}, [isDropdownOpen]);
+
 	return (
 		<div className="relative">
 			<img
@@ -84,7 +103,7 @@ export function AvatarSection() {
 									padding: ".25rem .5rem",
 								}}
 							>
-								{user.userType}
+								{user?.userType}
 							</span>
 						</div>
 					</div>
