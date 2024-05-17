@@ -3,6 +3,8 @@ import { BaseInput } from "../../component/input";
 import { BaseButton } from "../../component/button";
 import { useNavigate } from "react-router-dom";
 import { Overlay } from "../../component/overlay-component";
+import customAxios from "../../helpers/customAxios";
+import { toast } from "react-toastify";
 
 function ForgotPasswordPage() {
 	const navigate = useNavigate();
@@ -11,14 +13,24 @@ function ForgotPasswordPage() {
 	const onSubmit = (e) => {
 		e.preventDefault();
 		setLoading(true);
-		setTimeout(() => {
-			setLoading(false);
-			navigate("/reset-password", {
-				state: {
-					info,
-				},
-			});
-		}, 3000);
+		customAxios
+			.post("/auth/forgetPassword", {
+				email: info,
+			})
+			.then((res) => {
+				toast.success(res.message);
+				navigate("/reset-password", {
+					state: {
+						info,
+					},
+				});
+			})
+			.catch((err) => toast.error(err.response.data.message[0]))
+			.finally(() => setLoading(false));
+		// setTimeout(() => {
+		// 	setLoading(false);
+
+		// }, 3000);
 	};
 
 	return (

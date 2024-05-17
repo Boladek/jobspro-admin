@@ -1,12 +1,15 @@
 import PropTypes from "prop-types";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export function LinkElement({ link }) {
+	const navigage = useNavigate();
 	const location = useLocation();
 	const pathname = location.pathname;
-	const isSelected = pathname.includes(link);
+	const isSelected = pathname.includes(link.title);
 
-	const handleLink = () => {};
+	const handleLink = () => {
+		navigage(link.url);
+	};
 
 	return (
 		<div
@@ -15,7 +18,7 @@ export function LinkElement({ link }) {
 				isSelected ? "bg-[#206DB0] text-white" : ""
 			} hover:bg-[#206DB0] hover:text-white transition-all ease-linear duration-300`}
 		>
-			{link}
+			{link.title}
 		</div>
 	);
 }

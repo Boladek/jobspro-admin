@@ -5,6 +5,7 @@ export function Modal({ children, handleClose, title, maxWidth = 400 }) {
 		<div
 			className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-400 bg-opacity-70"
 			style={{ zIndex: 10000 }}
+			onClick={(e) => e.stopPropagation()}
 		>
 			<div
 				className="bg-white p-4 rounded-xl relative inline-block"

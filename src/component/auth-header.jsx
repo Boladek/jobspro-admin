@@ -2,13 +2,22 @@ import logo from "../assets/logo.png";
 import menu from "../assets/menu-icon.png";
 import notification from "../assets/notification.png";
 import settings from "../assets/setting.png";
-import avatar from "../assets/profile-avatar.png";
 import { LinkElement } from "./link";
 import { useState } from "react";
 import { SearchComponent } from "./search-component";
 import { useNavigate } from "react-router-dom";
+import { AvatarSection } from "./avatar-section";
+// import { useSelector } from "react-redux";
 
-const links = ["dashboard", "tasks", "messages", "wallets"];
+// const links = ["dashboard", "tasks", "messages", "wallets", "settings"];
+
+const links = [
+	{ title: "dashboard", url: "/dashboard" },
+	{ title: "tasks", url: "/tasks" },
+	{ title: "messages", url: "/messages" },
+	{ title: "wallets", url: "/wallets" },
+	{ title: "settings", url: "/settings/profile" },
+];
 
 export function AuthHeader() {
 	const navigate = useNavigate();
@@ -19,16 +28,16 @@ export function AuthHeader() {
 	};
 
 	return (
-		<div className="py-3 px-2 sm:px-6 w-full flex justify-between items-center border-gray-300 border-b sticky top-0 bg-white">
-			<div className="flex items-center gap-4 w-2/5">
+		<div className="py-3 px-2 sm:px-6 w-full flex justify-between items-center border-gray-300 border-b sticky top-0 bg-white z-50">
+			<div className="flex items-center justify-between w-2/5">
 				<div
 					className="relative cursor-pointer"
 					onClick={() => navigate("/dashboard")}
 				>
-					<img src={logo} alt="Favicon" className="cursor-pointer" />
+					<img src={logo} alt="Favicon" className="cursor-pointer h-8" />
 					<div className="absolute inset-0 opacity-50 hover:bg-gray-50 z-10"></div>
 				</div>
-				<div className="hidden md:flex gap-2 px-8 ml-auto">
+				<div className="hidden md:flex gap-1">
 					{links.map((link) => (
 						<LinkElement key={link} link={link} />
 					))}
@@ -41,7 +50,7 @@ export function AuthHeader() {
 				<img src={settings} className="h-5" />
 				<img src={notification} className="h-5" />
 
-				<img src={avatar} className="h-9" />
+				<AvatarSection />
 			</div>
 			<span
 				className="relative cursor-pointer rounded-sm block md:hidden"
@@ -56,13 +65,13 @@ export function AuthHeader() {
 					isOpen ? "translate-x-0" : "translate-x-full"
 				}`}
 			>
-				<div className="p-4">
-					<button
+				<div className="flex justify-end">
+					<span
+						className="p-2 cursor-pointer hover:scale-110 text-2xl text-red-500"
 						onClick={toggleSidebar}
-						className="text-gray-600 focus:outline-none"
 					>
-						Close
-					</button>
+						&times;
+					</span>
 				</div>
 				<div className="px-4">
 					<SearchComponent />

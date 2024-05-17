@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { BaseButton } from "../../../component/button";
 import { BaseInput } from "../../../component/input";
 
-export function PhoneNumber() {
+export function PhoneNumber({ gotoNextStep }) {
 	const {
 		register,
 		formState: { errors },
@@ -12,19 +12,20 @@ export function PhoneNumber() {
 
 	const onSubmit = (data) => {
 		console.log({ data });
+		gotoNextStep();
 	};
 
 	return (
-		<div
+		<form
 			className="p-4 h-full flex flex-col"
 			style={{ maxWidth: 500, width: "100%" }}
+			onSubmit={handleSubmit(onSubmit)}
 		>
 			<div className="flex-1 md:flex md:justify-center md:items-center">
 				<div>
 					<p className={`text-primary text-3xl font-bold`}>Phone Number</p>
 					<p className="text-sm text-gray-500 mb-4">
-						We need to get a sense of your education, experience and skills.
-						It’s quickest to import your information
+						Please enter the phone number of the pro you want to register
 					</p>
 					<div className="border rounded-md p-6 mb-4">
 						<div className="mb-2">
@@ -53,19 +54,19 @@ export function PhoneNumber() {
 			</div>
 			<div className="flex justify-end gap-2">
 				<div className="w-1/2 md:w-1/4">
-					<BaseButton type="button" variant="sec">
+					{/* <BaseButton type="button" variant="sec">
 						Previous
-					</BaseButton>
+					</BaseButton> */}
 				</div>
 				<div className="w-1/2 md:w-1/4">
-					<BaseButton type="button">Next</BaseButton>
+					<BaseButton type="submit">Next</BaseButton>
 				</div>
 			</div>
-		</div>
+		</form>
 	);
 }
 
 PhoneNumber.propTypes = {
-	gotoNext: PropTypes.func,
+	gotoNextStep: PropTypes.func,
 	gotoPrevious: PropTypes.func, // Proper usage of PropTypes
 };

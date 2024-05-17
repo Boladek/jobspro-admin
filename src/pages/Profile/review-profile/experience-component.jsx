@@ -1,5 +1,7 @@
-import edit from "../../../assets/edit-icon.png";
-import deleteIcon from "../../../assets/delete-icon.png";
+// import edit from "../../../assets/edit-icon.png";
+// import deleteIcon from "../../../assets/delete-icon.png";
+import { DeleteIcon } from "../../../assets/delete-icon";
+import { EditIcon } from "../../../assets/edit-icon";
 
 export function ExperienceComponent() {
 	return (
@@ -21,8 +23,10 @@ export function ExperienceComponent() {
 				</p>
 			</div>
 			<div className="flex justify-end gap-2 mt-2">
-				<img src={edit} className="h-7" />
-				<img src={deleteIcon} className="h-7" />
+				{/* <img src={edit} className="h-7" /> */}
+				<EditIcon />
+				{/* <img src={deleteIcon} className="h-7" /> */}
+				<DeleteIcon />
 			</div>
 		</div>
 	);

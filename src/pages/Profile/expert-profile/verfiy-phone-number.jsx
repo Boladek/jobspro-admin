@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { BaseButton } from "../../../component/button";
 import { TimerHook } from "../../../hooks/timer-hooks";
 
-export function VerifyPhoneNumber() {
+export function VerifyPhoneNumber({ gotoNextStep }) {
 	const { timer } = TimerHook({ time: 15 });
 	const [otp, setOtp] = useState("");
 	const {
@@ -16,12 +16,14 @@ export function VerifyPhoneNumber() {
 
 	const onSubmit = (data) => {
 		console.log({ data });
+		gotoNextStep();
 	};
 
 	return (
-		<div
+		<form
 			className="p-4 h-full flex flex-col"
 			style={{ maxWidth: 500, width: "100%" }}
+			onSubmit={handleSubmit(onSubmit)}
 		>
 			<div className="flex-1 md:flex md:justify-center md:items-center">
 				<div style={{ maxWidth: 400, width: "100%" }}>
@@ -37,7 +39,7 @@ export function VerifyPhoneNumber() {
 								<OtpInput
 									value={otp}
 									onChange={setOtp}
-									numInputs={4}
+									numInputs={6}
 									containerStyle="otp-container"
 									inputStyle="otp-input"
 									// inputType="number"
@@ -61,14 +63,14 @@ export function VerifyPhoneNumber() {
 					</BaseButton>
 				</div>
 				<div className="w-1/2 md:w-1/4">
-					<BaseButton type="button">Next</BaseButton>
+					<BaseButton type="submit">Next</BaseButton>
 				</div>
 			</div>
-		</div>
+		</form>
 	);
 }
 
 VerifyPhoneNumber.propTypes = {
-	gotoNext: PropTypes.func,
+	gotoNextStep: PropTypes.func,
 	gotoPrevious: PropTypes.func, // Proper usage of PropTypes
 };

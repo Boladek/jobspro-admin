@@ -9,8 +9,8 @@ export default {
 				accent: "#EA8A13",
 				error: "#FF3B30",
 				dark: "#1E1E1E",
+				light: "#F3F8FF",
 			},
 		},
 	},
-	plugins: [],
 };

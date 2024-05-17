@@ -1,30 +1,36 @@
+import { BriefcaseIcon } from "../../assets/briefcase";
 import hammer from "../../assets/hammer-icon.png";
 import phone from "../../assets/phone-icon.png";
 import search from "../../assets/phone-icon.png";
 import { useNavigate } from "react-router-dom";
+import { SearchIcon } from "../../assets/search-icon";
 
 function RolePage() {
 	const navigate = useNavigate();
 	const roles = [
 		{
-			role: "pros",
+			role: "pro",
 			description: "Available to work for the right price",
 			image: hammer,
+			color: "rgba(21, 111, 181, 1)",
+			icon: BriefcaseIcon,
 		},
 		{
-			role: "customer",
+			role: "business",
 			description: "I’m looking for a trustworthy Pro to work for me",
 			image: search,
+			color: "rgba(238, 21, 81, 1)",
+			icon: SearchIcon,
 		},
-		{
-			role: "agent",
-			description: "Available to manage Pros and earn commission",
-			image: phone,
-		},
+		// {
+		// 	role: "agent",
+		// 	description: "Available to manage Pros and earn commission",
+		// 	image: phone,
+		// },
 	];
 
 	const handleNavigate = (role) => {
-		if (role === "customer") {
+		if (role === "business") {
 			navigate(`${role}/select-customer`);
 		} else {
 			navigate(`${role}/create-account`);
@@ -42,16 +48,17 @@ function RolePage() {
 					<div
 						onClick={() => handleNavigate(role.role)}
 						key={Math.random()}
-						className="border border-gray-200 rounded-md p-4 flex items-center w-full hover:shadow-md cursor-pointer"
+						className="border border-gray-200 rounded-full p-1.5 gap-2 flex items-center w-full hover:shadow-md cursor-pointer text-white"
+						style={{
+							background: role.color,
+						}}
 					>
-						<div className="w-1/5">
-							<img src={role.image} alt={role.description} />
+						<div className={`p-4 rounded-full border bg-white`}>
+							<role.icon fill={role.color} />
 						</div>
-						<div className="w-4/5">
-							<div className={`text-primary capitalize text-2xl font-bold`}>
-								{role.role}
-							</div>
-							<div className="text-xs text-gray-500">{role.description}</div>
+						<div className="flex-1 text-white">
+							<div className="capitalize text-lg font-bold">{role.role}</div>
+							<div className="text-xs">{role.description}</div>
 						</div>
 					</div>
 				))}
