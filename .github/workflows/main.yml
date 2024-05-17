@@ -62,14 +62,32 @@ jobs:
       - name: Checkout main
         uses: actions/checkout@v3
 
+      - name: Add environment variables to .env
+        run: |
+          echo NAMESPACE=${{ secrets.NAMESPACE }} >> .env
+          echo PERSONAL_ACCESS_TOKEN=${{ secrets.PERSONAL_ACCESS_TOKEN }} >> .env
+
+      - name: Add the private SSH key to the ssh-agent
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          mkdir -p ~/.ssh
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          ssh-add - <<< "${{ secrets.PRIVATE_KEY }}"
+
       - name: SSH into EC2 instance and deploy
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.AWS_EC2_IP_ADDRESS }}
-          username: ${{ secrets.AWS_HOST_USER }}
-          key: ${{ secrets.PRIVATE_KEY }}
-          script: |
-            docker pull ghcr.io/finclusionapps/jobspro-web-app/jobspro-app:latest
-            sudo lsof -t -i:8000 | xargs -r sudo kill -9
-            docker rm -f jobsproContainer || true
-            docker run -d -p 8000:80 --name jobsproContainer ghcr.io/finclusionapps/jobspro-web-app/jobspro-app:latest
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          scp -o StrictHostKeyChecking=no -r ./.env "${{secrets.AWS_HOST_USER}}"@"${{secrets.AWS_EC2_IP_ADDRESS}}": || { echo "Error: SCP command failed"; exit 1; }
+          ssh -o StrictHostKeyChecking=no ${{secrets.AWS_HOST_USER}}@${{ secrets.AWS_EC2_IP_ADDRESS }} << EOF
+              docker rmi -f $(docker image ls -a -q)
+              docker image prune -f
+              echo "${{secrets.PERSONAL_ACCESS_TOKEN}}" | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
+              docker pull ghcr.io/finclusionapps/jobspro-web-app/jobspro-app:latest
+              docker container prune -f
+              sudo lsof -t -i:8000 | xargs -r sudo kill -9
+              docker rm -f jobsproContainer || true
+              docker run --env-file=.env -d -p 8000:80 --name jobsproContainer ghcr.io/finclusionapps/jobspro-web-app/jobspro-app:latest
+          EOF
