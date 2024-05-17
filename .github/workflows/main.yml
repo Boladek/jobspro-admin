@@ -15,8 +15,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: checkout feature/deploy-to-EC2
+      - name: checkout dev
         uses: actions/checkout@v3
+        with:
+          ref: dev
 
       - name: Set environment variables to .env
         run: |
@@ -31,7 +33,7 @@ jobs:
           docker pull ${{ env.JOBSPRO_IMAGE }} || true
       - name: Build images
         run: |
-          docker build -t ${{env.JOBSPRO_IMAGE}} .
+          docker build --no-cache -t ${{env.JOBSPRO_IMAGE}} .
       - name: Push images
         run: |
           docker push ${{ env.JOBSPRO_IMAGE }}
