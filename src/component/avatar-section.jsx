@@ -103,7 +103,7 @@ export function AvatarSection() {
 									padding: ".25rem .5rem",
 								}}
 							>
-								{user.userType}
+								{user?.userType}
 							</span>
 						</div>
 					</div>
