@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Industry } from "./expert-profile/industry";
 import { Skill } from "./expert-profile/skill";
 import { ShortBio } from "./expert-profile/short-bio";

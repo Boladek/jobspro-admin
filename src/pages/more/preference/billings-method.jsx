@@ -1,9 +1,9 @@
 import { useState } from "react";
-import deleteIcon from "../../../assets/delete-icon.png";
-import editIcon from "../../../assets/edit-icon.png";
 import { BaseInput } from "../../../component/input";
 import { BaseSelect } from "../../../component/select";
 import { BaseButton } from "../../../component/button";
+import { EditIcon } from "../../../assets/edit-icon";
+import { DeleteIcon } from "../../../assets/delete-icon";
 
 export function BillingsMethod() {
 	const [openSideBar, setOpenSideBar] = useState(false);
@@ -74,16 +74,8 @@ export function BillingsMethod() {
 									{card.default ? "Default" : "Make Default"}
 								</div>
 								<div className="flex gap-2">
-									<img
-										src={editIcon}
-										alt="Delete"
-										className="h-5 hover:opacity-70 cursor-pointer"
-									/>
-									<img
-										src={deleteIcon}
-										alt="Delete"
-										className="h-5 hover:opacity-80 cursor-pointer"
-									/>
+									<EditIcon />
+									<DeleteIcon />
 								</div>
 							</div>
 						</div>

@@ -14,8 +14,8 @@ export function Skill({ gotoPrevious, gotoNextStep }) {
 	} = useForm();
 	const [allTexts, setAllTexts] = useState(texts);
 	const [selectedText, setSelectedText] = useState([]);
-	const [open, setOpen] = useState(false);
-	const [openSuccess, setOpenSuccess] = useState(false);
+	// const [open, setOpen] = useState(false);
+	// const [openSuccess, setOpenSuccess] = useState(false);
 
 	const onSubmit = (data) => {
 		console.log({ data });

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { BillingsPage } from "./billings-page";
+import { TaxInformationPage } from "./tax-information-page";
 
 const tabs = [
 	{ title: "Billings Information", value: "billings" },
@@ -33,7 +34,10 @@ function PreferencePage() {
 					))}
 				</div>
 			</div>
-			<div>{currentTab === "billings" && <BillingsPage />}</div>
+			<div>
+				{currentTab === "billings" && <BillingsPage />}
+				{currentTab === "tax" && <TaxInformationPage />}
+			</div>
 		</div>
 	);
 }

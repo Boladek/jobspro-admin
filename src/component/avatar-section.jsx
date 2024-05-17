@@ -41,6 +41,10 @@ export function AvatarSection() {
 		};
 	}, []);
 
+	function handleLogout() {
+		dispatch(logout());
+	}
+
 	return (
 		<div className="relative">
 			<img
@@ -122,7 +126,7 @@ export function AvatarSection() {
 						<div className="p-1">
 							<div
 								className="flex gap-2 items-center cursor-pointer"
-								onClick={() => dispatch(logout())}
+								onClick={handleLogout}
 							>
 								<img src={logoutIcon} alt="Logout" className="h-6" />
 								<span className="text-xs text-red-500 hover:text-red-700">

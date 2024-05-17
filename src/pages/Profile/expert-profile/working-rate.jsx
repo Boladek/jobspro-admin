@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
-import { colors } from "../../../helpers/theme";
 import { BaseButton } from "../../../component/button";
 import { BaseInput } from "../../../component/input";
 
@@ -82,6 +81,6 @@ export function WorkingRate({ gotoPrevious, gotoNextStep }) {
 }
 
 WorkingRate.propTypes = {
-	gotoNext: PropTypes.func,
+	gotoNextStep: PropTypes.func,
 	gotoPrevious: PropTypes.func, // Proper usage of PropTypes
 };
