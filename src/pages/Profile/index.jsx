@@ -4,14 +4,12 @@ import { ProProfile } from "./pro-profile";
 
 function ClientProfileFlow() {
 	const { role } = useParams();
-	console.log({ role });
 	return (
 		<>
-			{false &&
-				(role === "individual" || role === "business" || role === "agent") && (
-					<ClientProfile />
-				)}
-			{true && <ProProfile />}
+			{(role === "individual" || role === "business" || role === "agent") && (
+				<ClientProfile />
+			)}
+			{role === "pro" && <ProProfile />}
 		</>
 	);
 }

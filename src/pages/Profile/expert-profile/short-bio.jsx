@@ -35,7 +35,7 @@ export function ShortBio({ gotoNextStep, gotoPrevious }) {
 									// required: "This field is required",
 								})}
 								height={10}
-								placeholder="I am senior bricklayer"
+								placeholder="I am most senior dance guru"
 								error={errors.description}
 								errorText={errors.description && errors.description.message}
 							/>

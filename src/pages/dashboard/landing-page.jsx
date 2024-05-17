@@ -16,7 +16,8 @@ function LandingPage() {
 	};
 
 	return (
-		<div>
+		<>
+			<div>Dashboard Page</div>
 			{open && (
 				<Modal open={open} handleClose={() => setOpen(false)}>
 					<div className="w-full p-2">
@@ -49,7 +50,7 @@ function LandingPage() {
 					</div>
 				</Modal>
 			)}
-		</div>
+		</>
 	);
 }
 

@@ -35,6 +35,7 @@ import AdminUsersPage from "../pages/admin/admin-users-page";
 import { PrivateRoutes } from "./private-routes";
 import LandingPage from "../pages/dashboard/landing-page";
 import ClientProfileFlow from "../pages/Profile";
+import AgentProSetupFlow from "../pages/Profile/agent-pro-profile-setup";
 // console.log(profileRoutes);
 
 const router = createBrowserRouter([
@@ -108,8 +109,8 @@ const router = createBrowserRouter([
 						element: <ClientProfileFlow />,
 					},
 					{
-						path: "agent/:role",
-						element: <ClientProfile />,
+						path: "agent/setup",
+						element: <AgentProSetupFlow />,
 					},
 					{
 						path: ":role",
