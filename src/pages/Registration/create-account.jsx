@@ -1,13 +1,13 @@
 import { toast } from "react-toastify";
 import { useGoogleLogin } from "@react-oauth/google";
-import FacebookLogin from "react-facebook-login";
+// import FacebookLogin from "react-facebook-login";
 import axios from "axios";
 // import {
 // 	MsalProvider,
 // 	AuthenticatedTemplate,
 // 	UnauthenticatedTemplate,
 // } from "@azure/msal-react";
-import { PublicClientApplication } from "@azure/msal-browser";
+// import { PublicClientApplication } from "@azure/msal-browser";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -17,22 +17,73 @@ import { BaseSelect } from "../../component/select";
 import eye from "../../assets/eye.png";
 import eyeSlash from "../../assets/eye-slash.png";
 import google from "../../assets/google.png";
-import microsoft from "../../assets/microsoft-icon.png";
-import facebook from "../../assets/facebook.png";
+// import microsoft from "../../assets/microsoft-icon.png";
+// import facebook from "../../assets/facebook.png";
 import { countriesCode } from "../../helpers/countries";
 import customAxios from "../../helpers/customAxios";
 import { Overlay } from "../../component/overlay-component";
 import { colors } from "../../helpers/theme";
-import { configKeys } from "../../helpers/config";
+// import { configKeys } from "../../helpers/config";
+// import {
+// 	LoginSocialGoogle,
+// 	LoginSocialAmazon,
+// 	LoginSocialFacebook,
+// 	LoginSocialGithub,
+// 	LoginSocialInstagram,
+// 	LoginSocialLinkedin,
+// 	LoginSocialMicrosoft,
+// 	LoginSocialPinterest,
+// 	LoginSocialTwitter,
+// 	LoginSocialApple,
+// 	// IResolveParams,
+// } from "reactjs-social-login";
+// import {
+// 	FacebookLoginButton,
+// 	GoogleLoginButton,
+// 	GithubLoginButton,
+// 	AmazonLoginButton,
+// 	InstagramLoginButton,
+// 	LinkedInLoginButton,
+// 	MicrosoftLoginButton,
+// 	TwitterLoginButton,
+// 	AppleLoginButton,
+// } from "react-social-login-buttons";
+
+// const REDIRECT_URI = window.location.href;
+
+/*
+	 
+
+        <LoginSocialGoogle
+          client_id={process.env.REACT_APP_GG_APP_ID || ''}
+          onLoginStart={onLoginStart}
+          redirect_uri={REDIRECT_URI}
+          scope="openid profile email"
+          discoveryDocs="claims_supported"
+          access_type="offline"
+          onResolve={({ provider, data }: IResolveParams) => {
+            setProvider(provider);
+            setProfile(data);
+          }}
+          onReject={err => {
+            console.log(err);
+          }}
+        >
+          <GoogleLoginButton />
+        </LoginSocialGoogle>
+
+        
+
+*/
 
 function CreateAccountPage() {
-	const msalConfig = {
-		auth: {
-			clientId: configKeys.microsoftID,
-			redirectUri: "http://localhost:5173",
-		},
-	};
-	const msalInstance = new PublicClientApplication(msalConfig);
+	// const msalConfig = {
+	// 	auth: {
+	// 		clientId: configKeys.microsoftID,
+	// 		redirectUri: "http://localhost:5173",
+	// 	},
+	// };
+	// const msalInstance = new PublicClientApplication(msalConfig);
 
 	const navigate = useNavigate();
 	const { role } = useParams();
@@ -55,6 +106,7 @@ function CreateAccountPage() {
 	const [numberCharCheck, setNumberCharCheck] = useState(false);
 	const [capitalCheck, setCapitalCheck] = useState(false);
 	const isUpperCase = (string) => /[A-Z]/.test(string);
+	// const [googleCode, setGoogleCode] = useState("");
 
 	const onSubmit = (data) => {
 		if (data.confirmPassword !== data.password) {
@@ -84,12 +136,12 @@ function CreateAccountPage() {
 			.finally(() => setLoading(false));
 	};
 
-	const responseFacebook = (res) => {
-		// console.log(res);
-		setValue("lastName", res.data.first_name);
-		setValue("firstName", res.data.last_name);
-		setValue("email", res.data.email);
-	};
+	// const responseFacebook = (res) => {
+	// 	// console.log(res);
+	// 	setValue("lastName", res.data.first_name);
+	// 	setValue("firstName", res.data.last_name);
+	// 	setValue("email", res.data.email);
+	// };
 
 	const googeLogin = useGoogleLogin({
 		onSuccess: (codeResponse) => {
@@ -116,17 +168,17 @@ function CreateAccountPage() {
 		onError: (error) => console.log("Login Failed:", error),
 	});
 
-	const mirosoftLogin = async () => {
-		const loginRequest = {
-			scopes: ["openid", "profile", "User.Read"],
-		};
-		try {
-			const loginResponse = await msalInstance.loginPopup(loginRequest);
-			console.log("loginResponse", loginResponse);
-		} catch (error) {
-			console.log("loginError", error);
-		}
-	};
+	// const mirosoftLogin = async () => {
+	// 	const loginRequest = {
+	// 		scopes: ["openid", "profile", "User.Read"],
+	// 	};
+	// 	try {
+	// 		const loginResponse = await msalInstance.loginPopup(loginRequest);
+	// 		console.log("loginResponse", loginResponse);
+	// 	} catch (error) {
+	// 		console.log("loginError", error);
+	// 	}
+	// };
 
 	// useEffect(() => {
 	// 	async function initializeMsal() {
@@ -167,6 +219,18 @@ function CreateAccountPage() {
 		document.title = "Jobs Pro | Signup";
 	}, []);
 
+	// const onLoginStart = useCallback(() => {
+	// 	alert("login start");
+	// }, []);
+
+	// const onLogoutSuccess = useCallback(() => {
+	// 	// setProfile(null);
+	// 	// setProvider("");
+	// 	// alert("logout success");
+	// }, []);
+
+	// const onLogout = useCallback(() => {}, []);
+
 	return (
 		<form
 			style={{ maxWidth: 400, width: "100%" }}
@@ -191,28 +255,45 @@ function CreateAccountPage() {
 						>
 							<img src={google} className="h-5" alt="Google login" />{" "}
 							<span className="cursor-pointer">Google</span>
-						</div>
-						<div
-							className="flex-1 flex gap-1 items-center bg-gray-200 p-2 text-xs rounded-full justify-center hover:bg-gray-100 hover:outline hover:outline-1"
-							// onClick={googeLogin}
-						>
-							<img src={facebook} className="h-5" alt="Facebook login" />{" "}
-							<FacebookLogin
-								appId="608413574262901"
-								autoLoad={true}
-								fields="name,email,picture"
-								cssClass="text-xs cursor-pointer hover:underline"
-								// onClick={componentClicked}
-								callback={responseFacebook}
-								textButton="Facebook"
-							/>
-						</div>
-						<div
-							className="flex-1 flex gap-1 items-center bg-gray-200 p-2 text-xs rounded-full justify-center hover:bg-gray-100 hover:outline hover:outline-1 cursor-pointer"
-							onClick={mirosoftLogin}
-						>
-							<img src={microsoft} className="h-5" alt="Google login" />{" "}
-							<span className="cursor-pointer">Microsoft</span>
+							{/* <LoginSocialGoogle
+								client_id="568708133732-3uivs8429tig4nel8hgtq3q9m9b39hd3.apps.googleusercontent.com"
+								onLoginStart={onLoginStart}
+								redirect_uri={REDIRECT_URI}
+								scope="openid profile email"
+								discoveryDocs="claims_supported"
+								access_type="offline"
+								onResolve={({ provider, data }) => {
+									// setProvider(provider);
+									// setProfile(data);
+									// console.log({ provider, data });
+									// setGoogleCode(data.code);
+
+									axios
+										.get(
+											`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${data.code}`,
+											{
+												headers: {
+													Authorization: `Bearer ${data.code}`,
+													Accept: "application/json",
+												},
+											}
+										)
+										.then((res) => {
+											// setProfile(res.data);
+											console.log({ res });
+											setValue("lastName", res.data.family_name);
+											setValue("firstName", res.data.given_name);
+											setValue("email", res.data.email);
+											// setValue("companyName", res.data.name);
+										})
+										.catch((err) => console.log(err));
+								}}
+								onReject={(err) => {
+									console.log(err);
+								}}
+							>
+								<GoogleLoginButton />
+							</LoginSocialGoogle> */}
 						</div>
 					</div>
 					<div className="flex items-center mb-4 text-xs text-gray-400 gap-2">
@@ -447,3 +528,67 @@ function checkForNumber(string) {
 	}
 	return false;
 }
+
+/*
+
+<div
+							className="flex-1 flex gap-1 items-center bg-gray-200 p-2 text-xs rounded-full justify-center hover:bg-gray-100 hover:outline hover:outline-1"
+							// onClick={googeLogin}
+						>
+							{/* <img src={facebook} className="h-5" alt="Facebook login" />{" "}
+							<FacebookLogin
+								appId="608413574262901"
+								autoLoad={true}
+								fields="name,email,picture"
+								cssClass="text-xs cursor-pointer hover:underline"
+								// onClick={componentClicked}
+								callback={responseFacebook}
+								textButton="Facebook"
+							/> 
+						
+							<LoginSocialFacebook
+								appId="608413574262901"
+								fieldsProfile={
+									"id,first_name,last_name,middle_name,name,name_format,picture,short_name,email,gender"
+								}
+								onLoginStart={onLoginStart}
+								onLogoutSuccess={onLogoutSuccess}
+								redirect_uri={REDIRECT_URI}
+								onResolve={({ provider, data }) => {
+									// setProvider(provider);
+									// setProfile(data);
+									console.log({ provider, data });
+								}}
+								onReject={(err) => {
+									console.log(err);
+								}}
+							>
+								<FacebookLoginButton />
+							</LoginSocialFacebook>
+						</div>
+
+							{/*
+						<div
+							className="flex-1 flex gap-1 items-center bg-gray-200 p-2 text-xs rounded-full justify-center hover:bg-gray-100 hover:outline hover:outline-1 cursor-pointer"
+							onClick={mirosoftLogin}
+						>
+							
+							<LoginSocialMicrosoft
+								client_id="833ec980-62e1-40a3-ac75-a082e2edd517"
+								redirect_uri={REDIRECT_URI}
+								onLoginStart={onLoginStart}
+								onResolve={({ provider, data }) => {
+									// setProvider(provider);
+									// setProfile(data);
+									console.log({ data, provider });
+								}}
+								onReject={(err) => {
+									console.log(err);
+								}}
+							>
+								<MicrosoftLoginButton />
+							</LoginSocialMicrosoft> 
+							{/* <img src={microsoft} className="h-5" alt="Google login" />{" "}
+							<span className="cursor-pointer">Microsoft</span> 
+						{/* </div> 
+*/
