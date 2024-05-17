@@ -13,7 +13,7 @@ export function SearchComponent() {
 			/>
 			<input
 				placeholder="Search..."
-				className="w-full pl-8 px-3 py-2 border text-sm rounded-md focus:outline-none focus:border-[#004B88]"
+				className="w-full pl-8 px-3 py-2 border text-sm rounded-md focus:outline-none focus:border-primary"
 			/>
 		</div>
 	);

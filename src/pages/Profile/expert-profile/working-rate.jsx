@@ -1,10 +1,9 @@
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
-import { colors } from "../../../helpers/theme";
 import { BaseButton } from "../../../component/button";
 import { BaseInput } from "../../../component/input";
 
-export function WorkingRate() {
+export function WorkingRate({ gotoPrevious, gotoNextStep }) {
 	const {
 		register,
 		formState: { errors },
@@ -13,18 +12,18 @@ export function WorkingRate() {
 
 	const onSubmit = (data) => {
 		console.log({ data });
+		gotoNextStep();
 	};
 
 	return (
-		<div
+		<form
 			className="p-4 h-full flex flex-col"
 			style={{ maxWidth: 500, width: "100%" }}
+			onSubmit={handleSubmit(onSubmit)}
 		>
 			<div className="flex-1 md:flex md:justify-center md:items-center">
 				<div style={{ maxWidth: 500, width: "100%" }}>
-					<p className={`text-[${colors.primary}] text-3xl font-bold`}>
-						Working rate
-					</p>
+					<p className={`text-primary text-3xl font-bold`}>Working rate</p>
 					<p className="text-sm text-gray-500 mb-4">
 						More information should be placed here
 					</p>
@@ -37,7 +36,7 @@ export function WorkingRate() {
 								<div
 									key={item}
 									// onClick={() => handleNavigate(item)}
-									className={`capitalize p-2 flex-1 border-2 border-[#206DB0] text-[${colors.primary}] rounded-full text-center hover:bg-[#206DB0] hover:text-white cursor-pointer font-bold`}
+									className={`capitalize p-2 flex-1 border-2 border-[#206DB0] text-primary rounded-full text-center hover:bg-[#206DB0] hover:text-white cursor-pointer font-bold`}
 								>
 									{item}
 								</div>
@@ -69,19 +68,19 @@ export function WorkingRate() {
 			</div>
 			<div className="flex justify-end gap-2">
 				<div className="w-1/2 md:w-1/4">
-					<BaseButton type="button" variant="sec">
+					<BaseButton type="button" variant="sec" onClick={gotoPrevious}>
 						Previous
 					</BaseButton>
 				</div>
 				<div className="w-1/2 md:w-1/4">
-					<BaseButton type="button">Next</BaseButton>
+					<BaseButton type="submit">Next</BaseButton>
 				</div>
 			</div>
-		</div>
+		</form>
 	);
 }
 
 WorkingRate.propTypes = {
-	gotoNext: PropTypes.func,
+	gotoNextStep: PropTypes.func,
 	gotoPrevious: PropTypes.func, // Proper usage of PropTypes
 };

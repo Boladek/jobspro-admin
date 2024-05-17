@@ -2,11 +2,10 @@ import OtpInput from "react-otp-input";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
-import { colors } from "../../../helpers/theme";
 import { BaseButton } from "../../../component/button";
 import { TimerHook } from "../../../hooks/timer-hooks";
 
-export function VerifyPhoneNumber() {
+export function VerifyPhoneNumber({ gotoNextStep }) {
 	const { timer } = TimerHook({ time: 15 });
 	const [otp, setOtp] = useState("");
 	const {
@@ -17,16 +16,18 @@ export function VerifyPhoneNumber() {
 
 	const onSubmit = (data) => {
 		console.log({ data });
+		gotoNextStep();
 	};
 
 	return (
-		<div
+		<form
 			className="p-4 h-full flex flex-col"
 			style={{ maxWidth: 500, width: "100%" }}
+			onSubmit={handleSubmit(onSubmit)}
 		>
 			<div className="flex-1 md:flex md:justify-center md:items-center">
 				<div style={{ maxWidth: 400, width: "100%" }}>
-					<p className={`text-[${colors.primary}] text-3xl font-bold`}>
+					<p className={`text-primary text-3xl font-bold`}>
 						Verify Phone Number
 					</p>
 					<p className="text-sm text-gray-500 mb-4">
@@ -38,7 +39,7 @@ export function VerifyPhoneNumber() {
 								<OtpInput
 									value={otp}
 									onChange={setOtp}
-									numInputs={4}
+									numInputs={6}
 									containerStyle="otp-container"
 									inputStyle="otp-input"
 									// inputType="number"
@@ -57,17 +58,19 @@ export function VerifyPhoneNumber() {
 			</div>
 			<div className="flex justify-end gap-2">
 				<div className="w-1/2 md:w-1/4">
-					<BaseButton type="button" variant="sec">Previous</BaseButton>
+					<BaseButton type="button" variant="sec">
+						Previous
+					</BaseButton>
 				</div>
 				<div className="w-1/2 md:w-1/4">
-					<BaseButton type="button">Next</BaseButton>
+					<BaseButton type="submit">Next</BaseButton>
 				</div>
 			</div>
-		</div>
+		</form>
 	);
 }
 
 VerifyPhoneNumber.propTypes = {
-	gotoNext: PropTypes.func,
+	gotoNextStep: PropTypes.func,
 	gotoPrevious: PropTypes.func, // Proper usage of PropTypes
 };

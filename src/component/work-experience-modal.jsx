@@ -38,7 +38,7 @@ export function WorkExperienceModal({ open, handleClose, form = {} }) {
 					<div className="hidden md:block">
 						<img src={work} alt="Illustration" height="50" className="h-24" />
 					</div>
-					<p className={`font-bold text-[${colors.primary}] text-2xl`}>
+					<p className={`font-bold text-primary text-2xl`}>
 						Add work Experience
 					</p>
 				</div>

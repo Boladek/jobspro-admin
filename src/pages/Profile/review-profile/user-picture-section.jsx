@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { colors } from "../../../helpers/theme";
-import deleteIcon from "../../../assets/delete-icon.png";
 import editIcon from "../../../assets/edit.png";
 import location from "../../../assets/location.png";
+import avatar from "../../../assets/profile-avatar.png";
 
 export function UserPictureSection() {
 	// eslint-disable-next-line no-unused-vars
@@ -22,7 +21,7 @@ export function UserPictureSection() {
 		<div className="flex flex-col gap-2 items-center mb-4">
 			<label className="relative block" id="pic-upload">
 				<img
-					src={preview ?? deleteIcon}
+					src={preview ?? avatar}
 					className="h-28 w-28 shadow-md border rounded-full"
 				/>
 				<span
@@ -51,7 +50,7 @@ export function UserPictureSection() {
 				</div>
 			</div>
 			<div
-				className={`py-2 px-2 flex items-center gap-2 border border-[${colors.primary}] text-xs rounded-full items-center font-bold bg-blue-50`}
+				className={`py-2 px-2 flex items-center gap-2 border border-primary text-xs rounded-full items-center font-bold bg-blue-50`}
 			>
 				Gardener
 				<img src={editIcon} alt="edit" />

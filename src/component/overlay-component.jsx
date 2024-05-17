@@ -3,9 +3,8 @@ import PropTypes from "prop-types";
 export function Overlay({ message = "" }) {
 	return (
 		<div
-			className="fixed w-full top-0 left-0 h-screen z-1000 flex justify-center items-center"
+			className="fixed w-full top-0 left-0 h-screen z-1000 flex justify-center items-center bg-primary/70"
 			style={{
-				background: "rgba(32, 109, 176, .7)",
 				zIndex: 10000000,
 			}}
 		>
