@@ -23,6 +23,7 @@ import { countriesCode } from "../../helpers/countries";
 import customAxios from "../../helpers/customAxios";
 import { Overlay } from "../../component/overlay-component";
 import { colors } from "../../helpers/theme";
+import profileAxios from "../../helpers/profileAxios";
 // import { configKeys } from "../../helpers/config";
 // import {
 // 	LoginSocialGoogle,
@@ -116,7 +117,7 @@ function CreateAccountPage() {
 			return;
 		}
 		setLoading(true);
-		customAxios
+		profileAxios
 			.post("/auth/signup", {
 				email: data.email.trim(),
 				password: data.password,

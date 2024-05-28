@@ -8,9 +8,15 @@ import logoutIcon from "../assets/logout.png";
 import { BaseButton } from "./button";
 import { Switch } from "./switch";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../store/slices/authSlice";
+import { logout, loginSuccess } from "../store/slices/authSlice";
+import { UseAuth } from "../context/auth-context";
+import profileAxios from "../helpers/profileAxios";
+import { toast } from "react-toastify";
+import { Overlay } from "./overlay-component";
 
 export function AvatarSection() {
+	const [loading, setLoading] = useState(false);
+	const { user: details } = UseAuth();
 	const dispatch = useDispatch();
 	const { user } = useSelector((state) => state.auth);
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -64,11 +70,35 @@ export function AvatarSection() {
 		}
 	}, [isDropdownOpen]);
 
+	const handleSwitch = () => {
+		let switchType;
+		if (user.userType === "pro") {
+			switchType = "business";
+		} else {
+			switchType = "pro";
+		}
+		setLoading(true);
+
+		profileAxios
+			.post("/profile/switch-account", {
+				newType: switchType,
+			})
+			.then((res) => {
+				const newDetails = { ...user, userType: res.data.userType };
+				dispatch(loginSuccess(newDetails));
+				toast.success(res.message);
+			})
+			.catch((err) => toast.error(err.response.data.message))
+			.finally(() => setLoading(false));
+	};
+
+	// console.log({ user });
+
 	return (
 		<div className="relative">
 			<img
-				src={avatar}
-				className="h-9 cursor-pointer hover:opacity-80"
+				src={details.profilePicture ?? avatar}
+				className="h-9 w-9 rounded-full cursor-pointer hover:opacity-80"
 				id="menu-button"
 				aria-haspopup="true"
 				onClick={toggleDropdown}
@@ -87,14 +117,14 @@ export function AvatarSection() {
 					<div className="flex gap-1 items-center mb-4" role="none">
 						<div>
 							<img
-								src={avatar}
-								className="h-12 cursor-pointer hover:opacity-80"
+								src={details.profilePicture ?? avatar}
+								className="h-12 w-12 rounded-full cursor-pointer hover:opacity-80"
 								alt="Avatar"
 							/>
 						</div>
 						<div>
 							<div className="text-sm font-bold flex gap-1 items-center">
-								<span>FirstName LastName</span>
+								<span>{`${user.firstName} ${user.lastName}`}</span>
 								<img src={tickIcon} alt="Tick circle" className="h-5" />
 							</div>
 							<span
@@ -108,7 +138,7 @@ export function AvatarSection() {
 						</div>
 					</div>
 					<div className="mb-4">
-						<BaseButton variant="sec" size="small">
+						<BaseButton variant="sec" size="small" onClick={handleSwitch}>
 							Switch to Business
 						</BaseButton>
 					</div>
@@ -156,6 +186,8 @@ export function AvatarSection() {
 					</div>
 				</div>
 			)}
+
+			{loading && <Overlay message="Switching Account" />}
 		</div>
 	);
 }

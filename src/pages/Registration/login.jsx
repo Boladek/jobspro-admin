@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { BaseInput } from "../../component/input";
 import { BaseButton } from "../../component/button";
-import { Checkbox } from "../../component/checkbox";
+// import { Checkbox } from "../../component/checkbox";
 import { Overlay } from "../../component/overlay-component";
 import eye from "../../assets/eye.png";
 import eyeSlash from "../../assets/eye-slash.png";
@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import StorageService from "../../helpers/storage";
 import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "../../store/slices/authSlice";
+import profileAxios from "../../helpers/profileAxios";
 
 function LoginPage() {
 	const navigate = useNavigate();
@@ -27,18 +28,17 @@ function LoginPage() {
 		handleSubmit,
 	} = useForm();
 	const [password, setPassword] = useState(true);
-	const [remember, setRemember] = useState(false);
+	// const [remember, setRemember] = useState(false);
 	const onSubmit = (data) => {
 		console.log({ data });
 		// return;
 		setLoading(true);
-		customAxios
+		profileAxios
 			.post("/auth/login", {
 				username: data.username.trim(),
 				password: data.password.trim(),
 			})
 			.then((res) => {
-				StorageService.setUser(res.user);
 				StorageService.setToken(res.token);
 				dispatch(loginSuccess(res.user));
 				navigate("/dashboard");
@@ -128,12 +128,12 @@ function LoginPage() {
 			)}
 			<div className="flex items-center justify-between mb-8">
 				<div>
-					<Checkbox
+					{/* <Checkbox
 						textPosition="right"
 						value={remember}
 						onChange={(e) => setRemember(e.target.checked)}
 						label="Remember me for 30 days"
-					/>
+					/> */}
 				</div>
 				<div
 					className={`text-sm text-primary font-semibold hover:underline`}

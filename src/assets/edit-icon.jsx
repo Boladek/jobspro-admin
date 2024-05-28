@@ -1,8 +1,10 @@
-export function EditIcon() {
+import PropTypes from "prop-types";
+
+export function EditIcon({ size = 1 }) {
 	return (
 		<svg
-			width="30"
-			height="30"
+			width={size * 30}
+			height={size * 30}
 			viewBox="0 0 32 32"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
@@ -23,3 +25,7 @@ export function EditIcon() {
 		</svg>
 	);
 }
+
+EditIcon.propTypes = {
+	size: PropTypes.number,
+};

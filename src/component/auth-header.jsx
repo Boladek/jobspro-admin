@@ -7,6 +7,7 @@ import { useState } from "react";
 import { SearchComponent } from "./search-component";
 import { useNavigate } from "react-router-dom";
 import { AvatarSection } from "./avatar-section";
+import { UseAuth } from "../context/auth-context";
 // import { useSelector } from "react-redux";
 
 // const links = ["dashboard", "tasks", "messages", "wallets", "settings"];
@@ -38,8 +39,8 @@ export function AuthHeader() {
 					<div className="absolute inset-0 opacity-50 hover:bg-gray-50 z-10"></div>
 				</div>
 				<div className="hidden md:flex gap-1">
-					{links.map((link) => (
-						<LinkElement key={link} link={link} />
+					{links.map((link, index) => (
+						<LinkElement key={link.title + index} link={link} />
 					))}
 				</div>
 			</div>
@@ -82,8 +83,8 @@ export function AuthHeader() {
 					<SearchComponent />
 					<br />
 					<div className="flex flex-col gap-2">
-						{links.map((link) => (
-							<div key={link} className="w-24">
+						{links.map((link, index) => (
+							<div key={link.title + index} className="w-24">
 								<LinkElement link={link} />
 							</div>
 						))}

@@ -2,6 +2,10 @@ import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
 import { BaseButton } from "../../../component/button";
 import { BaseTextArea } from "../../../component/text-area";
+import { useState } from "react";
+import profileAxios from "../../../helpers/profileAxios";
+import { toast } from "react-toastify";
+import { Overlay } from "../../../component/overlay-component";
 
 export function ShortBio({ gotoNextStep, gotoPrevious }) {
 	const {
@@ -9,10 +13,22 @@ export function ShortBio({ gotoNextStep, gotoPrevious }) {
 		formState: { errors },
 		handleSubmit,
 	} = useForm();
+	const [loading, setLoading] = useState(false);
 
 	const onSubmit = (data) => {
 		console.log({ data });
-		gotoNextStep();
+
+		setLoading(true);
+		profileAxios
+			.patch("/profile/bio", {
+				bio: data.description,
+			})
+			.then((res) => {
+				toast.success(res.message);
+				gotoNextStep();
+			})
+			.catch((err) => toast.error(err.response.data.message))
+			.finally(() => setLoading(false));
 	};
 
 	return (
@@ -21,6 +37,7 @@ export function ShortBio({ gotoNextStep, gotoPrevious }) {
 			style={{ maxWidth: 500, width: "100%" }}
 			onSubmit={handleSubmit(onSubmit)}
 		>
+			{loading && <Overlay message="Updating Bio" />}
 			<div className="flex-1 md:flex md:justify-center md:items-center">
 				<div className="w-full">
 					<p className={`text-primary text-3xl font-bold`}>Short Bio</p>

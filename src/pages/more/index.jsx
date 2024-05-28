@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import profile from "../../assets/profile.png";
 import earnings from "../../assets/earnings.png";
@@ -13,6 +13,7 @@ const links = [
 	{ title: "Earning", img: earnings, url: "earning" },
 	{ title: "Preferences", img: settings, url: "preferences" },
 	{ title: "Stats", img: stats, url: "stats" },
+	{ title: "KYC", img: stats, url: "kyc" },
 	{ title: "Favourites", img: favourites, url: "favourites" },
 	{ title: "Help & Support", img: help, url: "help-and-support" },
 ];
@@ -75,7 +76,7 @@ function MorePage() {
 				</div>
 			</div>
 			<div className="flex-1 p-2">
-				<div className="bg-white h-full w-full p-4 rounded-md">
+				<div className="bg-white h-full w-full rounded-md overflow-hidden">
 					<Outlet />
 				</div>
 			</div>

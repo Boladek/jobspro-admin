@@ -1,24 +1,36 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
 import { BaseButton } from "../../../component/button";
 import info from "../../../assets/info.png";
 import upload from "../../../assets/upload-icon.png";
 import document from "../../../assets/document.png";
 import trash from "../../../assets/trash-bold.png";
+import profileAxios from "../../../helpers/profileAxios";
+import { toast } from "react-toastify";
+import { Overlay } from "../../../component/overlay-component";
 
 export function Resume({ gotoNextStep, gotoPrevious }) {
-	const {
-		register,
-		formState: { errors },
-		handleSubmit,
-	} = useForm();
+	const [loading, setLoading] = useState(false);
 	const [selected, setSelected] = useState(null);
 	const [file, setFile] = useState(null);
 
-	const onSubmit = (data) => {
-		console.log({ data });
-		gotoNextStep();
+	const onSubmit = (e) => {
+		e.preventDefault();
+		const formData = new FormData();
+		formData.append("file", file);
+		setLoading(true);
+		profileAxios
+			.post("/profile/upload-resume", formData, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+				},
+			})
+			.then(() => {
+				toast.success("Image uploaded successfully!");
+				gotoNextStep();
+			})
+			.catch((err) => toast.error(err.response.data.message))
+			.finally(() => setLoading(false));
 	};
 
 	const handleProfile = (e) => {
@@ -32,8 +44,9 @@ export function Resume({ gotoNextStep, gotoPrevious }) {
 		<form
 			className="p-4 h-full flex flex-col"
 			style={{ maxWidth: 500, width: "100%" }}
-			onSubmit={handleSubmit(onSubmit)}
+			onSubmit={onSubmit}
 		>
+			{loading && <Overlay message="Uploading Resume" />}
 			<div className="flex-1 md:flex md:justify-center md:items-center">
 				<div style={{ maxWidth: 500, width: "100%" }}>
 					<div className="flex gap-1 items-center border rounded-md p-2 mb-4">
@@ -82,7 +95,7 @@ export function Resume({ gotoNextStep, gotoPrevious }) {
 							type="file"
 							className="hidden relative z-1"
 							onChange={handleProfile}
-							accept="image/*"
+							// accept="image/*"
 						/>
 					</label>
 					<p className="text-xs text-gray-500 mb-4">

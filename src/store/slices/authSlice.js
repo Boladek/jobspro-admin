@@ -6,20 +6,21 @@ const authSlice = createSlice({
 	name: "auth",
 	initialState: {
 		isProcessing: false,
-		user: null,
+		user: {},
 		isAuthenticated: false,
 	},
 	reducers: {
 		logout(state) {
 			state.isProcessing = false;
 			state.isAuthenticated = false;
-			state.user = null;
-			window.location = "/";
 			StorageService.clearStorage();
+			window.location = "/";
+			state.user = {};
 		},
 		loginSuccess(state, action) {
 			state.isAuthenticated = !isEmpty(action.payload);
 			state.user = action.payload;
+			StorageService.setUser(action.payload);
 			state.message = "";
 			state.error = "";
 		},

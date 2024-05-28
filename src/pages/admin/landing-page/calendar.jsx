@@ -18,7 +18,7 @@ export function Calendar({
 	const [open, setOpen] = useState(false);
 	return (
 		<div
-			className="border px-2 py-2 rounded-full flex items-center gap-1 text-xs"
+			className="border px-2 py-2 rounded-full flex items-center gap-1 text-xs max-w-fit"
 			onClick={() => setOpen(true)}
 		>
 			<span>{formatDate(startDate)}</span>

@@ -12,6 +12,7 @@ import ReviewProfilePage from "../pages/Profile/review-profile";
 import NotFoundPage from "../pages/not-found-page";
 import MorePage from "../pages/more";
 import { MainLayout } from "../component/main-layout";
+import ProfilePage from "../pages/more/profile";
 import PreferencePage from "../pages/more/preference/index";
 import { AdminLayout } from "../component/admin/admin-layout";
 import AdminLandingPage from "../pages/admin/admin-landing-page";
@@ -19,11 +20,14 @@ import AdminMessagesPage from "../pages/admin/admin-messages-page";
 import AdminPushNotificationsPage from "../pages/admin/admin-push-notifications-page";
 import AdminJobsPage from "../pages/admin/admin-jobs-page";
 import AdminDisputesPage from "../pages/admin/admin-disputes-page";
-import AdminUsersPage from "../pages/admin/admin-users-page";
+import AdminUsersPage from "../pages/admin/users/index";
+import AdminUserDetailsPage from "../pages/admin/users/admin-user-details-page";
 import { PrivateRoutes } from "./private-routes";
 import LandingPage from "../pages/dashboard/landing-page";
 import ClientProfileFlow from "../pages/Profile";
 import AgentProSetupFlow from "../pages/Profile/agent-pro-profile-setup";
+import EarningsPage from "../pages/more/earnings";
+import KYCPage from "../pages/more/kyc";
 
 const router = createBrowserRouter([
 	{
@@ -79,9 +83,14 @@ const router = createBrowserRouter([
 				element: <MorePage />,
 				children: [
 					{ path: "preferences", element: <PreferencePage /> },
-					{ path: "profile", element: <div>Profile</div> },
-					{ path: "earning", element: <div>Earning</div> },
+					{ path: "profile", element: <ProfilePage /> },
+					{
+						path: "earning",
+						element: <Outlet />,
+						children: [{ index: true, element: <EarningsPage /> }],
+					},
 					{ path: "stats", element: <div>Stats</div> },
+					{ path: "kyc", element: <KYCPage /> },
 					{ path: "favourites", element: <div>Favourites</div> },
 					{ path: "help-and-support", element: <div>Help & Support</div> },
 				],
@@ -124,8 +133,13 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "users",
-				element: <AdminUsersPage />,
+				element: <Outlet />,
+				children: [
+					{ index: true, element: <AdminUsersPage /> },
+					{ path: ":userId", element: <AdminUserDetailsPage /> },
+				],
 			},
+
 			{
 				path: "push-notifications",
 				element: <AdminPushNotificationsPage />,

@@ -24,7 +24,7 @@ export function LinkElement({ link }) {
 }
 
 LinkElement.propTypes = {
-	link: PropTypes.string,
+	link: PropTypes.object,
 	isSelected: PropTypes.bool,
 	handleLink: PropTypes.func,
 };

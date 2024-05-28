@@ -1,8 +1,10 @@
-export function DeleteIcon() {
+import PropTypes from "prop-types";
+
+export function DeleteIcon({ size = 1 }) {
 	return (
 		<svg
-			width="32"
-			height="32"
+			width={32 * size}
+			height={32 * size}
 			viewBox="0 0 32 32"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
@@ -31,3 +33,7 @@ export function DeleteIcon() {
 		</svg>
 	);
 }
+
+DeleteIcon.propTypes = {
+	size: PropTypes.number,
+};

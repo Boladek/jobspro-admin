@@ -1,37 +1,54 @@
-import { useForm } from "react-hook-form";
+// import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
 import { BaseButton } from "../../../component/button";
 import { BaseInput } from "../../../component/input";
+import { useState } from "react";
+import { formatNumber } from "../../../helpers/function";
+import { toast } from "react-toastify";
+import profileAxios from "../../../helpers/profileAxios";
+import { Overlay } from "../../../component/overlay-component";
 
 export function WorkingRate({ gotoPrevious, gotoNextStep }) {
-	const {
-		register,
-		formState: { errors },
-		handleSubmit,
-	} = useForm();
+	const [fee, setFee] = useState("");
+	const [loading, setLoading] = useState(false);
 
-	const onSubmit = (data) => {
-		console.log({ data });
-		gotoNextStep();
+	const handleFee = (e) => {
+		const { value } = e.target;
+		setFee(value);
+	};
+
+	const submit = (e) => {
+		e.preventDefault();
+		setLoading(true);
+		profileAxios
+			.patch("profile/working-rate", {
+				workingRateType: "daily",
+				workingRateAmount: Number(fee),
+				currency: "NGN",
+			})
+			.then((res) => {
+				toast.success(res.message);
+				gotoNextStep();
+			})
+			.catch((err) => toast.error(err.response.data.message))
+			.finally(() => setLoading(false));
 	};
 
 	return (
 		<form
 			className="p-4 h-full flex flex-col"
-			style={{ maxWidth: 500, width: "100%" }}
-			onSubmit={handleSubmit(onSubmit)}
+			divtyle={{ maxWidth: 500, width: "100%" }}
+			onSubmit={submit}
 		>
+			{loading && <Overlay message="Updating Work Rate" />}
 			<div className="flex-1 md:flex md:justify-center md:items-center">
 				<div style={{ maxWidth: 500, width: "100%" }}>
 					<p className={`text-primary text-3xl font-bold`}>Working rate</p>
 					<p className="text-sm text-gray-500 mb-4">
 						More information should be placed here
 					</p>
-					<form
-						onSubmit={handleSubmit(onSubmit)}
-						className="border rounded-md p-6 mb-4"
-					>
-						<div className="flex gap-3 w-3/5 mb-4">
+					<div className="border rounded-md p-6 mb-4">
+						{/* <div className="flex gap-3 w-3/5 mb-4">
 							{["hourly", "daily"].map((item) => (
 								<div
 									key={item}
@@ -41,27 +58,29 @@ export function WorkingRate({ gotoPrevious, gotoNextStep }) {
 									{item}
 								</div>
 							))}
-						</div>
+						</div> */}
 						<div className="mb-2">
 							<BaseInput
-								label="Hourly Rate"
-								{...register("rate", {
-									required: "This field is required",
-								})}
-								error={errors.rate}
-								errorText={errors.rate && errors.rate.message}
+								label="Enter Rate"
+								value={fee}
+								onChange={handleFee}
+								type="number"
 							/>
 						</div>
-					</form>
+					</div>
 					<div>
-						<div className="mb-2">
+						{/* <div className="mb-2">
 							<p className="text-xs">Service Fee(10%)</p>
 							<p className="font-bold text-2xl">NGN 200</p>
-						</div>
+						</div> */}
 						<hr />
-						<div className="my-2">
-							<p className="text-xs">Amount you will recieve</p>
-							<p className="font-bold text-2xl">NGN 1800 /Daily</p>
+						<div className="mt-4">
+							<p className="text-xs text-gray-700">
+								Amount you&apos;ll receive
+							</p>
+							<p className="font-bold text-lg">
+								NGN {formatNumber(fee - fee / 10)}/ Daily
+							</p>
 						</div>
 					</div>
 				</div>

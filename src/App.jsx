@@ -9,10 +9,12 @@ import store from "./store";
 import { loginSuccess } from "./store/slices/authSlice";
 import StorageService from "./helpers/storage";
 import { auth } from "./helpers/auth";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 if (auth()) {
 	const user = StorageService.getUser();
-	console.log({ user });
 	store.dispatch(loginSuccess(user));
 }
 
@@ -26,11 +28,13 @@ const pca = new PublicClientApplication(configuration);
 
 export default function App() {
 	return (
-		<MsalProvider instance={pca}>
-			<GoogleOAuthProvider clientId={configKeys.googleId}>
-				<ToastContainer />
-				<BaseRoutes />
-			</GoogleOAuthProvider>
-		</MsalProvider>
+		<QueryClientProvider client={queryClient}>
+			<MsalProvider instance={pca}>
+				<GoogleOAuthProvider clientId={configKeys.googleId}>
+					<ToastContainer />
+					<BaseRoutes />
+				</GoogleOAuthProvider>
+			</MsalProvider>
+		</QueryClientProvider>
 	);
 }
