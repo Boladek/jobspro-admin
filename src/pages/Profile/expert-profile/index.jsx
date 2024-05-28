@@ -11,7 +11,7 @@ import { PhoneNumber } from "./phone-number";
 import { VerifyPhoneNumber } from "./verfiy-phone-number";
 
 function ExpertProfile() {
-	const [step, setStep] = useState(10);
+	const [step, setStep] = useState(1);
 
 	return (
 		<div style={{ width: "100%" }} className="p-4">

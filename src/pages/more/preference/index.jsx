@@ -16,7 +16,7 @@ function PreferencePage() {
 	const [currentTab, setCurrentTab] = useState(tabs[0].value);
 
 	return (
-		<div>
+		<div className="p-4">
 			<div className="flex justify-center border-b pb-4">
 				<div className="flex bg-[#F3F8FF] rounded-full p-1 overflow-x-auto">
 					{tabs.map((item) => (

@@ -1,44 +1,52 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
 import { BaseButton } from "../../../component/button";
-import { BaseSelect } from "../../../component/select";
-
-const texts = ["hello", "world", "city", "country", "state"];
+import { BaseInput } from "../../../component/input";
+import profileAxios from "../../../helpers/profileAxios";
+import { toast } from "react-toastify";
+import { Overlay } from "../../../component/overlay-component";
 
 export function Skill({ gotoPrevious, gotoNextStep }) {
-	const {
-		register,
-		formState: { errors },
-		handleSubmit,
-	} = useForm();
-	const [allTexts, setAllTexts] = useState(texts);
+	const [loading, setLoading] = useState(false);
 	const [selectedText, setSelectedText] = useState([]);
 	// const [open, setOpen] = useState(false);
 	// const [openSuccess, setOpenSuccess] = useState(false);
 
-	const onSubmit = (data) => {
-		console.log({ data });
-		gotoNextStep();
+	const onSubmit = () => {
+		// console.log({ data });
+		setLoading(true);
+		profileAxios
+			.post("/profile/skillset", {
+				skills: selectedText,
+			})
+			.then((res) => {
+				toast.success(res.message);
+				gotoNextStep();
+			})
+			.catch((err) => toast.error(err.response.data.message))
+			.finally(() => setLoading(false));
 	};
 
-	const handleChange = (e) => {
-		const { value } = e.target;
-		setAllTexts((prev) => prev.filter((item) => item !== value));
-		setSelectedText((prev) => [...prev, value]);
+	const handleKeyPress = (e) => {
+		const { key } = e;
+
+		if (key === "Enter") {
+			const { value } = e.target;
+			setSelectedText((prev) => [...prev, value]);
+			e.target.value = "";
+		}
 	};
 
 	const handleCancel = (text) => {
-		setAllTexts((prev) => [...prev, text]);
 		setSelectedText((prev) => prev.filter((item) => item !== text));
 	};
 
 	return (
-		<form
+		<div
 			className="p-4 h-full flex flex-col"
 			style={{ maxWidth: 500, width: "100%" }}
-			onSubmit={handleSubmit(onSubmit)}
 		>
+			{loading && <Overlay message="Adding Skills" />}
 			<div className="flex-1 md:flex md:justify-center md:items-center">
 				<div>
 					<p className={`text-primary text-3xl font-bold`}>Skill</p>
@@ -48,21 +56,7 @@ export function Skill({ gotoPrevious, gotoNextStep }) {
 					</p>
 					<div className="border rounded-md p-6 mb-4">
 						<div className="mb-2">
-							<BaseSelect
-								label="Industry"
-								{...register("industry", {
-									required: "This field is required",
-								})}
-								onChange={handleChange}
-								error={errors.industry}
-								errorText={errors.industry && errors.industry.message}
-							>
-								{allTexts.map((item) => (
-									<option key={item} value={item}>
-										{item}
-									</option>
-								))}
-							</BaseSelect>
+							<BaseInput label="Enter skill" onKeyPress={handleKeyPress} />
 						</div>
 						<div className="flex gap-2">
 							{selectedText.map((text) => (
@@ -75,7 +69,7 @@ export function Skill({ gotoPrevious, gotoNextStep }) {
 										onClick={() => handleCancel(text)}
 										className="material-symbols-outlined cursor-pointer"
 									>
-										cancel
+										&#x2716;
 									</span>
 								</div>
 							))}
@@ -90,10 +84,12 @@ export function Skill({ gotoPrevious, gotoNextStep }) {
 					</BaseButton>
 				</div>
 				<div className="w-1/2 md:w-1/4">
-					<BaseButton type="submit">Next</BaseButton>
+					<BaseButton type="button" onClick={onSubmit}>
+						Next
+					</BaseButton>
 				</div>
 			</div>
-		</form>
+		</div>
 	);
 }
 

@@ -11,6 +11,7 @@ export function appendZero(num) {
 }
 
 export function formatDate(date) {
+	if (!date) return "N/A";
 	const newDate = new Date(date);
 	return new Intl.DateTimeFormat("en-US", {
 		year: "numeric",
