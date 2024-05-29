@@ -1,8 +1,12 @@
+/* eslint-disable react/no-unknown-property */
 import PropTypes from "prop-types";
 import tick from "../../../../assets/tick.png";
 import { BaseButton } from "../../../../component/button";
+import { useSelector } from "react-redux";
 
 export function Step3({ gotoNextPage }) {
+	const { user } = useSelector((state) => state.auth);
+
 	return (
 		<div className="max-w-[400px] w-full">
 			<div className="flex justify-center items-center mb-2">
@@ -53,11 +57,26 @@ export function Step3({ gotoNextPage }) {
 								<path d="M18 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2ZM6.5 3a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3.014 13.021l.157-.625A3.427 3.427 0 0 1 6.5 9.571a3.426 3.426 0 0 1 3.322 2.805l.159.622-6.967.023ZM16 12h-3a1 1 0 0 1 0-2h3a1 1 0 0 1 0 2Zm0-3h-3a1 1 0 1 1 0-2h3a1 1 0 1 1 0 2Zm0-3h-3a1 1 0 1 1 0-2h3a1 1 0 1 1 0 2Z" />
 							</svg>
 						</span>
-						<h3 className="font-bold leading-tight">Face Capture</h3>
-						<p className="text-xs">
-							Get a face shot by following the instructions that will be
-							provided.
-						</p>
+						<>
+							{user.userType === "business" ? (
+								<>
+									<h3 className="font-bold leading-tight">
+										Business Verification
+									</h3>
+									<p className="text-xs">
+										Please provide us with your CAC registration number.
+									</p>
+								</>
+							) : (
+								<>
+									<h3 className="font-bold leading-tight">Face Capture</h3>
+									<p className="text-xs">
+										Get a face shot by following the instructions that will be
+										provided.
+									</p>
+								</>
+							)}
+						</>
 					</li>
 				</ol>
 			</div>
