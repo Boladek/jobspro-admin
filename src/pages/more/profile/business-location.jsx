@@ -72,20 +72,6 @@ export function BusinessLocation({ open, handleClose }) {
 			.finally(() => setLoading(false));
 	};
 
-	const onLoad = useCallback((autocomplete) => {
-		console.log("Autocomplete: ", autocomplete);
-	}, []);
-
-	const onPlaceSelected = (place) => {
-		console.log({ place });
-		console.log("Place selected: ", place);
-		const lat = place.geometry.location.lat();
-		const lng = place.geometry.location.lng();
-		setSelectedPlace({ lat, lng });
-		console.log("Place selected: ", place);
-		console.log("Latitude: ", lat, "Longitude: ", lng);
-	};
-
 	const { ref } = usePlacesWidget({
 		apiKey: "AIzaSyBW5n6FBHUtMCABUGs4I-93IV8uceI8Y48",
 		options: {
@@ -94,7 +80,7 @@ export function BusinessLocation({ open, handleClose }) {
 		},
 		defaultValue: "Lagos",
 		onPlaceSelected: (place) => {
-			console.log({ place });
+			// console.log({ place });
 			// console.log("Place selected: ", place);
 			const lat = place.geometry.location.lat();
 			const lng = place.geometry.location.lng();

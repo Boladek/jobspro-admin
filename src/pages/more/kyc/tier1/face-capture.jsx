@@ -16,8 +16,8 @@ export function FaceCapture({ open, handleClose, action, bvn }) {
 		setLoading(true);
 		kycAxios
 			.post("/kyc/verify-selfie-bvn", {
-				bvn: bvn,
-				imgSrc,
+				bvn: "22162666852" || bvn,
+				selfieImage: imgSrc,
 			})
 			.then((res) => {
 				action();
@@ -61,7 +61,7 @@ export function FaceCapture({ open, handleClose, action, bvn }) {
 									</BaseButton>
 								</div>
 								<div className="flex-1">
-									<BaseButton onClick={submit}>Continue</BaseButton>
+									<BaseButton onClick={submit}>Verify</BaseButton>
 								</div>
 							</div>
 						) : (

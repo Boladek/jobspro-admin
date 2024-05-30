@@ -139,7 +139,7 @@ export function AvatarSection() {
 					</div>
 					<div className="mb-4">
 						<BaseButton variant="sec" size="small" onClick={handleSwitch}>
-							Switch to Business
+							{user.userType !== "pro" ? "Switch to Pro" : "Switch to Business"}
 						</BaseButton>
 					</div>
 					<hr />

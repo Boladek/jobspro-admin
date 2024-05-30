@@ -3,12 +3,12 @@ import { BaseButton } from "../../../../component/button";
 import { SemiCircleProgressBar } from "../../../../component/semi-circle-bar";
 import { useSelector } from "react-redux";
 
-export function IndividualTierSummary({ gotoNextPage }) {
+export function IndividualTierSummary({ gotoNextPage, percent }) {
 	const { user } = useSelector((state) => state.auth);
 	return (
 		<div className="max-w-[400px] w-full">
 			<div className="flex justify-center mb-2">
-				<SemiCircleProgressBar color="#42BE65" progress={75} />
+				<SemiCircleProgressBar color="#42BE65" progress={percent} />
 			</div>
 			<div className="text-center">
 				<p className="text-2xl font-bold">You’re almost there 😍</p>
@@ -66,4 +66,5 @@ export function IndividualTierSummary({ gotoNextPage }) {
 
 IndividualTierSummary.propTypes = {
 	gotoNextPage: PropTypes.func,
+	percent: PropTypes.number,
 };
