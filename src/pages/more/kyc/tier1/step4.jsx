@@ -7,7 +7,7 @@ import { HappyIcon } from "../../../../assets/happyemoji";
 import { BulbIcon } from "../../../../assets/bulb-icon";
 import { GlassIcon } from "../../../../assets/glass";
 
-export function Step4({ gotoNextPage }) {
+export function Step4({ gotoNextPage, bvn }) {
 	const [open, setOpen] = useState(false);
 	return (
 		<div className="max-w-[400px] w-full">
@@ -55,11 +55,19 @@ export function Step4({ gotoNextPage }) {
 				</div>
 			</div>
 
-			{open && <FaceCapture open={open} handleClose={() => setOpen(false)} action={gotoNextPage} />}
+			{open && (
+				<FaceCapture
+					open={open}
+					handleClose={() => setOpen(false)}
+					action={gotoNextPage}
+					bvn={bvn}
+				/>
+			)}
 		</div>
 	);
 }
 //
 Step4.propTypes = {
 	gotoNextPage: PropTypes.func,
+	bvn: PropTypes.string,
 };

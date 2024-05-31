@@ -87,7 +87,12 @@ const router = createBrowserRouter([
 					{
 						path: "earning",
 						element: <Outlet />,
-						children: [{ index: true, element: <EarningsPage /> }],
+						children: [
+							{ index: true, element: <EarningsPage /> },
+							{ index: "fund-wallet", element: <div>fund wallet</div> },
+							{ index: "cards", element: <div>Cards</div> },
+							{ index: "escrow", element: <div>Escrow</div> },
+						],
 					},
 					{ path: "stats", element: <div>Stats</div> },
 					{ path: "kyc", element: <KYCPage /> },

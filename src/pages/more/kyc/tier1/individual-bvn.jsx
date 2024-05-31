@@ -7,8 +7,10 @@ import { useState } from "react";
 import kycAxios from "../../../../helpers/kycAxios";
 import { Overlay } from "../../../../component/overlay-component";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
-export function IndividualBvn({ gotoNextPage }) {
+export function IndividualBvn({ gotoNextPage, handleBVN }) {
+	const { user } = useSelector((state) => state.auth);
 	const [open, setOpen] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const {
@@ -26,6 +28,7 @@ export function IndividualBvn({ gotoNextPage }) {
 			.then((res) => {
 				// console.log(res);
 				toast.success(res.message);
+				handleBVN(data.bvn);
 				gotoNextPage();
 			})
 			.catch((err) => toast.error(err.response.data.message))
@@ -39,7 +42,9 @@ export function IndividualBvn({ gotoNextPage }) {
 		>
 			{loading && <Overlay message="Verifying BVN" />}
 			<p className={`text-primary text-3xl font-bold mb-4`}>
-				Please enter your BVN
+				{user.userType === "buiness"
+					? "Please enter your BVN Please enter Manager/Business Owner BVN"
+					: "Please enter your BVN"}
 			</p>
 			<div className="mb-1">
 				<BaseInput
@@ -114,4 +119,5 @@ export function IndividualBvn({ gotoNextPage }) {
 
 IndividualBvn.propTypes = {
 	gotoNextPage: PropTypes.func,
+	handleBVN: PropTypes.func,
 };

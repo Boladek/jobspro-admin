@@ -1,12 +1,14 @@
 import PropTypes from "prop-types";
 import { BaseButton } from "../../../../component/button";
 import { SemiCircleProgressBar } from "../../../../component/semi-circle-bar";
+import { useSelector } from "react-redux";
 
-export function IndividualTierSummary({ gotoNextPage }) {
+export function IndividualTierSummary({ gotoNextPage, percent }) {
+	const { user } = useSelector((state) => state.auth);
 	return (
 		<div className="max-w-[400px] w-full">
 			<div className="flex justify-center mb-2">
-				<SemiCircleProgressBar color="#42BE65" progress={75} />
+				<SemiCircleProgressBar color="#42BE65" progress={percent} />
 			</div>
 			<div className="text-center">
 				<p className="text-2xl font-bold">You’re almost there 😍</p>
@@ -31,10 +33,22 @@ export function IndividualTierSummary({ gotoNextPage }) {
 					</p>
 				</div>
 				<div className="border border-gray-300 p-3 rounded-md">
-					<p className="font-bold text-sm">Face Capture</p>
-					<p className="text-gray-400 text-xs">
-						Get a face shot by following the instructions that will be provided.
-					</p>
+					{user.userType === "business" ? (
+						<>
+							<p className="font-bold text-sm">Business Verification</p>
+							<p className="text-gray-400 text-xs">
+								Please provide us with your CAC registration number.
+							</p>
+						</>
+					) : (
+						<>
+							<p className="font-bold text-sm">Face Capture</p>
+							<p className="text-gray-400 text-xs">
+								Get a face shot by following the instructions that will be
+								provided.
+							</p>
+						</>
+					)}
 				</div>
 			</div>
 			<div>
@@ -52,4 +66,5 @@ export function IndividualTierSummary({ gotoNextPage }) {
 
 IndividualTierSummary.propTypes = {
 	gotoNextPage: PropTypes.func,
+	percent: PropTypes.number,
 };

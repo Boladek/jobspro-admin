@@ -52,7 +52,7 @@ export function UploadProfilePicModal({ open, handleClose, picture }) {
 		setFile(selectedFile);
 	};
 
-	console.log({ file, preview });
+	// console.log({ file, preview });
 
 	const submit = async () => {
 		// e.preventDefault();
