@@ -25,7 +25,7 @@ function LandingPage() {
 							<div>
 								<img src={illustration} alt="Illustration" />
 							</div>
-							<p className={`font-bold text-black`}>Hey FirstName</p>
+							<p className={`font-bold text-black`}>Hey {user?.firstName}</p>
 							<p className="text-xs text-gray-500 text-center">
 								Please click Get started to complete the setup your profile
 							</p>

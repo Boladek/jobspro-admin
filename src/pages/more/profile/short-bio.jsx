@@ -9,7 +9,7 @@ import { Overlay } from "../../../component/overlay-component";
 import { UseAuth } from "../../../context/auth-context";
 
 export function ShortBio({ open, handleClose }) {
-	const { refresh } = UseAuth();
+	const { refetch } = UseAuth();
 	const [loading, setLoading] = useState(false);
 	const [about, setAbout] = useState("");
 	// profileAxios.
@@ -20,12 +20,12 @@ export function ShortBio({ open, handleClose }) {
 		e.preventDefault();
 		setLoading(true);
 		profileAxios
-			.patch("profile/bio", {
+			.patch("/profile/bio", {
 				bio: about,
 			})
 			.then((res) => {
 				toast.success(res.message);
-				refresh();
+				refetch();
 			})
 			.catch((err) => {
 				toast.error(err.response.data.message);
