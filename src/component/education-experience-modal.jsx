@@ -12,8 +12,10 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import { BaseSelect } from "./select";
 import { Overlay } from "./overlay-component";
+import { UseAuth } from "../context/auth-context";
 
 export function EducationExperienceModal({ open, handleClose, form = {} }) {
+	const { refetch } = UseAuth();
 	const [loading, setLoading] = useState(false);
 	const {
 		register,
@@ -43,6 +45,7 @@ export function EducationExperienceModal({ open, handleClose, form = {} }) {
 			})
 			.then((res) => {
 				toast.success(res.message);
+				refetch();
 				handleClose();
 			})
 			.catch((err) => toast.error(err.response.data.message))
@@ -76,7 +79,7 @@ export function EducationExperienceModal({ open, handleClose, form = {} }) {
 								})}
 								error={errors.institution}
 								errorText={errors.institution && errors.institution.message}
-								defaultValue={form.institution}
+								defaultValue={form.higherInstitution}
 							/>
 						</div>
 						<div className="mb-2">

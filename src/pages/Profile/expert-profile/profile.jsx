@@ -13,14 +13,15 @@ import profileAxios from "../../../helpers/profileAxios";
 import { Overlay } from "../../../component/overlay-component";
 import { toast } from "react-toastify";
 import { UseAuth } from "../../../context/auth-context";
+import { useNavigate } from "react-router-dom";
 
 export function Profile() {
 	// eslint-disable-next-line no-unused-vars
-	const { user } = UseAuth();
+	const navigate = useNavigate();
+	const { user, refetch } = UseAuth();
 	const [loading, setLoading] = useState(false);
 	const [open, setOpen] = useState(false);
 	const [openSuccess, setOpenSuccess] = useState(false);
-	// const navigate = useNavigate();
 	const {
 		register,
 		formState: { errors },
@@ -44,6 +45,8 @@ export function Profile() {
 			})
 			.then((res) => {
 				toast.success(res.message);
+				refetch();
+				navigate("/dashboard");
 			})
 			.catch((err) => toast.error(err.response.data.message))
 			.finally(() => setLoading(false));
