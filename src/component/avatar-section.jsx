@@ -126,7 +126,11 @@ export function AvatarSection() {
 						</div>
 						<div>
 							<div className="text-sm font-bold flex gap-1 items-center">
-								<span>{`${user.firstName} ${user.lastName}`}</span>
+								{user.userType === "business" ? (
+									<span>{user?.companyName}</span>
+								) : (
+									<span>{`${user.firstName} ${user.lastName}`}</span>
+								)}
 								<img src={tickIcon} alt="Tick circle" className="h-5" />
 							</div>
 							<span

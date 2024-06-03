@@ -22,7 +22,7 @@ export function Industry({ gotoNextStep }) {
 
 	const { data: industries = [], isLoading: gettingIndustries } = useQuery({
 		queryKey: ["indutries"],
-		queryFn: () => profileAxios.get("/industry"),
+		queryFn: () => profileAxios.get("/industry/category"),
 		select: (data) => data.data,
 		staleTime: Infinity,
 		retry: 1,
@@ -156,8 +156,8 @@ export function Industry({ gotoNextStep }) {
 						<>
 							<p className={`text-primary text-3xl font-bold`}>Sub category</p>
 							<p className="text-sm text-gray-500 mb-4">
-								Pick one service that best represents your work, so our
-								algorithm can match you with the right clients.
+								Pick one service that best represents your work, so the you can
+								be matched with the right clients.
 							</p>
 							<div
 								style={{ maxWidth: 500, width: "100%" }}

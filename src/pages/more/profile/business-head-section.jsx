@@ -18,6 +18,8 @@ export function BusinessHeadSection() {
 	const [openPic, setOpenPic] = useState(false);
 	const [openLocation, setOpenLocation] = useState(false);
 
+	console.log({ user, details });
+
 	return (
 		<div className="px-4 py-2 relative mb-2">
 			<div className="absolute -top-10 border-4 border-white rounded-full h-20 w-20 overflow-hidden shadow-sm">
@@ -62,13 +64,15 @@ export function BusinessHeadSection() {
 								<EditIcon size={0.9} />
 							</span>
 						</div>
-						<p className="text-xs text-gray-400">
-							{`${details.address}${!!details?.city?.name && ","} ${
-								details?.city?.name
-							}${!!details?.state?.name && ","} ${details?.state?.name}${
-								!!details?.country?.name && ","
-							} ${details?.country?.name}`}
-						</p>
+						{details.address && (
+							<p className="text-xs text-gray-400">
+								{`${details.address}${!!details?.city?.name && ","} ${
+									details?.city?.name
+								}${!!details?.state?.name && ","} ${details?.state?.name}${
+									!!details?.country?.name && ","
+								} ${details?.country?.name}`}
+							</p>
+						)}
 					</div>
 				</div>
 				<div className="max-w-52 w-full">
