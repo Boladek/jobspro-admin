@@ -32,11 +32,8 @@ export function EducationExperienceModal({ open, handleClose, form = {} }) {
 		setLoading(true);
 		profileAxios
 			.post("/profile/education-history", {
-				// longitude: longitude,
-				// latitude: latitude,
 				degree: data.degree,
 				description: data.description,
-				// stateId: Number(data.state),
 				higherInstitution: data.institution,
 				countryId: Number(data.country),
 				startDate: data.startDate,

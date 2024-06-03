@@ -24,7 +24,7 @@ export function Specialization({ open, handleClose }) {
 
 	const { data: industries = [], isLoading: gettingIndustries } = useQuery({
 		queryKey: ["indutries"],
-		queryFn: () => profileAxios.get("/industry"),
+		queryFn: () => profileAxios.get("/industry/category"),
 		select: (data) => data.data,
 		staleTime: Infinity,
 		retry: 1,
@@ -79,12 +79,16 @@ export function Specialization({ open, handleClose }) {
 	};
 
 	const subIndustries = useMemo(() => {
-		if (!allIndustries || allIndustries.length === 0) return [];
-		return allIndustries.map((item) => item.subIndustries);
+		if (allIndustries && allIndustries.length > 0) {
+			return allIndustries.map((item) => item.subCategories);
+		}
+		return [];
 	}, [allIndustries]);
 
 	useEffect(() => {
-		setAllSubIndustries(subIndustries.flat());
+		if (subIndustries.length > 0) {
+			setAllSubIndustries(subIndustries.flat());
+		}
 	}, [subIndustries]);
 
 	const handleSubChange = (e) => {
@@ -99,6 +103,7 @@ export function Specialization({ open, handleClose }) {
 			return [...prev, category];
 		});
 	};
+
 	return (
 		<Modal open={open} handleClose={handleClose} maxWidth={400}>
 			<form
@@ -139,7 +144,7 @@ export function Specialization({ open, handleClose }) {
 								{gettingIndustries && <div className="progress"></div>}
 							</div>
 							<div className="flex gap-2 flex-wrap">
-								{allIndustries.map((text) => (
+								{allIndustries?.map((text) => (
 									<div
 										key={text.id}
 										className={`flex gap-2 py-1 px-2 border-2 border-primary text-primary text-xs rounded-full items-center font-bold`}
@@ -179,7 +184,7 @@ export function Specialization({ open, handleClose }) {
 											errorText={errors.services && errors.services.message}
 										>
 											<option></option>
-											{allSubIndustries.map((item) => (
+											{allSubIndustries?.map((item) => (
 												<option key={item.id} value={item.id}>
 													{item.name}
 												</option>

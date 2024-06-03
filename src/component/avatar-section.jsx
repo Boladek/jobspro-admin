@@ -13,8 +13,10 @@ import { UseAuth } from "../context/auth-context";
 import profileAxios from "../helpers/profileAxios";
 import { toast } from "react-toastify";
 import { Overlay } from "./overlay-component";
+import { useNavigate } from "react-router-dom";
 
 export function AvatarSection() {
+	const navigate = useNavigate();
 	const [loading, setLoading] = useState(false);
 	const { user: details } = UseAuth();
 	const dispatch = useDispatch();
@@ -165,7 +167,10 @@ export function AvatarSection() {
 							</div>
 						</div>
 						<div className="p-1">
-							<div className="flex gap-2 items-center cursor-pointer">
+							<div
+								className="flex gap-2 items-center cursor-pointer"
+								onClick={() => navigate("/settings/profile")}
+							>
 								<img src={settings} alt="Settings" className="h-6" />
 								<span className="text-xs text-gray-500 hover:text-black">
 									Settings
