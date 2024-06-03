@@ -8,22 +8,12 @@ import { EducationExperienceModal } from "../../../component/education-experienc
 import edit from "../../../assets/edit-icon.png";
 import add from "../../../assets/add.png";
 import deleteIcon from "../../../assets/delete-icon.png";
+import { UseAuth } from "../../../context/auth-context";
+import { formatDate } from "../../../helpers/function";
 
-const experiences = [
-	{
-		title: "Title",
-		companyName: "Company Name",
-		endDate: null,
-		startDate: "2024-01-01",
-		city: "City",
-		country: "Country",
-		description:
-			"Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae facilis placeat similique consequuntur, minima earum aspernatur accusantium vitae odio incidunt molestias velit asperiores odit fuga iure consequatur aut autem officiis.",
-		imgaes: [1, 2, 3],
-	},
-];
 
 export function Education({ gotoNextStep, gotoPrevious }) {
+	const { user } = UseAuth();
 	const {
 		register,
 		formState: { errors },
@@ -39,9 +29,12 @@ export function Education({ gotoNextStep, gotoPrevious }) {
 		gotoNextStep();
 	};
 
-	const handleEdit = () => {
+	const handleEdit = (item) => {
 		setOpenEdit(true);
+		setSelected(item)
 	};
+
+	console.log({ user });
 
 	return (
 		<>
@@ -64,44 +57,48 @@ export function Education({ gotoNextStep, gotoPrevious }) {
 							More information should be placed here
 						</p>
 						<div className="border-t border-b border-gray-300 py-2">
-							{experiences.map((experience) => (
-								<div key={experience.description}>
-									<p className="font-bold text-base">{experience.title}</p>
-									<p className="text-gray-400 text-sm">
-										{experience.companyName} ({experience.startDate} -{" "}
-										{experience.endDate || "Present"})
-									</p>
-									<p className="text-xs uppercase text-gray-700">
-										{experience.city}, {experience.country}
-									</p>
-									<p className="text-xs text-gray-700">
-										{experience.description}
-									</p>
-									<div className="flex">
-										{experience.imgaes.map((image, index) => (
-											<div
-												key={image}
-												style={{
-													zIndex: index + 2,
-													marginLeft: index > 0 ? "-0.5rem" : "0",
-													backgroundColor: "#fff",
-												}}
-												className="rounded-md border-2 border-white"
-											>
-												<img src={info} className="h-8" />
-											</div>
-										))}
+							{user &&
+								user.educationHistory &&
+								user.educationHistory.length > 0 &&
+								user?.educationHistory?.map((experience) => (
+									<div key={experience.description} className="capitalize">
+										<p className="font-bold text-base">
+											{experience.higherInstitution}
+										</p>
+										<p className="text-gray-400 text-sm">
+											{experience.discipline} (
+											{formatDate(experience.startDate || new Date())} -{" "}
+											{experience.endDate || "Present"})
+										</p>
+										{/* <p className="text-xs uppercase text-gray-700">
+											{experience.city}, {experience.country}
+										</p> */}
+										<p className="text-xs text-gray-700">{experience.degree}</p>
+										<div className="flex">
+											{/* {experience.imgaes.map((image, index) => (
+												<div
+													key={image}
+													style={{
+														zIndex: index + 2,
+														marginLeft: index > 0 ? "-0.5rem" : "0",
+														backgroundColor: "#fff",
+													}}
+													className="rounded-md border-2 border-white"
+												>
+													<img src={info} className="h-8" />
+												</div>
+											))} */}
+										</div>
+										<div className="flex justify-end items-center gap-2 text-xs">
+											<img
+												src={edit}
+												className="h-6"
+												onClick={() => handleEdit(experience)}
+											/>
+											<img src={deleteIcon} className="h-6" />
+										</div>
 									</div>
-									<div className="flex justify-end items-center gap-2 text-xs">
-										<img
-											src={edit}
-											className="h-6"
-											onClick={() => handleEdit(experience)}
-										/>
-										<img src={deleteIcon} className="h-6" />
-									</div>
-								</div>
-							))}
+								))}
 						</div>
 						<div
 							onClick={() => setOpen(true)}

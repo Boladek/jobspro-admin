@@ -9,8 +9,8 @@ import { Experience } from "./expert-profile/experience";
 import { Education } from "./expert-profile/education";
 
 export function ProProfile() {
-	const [isExpert, setIsExpert] = useState(true);
-	const [step, setStep] = useState(4);
+	const [isExpert, setIsExpert] = useState(false);
+	const [step, setStep] = useState(1);
 	return (
 		<>
 			{step === 1 && (
