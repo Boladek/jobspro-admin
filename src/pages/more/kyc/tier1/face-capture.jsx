@@ -12,12 +12,17 @@ export function FaceCapture({ open, handleClose, action, bvn }) {
 	const [loading, setLoading] = useState(false);
 	const [imgSrc, setImgSrc] = useState(null);
 
+	function removeBase64Prefix(base64Image) {
+		const prefix = "data:image/jpeg;base64,";
+		return base64Image.replace(prefix, "");
+	}
+
 	const submit = () => {
 		setLoading(true);
 		kycAxios
 			.post("/kyc/verify-selfie-bvn", {
-				bvn: bvn,
-				selfieImage: imgSrc,
+				bvn: "22162666852" || bvn,
+				selfieImage: removeBase64Prefix(imgSrc),
 			})
 			.then((res) => {
 				action();

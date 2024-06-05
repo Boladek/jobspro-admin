@@ -6,8 +6,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import profileAxios from "../../../helpers/profileAxios";
 import { BaseSelect } from "../../../component/select";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { usePlacesWidget } from "react-google-autocomplete";
+import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 // import { LoadScript } from "@react-google-maps/api";
 import { Overlay } from "../../../component/overlay-component";
 import { toast } from "react-toastify";
@@ -16,9 +17,11 @@ import { UseAuth } from "../../../context/auth-context";
 // const libraries = ["places"];
 
 export function BusinessLocation({ open, handleClose }) {
+	const inputRef = useRef();
 	const { refresh } = UseAuth();
 	const [loading, setLoading] = useState(false);
 	const [selectedPlace, setSelectedPlace] = useState({ lat: null, lng: null });
+	const [data, setData] = useState({});
 	const {
 		register,
 		formState: { errors },
@@ -26,6 +29,11 @@ export function BusinessLocation({ open, handleClose }) {
 		watch,
 		reset,
 	} = useForm();
+	const handleChange = (e) => {
+		e.preventDefault();
+		const { name, value } = e.target;
+		setData((prevState) => ({ ...prevState, [name]: value }));
+	};
 
 	const watchCountry = watch("country", "");
 	const watchState = watch("state", "");
@@ -90,6 +98,11 @@ export function BusinessLocation({ open, handleClose }) {
 		},
 	});
 
+	const { isLoaded } = useJsApiLoader({
+		googleMapsApiKey: "AIzaSyBW5n6FBHUtMCABUGs4I-93IV8uceI8Y48",
+		libraries: ["places"],
+	});
+
 	return (
 		<>
 			{loading && <Overlay message="Updating Business Location" />}
@@ -104,11 +117,40 @@ export function BusinessLocation({ open, handleClose }) {
 						<label className="block text-gray-600 text-sm mb-1">
 							Enter Popular Location
 						</label>
-						<input
-							ref={ref}
-							className="bg-gray-100 disabled:opacity-75 disabled:text-gray-600 w-full px-3 py-3 border text-sm rounded-lg focus:outline-none focus:border-primary"
-							required
-						/>
+
+						{isLoaded ? (
+							<Autocomplete
+								onLoad={(autocomplete) => {
+									inputRef.current = autocomplete;
+								}}
+								onPlaceChanged={() => {
+									const place = inputRef.current.getPlace();
+									const destination = place.formatted_address;
+									setData((prevState) => ({ ...prevState, destination }));
+								}}
+							>
+								{/* <input
+									name="destination"
+									type="text"
+									// value={data?.destination}
+									onChange={handleChange}
+									className="request-edit-input_destination"
+								/> */}
+								<input
+									ref={inputRef}
+									className="bg-gray-100 disabled:opacity-75 disabled:text-gray-600 w-full px-3 py-3 border text-sm rounded-lg focus:outline-none focus:border-primary"
+									required
+								/>
+							</Autocomplete>
+						) : (
+							<input
+								name="destination"
+								type="text"
+								// value={data?.destination}
+								onChange={handleChange}
+								className="request-edit-input_destination"
+							/>
+						)}
 						{/* <LoadScript
 							googleMapsApiKey="AIzaSyBW5n6FBHUtMCABUGs4I-93IV8uceI8Y48"
 							libraries={libraries}

@@ -16,9 +16,9 @@ export function ProOverview() {
 				</div>
 			</div>
 			<div className="flex-1">
-				<div className="mb-2">
+				{/* <div className="mb-2">
 					<SpecializationDescription />
-				</div>
+				</div> */}
 				{/* <div className="mb-2">
 					<WorkExperienceDescription />
 				</div> */}
