@@ -28,6 +28,7 @@ import ClientProfileFlow from "../pages/Profile";
 import AgentProSetupFlow from "../pages/Profile/agent-pro-profile-setup";
 import EarningsPage from "../pages/more/earnings";
 import KYCPage from "../pages/more/kyc";
+import GigsPage from "../pages/gigs";
 
 const router = createBrowserRouter([
 	{
@@ -101,6 +102,24 @@ const router = createBrowserRouter([
 				],
 			},
 			{ path: "dashboard", element: <LandingPage /> },
+			{
+				path: "gigs",
+				element: <Outlet />,
+				children: [
+					{
+						index: true,
+						element: <GigsPage />,
+					},
+					{
+						path: "manage",
+						element: <div>Manage Gigs</div>,
+					},
+					{
+						path: "details/:id",
+						element: <div>Gig Details</div>,
+					},
+				],
+			},
 			{
 				path: "dashboard/profile",
 				element: <ProfileLayout />,

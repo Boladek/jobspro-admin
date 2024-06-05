@@ -75,7 +75,7 @@ export function AvatarSection() {
 	const handleSwitch = () => {
 		let switchType;
 		if (user.userType === "pro") {
-			switchType = "business";
+			switchType = "individual";
 		} else {
 			switchType = "pro";
 		}
@@ -126,7 +126,15 @@ export function AvatarSection() {
 						</div>
 						<div>
 							<div className="text-sm font-bold flex gap-1 items-center">
-								<span>{`${user.firstName} ${user.lastName}`}</span>
+								{user.userType === "business" ? (
+									<span>{user?.companyName || "N/A"}</span>
+								) : (
+									<span>
+										{user.firstName
+											? `${user.firstName} ${user.lastName}`
+											: "N/A"}
+									</span>
+								)}
 								<img src={tickIcon} alt="Tick circle" className="h-5" />
 							</div>
 							<span
@@ -139,11 +147,15 @@ export function AvatarSection() {
 							</span>
 						</div>
 					</div>
-					<div className="mb-4">
-						<BaseButton variant="sec" size="small" onClick={handleSwitch}>
-							{user.userType !== "pro" ? "Switch to Pro" : "Switch to Business"}
-						</BaseButton>
-					</div>
+					{user.userType !== "business" && (
+						<div className="mb-4">
+							<BaseButton variant="sec" size="small" onClick={handleSwitch}>
+								{user.userType !== "pro"
+									? "Switch to Pro"
+									: "Switch to Business"}
+							</BaseButton>
+						</div>
+					)}
 					<hr />
 					<div className="mt-4">
 						<div className="flex justify-between items-center p-1">

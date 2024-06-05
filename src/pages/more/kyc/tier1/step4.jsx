@@ -9,6 +9,7 @@ import { GlassIcon } from "../../../../assets/glass";
 
 export function Step4({ gotoNextPage, bvn }) {
 	const [open, setOpen] = useState(false);
+
 	return (
 		<div className="max-w-[400px] w-full">
 			<div className="text-center mb-8 mt-8">

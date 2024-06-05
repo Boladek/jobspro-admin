@@ -18,6 +18,9 @@ export function AboutUs({ open, handleClose }) {
 			.patch("profile/bio", {
 				bio: about,
 			})
+			.then((res) => {
+				toast.success(res.message);
+			})
 			.catch((err) => {
 				toast.error(err.response.data.message);
 				console.log(err);
