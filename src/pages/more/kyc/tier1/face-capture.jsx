@@ -21,7 +21,7 @@ export function FaceCapture({ open, handleClose, action, bvn }) {
 		setLoading(true);
 		kycAxios
 			.post("/kyc/verify-selfie-bvn", {
-				bvn: "22162666852" || bvn,
+				bvn: bvn,
 				selfieImage: removeBase64Prefix(imgSrc),
 			})
 			.then((res) => {

@@ -7,26 +7,30 @@ import { useState } from "react";
 import { SearchComponent } from "./search-component";
 import { useNavigate } from "react-router-dom";
 import { AvatarSection } from "./avatar-section";
+import { useSelector } from "react-redux";
 // import { UseAuth } from "../context/auth-context";
 // import { useSelector } from "react-redux";
 
 // const links = ["dashboard", "tasks", "messages", "wallets", "settings"];
 
-const links = [
-	{ title: "dashboard", url: "/dashboard" },
-	{ title: "gigs", url: "/gigs" },
-	{ title: "messages", url: "/messages" },
-	{ title: "wallets", url: "/wallets" },
-	{ title: "settings", url: "/settings/profile" },
-];
-
 export function AuthHeader() {
+	const {
+		user: { userType },
+	} = useSelector((state) => state.auth);
 	const navigate = useNavigate();
 	const [isOpen, setIsOpen] = useState(false);
 
 	const toggleSidebar = () => {
 		setIsOpen(!isOpen);
 	};
+
+	const links = [
+		{ title: "dashboard", url: "/dashboard" },
+		{ title: "gigs", url: `/gigs/${userType}` },
+		{ title: "messages", url: "/messages" },
+		{ title: "wallets", url: "/wallets" },
+		{ title: "settings", url: "/settings/profile" },
+	];
 
 	return (
 		<div className="py-3 px-2 sm:px-6 w-full flex justify-between items-center border-gray-300 border-b sticky top-0 bg-white z-10">

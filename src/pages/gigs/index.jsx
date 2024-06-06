@@ -1,24 +1,81 @@
-import React from "react";
+// import React from "react";
 import { GigComponent } from "../../component/gig-component";
+import { BaseInput } from "../../component/input";
+import { SearchComponent } from "../../component/search-component";
+import { BaseSelect } from "../../component/select";
 
 function GigsPage() {
 	return (
-		<div className="flex border bg-[#f6f7fa] border-red-500 h-full">
-			<div className="max-w-sm w-fit border border-red-500 p-4 h-full max-h-full overflow-y-auto">
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente,
-				assumenda laboriosam ea veritatis adipisci, odio eius possimus excepturi
-				tenetur, enim minus labore facere! Sint quaerat corrupti ut,
-				voluptatibus itaque quod adipisci a molestiae officia minima nesciunt
-				totam reiciendis delectus necessitatibus saepe repudiandae, earum
-				provident blanditiis culpa possimus incidunt perferendis! Minima atque
-				fugit iusto vero doloribus, at, officia repellendus possimus voluptate
-				voluptatibus dolorum nam, accusantium assumenda. Aperiam, quia ipsa ab
-				ea magnam aliquam vitae nemo, ducimus laborum explicabo maxime
-				laudantium. Ducimus illo at dicta provident inventore voluptatum quas
-				velit dignissimos perspiciatis quia, facere sint harum voluptates
-				architecto reiciendis cumque cupiditate sunt.
+		<div className="flex bg-[#f6f7fa] h-full">
+			<div className="max-w-sm w-full p-4 h-full max-h-full overflow-y-auto">
+				<div className="mb-4">
+					<span className="p-2 bg-white rounded-full text-xs cursor-pointer hover:outline hover:outline-primary">
+						Refresh &#x21bb;
+					</span>
+				</div>
+				<div className="w-full">
+					<SearchComponent />
+				</div>
+				<p className="font-bold mb-2">Filter</p>
+				<div>
+					<p className="font-bold text-sm mb-2">Date</p>
+					<div className="flex gap-2 items-center text-sm mb-2">
+						<input type="radio" name="date" id="all" />
+						<label htmlFor="all">All</label>
+					</div>
+					<div className="flex gap-2 items-center text-sm mb-2">
+						<input type="radio" name="date" id="today" />
+						<label htmlFor="today">Today</label>
+					</div>
+					<div className="flex gap-2 items-center text-sm mb-2">
+						<input type="radio" name="date" id="tomorrow" />
+						<label htmlFor="tomorrow">Tomorrow</label>
+					</div>
+					<div className="flex gap-2 items-center text-sm">
+						<input type="radio" name="date" id="week" />
+						<label htmlFor="week">This week</label>
+					</div>
+				</div>
+				<div className="mt-4">
+					<p className="font-bold text-sm mb-2">Category</p>
+					<div>
+						<BaseSelect label="Select Category">
+							<option></option>
+						</BaseSelect>
+					</div>
+				</div>
+				<div className="mt-4">
+					<p className="font-bold text-sm mb-2">Experience Level</p>
+					<div className="flex gap-2 items-center text-sm mb-2">
+						<input type="radio" name="experience" id="exp" />
+						<label htmlFor="exp">Experienced</label>
+					</div>
+					<div className="flex gap-2 items-center text-sm mb-2">
+						<input type="radio" name="experience" id="non-exp" />
+						<label htmlFor="non-exp">Non-Experience</label>
+					</div>
+				</div>
+				<div className="mt-4">
+					<p className="font-bold text-sm mb-2">Price Range</p>
+					<div className="flex gap-2">
+						<div className="flex-1">
+							<BaseInput placeholder="Min" type="number" />
+						</div>
+						<div className="flex-1">
+							<BaseInput placeholder="Max" type="number" />
+						</div>
+					</div>
+				</div>
+				<div className="mt-4">
+					<p className="font-bold text-sm mb-2">Location</p>
+					<div>
+						<BaseSelect label="Select location">
+							<option></option>
+						</BaseSelect>
+					</div>
+				</div>
 			</div>
-			<div className="flex-1 border border-blue-500 p-4 h-full">
+			<div className="flex-1 p-4 h-full">
 				<p className="font-bold mb-2">
 					Best Matches <span className="font-extralight">Most Recent</span>
 				</p>

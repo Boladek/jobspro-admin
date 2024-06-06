@@ -43,3 +43,11 @@ export function isEmpty(obj) {
 	if (obj && Object.entries(obj).length === 0) return true;
 	return false;
 }
+
+export function generateArray(length) {
+	if (typeof length !== "number" || length < 0) {
+		throw new Error("Length must be a non-negative number");
+	}
+
+	return Array.from({ length }, (_, index) => index);
+}

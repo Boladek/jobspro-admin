@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-// import { DislikeIcon } from "../assets/dislike-icon";
+import { useState } from "react";
 import { BiDislike } from "react-icons/bi";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { BaseButton } from "./button";
@@ -7,12 +6,11 @@ import { formatDate, formatNumber } from "../helpers/function";
 import { Modal } from "./modal";
 import { BaseTextArea } from "./text-area";
 
-// import { IoIosHeart } from "react-icons/io";
-
 export function GigComponent() {
 	const [open, setOpen] = useState(false);
 	const [openComment, setOpenComment] = useState(false);
-	const [comment] = useState("");
+	const [openReview, setOpenReview] = useState(false);
+	const [comments, setCommments] = useState("");
 
 	return (
 		<>
@@ -76,8 +74,12 @@ export function GigComponent() {
 					style={{
 						zIndex: 20,
 					}}
+					onClick={() => setOpen(false)}
 				>
-					<div className="bg-white p-2 w-full max-w-lg flex flex-col">
+					<div
+						className="bg-white p-2 w-full max-w-lg flex flex-col"
+						onClick={(e) => e.stopPropagation()}
+					>
 						<div className="flex justify-end">
 							<span
 								className="p-2 cursor-pointer hover:scale-110 text-2xl text-red-500"
@@ -86,18 +88,18 @@ export function GigComponent() {
 								&times;
 							</span>
 						</div>
-						{
-							<div className="p-2 flex-1 min-h-96 overflow-y-auto">
-								<div className="mx-auto w-full max-w-lg px-4">
-									<div className="flex justify-between items-center mb-4">
-										<p className="text-xs font-bold text-gray-400">
-											Posted 3 hours ago
-										</p>
-										<span>
-											<IoIosHeartEmpty size={24} color="red" />
-										</span>
-									</div>
+						<div className="p-2 flex-1 min-h-96 overflow-y-auto">
+							<div className="mx-auto w-full max-w-lg px-4">
+								{!openReview ? (
 									<div>
+										<div className="flex justify-between items-center mb-4">
+											<p className="text-xs font-bold text-gray-400">
+												Posted 3 hours ago
+											</p>
+											<span>
+												<IoIosHeartEmpty size={24} color="red" />
+											</span>
+										</div>
 										<p className="text-primary font-bold mb-2">
 											Need servers for a birthday party
 										</p>
@@ -154,13 +156,10 @@ export function GigComponent() {
 										<div className="my-2">
 											<p className="text-xs text-gray-500 mb-2">Description</p>
 											<p className="text-xs">
-												This brief is to create posts under the "Summer Trends"
-												concept. The theme is Mixing Metals and the images show
-												how different items made of different metals can be
-												mixed.   Use the images with the model together with the
-												product shots, which should be placed on the blue
-												background, to create exciting, dynamic and eyecatching
-												posts and stories.
+												This brief is to create posts under the `&quot;Summer
+												Trends`&quot; concept. The theme is Mixing Metals and
+												the images show how different items made of different
+												metals can be mixed.
 											</p>
 										</div>
 										<hr />
@@ -215,15 +214,86 @@ export function GigComponent() {
 												</li>
 											</ul>
 										</div>
+										<div className="mt-3">
+											<BaseButton onClick={() => setOpenComment(true)}>
+												Proceed
+											</BaseButton>
+										</div>
 									</div>
-									<div className="mt-3">
-										<BaseButton onClick={() => setOpenComment(true)}>
-											Proceed
-										</BaseButton>
+								) : (
+									<div>
+										<p className="text-xl font-bold">Review</p>
+										<p className="text-xs text-gray-400">
+											More information should be placed here
+										</p>
+										<div className="mb-2 mt-8">
+											<p className="text-xs text-gray-500 mb-2">
+												Additional Comments
+											</p>
+											<p className="text-xs">{comments || "N/A"}</p>
+										</div>
+										<div className="p-2 border rounded-lg">
+											<div className="flex justify-between items-center mb-2">
+												<div className="text-sm text-gray-400">Gig Amount</div>
+												<div className="text-primary font-bold">
+													N{formatNumber(20000)}
+												</div>
+											</div>
+											<div className="flex justify-between items-center mb-2">
+												<div>
+													<p className="text-sm text-gray-400">
+														Est. Tip Amount
+													</p>
+													<p className="text-xs text-gray-500 italic">
+														Not guaranteed, based on performance
+													</p>
+												</div>
+												<div className="text-primary font-bold">
+													N{formatNumber(2000)}
+												</div>
+											</div>
+											<div className="flex justify-between items-center mb-2">
+												<div className="text-sm text-gray-400">Total</div>
+												<div className="text-primary font-bold">
+													N{formatNumber(22000)}
+												</div>
+											</div>
+											<div className="flex justify-between items-center mb-2">
+												<div className="text-sm text-gray-400">JobsPro Fee</div>
+												<div className="text-gray-500 text-sm font-bold">
+													N{formatNumber(200)}
+												</div>
+											</div>
+											<div className="flex justify-between items-center mb-2">
+												<div className="text-sm text-gray-400">Escrow Fee</div>
+												<div className="text-gray-500 text-sm font-bold">
+													N{formatNumber(100)}
+												</div>
+											</div>
+											<div className="flex justify-between items-center mb-2">
+												<div className="text-sm text-gray-400">
+													Estimated Total
+												</div>
+												<div className="text-primary font-bold">
+													N{formatNumber(21700)}
+												</div>
+											</div>
+										</div>
+										<div className="mt-12">
+											<BaseButton
+												type="button"
+												onClick={() => {
+													setOpenReview(false);
+													setOpen(false);
+												}}
+											>
+												Apply
+											</BaseButton>
+										</div>
 									</div>
-								</div>
+								)}
 							</div>
-						}
+						</div>
 					</div>
 				</div>
 			)}
@@ -250,13 +320,23 @@ export function GigComponent() {
 								</p>
 
 								<div className="mb-2">
-									<BaseTextArea label="Comment" placeholder="I am a ..." />
+									<BaseTextArea
+										label="Comment"
+										placeholder="I am a ..."
+										onChange={(e) => setCommments(e.target.value)}
+									/>
 								</div>
 							</div>
 						</div>
 
 						<div>
-							<BaseButton type="button" onClick={() => setOpenComment(false)}>
+							<BaseButton
+								type="button"
+								onClick={() => {
+									setOpenComment(false);
+									setOpenReview(true);
+								}}
+							>
 								Next
 							</BaseButton>
 						</div>
