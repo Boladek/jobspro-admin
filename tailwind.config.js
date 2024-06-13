@@ -18,6 +18,9 @@ export default {
 				light: "#F3F8FF",
 				adminPrimary: "#1A68FF",
 			},
+			backgroundImage: {
+				"custom-gradient": "linear-gradient(90deg, #005AAA, #020C60)",
+			},
 		},
 	},
 };

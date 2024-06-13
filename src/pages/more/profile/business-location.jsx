@@ -147,7 +147,7 @@ export function BusinessLocation({ open, handleClose }) {
 								name="destination"
 								type="text"
 								// value={data?.destination}
-								onChange={handleChange}
+								// onChange={handleChange}
 								className="request-edit-input_destination"
 							/>
 						)}

@@ -75,7 +75,7 @@ export function AvatarSection() {
 	const handleSwitch = () => {
 		let switchType;
 		if (user.userType === "pro") {
-			switchType = "individual";
+			switchType = "individual-business";
 		} else {
 			switchType = "pro";
 		}

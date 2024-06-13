@@ -1,10 +1,19 @@
 // import React from "react";
+import { useQuery } from "@tanstack/react-query";
 import { GigComponent } from "../../component/gig-component";
 import { BaseInput } from "../../component/input";
 import { SearchComponent } from "../../component/search-component";
 import { BaseSelect } from "../../component/select";
+import profileAxios from "../../helpers/profileAxios";
 
 function GigsPage() {
+	const { data: gigs = [], isLoading, refetch } = useQuery({
+		queryKey: ["fetch-gig-pros"],
+		queryFn: () => profileAxios.get("/pro-gigs/best-matches?page=1&limit=100"),
+		select: (data) => data.data.data,
+		staleTime: Infinity,
+	});
+	console.log({ gigs });
 	return (
 		<div className="flex bg-[#f6f7fa] h-full">
 			<div className="max-w-sm w-full p-4 h-full max-h-full overflow-y-auto">
@@ -75,7 +84,7 @@ function GigsPage() {
 					</div>
 				</div>
 			</div>
-			<div className="flex-1 p-4 h-full">
+			<div className="flex-1 p-4 h-full flex flex-col">
 				<p className="font-bold mb-2">
 					Best Matches <span className="font-extralight">Most Recent</span>
 				</p>
@@ -83,8 +92,10 @@ function GigsPage() {
 					Search through the latest job openings that align with your skills and
 					profile, ensuring they meet the criteria sought by business.
 				</div>
-				<div>
-					<GigComponent />
+				<div className="flex flex-col gap-2 flex-1">
+					{gigs.map((item) => (
+						<GigComponent key={item.uuid} gig={item} refetch={refetch} />
+					))}
 				</div>
 			</div>
 		</div>

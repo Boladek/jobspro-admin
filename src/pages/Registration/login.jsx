@@ -30,7 +30,7 @@ function LoginPage() {
 	const [password, setPassword] = useState(true);
 	// const [remember, setRemember] = useState(false);
 	const onSubmit = (data) => {
-		console.log({ data });
+		// console.log({ data });
 		// return;
 		setLoading(true);
 		profileAxios

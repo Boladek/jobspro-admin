@@ -14,8 +14,6 @@ export function ShortBio({ open, handleClose }) {
 	const [about, setAbout] = useState("");
 	// profileAxios.
 
-	console.log({ about });
-
 	const submit = (e) => {
 		e.preventDefault();
 		setLoading(true);
