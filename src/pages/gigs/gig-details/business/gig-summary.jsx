@@ -30,13 +30,13 @@ export function GigSummaryBusiness() {
 						<div>
 							<div className="flex justify-between items-center">
 								<div className="flex gap-2 items-center mb-2">
-									<span className="p-2 border rounded-full text-xs capitalize bg-light relative overflow-hidden">
+									{/* <span className="p-2 border rounded-full text-xs capitalize bg-light relative overflow-hidden">
 										Entertainment
 									</span>
 									<span> &gt; </span>
 									<span className="p-2 border rounded-full text-xs capitalize bg-light relative overflow-hidden">
 										Acting
-									</span>
+									</span> */}
 								</div>
 								<>
 									{!data.isFunded && (
@@ -94,7 +94,7 @@ export function GigSummaryBusiness() {
 									<div className="flex-1">
 										<p className="text-xs text-gray-500">Budget</p>
 										<p className="font-bold text-sm">
-											N{formatNumber(data.totalBudget)}
+											N{formatNumber(data.budget)}
 										</p>
 									</div>
 								</div>

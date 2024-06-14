@@ -46,6 +46,8 @@ export function ManageGigsBusiness() {
 		setItemOffset(newOffset);
 	};
 
+	console.log({ currentItems });
+
 	return (
 		<div className="bg-[#f6f7fa] h-full p-4">
 			<div className="flex justify-between items-center">
@@ -83,7 +85,7 @@ export function ManageGigsBusiness() {
 			</div>
 			{isLoading && <div className="progress"></div>}
 			<div className="flex flex-col w-full gap-2">
-				{currentItems.map((item) => (
+				{currentItems?.map((item) => (
 					<div
 						key={Math.random()}
 						className="w-full p-4 shadow-sm rounded-md bg-white flex items-center gap-4 justify-between flex-wrap cursor-pointer hover:shadow-md"
@@ -91,7 +93,7 @@ export function ManageGigsBusiness() {
 					>
 						<div>
 							<p className="text-xs text-gray-400">Gig Title</p>
-							<p className="text-sm">Need servers for a birthday party </p>
+							<p className="text-sm">{item.gigInfos[0].title}</p>
 						</div>
 						<div>
 							<p className="text-xs text-gray-400">Gig Date</p>
@@ -103,19 +105,19 @@ export function ManageGigsBusiness() {
 						</div>
 						<div>
 							<p className="text-xs text-gray-400">Gig Location</p>
-							<p className="text-sm">Opebi, Ikeja</p>
+							<p className="text-sm">{item.gigAddresses[0].address}</p>
 						</div>
 						<div>
 							<p className="text-xs text-gray-400">Budget</p>
-							<p className="text-sm">N{formatNumber(item.totalBudget)}</p>
+							<p className="text-sm">N{formatNumber(item.budget)}</p>
 						</div>
 						<div>
 							<p className="text-xs text-gray-400">No Applied</p>
-							<p className="text-sm">{100}</p>
+							<p className="text-sm">{item.gigApplies.length}</p>
 						</div>
 						<div>
 							<p className="text-xs text-gray-400">Hired</p>
-							<p className="text-sm">{20}</p>
+							<p className="text-sm">{item.gigAccepted.length}</p>
 						</div>
 						<div>
 							<span className="p-2 rounded-full bg-[#FFA133] text-white text-xs">

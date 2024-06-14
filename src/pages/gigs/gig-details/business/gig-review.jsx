@@ -7,17 +7,30 @@ import { Overlay } from "../../../../component/overlay-component";
 import { BaseTextArea } from "../../../../component/text-area";
 import { StarRating } from "../../../../component/star-rating";
 import { formatNumber } from "../../../../helpers/function";
+import profileAxios from "../../../../helpers/profileAxios";
 
 export function GigReview({ open, handleClose }) {
 	const { handleSubmit } = useForm();
 	const [loading, setLoading] = useState(false);
-
 	const [rating, setRating] = useState(0);
-
-	// Catch Rating value
+	const [hygienerating, setHygieneRating] = useState(0);
+	const [punctualRating, setPunctualRating] = useState(0);
+	const [comments, setComments] = useState("");
 
 	const onSubmit = () => {
 		handleClose();
+		setLoading(true);
+		profileAxios
+			.post("/gigs/rate-pro", {
+				gigAcceptedId: "string",
+				professionalRating: rating,
+				punctualRating: punctualRating,
+				hygieneRating: hygienerating,
+				comments: comments,
+			})
+			.then((res) => console.log({ res }))
+			.catch((err) => console.log(err))
+			.finally(() => setLoading(false));
 	};
 
 	return (
@@ -27,7 +40,7 @@ export function GigReview({ open, handleClose }) {
 				style={{ maxWidth: 500, width: "100%" }}
 				onSubmit={handleSubmit(onSubmit)}
 			>
-				{loading && <Overlay message="Updating Industry" />}
+				{loading && <Overlay message="Reviewing Pro" />}
 
 				<div>
 					<p className={`text-primary text-3xl font-bold`}>Leave a Review</p>
@@ -55,33 +68,37 @@ export function GigReview({ open, handleClose }) {
 					<div className="flex py-2 justify-between items-center">
 						<StarRating
 							size={0.75}
-							rating={rating}
-							handleRating={(arg) => setRating(arg)}
+							rating={punctualRating}
+							handleRating={(arg) => setPunctualRating(arg)}
 						/>
-						{rating > 0 && (
+						{punctualRating > 0 && (
 							<p className="font-bold text-primary">
-								{formatNumber(rating, 2)}
+								{formatNumber(punctualRating, 2)}
 							</p>
 						)}
 					</div>
 				</div>
 				<div className="mb-4">
-					<p className="text-sm font-bold">Rate Pros Professionalism</p>
+					<p className="text-sm font-bold">Rate Pros Hygiene</p>
 					<div className="flex py-2 justify-between items-center">
 						<StarRating
 							size={0.75}
-							rating={rating}
-							handleRating={(arg) => setRating(arg)}
+							rating={hygienerating}
+							handleRating={(arg) => setHygieneRating(arg)}
 						/>
-						{rating > 0 && (
+						{hygienerating > 0 && (
 							<p className="font-bold text-primary">
-								{formatNumber(rating, 2)}
+								{formatNumber(hygienerating, 2)}
 							</p>
 						)}
 					</div>
 				</div>
 				<div className="mb-4">
-					<BaseTextArea placeholder="Additional Comments" />
+					<BaseTextArea
+						placeholder="Additional Comments"
+						onChange={(e) => setComments(e.target.value)}
+						value={comments}
+					/>
 				</div>
 				<div className="flex gap-1">
 					<BaseButton type="submit" loading={false}>

@@ -23,13 +23,12 @@ export function ManageGigsPro() {
 	const [activeTab, setActiveTab] = useState(tabs[0]);
 
 	const { data: gigs = [], isLoading } = useQuery({
-		queryKey: ["fetch-gig-pros"],
-		queryFn: () => profileAxios.get("/pro-gigs/best-matches?page=1&limit=100"),
+		queryKey: ["fetch-applied-gigs"],
+		queryFn: () => profileAxios.get("/pro-gigs/applied"),
 		select: (data) => data.data.data,
 		staleTime: Infinity,
+		retry: 3,
 	});
-
-	console.log({ gigs });
 
 	const [itemOffset, setItemOffset] = useState(0);
 
@@ -58,21 +57,12 @@ export function ManageGigsPro() {
 		<div className="bg-[#f6f7fa] h-full p-4">
 			<div className="flex justify-between items-center">
 				<p className="text-2xl font-bold mb-2">Manage Gigs</p>
-				{role === "pro" ? (
-					<span
-						className="p-2 border text-sm bg-primary text-white rounded-md hover:opacity-75 cursor-pointer"
-						onClick={() => navigate(`/gigs/${role}/find-gigs`)}
-					>
-						Find Gigs
-					</span>
-				) : (
-					<span
-						className="p-2 border text-sm bg-primary text-white rounded-md hover:opacity-75 cursor-pointer"
-						onClick={() => navigate(`/gigs/${role}/create-gig`)}
-					>
-						Create Gig &#43;
-					</span>
-				)}
+				<span
+					className="p-2 border text-sm bg-primary text-white rounded-md hover:opacity-75 cursor-pointer"
+					onClick={() => navigate(`/gigs/${role}/find-gigs`)}
+				>
+					Find Gigs
+				</span>
 			</div>
 			<div className="flex bg-[#F3F8FF] rounded-full p-1 overflow-x-auto justify-center mb-4">
 				{tabs.map((item) => (
@@ -89,80 +79,102 @@ export function ManageGigsPro() {
 					</div>
 				))}
 			</div>
-			<div className="flex flex-col w-full gap-2">
-				{currentItems.map(() => (
-					<div
-						key={Math.random()}
-						className="w-full p-4 shadow-sm rounded-md bg-white flex items-center gap-4 justify-between flex-wrap cursor-pointer hover:shadow-md"
-						onClick={() => navigate(`/gigs/${role}/details/gig`)}
-					>
-						<div className="flex items-center gap-2">
-							<img src={avatar} alt="Profile avi" className="h-10" />
-							<div>
-								<p className="text-xs text-gray-400">Business Name</p>
-								<p>Adeola Alero</p>
-							</div>
-						</div>
-						<div className="flex gap-2 items-center">
-							<span className="py-1 px-2 bg-[#FF2787] text-xs text-white rounded-full">
-								SuperPro
-							</span>
-							<KycTag text="Tier 1" />
-							{/* <span className="py-1 px-2 bg-[#FFEF98] text-xs rounded-full">
+			{isLoading ? (
+				<div>Getting Applied Gigs</div>
+			) : (
+				<>
+					{currentItems.length > 0 ? (
+						<>
+							<div className="flex flex-col w-full gap-2">
+								{currentItems.map(() => (
+									<div
+										key={Math.random()}
+										className="w-full p-4 shadow-sm rounded-md bg-white flex items-center gap-4 justify-between flex-wrap cursor-pointer hover:shadow-md"
+										onClick={() => navigate(`/gigs/${role}/details/gig`)}
+									>
+										<div className="flex items-center gap-2">
+											<img src={avatar} alt="Profile avi" className="h-10" />
+											<div>
+												<p className="text-xs text-gray-400">Business Name</p>
+												<p>Adeola Alero</p>
+											</div>
+										</div>
+										<div className="flex gap-2 items-center">
+											<span className="py-1 px-2 bg-[#FF2787] text-xs text-white rounded-full">
+												SuperPro
+											</span>
+											<KycTag text="Tier 1" />
+											{/* <span className="py-1 px-2 bg-[#FFEF98] text-xs rounded-full">
 								Tier 1
 							</span> */}
+										</div>
+										<div>
+											<p className="text-xs text-gray-400">Gig Title</p>
+											<p className="text-sm">
+												Need servers for a birthday party{" "}
+											</p>
+										</div>
+										<div>
+											<p className="text-xs text-gray-400">Gig Date</p>
+											<p className="text-sm">{formatDate(new Date())}</p>
+										</div>
+										<div>
+											<p className="text-xs text-gray-400">Gig Duration</p>
+											<p className="text-sm">8 hours</p>
+										</div>
+										<div>
+											<p className="text-xs text-gray-400">Gig Location</p>
+											<p className="text-sm">Opebi, Ikeja</p>
+										</div>
+										<div>
+											<p className="text-xs text-gray-400">Budget</p>
+											<p className="text-sm">N{formatNumber(20000)}</p>
+										</div>
+										<div>
+											<span className="p-2 rounded-full bg-[#FFA133] text-white text-xs">
+												Applied
+											</span>
+										</div>
+									</div>
+								))}
+							</div>
+							<div>
+								<ReactPaginate
+									breakLabel="..."
+									// nextLabel="next >"
+									onPageChange={handlePageClick}
+									pageRangeDisplayed={2}
+									pageCount={pageCount}
+									renderOnZeroPageCount={null}
+									className="flex p-2 gap-2 justify-center items-center"
+									nextLabel={
+										<span className="py-1 capitalize px-3 text-xs text-white font-bold border border-primary bg-primary hover:opacity-70 rounded-full select-none">
+											&rarr;
+										</span>
+									}
+									previousLabel={
+										<span className="py-1 capitalize px-3 text-xs text-white font-bold border border-accent bg-accent hover:opacity-70 rounded-full select-none">
+											&larr;
+										</span>
+									}
+									pageLinkClassName="text-sm"
+									activeClassName="text-primary text-sm font-bold"
+								/>
+							</div>
+						</>
+					) : (
+						<div className="flex flex-col items-center p-4">
+							<p className="font-bold">You have no applications</p>
+							<div
+								onClick={() => navigate(`/gigs/${role}/find-gigs`)}
+								className="px-4 py-2 bg-primary text-xs text-white cursor-pointer rounded-md hover:bg-secondary mt-2"
+							>
+								Find gigs
+							</div>
 						</div>
-						<div>
-							<p className="text-xs text-gray-400">Gig Title</p>
-							<p className="text-sm">Need servers for a birthday party </p>
-						</div>
-						<div>
-							<p className="text-xs text-gray-400">Gig Date</p>
-							<p className="text-sm">{formatDate(new Date())}</p>
-						</div>
-						<div>
-							<p className="text-xs text-gray-400">Gig Duration</p>
-							<p className="text-sm">8 hours</p>
-						</div>
-						<div>
-							<p className="text-xs text-gray-400">Gig Location</p>
-							<p className="text-sm">Opebi, Ikeja</p>
-						</div>
-						<div>
-							<p className="text-xs text-gray-400">Budget</p>
-							<p className="text-sm">N{formatNumber(20000)}</p>
-						</div>
-						<div>
-							<span className="p-2 rounded-full bg-[#FFA133] text-white text-xs">
-								Applied
-							</span>
-						</div>
-					</div>
-				))}
-			</div>
-			<div>
-				<ReactPaginate
-					breakLabel="..."
-					// nextLabel="next >"
-					onPageChange={handlePageClick}
-					pageRangeDisplayed={2}
-					pageCount={pageCount}
-					renderOnZeroPageCount={null}
-					className="flex p-2 gap-2 justify-center items-center"
-					nextLabel={
-						<span className="py-1 capitalize px-3 text-xs text-white font-bold border border-primary bg-primary hover:opacity-70 rounded-full select-none">
-							&rarr;
-						</span>
-					}
-					previousLabel={
-						<span className="py-1 capitalize px-3 text-xs text-white font-bold border border-accent bg-accent hover:opacity-70 rounded-full select-none">
-							&larr;
-						</span>
-					}
-					pageLinkClassName="text-sm"
-					activeClassName="text-primary text-sm font-bold"
-				/>
-			</div>
+					)}
+				</>
+			)}
 		</div>
 	);
 }

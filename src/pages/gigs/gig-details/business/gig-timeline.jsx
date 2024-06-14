@@ -8,8 +8,12 @@ import { StarIcon } from "../../../../assets/admin/star-icon";
 import { generateArray } from "../../../../helpers/function";
 import { AdjustTip } from "./adjust-tip";
 import { GigReview } from "./gig-review";
+import { useQuery } from "@tanstack/react-query";
+import profileAxios from "../../../../helpers/profileAxios";
+import { useParams } from "react-router-dom";
 
 export function BusinessGigTimeLine() {
+	const { id } = useParams();
 	const { hours, seconds, minutes, startTimer } = useTimer(8);
 	const [currentStep, setCurrentStep] = useState(1);
 	const [scheduleStart, setScheduleStart] = useState(false);
@@ -26,6 +30,14 @@ export function BusinessGigTimeLine() {
 	// 	{ title: "Review", details: "Step details here" },
 	// 	{ title: "Confirmation", details: "Step details here" },
 	// ];
+
+	const { data, isLoading } = useQuery({
+		queryKey: ["fetch-gig-timeline" + id],
+		queryFn: () => profileAxios.get(`/gigs/timeline/business/${id}`),
+		select: (data) => data.data,
+		staleTime: Infinity,
+		retry: 2,
+	});
 
 	return (
 		<div className="p-4 max-w-2xl mx-auto">
