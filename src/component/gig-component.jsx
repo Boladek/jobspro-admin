@@ -1,62 +1,159 @@
+import PropTypes from "prop-types";
 import { useState } from "react";
 import { BiDislike } from "react-icons/bi";
-import { IoIosHeartEmpty } from "react-icons/io";
+import { IoIosHeartEmpty, IoIosHeart } from "react-icons/io";
 import { BaseButton } from "./button";
 import { formatDate, formatNumber } from "../helpers/function";
 import { Modal } from "./modal";
 import { BaseTextArea } from "./text-area";
+import {
+	differenceInDays,
+	differenceInHours,
+	addHours,
+	startOfDay,
+} from "date-fns";
+import profileAxios from "../helpers/profileAxios";
+import { Overlay } from "./overlay-component";
+import { toast } from "react-toastify";
 
-export function GigComponent() {
+const timeAgo = (date) => {
+	const now = new Date();
+	const diffDays = differenceInDays(now, date);
+	const diffHours = differenceInHours(now, date);
+
+	if (diffDays >= 7) {
+		const weeks = Math.floor(diffDays / 7);
+		return weeks === 1 ? "1 week ago" : `${weeks} weeks ago`;
+	} else if (diffDays > 0) {
+		return diffDays === 1 ? "1 day ago" : `${diffDays} days ago`;
+	} else {
+		return diffHours === 1 ? "1 hour ago" : `${diffHours} hours ago`;
+	}
+};
+
+const getDifferenceInHours = (startTime, endTime) => {
+	const start = parseTimeStringToTodayDate(startTime);
+	const end = parseTimeStringToTodayDate(endTime);
+
+	return differenceInHours(end, start);
+};
+
+const parseTimeStringToTodayDate = (timeStr) => {
+	const [hours, minutes, seconds] = timeStr.split(":").map(Number);
+	const todayStart = startOfDay(new Date());
+	return addHours(todayStart, hours).setMinutes(minutes, seconds);
+};
+
+const getAmPm = (timeStr) => {
+	const [hours, minutes, seconds] = timeStr.split(":").map(Number);
+	const period = hours < 12 ? "AM" : "PM";
+
+	// Convert hours from 24-hour format to 12-hour format
+	const adjustedHours = hours % 12 === 0 ? 12 : hours % 12;
+	const adjustedTimeStr = `${String(adjustedHours).padStart(2, "0")}:${String(
+		minutes
+	).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+
+	return `${adjustedTimeStr} ${period}`;
+};
+export function GigComponent({ gig, refetch }) {
+	const [loading, setLoading] = useState(false);
 	const [open, setOpen] = useState(false);
 	const [openComment, setOpenComment] = useState(false);
 	const [openReview, setOpenReview] = useState(false);
 	const [comments, setCommments] = useState("");
 
+	function applyToGig() {
+		setLoading(true);
+		profileAxios
+			.post("/pro-gigs/apply", {
+				gigId: gig.uuid,
+				additionalComments: comments,
+			})
+			.then((res) => {
+				toast.success(res.message);
+				refetch();
+			})
+			.catch((err) => {
+				console.log(err);
+				toast.error(err.response.data.message);
+			})
+			.finally(() => setLoading(false));
+	}
+
+	function likeGig() {
+		profileAxios
+			.post(`/pro-gigs/like-gig/${gig.uuid}`, {})
+			.then((res) => {
+				toast.success(res.message);
+				refetch();
+			})
+			.catch((err) => toast.error(err.response.data.message))
+			.finally(() => setLoading(false));
+	}
+
+	function unLikeGig() {
+		profileAxios
+			.post(`/pro-gigs/unlike-gig/${gig.uuid}`, {})
+			.then((res) => {
+				toast.success(res.message);
+				refetch();
+			})
+			.catch((err) => toast.error(err.response.data.message))
+			.finally(() => setLoading(false));
+	}
+
 	return (
 		<>
-			<div className="bg-white p-3 rounded-xl" onClick={() => setOpen(true)}>
+			{loading && <Overlay message="Applying for gig" />}
+			<div className="bg-white p-3 rounded-xl">
 				<div className="flex justify-between mb-2 items-center">
 					<div className="p-3 text-xs text-gray-600 border rounded-full">
-						Posted 3hr ago
+						Posted {timeAgo(gig.createdAt)}
 					</div>
 					<div className="flex gap-2 items-end">
 						<span>
-							<IoIosHeartEmpty size={24} color="red" />
+							{gig.gigFavourites.length > 0 ? (
+								<IoIosHeart size={24} color="red" onClick={unLikeGig} />
+							) : (
+								<IoIosHeartEmpty size={24} color="red" onClick={likeGig} />
+							)}
 						</span>
-						<span>
+						{/* <span>
 							<BiDislike size={24} />
-						</span>
+						</span> */}
 					</div>
 				</div>
 				<hr />
-				<div className="pt-2">
-					<p className="font-bold mb-2 text-base">
-						Need servers for a birthday party{" "}
-					</p>
+				<div className="pt-2" onClick={() => setOpen(true)}>
+					<p className="font-bold mb-2 text-base">{gig?.gigInfos[0]?.title}</p>
 					<p className="font-extralight text-xs mb-2">
-						We are seeking a highly skilled UI/UX Designer with expertise in
-						Figma to join our team as a Template Editing and Maintenance
-						Specialist.{" "}
+						{gig?.gigInfos[0]?.description}
 					</p>
 					<div className="flex gap-2 items-center flex-wrap mb-2">
 						<div className="p-2 rounded-lg border">
-							<p className="font-semibold text-sm">8Hrs(9am-5pm WAT)</p>
+							<p className="font-semibold text-xs">
+								{getDifferenceInHours(gig.startTime, gig.endTime)}hrs(
+								{getAmPm(gig.startTime)}-{getAmPm(gig.endTime)})
+							</p>
 							<p className="text-xs font-light text-gray-500">Duration</p>
 						</div>
 						<div className="p-2 rounded-lg border">
-							<p className="font-semibold text-sm">8Hrs(9am-5pm WAT)</p>
-							<p className="text-xs font-light text-gray-500">Duration</p>
+							<p className="font-semibold text-xs">{formatDate(gig.gigDate)}</p>
+							<p className="text-xs font-light text-gray-500">Date</p>
 						</div>
 						<div className="p-2 rounded-lg border">
-							<p className="font-semibold text-sm">8Hrs(9am-5pm WAT)</p>
-							<p className="text-xs font-light text-gray-500">Duration</p>
+							<p className="font-semibold text-xs">
+								{gig.gigAddresses[0].address}
+							</p>
+							<p className="text-xs font-light text-gray-500">location</p>
 						</div>
 					</div>
 					<div className="flex gap-1 items-center mb-2">
 						<span className="text-xs text-gray-500 font-semibold">Budget</span>
-						<span className="font-bold">N20,000</span>
+						<span className="font-bold">N{formatNumber(gig.budget)}</span>
 					</div>
-					<div className="flex gap-2 flex-wrap">
+					{/* <div className="flex gap-2 flex-wrap">
 						{["Total", "Next", "View"].map((item) => (
 							<span
 								key={item}
@@ -65,7 +162,7 @@ export function GigComponent() {
 								{item}
 							</span>
 						))}
-					</div>
+					</div> */}
 				</div>
 			</div>
 			{open && (
@@ -94,14 +191,14 @@ export function GigComponent() {
 									<div>
 										<div className="flex justify-between items-center mb-4">
 											<p className="text-xs font-bold text-gray-400">
-												Posted 3 hours ago
+												Posted {timeAgo(gig.createdAt)}
 											</p>
 											<span>
 												<IoIosHeartEmpty size={24} color="red" />
 											</span>
 										</div>
 										<p className="text-primary font-bold mb-2">
-											Need servers for a birthday party
+											{gig?.gigInfos[0]?.title}
 										</p>
 										<div className="flex gap-2 items-center mb-4">
 											<span className="p-2 hover:pr-4 border rounded-full text-xs capitalize bg-light relative overflow-hidden">
@@ -118,9 +215,9 @@ export function GigComponent() {
 											</p>
 											<div className="flex gap-1 items-center">
 												<span className="text-sm font-semibold">
-													N{formatNumber(10000)}
+													N{formatNumber(gig.totalBudget)}
 												</span>
-												<span className="text-xs text-gray-300">PER DAY</span>
+												{/* <span className="text-xs text-gray-300">PER DAY</span> */}
 											</div>
 										</div>
 										<hr />
@@ -136,33 +233,32 @@ export function GigComponent() {
 										<hr />
 										<div className="my-2">
 											<p className="text-xs text-gray-500 mb-2">Duration</p>
-											<p className="text-sm font-bold">8hrs</p>
+											<p className="text-sm font-bold">
+												{getDifferenceInHours(gig.startTime, gig.endTime)}hrs
+											</p>
 										</div>
 										<hr />
 										<div className="my-2">
 											<p className="text-xs text-gray-500 mb-2">Time range</p>
 											<p className="text-sm font-bold">
-												9:00am - 4:00pm(GMT+1)
+												{getAmPm(gig.startTime)} - {getAmPm(gig.endTime)}
 											</p>
 										</div>
 										<hr />
 										<div className="my-2">
 											<p className="text-xs text-gray-500 mb-2">Date</p>
 											<p className="text-sm font-bold">
-												{formatDate(new Date())}
+												{formatDate(gig.gigDate)}
 											</p>
 										</div>
 										<hr />
 										<div className="my-2">
 											<p className="text-xs text-gray-500 mb-2">Description</p>
 											<p className="text-xs">
-												This brief is to create posts under the `&quot;Summer
-												Trends`&quot; concept. The theme is Mixing Metals and
-												the images show how different items made of different
-												metals can be mixed.
+												{gig?.gigInfos[0]?.description || "N/A"}
 											</p>
 										</div>
-										<hr />
+										{/* <hr />
 										<div className="my-2">
 											<p className="text-xs text-gray-500 mb-2">
 												Skills Needed
@@ -181,11 +277,14 @@ export function GigComponent() {
 													Acting
 												</span>
 											</div>
-										</div>
+										</div> */}
 										<hr />
 										<div className="my-2 border rounded-lg p-2">
 											<p className="text-xs text-gray-500 mb-2">Dress code</p>
-											<ul className="mb-4 list-disc pl-3">
+											<p className="text-xs">
+												{gig?.gigInfos[0]?.dressCode || "N/A"}
+											</p>
+											{/* <ul className="mb-4 list-disc pl-3">
 												<li className="text-xs">
 													The theme is Mixing Metals and the images show how
 													different items made of different metals can be mixed.
@@ -195,14 +294,17 @@ export function GigComponent() {
 													product shots, which should be placed on the blue
 													background, to create exciting.
 												</li>
-											</ul>
+											</ul> */}
 										</div>
 										<hr />
 										<div className="my-2 border rounded-lg p-2">
 											<p className="text-xs text-gray-500 mb-2">
 												Additional Instructions
 											</p>
-											<ul className="mb-4 list-disc pl-3">
+											<p className="text-xs">
+												{gig?.gigInfos[0]?.additionalInstruction || "N/A"}
+											</p>
+											{/* <ul className="mb-4 list-disc pl-3">
 												<li className="text-xs">
 													The theme is Mixing Metals and the images show how
 													different items made of different metals can be mixed.
@@ -212,7 +314,7 @@ export function GigComponent() {
 													product shots, which should be placed on the blue
 													background, to create exciting.
 												</li>
-											</ul>
+											</ul> */}
 										</div>
 										<div className="mt-3">
 											<BaseButton onClick={() => setOpenComment(true)}>
@@ -236,7 +338,7 @@ export function GigComponent() {
 											<div className="flex justify-between items-center mb-2">
 												<div className="text-sm text-gray-400">Gig Amount</div>
 												<div className="text-primary font-bold">
-													N{formatNumber(20000)}
+													N{formatNumber(gig.budget)}
 												</div>
 											</div>
 											<div className="flex justify-between items-center mb-2">
@@ -249,25 +351,25 @@ export function GigComponent() {
 													</p>
 												</div>
 												<div className="text-primary font-bold">
-													N{formatNumber(2000)}
+													N{formatNumber(gig.tips || 0)}
 												</div>
 											</div>
 											<div className="flex justify-between items-center mb-2">
 												<div className="text-sm text-gray-400">Total</div>
 												<div className="text-primary font-bold">
-													N{formatNumber(22000)}
+													N{formatNumber(gig.totalBudget)}
 												</div>
 											</div>
 											<div className="flex justify-between items-center mb-2">
 												<div className="text-sm text-gray-400">JobsPro Fee</div>
 												<div className="text-gray-500 text-sm font-bold">
-													N{formatNumber(200)}
+													N{formatNumber(gig.jobProFee || 0)}
 												</div>
 											</div>
 											<div className="flex justify-between items-center mb-2">
 												<div className="text-sm text-gray-400">Escrow Fee</div>
 												<div className="text-gray-500 text-sm font-bold">
-													N{formatNumber(100)}
+													N{formatNumber(gig.escrowFee || 0)}
 												</div>
 											</div>
 											<div className="flex justify-between items-center mb-2">
@@ -275,7 +377,7 @@ export function GigComponent() {
 													Estimated Total
 												</div>
 												<div className="text-primary font-bold">
-													N{formatNumber(21700)}
+													N{formatNumber(gig.totalBudget)}
 												</div>
 											</div>
 										</div>
@@ -285,6 +387,7 @@ export function GigComponent() {
 												onClick={() => {
 													setOpenReview(false);
 													setOpen(false);
+													applyToGig();
 												}}
 											>
 												Apply
@@ -346,3 +449,7 @@ export function GigComponent() {
 		</>
 	);
 }
+
+GigComponent.propTypes = {
+	gig: PropTypes.object,
+};

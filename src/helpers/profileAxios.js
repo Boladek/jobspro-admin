@@ -4,7 +4,7 @@ import { configKeys } from "./config";
 import StorageService from "./storage";
 
 const profileAxios = axios.create({
-	baseURL: "http://54.218.23.106:8050" || configKeys.baseURL,
+	baseURL: "http://35.162.211.96:3000" || configKeys.baseURL,
 	timeout: 50000,
 });
 

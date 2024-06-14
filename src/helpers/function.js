@@ -13,11 +13,16 @@ export function appendZero(num) {
 export function formatDate(date) {
 	if (!date) return "N/A";
 	const newDate = new Date(date);
-	return new Intl.DateTimeFormat("en-US", {
+	const formatter = new Intl.DateTimeFormat("en-US", {
 		year: "numeric",
 		month: "short",
 		day: "numeric",
-	}).format(newDate);
+	});
+	const parts = formatter.formatToParts(newDate);
+	const month = parts.find((part) => part.type === "month").value.toUpperCase();
+	const day = parts.find((part) => part.type === "day").value;
+	const year = parts.find((part) => part.type === "year").value;
+	return `${month}-${day}-${year}`;
 }
 
 export function formatNumber(num, decimal = 0) {

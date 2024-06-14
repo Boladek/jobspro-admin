@@ -28,9 +28,11 @@ import ClientProfileFlow from "../pages/Profile";
 import AgentProSetupFlow from "../pages/Profile/agent-pro-profile-setup";
 import EarningsPage from "../pages/more/earnings";
 import KYCPage from "../pages/more/kyc";
-import GigsPage from "../pages/gigs";
+import GigsPage from "../pages/gigs/find-gigs";
 import ManageGigs from "../pages/gigs/manage-gigs";
 import GigDetailsSummary from "../pages/gigs/gig-details";
+import CreateGigPage from "../pages/gigs/create-gigs";
+import EscrowPage from "../pages/more/earnings/escrow-page";
 
 const router = createBrowserRouter([
 	{
@@ -92,9 +94,9 @@ const router = createBrowserRouter([
 						element: <Outlet />,
 						children: [
 							{ index: true, element: <EarningsPage /> },
-							{ index: "fund-wallet", element: <div>fund wallet</div> },
-							{ index: "cards", element: <div>Cards</div> },
-							{ index: "escrow", element: <div>Escrow</div> },
+							{ path: "fund-wallet", element: <div>fund wallet</div> },
+							{ path: "cards", element: <div>Cards</div> },
+							{ path: "escrow", element: <EscrowPage /> },
 						],
 					},
 					{ path: "stats", element: <div>Stats</div> },
@@ -119,6 +121,10 @@ const router = createBrowserRouter([
 					{
 						path: "details/:id",
 						element: <GigDetailsSummary />,
+					},
+					{
+						path: "create-gig",
+						element: <CreateGigPage />,
 					},
 				],
 			},

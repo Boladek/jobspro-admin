@@ -16,6 +16,11 @@
 	appearance: textfield;
 }
 
+button:disabled {
+	cursor: not-allowed; /* cursor-not-allowed */
+	opacity: 0.5; /* opacity-50 */
+}
+
 .otp-container {
 	display: flex;
 	justify-content: space-between;

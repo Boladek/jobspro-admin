@@ -1,10 +1,15 @@
-import React from "react";
-import { formatDate, formatNumber } from "../../../helpers/function";
+import React, { useState } from "react";
+import { formatDate, formatNumber } from "../../../../helpers/function";
+import { FundEscrow } from "../../../../component/fund-escrow";
 
 export function GigSummary() {
+	// const [open, setOpen] = useState(false);
 	return (
 		<div>
-			<div className="flex gap-2 items-center mb-2">
+			<div
+				className="flex gap-2 items-center mb-2"
+				onClick={() => setOpen(true)}
+			>
 				<span className="p-2 border rounded-full text-xs capitalize bg-light relative overflow-hidden">
 					Entertainment
 				</span>
@@ -148,6 +153,8 @@ export function GigSummary() {
 					</div>
 				</div>
 			</div>
+
+			{/* {open && <FundEscrow open={open} handleClose={() => setOpen(false)} amount={} />} */}
 		</div>
 	);
 }
