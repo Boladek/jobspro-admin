@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { MdArrowBackIos } from "react-icons/md";
 import { formatDate, formatNumber } from "../../../../helpers/function";
 import { PropComponent } from "../../../../component/pro-component";
@@ -17,6 +17,7 @@ export function GigSummaryBusiness() {
 		queryFn: () => profileAxios.get(`/gigs/details/${id}`),
 		select: (data) => data.data,
 		staleTime: Infinity,
+		refetchOnMount: true,
 		retry: 2,
 	});
 

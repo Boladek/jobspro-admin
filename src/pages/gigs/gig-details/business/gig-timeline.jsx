@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { BaseButton } from "../../../../component/button";
 import { useTimer } from "../timer-hook";
 import { CancelGig } from "./cancel-gig";

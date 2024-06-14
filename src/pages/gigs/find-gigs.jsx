@@ -10,7 +10,6 @@ import { useMemo, useState } from "react";
 function GigsPage() {
 	const [searchText, setSearchText] = useState("");
 	const [category, setCategory] = useState("");
-	const [isExperienced, setIsExperienced] = useState(false);
 	const [min, setMin] = useState(0);
 	const [max, setMax] = useState(100000000);
 
@@ -66,14 +65,14 @@ function GigsPage() {
 		return [];
 	}, [gigs]);
 
-	const allLocations = useMemo(() => {
-		if (gigs.length > 0) {
-			return [...new Set(gigs.map((gig) => gig.subCategory.name))];
-		}
-		return [];
-	}, [gigs]);
+	// const allLocations = useMemo(() => {
+	// 	if (gigs.length > 0) {
+	// 		return [...new Set(gigs.map((gig) => gig.subCategory.name))];
+	// 	}
+	// 	return [];
+	// }, [gigs]);
 
-	console.log({ allCategories });
+	// console.log({ allCategories });
 
 	return (
 		<div className="flex bg-[#f6f7fa] h-full max-h-svh">
@@ -157,7 +156,11 @@ function GigsPage() {
 							/>
 						</div>
 						<div className="flex-1">
-							<BaseInput placeholder="Max" type="number" />
+							<BaseInput
+								placeholder="Max"
+								type="number"
+								onChange={(e) => setMax(e.target.value)}
+							/>
 						</div>
 					</div>
 				</div>

@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { Modal } from "./modal";
 import { BaseButton } from "./button";
 import { Overlay } from "./overlay-component";
-import { BaseTextArea } from "./text-area";
 import { formatNumber } from "../helpers/function";
 import { UseAuth } from "../context/auth-context";
 import profileAxios from "../helpers/profileAxios";

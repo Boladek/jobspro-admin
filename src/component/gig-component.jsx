@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
-import { BiDislike } from "react-icons/bi";
+// import { BiDislike } from "react-icons/bi";
 import { IoIosHeartEmpty, IoIosHeart } from "react-icons/io";
 import { BaseButton } from "./button";
 import { formatDate, formatNumber } from "../helpers/function";
@@ -452,4 +452,5 @@ export function GigComponent({ gig, refetch }) {
 
 GigComponent.propTypes = {
 	gig: PropTypes.object,
+	refetch: PropTypes.func,
 };
