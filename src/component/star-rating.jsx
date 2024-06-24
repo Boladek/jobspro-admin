@@ -7,16 +7,17 @@ export function StarRating({ size = 1, rating, handleRating }) {
 		<div className="flex">
 			{generateArray(5).map((_, index) => {
 				const currIndex = index + 1;
+				let id = "rating-" + Math.random(index);
 				return (
 					<>
-						<label className="cursor-pointer" htmlFor={"rating-" + index}>
+						<label className="cursor-pointer" htmlFor={id}>
 							<input
 								type="radio"
 								name="rate"
 								value={currIndex}
 								onClick={() => handleRating(currIndex)}
 								className="hidden"
-								id={"rating-" + index}
+								id={id}
 							/>
 							<FaStar
 								size={size * 50}

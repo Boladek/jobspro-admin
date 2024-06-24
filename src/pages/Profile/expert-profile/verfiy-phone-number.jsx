@@ -9,13 +9,13 @@ export function VerifyPhoneNumber({ gotoNextStep }) {
 	const { timer } = TimerHook({ time: 15 });
 	const [otp, setOtp] = useState("");
 	const {
-		register,
-		formState: { errors },
+		// register,
+		// formState: { errors },
 		handleSubmit,
 	} = useForm();
 
 	const onSubmit = (data) => {
-		console.log({ data });
+		// console.log({ data });
 		gotoNextStep();
 	};
 

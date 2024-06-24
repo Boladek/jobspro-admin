@@ -1,14 +1,19 @@
-import React, { useState } from "react";
-import { formatDate, formatNumber } from "../../../../helpers/function";
-import { FundEscrow } from "../../../../component/fund-escrow";
+import {
+	formatDate,
+	formatNumber,
+	getDifferenceInHours,
+} from "../../../../helpers/function";
+import { useLocation } from "react-router-dom";
 
 export function GigSummary() {
-	// const [open, setOpen] = useState(false);
+	const location = useLocation();
+	const gigData = location?.state?.gigData;
+
 	return (
 		<div>
-			<div
+			{/* <div
 				className="flex gap-2 items-center mb-2"
-				onClick={() => setOpen(true)}
+				// onClick={() => setOpen(true)}
 			>
 				<span className="p-2 border rounded-full text-xs capitalize bg-light relative overflow-hidden">
 					Entertainment
@@ -17,9 +22,9 @@ export function GigSummary() {
 				<span className="p-2 border rounded-full text-xs capitalize bg-light relative overflow-hidden">
 					Acting
 				</span>
-			</div>
+			</div> */}
 			<p className="text-primary text-2xl font-bold mb-4">
-				Need servers for a birthday party
+				{gigData?.gig?.gigInfos[0]?.title}
 			</p>
 			<div className="block md:flex gap-4">
 				<div className="w-full md:w-1/2">
@@ -34,59 +39,51 @@ export function GigSummary() {
 					<hr />
 					<div className="my-2">
 						<p className="text-xs text-gray-500 mb-2">Duration</p>
-						<p className="text-sm font-bold">8hrs</p>
+						<p className="text-sm font-bold">
+							{getDifferenceInHours(
+								gigData?.gig?.startTime,
+								gigData?.gig?.endTime
+							)}
+							hrs
+						</p>
 					</div>
 					<hr />
 					<div className="my-2">
 						<p className="text-xs text-gray-500 mb-2">Time range</p>
-						<p className="text-sm font-bold">9:00am - 4:00pm(GMT+1)</p>
+						<p className="text-sm font-bold">
+							{gigData?.gig?.startTime} - {gigData?.gig?.endTime}
+						</p>
 					</div>
 					<hr />
 					<div className="my-2">
 						<p className="text-xs text-gray-500 mb-2">Date</p>
-						<p className="text-sm font-bold">{formatDate(new Date())}</p>
+						<p className="text-sm font-bold">
+							{formatDate(gigData.gig.gigDate)}
+						</p>
 					</div>
 					<hr />
 					<div className="my-2">
 						<p className="text-xs text-gray-500 mb-2">Description</p>
 						<p className="text-xs">
-							This brief is to create posts under the `&quot;Summer
-							Trends`&quot; concept. The theme is Mixing Metals and the images
-							show how different items made of different metals can be mixed.
+							{gigData?.gig?.gigInfos[0]?.description || "N/A"}
 						</p>
 					</div>
 
 					<hr />
 					<div className="my-2 border rounded-lg p-2">
 						<p className="text-xs text-gray-500 mb-2">Dress code</p>
-						<ul className="mb-4 list-disc pl-3">
-							<li className="text-xs">
-								The theme is Mixing Metals and the images show how different
-								items made of different metals can be mixed.
-							</li>
-							<li className="text-xs">
-								Use the images with the model together with the product shots,
-								which should be placed on the blue background, to create
-								exciting.
-							</li>
-						</ul>
+						<p className="text-xs">
+							{gigData?.gig?.gigInfos[0]?.dressCode || "N/A"}
+						</p>
 					</div>
 					<hr />
 					<div className="my-2 border rounded-lg p-2">
 						<p className="text-xs text-gray-500 mb-2">
 							Additional Instructions
 						</p>
-						<ul className="mb-4 list-disc pl-3">
-							<li className="text-xs">
-								The theme is Mixing Metals and the images show how different
-								items made of different metals can be mixed.
-							</li>
-							<li className="text-xs">
-								Use the images with the model together with the product shots,
-								which should be placed on the blue background, to create
-								exciting.
-							</li>
-						</ul>
+						<p className="text-xs">
+							{gigData?.gig?.gigInfos[0]?.additionalInstruction || "N/A"}
+						</p>
 					</div>
 				</div>
 				<div className="w-full md:w-1/2">
@@ -94,7 +91,7 @@ export function GigSummary() {
 						<div className="flex justify-between items-center mb-2">
 							<div className="text-sm text-gray-400">Gig Amount</div>
 							<div className="text-primary font-bold">
-								N{formatNumber(20000)}
+								N{formatNumber(gigData?.gig?.budget)}
 							</div>
 						</div>
 						<div className="flex justify-between items-center mb-2">
@@ -105,36 +102,36 @@ export function GigSummary() {
 								</p>
 							</div>
 							<div className="text-primary font-bold">
-								N{formatNumber(2000)}
+								N{formatNumber(gigData?.gig?.tips)}
 							</div>
 						</div>
 						<div className="flex justify-between items-center mb-2">
 							<div className="text-sm text-gray-400">Total</div>
 							<div className="text-primary font-bold">
-								N{formatNumber(22000)}
+								N{formatNumber(gigData?.gig?.totalBudget)}
 							</div>
 						</div>
 						<div className="flex justify-between items-center mb-2">
 							<div className="text-sm text-gray-400">JobsPro Fee</div>
 							<div className="text-gray-500 text-sm font-bold">
-								N{formatNumber(200)}
+								N{formatNumber(gigData?.gig?.jobProFee ?? 0)}
 							</div>
 						</div>
 						<div className="flex justify-between items-center mb-2">
 							<div className="text-sm text-gray-400">Escrow Fee</div>
 							<div className="text-gray-500 text-sm font-bold">
-								N{formatNumber(100)}
+								N{formatNumber(gigData?.gig?.escrowFee ?? 0)}
 							</div>
 						</div>
 						<div className="flex justify-between items-center mb-2">
 							<div className="text-sm text-gray-400">Estimated Total</div>
 							<div className="text-primary font-bold">
-								N{formatNumber(21700)}
+								N{formatNumber(gigData?.gig?.totalBudget)}
 							</div>
 						</div>
 					</div>
-					<hr />
-					<div className="my-2">
+					{/* <hr /> */}
+					{/* <div className="my-2">
 						<p className="text-xs text-gray-500 mb-2">Skills Needed</p>
 						<div className="flex gap-2 items-center mb-4">
 							<span className="p-2 hover:pr-4 border rounded-full text-xs capitalize bg-light relative overflow-hidden">
@@ -150,11 +147,9 @@ export function GigSummary() {
 								Acting
 							</span>
 						</div>
-					</div>
+					</div> */}
 				</div>
 			</div>
-
-			{/* {open && <FundEscrow open={open} handleClose={() => setOpen(false)} amount={} />} */}
 		</div>
 	);
 }

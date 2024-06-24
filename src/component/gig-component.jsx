@@ -1,61 +1,20 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
-import { BiDislike } from "react-icons/bi";
+// import { BiDislike } from "react-icons/bi";
 import { IoIosHeartEmpty, IoIosHeart } from "react-icons/io";
 import { BaseButton } from "./button";
-import { formatDate, formatNumber } from "../helpers/function";
+import {
+	formatDate,
+	formatNumber,
+	timeAgo,
+	getDifferenceInHours,
+	getAmPm,
+} from "../helpers/function";
 import { Modal } from "./modal";
 import { BaseTextArea } from "./text-area";
-import {
-	differenceInDays,
-	differenceInHours,
-	addHours,
-	startOfDay,
-} from "date-fns";
 import profileAxios from "../helpers/profileAxios";
 import { Overlay } from "./overlay-component";
 import { toast } from "react-toastify";
-
-const timeAgo = (date) => {
-	const now = new Date();
-	const diffDays = differenceInDays(now, date);
-	const diffHours = differenceInHours(now, date);
-
-	if (diffDays >= 7) {
-		const weeks = Math.floor(diffDays / 7);
-		return weeks === 1 ? "1 week ago" : `${weeks} weeks ago`;
-	} else if (diffDays > 0) {
-		return diffDays === 1 ? "1 day ago" : `${diffDays} days ago`;
-	} else {
-		return diffHours === 1 ? "1 hour ago" : `${diffHours} hours ago`;
-	}
-};
-
-const getDifferenceInHours = (startTime, endTime) => {
-	const start = parseTimeStringToTodayDate(startTime);
-	const end = parseTimeStringToTodayDate(endTime);
-
-	return differenceInHours(end, start);
-};
-
-const parseTimeStringToTodayDate = (timeStr) => {
-	const [hours, minutes, seconds] = timeStr.split(":").map(Number);
-	const todayStart = startOfDay(new Date());
-	return addHours(todayStart, hours).setMinutes(minutes, seconds);
-};
-
-const getAmPm = (timeStr) => {
-	const [hours, minutes, seconds] = timeStr.split(":").map(Number);
-	const period = hours < 12 ? "AM" : "PM";
-
-	// Convert hours from 24-hour format to 12-hour format
-	const adjustedHours = hours % 12 === 0 ? 12 : hours % 12;
-	const adjustedTimeStr = `${String(adjustedHours).padStart(2, "0")}:${String(
-		minutes
-	).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-
-	return `${adjustedTimeStr} ${period}`;
-};
 export function GigComponent({ gig, refetch }) {
 	const [loading, setLoading] = useState(false);
 	const [open, setOpen] = useState(false);
@@ -113,11 +72,11 @@ export function GigComponent({ gig, refetch }) {
 					</div>
 					<div className="flex gap-2 items-end">
 						<span>
-							{gig.gigFavourites.length > 0 ? (
+							{/* {gig.gigFavourites.length > 0 ? (
 								<IoIosHeart size={24} color="red" onClick={unLikeGig} />
 							) : (
 								<IoIosHeartEmpty size={24} color="red" onClick={likeGig} />
-							)}
+							)} */}
 						</span>
 						{/* <span>
 							<BiDislike size={24} />
@@ -452,4 +411,5 @@ export function GigComponent({ gig, refetch }) {
 
 GigComponent.propTypes = {
 	gig: PropTypes.object,
+	refetch: PropTypes.func,
 };

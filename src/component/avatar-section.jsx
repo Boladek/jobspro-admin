@@ -94,8 +94,6 @@ export function AvatarSection() {
 			.finally(() => setLoading(false));
 	};
 
-	// console.log({ user });
-
 	return (
 		<div className="relative">
 			<img

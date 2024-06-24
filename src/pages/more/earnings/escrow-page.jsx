@@ -1,4 +1,3 @@
-import React from "react";
 import { formatNumber } from "../../../helpers/function";
 
 function EscrowPage() {
@@ -13,10 +12,8 @@ function EscrowPage() {
 				<div className="py-4">
 					<p className="text-bold">From</p>
 					<div className="flex flex-col gap-2">
-                        <div>
-                            
-                        </div>
-                    </div>
+						<div></div>
+					</div>
 				</div>
 			</div>
 		</div>

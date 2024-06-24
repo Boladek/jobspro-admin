@@ -14,40 +14,54 @@ function Tier1({ kycData, refetch }) {
 	const [bvn, setBvn] = useState("");
 	return (
 		<>
-			{step === 1 && (
-				<IndividualTierSummary
-					percent={kycData.percentageComplete ?? 0}
-					gotoNextPage={() => setStep(2)}
-				/>
+			{user.userType === "business" ? (
+				<>
+					{step === 1 && (
+						<IndividualTierSummary
+							percent={kycData.percentageComplete ?? 0}
+							gotoNextPage={() => setStep(2)}
+						/>
+					)}
+					{step === 2 && (
+						<BusinessVerification
+							gotoNextPage={() => {
+								setStep(3);
+								refetch();
+							}}
+						/>
+					)}
+					{step === 3 && <Step5 gotoNextPage={() => setStep(5)} />}
+				</>
+			) : (
+				<>
+					{step === 1 && (
+						<IndividualTierSummary
+							percent={kycData.percentageComplete ?? 0}
+							gotoNextPage={() => setStep(2)}
+						/>
+					)}
+					{step === 2 && (
+						<IndividualBvn
+							gotoNextPage={() => setStep(3)}
+							handleBVN={(arg) => {
+								setBvn(arg);
+								refetch();
+							}}
+						/>
+					)}
+					{step === 3 && <Step3 gotoNextPage={() => setStep(4)} />}
+					{step === 4 && (
+						<Step4
+							gotoNextPage={() => {
+								setStep(5);
+								refetch();
+							}}
+							bvn={bvn}
+						/>
+					)}
+					{step === 5 && <Step5 gotoNextPage={() => setStep(5)} />}
+				</>
 			)}
-			{step === 2 && (
-				<IndividualBvn
-					gotoNextPage={() => setStep(3)}
-					handleBVN={(arg) => {
-						setBvn(arg);
-						refetch();
-					}}
-				/>
-			)}
-			{step === 3 && <Step3 gotoNextPage={() => setStep(4)} />}
-			{step === 4 &&
-				(user.userType === "business" ? (
-					<BusinessVerification
-						gotoNextPage={() => {
-							setStep(5);
-							refetch();
-						}}
-					/>
-				) : (
-					<Step4
-						gotoNextPage={() => {
-							setStep(5);
-							refetch();
-						}}
-						bvn={bvn}
-					/>
-				))}
-			{step === 5 && <Step5 gotoNextPage={() => setStep(5)} />}
 		</>
 	);
 }

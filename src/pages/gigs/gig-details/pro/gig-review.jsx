@@ -7,25 +7,42 @@ import { Overlay } from "../../../../component/overlay-component";
 import { BaseTextArea } from "../../../../component/text-area";
 import { StarRating } from "../../../../component/star-rating";
 import { formatNumber } from "../../../../helpers/function";
-
+import profileAxios from "../../../../helpers/profileAxios";
+import { useLocation, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export function GigReview({ open, handleClose }) {
-	const {
-		handleSubmit,
-	} = useForm();
+	const location = useLocation();
+	const { gigData } = location.state;
+	const { handleSubmit } = useForm();
 	const [loading, setLoading] = useState(false);
+	const [comment, setComment] = useState("");
 
 	const [rating, setRating] = useState(0);
 
 	// Catch Rating value
 
-
 	const onSubmit = () => {
-		handleClose();
+		setLoading(true);
+		profileAxios
+			.post("/pro-gigs/rate-business", {
+				gigId: gigData.gig.uuid,
+				rating,
+				comments: comment,
+			})
+			.then((res) => {
+				toast.success(res.message);
+				setTimeout(() => {
+					handleClose();
+				}, 2000);
+			})
+			.catch((err) => toast.error(err.response.data.message))
+			.finally(() => setLoading(false));
 	};
 
 	return (
 		<Modal open={open} handleClose={handleClose} maxWidth={400}>
+			{loading && <Overlay message="Rating Gig" />}
 			<form
 				className="py-4 h-full flex flex-col"
 				style={{ maxWidth: 500, width: "100%" }}
@@ -50,7 +67,11 @@ export function GigReview({ open, handleClose }) {
 					)}
 				</div>
 				<div className="mb-4">
-					<BaseTextArea placeholder="Additional Comments" />
+					<BaseTextArea
+						placeholder="Additional Comments"
+						onChange={(e) => setComment(e.target.value)}
+						value={comment}
+					/>
 				</div>
 				<div className="flex gap-1">
 					<BaseButton type="submit" loading={false}>

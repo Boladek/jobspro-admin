@@ -43,7 +43,7 @@ export function GigPreview({ steps, handleStep, form }) {
 			})
 			.then((res) => {
 				toast.success(res.message);
-				setId(res.data.id);
+				setId(res.data.uuid);
 				setOpen(true);
 			})
 			.catch((e) => {
@@ -113,7 +113,7 @@ export function GigPreview({ steps, handleStep, form }) {
 							</span>
 						</div>
 						<div>
-							<div>
+							<div className="mb-4">
 								<p className="text-xs">Date</p>
 								<p className="text-sm font-bold">{formatDate(form.gigDate)}</p>
 							</div>
