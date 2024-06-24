@@ -82,8 +82,6 @@ export function GigBudget({ handleForm, gotoNextStep }) {
 	const watchBudget = watch("budget", "");
 	const watchTip = watch("tip", "");
 
-	console.log({ watchCity });
-
 	const [allIndustries, setAllIndustries] = useState([]);
 	const [allSubIndustries, setAllSubIndustries] = useState([]);
 
@@ -115,8 +113,6 @@ export function GigBudget({ handleForm, gotoNextStep }) {
 			watchRatings.length > 0 &&
 			!!watchPros,
 	});
-
-	console.log({ watchSubCategoryId });
 
 	const { data: industries = [], isLoading: gettingIndustries } = useQuery({
 		queryKey: ["indutries"],

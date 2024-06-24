@@ -4,36 +4,45 @@ import { useForm } from "react-hook-form";
 import { Modal } from "../../../../component/modal";
 import { BaseButton } from "../../../../component/button";
 import { Overlay } from "../../../../component/overlay-component";
-import { BaseTextArea } from "../../../../component/text-area";
+import profileAxios from "../../../../helpers/profileAxios";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 
-export function CompleteGig({ open, handleClose, openDispute, openTip, openReview }) {
-	const {
-		register,
-		formState: { errors },
-		handleSubmit,
-	} = useForm();
-	const [reason, setReason] = useState("");
-	const [otherReason, setOtherReason] = useState("");
+export function CompleteGig({
+	open,
+	handleClose,
+	openDispute,
+	openTip,
+	openReview,
+}) {
+	const location = useLocation();
+	const { gigData } = location.state;
+	const { handleSubmit } = useForm();
 	const [loading, setLoading] = useState(false);
 
 	const onSubmit = () => {
-		handleClose();
-		openReview()
-	};
-
-	const handleChange = (e) => {
-		setReason(e.target.value);
+		setLoading(true);
+		profileAxios
+			.post(`/gigs/mark-completed/${gigData?.gigAccepted[0]?.uuid}`)
+			.then((res) => {
+				toast.success(res.message);
+				openReview();
+				handleClose();
+			})
+			.catch((err) => {
+				toast.error(err.response.data.message);
+			})
+			.finally(() => setLoading(false));
 	};
 
 	return (
 		<Modal open={open} handleClose={handleClose} maxWidth={400}>
+			{loading && <Overlay message="Marking Gig as Completed" />}
 			<form
 				className="py-4 h-full flex flex-col"
 				style={{ maxWidth: 500, width: "100%" }}
 				onSubmit={handleSubmit(onSubmit)}
 			>
-				{loading && <Overlay message="Updating Industry" />}
-
 				<div>
 					<p className={`text-primary text-3xl font-bold`}>Gig completed</p>
 					<p className="text-sm text-gray-500 mb-2">

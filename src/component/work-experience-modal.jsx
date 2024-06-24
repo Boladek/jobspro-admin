@@ -67,10 +67,7 @@ export function WorkExperienceModal({ open, handleClose, form = {} }) {
 		staleTime: Infinity,
 	});
 
-	// console.log({ files, previews });
-
 	const onSubmit = (data) => {
-		console.log({ data });
 		setLoading(true);
 		const fd = new FormData();
 

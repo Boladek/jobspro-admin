@@ -1,20 +1,36 @@
+import PropTypes from "prop-types";
 import { useState } from "react";
-import { IoIosHeartEmpty } from "react-icons/io";
 import { BaseButton } from "./button";
-import { formatDate, formatNumber, generateArray } from "../helpers/function";
+import { generateArray, getDifferenceInHours } from "../helpers/function";
 import { Modal } from "./modal";
-import { BaseTextArea } from "./text-area";
 import { StarIcon } from "../assets/admin/star-icon";
 import avatar from "../assets/profile-avatar.png";
+import profileAxios from "../helpers/profileAxios";
+import { useParams } from "react-router-dom";
+import { Overlay } from "./overlay-component";
+import { toast } from "react-toastify";
 
-export function PropComponent() {
+export function PropComponent({ pro, gig }) {
+	const { id } = useParams();
+	const [loading, setLoading] = useState(false);
 	const [open, setOpen] = useState(false);
-	const [openComment, setOpenComment] = useState(false);
-	const [openReview, setOpenReview] = useState(false);
-	const [comments, setCommments] = useState("");
+	const [openHire, setOpenHire] = useState(false);
+
+	const hirePro = () => {
+		setLoading(true);
+		profileAxios
+			.post("/gigs/hire", {
+				gigId: id,
+				applicationId: gig.gigApplies[0].uuid,
+			})
+			.then((res) => toast.success(res.message))
+			.catch((err) => toast.error(err.response.data.message))
+			.finally(() => setLoading(false));
+	};
 
 	return (
 		<>
+			{loading && <Overlay message="Hiring Pro" />}
 			<div
 				className="bg-white p-3 rounded-xl border cursor-pointer"
 				onClick={() => setOpen(true)}
@@ -81,17 +97,7 @@ export function PropComponent() {
 								<div className="p-4 rounded-lg border mb-4">
 									<p className="font-bold mb-2">What the Pro has to say</p>
 									<p className="text-xs text-gray-500">
-										Attention to detail and the ability to understand user needs
-										are essential for this role. As a UX/UI Designer, you will
-										collaborate with the development team to ensure the
-										application's design is intuitive and aligns with the
-										overall brand identity. This brief is to create posts under
-										the "Summer Trends" concept. The theme is Mixing Metals and
-										the images show how different items made of different metals
-										can be mixed. Use the images with the model together with
-										the product shots, which should be placed on the blue
-										background, to create exciting, dynamic and eye catching
-										posts and stories.
+										{pro.additionalComment || "N/A"}
 									</p>
 								</div>
 
@@ -167,7 +173,9 @@ export function PropComponent() {
 								</div>
 								<div className="flex gap-2">
 									<div className="flex-1">
-										<BaseButton variant="sec">Hire</BaseButton>
+										<BaseButton variant="sec" onClick={() => setOpenHire(true)}>
+											Hire
+										</BaseButton>
 									</div>
 									<div className="flex-1">
 										<BaseButton>Message</BaseButton>
@@ -179,10 +187,10 @@ export function PropComponent() {
 				</div>
 			)}
 
-			{openComment && (
+			{openHire && (
 				<Modal
-					open={openComment}
-					handleClose={() => setOpenComment(false)}
+					open={openHire}
+					handleClose={() => setOpenHire(false)}
 					maxWidth={400}
 				>
 					<form
@@ -192,32 +200,50 @@ export function PropComponent() {
 					>
 						<div className="flex-1 md:flex md:justify-center md:items-center">
 							<div>
-								<p className={`text-primary text-3xl font-bold`}>
-									Additional Comments
+								<p className={`text-primary text-3xl font-bold mb-4`}>
+									Are you sure you want to Hire this pro?
 								</p>
 								<p className="text-xs text-gray-500 mb-4">
-									Write down detailed history of your experience and why the
-									client should pick you
+									You're about to hire {pro?.user?.finclusionId} for a{" "}
+									{getDifferenceInHours(gig.startTime, gig.endTime)}hrs service.
 								</p>
-
-								<div className="mb-2">
-									<BaseTextArea
-										label="Comment"
-										placeholder="I am a ..."
-										onChange={(e) => setCommments(e.target.value)}
-									/>
-								</div>
 							</div>
 						</div>
 
 						<div>
-							<BaseButton
-								type="button"
-								onClick={() => {
-									setOpenComment(false);
-									setOpenReview(true);
-								}}
-							>
+							<BaseButton type="button" onClick={hirePro}>
+								Next
+							</BaseButton>
+						</div>
+					</form>
+				</Modal>
+			)}
+
+			{openHire && (
+				<Modal
+					open={openHire}
+					handleClose={() => setOpenHire(false)}
+					maxWidth={400}
+				>
+					<form
+						className="py-4 h-full flex flex-col"
+						style={{ maxWidth: 500, width: "100%" }}
+						// onSubmit={handleSubmit(onSubmit)}
+					>
+						<div className="flex-1 md:flex md:justify-center md:items-center">
+							<div>
+								<p className={`text-primary text-3xl font-bold mb-4`}>
+									Are you sure you want to Hire this pro?
+								</p>
+								<p className="text-xs text-gray-500 mb-4">
+									You're about to hire {pro?.user?.finclusionId} for a{" "}
+									{getDifferenceInHours(gig.startTime, gig.endTime)}hrs service.
+								</p>
+							</div>
+						</div>
+
+						<div>
+							<BaseButton type="button" onClick={hirePro}>
 								Next
 							</BaseButton>
 						</div>
@@ -227,3 +253,8 @@ export function PropComponent() {
 		</>
 	);
 }
+
+PropComponent.propTypes = {
+	pro: PropTypes.object,
+	gig: PropTypes.object,
+};

@@ -9,7 +9,7 @@ import profileAxios from "../../../../helpers/profileAxios";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 
-export function EndGig({ open, handleClose, openReview }) {
+export function GigAdjustment({ open, handleClose }) {
 	const location = useLocation();
 	const { gigData } = location.state;
 	const {
@@ -17,59 +17,60 @@ export function EndGig({ open, handleClose, openReview }) {
 		formState: { errors },
 		handleSubmit,
 	} = useForm();
+	const [reason, setReason] = useState("");
 	const [loading, setLoading] = useState(false);
 
 	const onSubmit = () => {
 		setLoading(true);
 		profileAxios
-			.post(`/pro-gigs/mark-completed/${gigData.gig.uuid}`)
+			.post(`/gigs/request-gig-adjustment`, {
+				gigAcceptedId: gigData.gigAccepted[0].uuid,
+				reason,
+			})
 			.then((res) => {
 				toast.success(res.message);
 				handleClose();
-				openReview();
 			})
 			.catch((err) => toast.error(err.response.data.message))
 			.finally(() => setLoading(false));
 	};
 
+	const handleChange = (e) => {
+		setReason(e.target.value);
+	};
+
 	return (
 		<Modal open={open} handleClose={handleClose} maxWidth={400}>
-			{loading && <Overlay message="Ending Gig" />}
 			<form
 				className="py-4 h-full flex flex-col"
 				style={{ maxWidth: 500, width: "100%" }}
 				onSubmit={handleSubmit(onSubmit)}
 			>
-				{/* {loading && <Overlay message="Updating Industry" />} */}
-
-				<div className="mb-8">
-					<p className={`text-primary text-3xl font-bold mb-4`}>End Gig</p>
-					<p className="text-sm text-gray-500">
-						Are you sure you want to end the ongoing gig?
+				{loading && <Overlay message="Requesting Adjustment" />}
+				<div>
+					<p className={`text-primary text-3xl font-bold`}>Request Adjustment</p>
+					<p className="text-sm text-gray-500 mb-2">
+						Please Input reason for requesting adjustment.
 					</p>
+					<div className="my-2">
+						<BaseTextArea
+							placeholder="Enter Reason"
+							onChange={handleChange}
+							value={reason}
+						/>
+					</div>
 				</div>
-				{/* <div className="mb-4">
-					<BaseTextArea placeholder="Reason" />
-				</div> */}
-				<div className="flex gap-1">
-					<div className="flex-1">
-						<BaseButton variant="danger" onClick={handleClose}>
-							No
-						</BaseButton>
-					</div>
-					<div className="flex-1">
-						<BaseButton type="submit" loading={false}>
-							Yes
-						</BaseButton>
-					</div>
+				<div className="mt-4">
+					<BaseButton type="submit" loading={false}>
+						Submit
+					</BaseButton>
 				</div>
 			</form>
 		</Modal>
 	);
 }
 
-EndGig.propTypes = {
+GigAdjustment.propTypes = {
 	open: PropTypes.bool.isRequired,
 	handleClose: PropTypes.func.isRequired, // Proper usage of PropTypes
-	openReview: PropTypes.func,
 };

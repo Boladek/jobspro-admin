@@ -4,6 +4,8 @@ import {
 	formatDate,
 	formatNumber,
 	generateArray,
+	getDifferenceInHours,
+	getAmPm,
 } from "../../../helpers/function";
 import ReactPaginate from "react-paginate";
 import profileAxios from "../../../helpers/profileAxios";
@@ -27,8 +29,6 @@ export function ManageGigsBusiness() {
 		staleTime: Infinity,
 	});
 
-	// console.log({ gigs });
-
 	// Simulate fetching items from another resources.
 	// (This could be items from props; or items loaded in a local state
 	// from an API endpoint with useEffect and useState)
@@ -46,10 +46,8 @@ export function ManageGigsBusiness() {
 		setItemOffset(newOffset);
 	};
 
-	console.log({ currentItems });
-
 	return (
-		<div className="bg-[#f6f7fa] h-full p-4">
+		<div className="bg-[#f6f7fa] h-full p-4 flex flex-col">
 			<div className="flex justify-between items-center">
 				<p className="text-2xl font-bold mb-2">Manage Gigs</p>
 				{role === "pro" ? (
@@ -84,8 +82,8 @@ export function ManageGigsBusiness() {
 				))}
 			</div>
 			{isLoading && <div className="progress"></div>}
-			<div className="flex flex-col w-full gap-2">
-				{currentItems?.map((item) => (
+			<div className="flex flex-col w-full gap-2 flex-1">
+				{/* {currentItems?.map((item) => (
 					<div
 						key={Math.random()}
 						className="w-full p-4 shadow-sm rounded-md bg-white flex items-center gap-4 justify-between flex-wrap cursor-pointer hover:shadow-md"
@@ -101,7 +99,9 @@ export function ManageGigsBusiness() {
 						</div>
 						<div>
 							<p className="text-xs text-gray-400">Gig Duration</p>
-							<p className="text-sm">8 hours</p>
+							<p className="text-sm">
+								{getDifferenceInHours(item.startTime, item.endTime)}hrs
+							</p>
 						</div>
 						<div>
 							<p className="text-xs text-gray-400">Gig Location</p>
@@ -125,7 +125,62 @@ export function ManageGigsBusiness() {
 							</span>
 						</div>
 					</div>
-				))}
+				))} */}
+				<table className="w-full table-auto">
+					<tbody>
+						{currentItems?.map((item) => (
+							<tr
+								key={Math.random()}
+								className="w-full p-4 shadow-sm rounded-md bg-white flex items-center gap-4 justify-between flex-wrap cursor-pointer hover:shadow-md"
+								onClick={() =>
+									navigate(`/gigs/${role}/details/${item.uuid}`, {
+										state: {
+											gigData: item,
+										},
+									})
+								}
+							>
+								<td>
+									<p className="text-xs text-gray-400">Gig Title</p>
+									<p className="text-sm">{item.gigInfos[0].title}</p>
+								</td>
+								<td>
+									<p className="text-xs text-gray-400">Gig Date</p>
+									<p className="text-sm">
+										{formatDate(new Date(item.gigDate))}
+									</p>
+								</td>
+								<td>
+									<p className="text-xs text-gray-400">Gig Duration</p>
+									<p className="text-sm">
+										{getDifferenceInHours(item.startTime, item.endTime)}hrs
+									</p>
+								</td>
+								<td>
+									<p className="text-xs text-gray-400">Gig Location</p>
+									<p className="text-sm">{item.gigAddresses[0].address}</p>
+								</td>
+								<td>
+									<p className="text-xs text-gray-400">Budget</p>
+									<p className="text-sm">N{formatNumber(item.budget)}</p>
+								</td>
+								<td>
+									<p className="text-xs text-gray-400">No Applied</p>
+									<p className="text-sm">{item.gigApplies.length}</p>
+								</td>
+								<td>
+									<p className="text-xs text-gray-400">Hired</p>
+									<p className="text-sm">{item.gigAccepted.length}</p>
+								</td>
+								<td>
+									<span className="p-2 rounded-full bg-[#FFA133] text-white text-xs">
+										{item.statusType}
+									</span>
+								</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
 			</div>
 			<div>
 				<ReactPaginate

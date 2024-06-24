@@ -25,7 +25,7 @@ export function Education({ gotoNextStep, gotoPrevious }) {
 	const [files, setFiles] = useState([]);
 
 	const onSubmit = (data) => {
-		console.log({ data });
+		// console.log({ data });
 		gotoNextStep();
 	};
 
@@ -34,7 +34,6 @@ export function Education({ gotoNextStep, gotoPrevious }) {
 		setSelected(item)
 	};
 
-	console.log({ user });
 
 	return (
 		<>

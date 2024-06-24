@@ -17,22 +17,8 @@ export function GigLocation({ open, handleClose, handleAddress }) {
 
 	const submit = (e) => {
 		e.preventDefault();
-		// setLoading(true);
 		handleAddress(details);
 		handleClose();
-		// profileAxios
-		// 	.patch("/profile/bio", {
-		// 		bio: about,
-		// 	})
-		// 	.then((res) => {
-		// 		toast.success(res.message);
-		// 		refetch();
-		// 	})
-		// 	.catch((err) => {
-		// 		toast.error(err.response.data.message);
-		// 		console.log(err);
-		// 	})
-		// 	.finally(() => setLoading(false));
 	};
 
 	const { isLoaded } = useJsApiLoader({

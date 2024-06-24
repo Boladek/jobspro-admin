@@ -21,10 +21,10 @@ const requestHandler = (request) => {
 };
 
 const responseHandler = (response) => {
-	// if (response?.status === 403) {
-	//   localStorage.clear();
-	//   window.location = "/";
-	// }
+	if (response?.status === 403) {
+		localStorage.clear();
+		window.location = "/";
+	}
 	return response.data;
 };
 

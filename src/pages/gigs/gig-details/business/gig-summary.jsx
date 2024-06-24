@@ -6,15 +6,27 @@ import profileAxios from "../../../../helpers/profileAxios";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { FundEscrow } from "../../../../component/fund-escrow";
+import { BaseButton } from "../../../../component/button";
+import { CancelGig } from "./cancel-gig";
 
 export function GigSummaryBusiness() {
 	const [open, setOpen] = useState(false);
 	const [showPros, setShowPros] = useState(false);
+	const [openCancel, setOpenCancel] = useState(false);
 	const { id } = useParams();
 
 	const { data, isLoading } = useQuery({
 		queryKey: ["fetch-gig-details" + id],
 		queryFn: () => profileAxios.get(`/gigs/details/${id}`),
+		select: (data) => data.data,
+		staleTime: Infinity,
+		refetchOnMount: true,
+		retry: 2,
+	});
+
+	const { data: proApplications = [] } = useQuery({
+		queryKey: ["fetch-pro-applicants-details" + id, id],
+		queryFn: () => profileAxios.get(`/gigs/fetch-pro-applications/${id}`),
 		select: (data) => data.data,
 		staleTime: Infinity,
 		refetchOnMount: true,
@@ -71,7 +83,7 @@ export function GigSummaryBusiness() {
 									</p>
 								</div>
 							</div>
-							<div className="px-3 py-4 max-w-sm rounded-lg  mb-8 border">
+							<div className="px-3 py-4 max-w-sm rounded-lg  mb-16 border">
 								<div className="flex justify-between w-full mb-4">
 									<div className="flex-1">
 										<p className="text-xs text-gray-500">Date</p>
@@ -89,17 +101,27 @@ export function GigSummaryBusiness() {
 								<hr />
 								<div className="flex justify-between w-full mt-4">
 									<div className="flex-1">
-										<p className="text-xs text-gray-500">Service</p>
-										<p className="font-bold text-sm">Event Caterings</p>
-									</div>
-									<div className="flex-1">
 										<p className="text-xs text-gray-500">Budget</p>
 										<p className="font-bold text-sm">
 											N{formatNumber(data.budget)}
 										</p>
 									</div>
+									{/* <div className="flex-1">
+										<p className="text-xs text-gray-500">Service</p>
+										<p className="font-bold text-sm">Event Caterings</p>
+									</div> */}
 								</div>
 							</div>
+							{data?.gigAccepted?.length > 0 && (
+								<div className="max-w-sm">
+									<BaseButton
+										variant="danger"
+										onClick={() => setOpenCancel(true)}
+									>
+										Cancel Gig
+									</BaseButton>
+								</div>
+							)}
 						</div>
 					) : (
 						<>
@@ -111,8 +133,8 @@ export function GigSummaryBusiness() {
 									Back
 								</span>
 							</div>
-							{data.gigApplies.length > 0 ? (
-								data.gigApplies.map((item, index) => (
+							{proApplications.gigApplies.length > 0 ? (
+								proApplications.gigApplies.map((item, index) => (
 									<div key={index}>
 										<div className="flex gap-2 items-center">
 											<span onClick={() => setShowPros(false)}>
@@ -121,7 +143,7 @@ export function GigSummaryBusiness() {
 											<p className="font-bold text-2xl">Prospective pros</p>
 										</div>
 										<div className="max-w-md p-4 mt-2">
-											<PropComponent />
+											<PropComponent pro={item} gig={proApplications} />
 										</div>
 									</div>
 								))
@@ -140,9 +162,52 @@ export function GigSummaryBusiness() {
 					open={open}
 					handleClose={() => setOpen(false)}
 					amount={data.budget}
-					id={data.id}
+					id={id}
 				/>
 			)}
+
+			{openCancel && (
+				<CancelGig
+					open={openCancel}
+					handleClose={() => setOpenCancel(false)}
+					id={data?.gigAccepted[0].uuid}
+				/>
+			)}
+
+			{/* {openCancel && (
+				<Modal
+					open={openCancel}
+					handleClose={() => setOpenCancel(false)}
+					maxWidth={400}
+				>
+					<form
+						className="py-4 h-full flex flex-col"
+						style={{ maxWidth: 500, width: "100%" }}
+						// onSubmit={handleSubmit(onSubmit)}
+					>
+						<div className="text-center px-4 mb-8">
+							<p className={`text-primary text-2xl font-bold mb-4`}>
+								Are you sure you want to Cancel this gig?
+							</p>
+							<p className="text-xs text-gray-500">
+								If you choose to proceed, the previously hired pros for this
+								would be unhired.
+							</p>
+						</div>
+
+						<div className="flex gap-4">
+							<div className="flex-1">
+								<BaseButton type="button">Yes, Proceed</BaseButton>
+							</div>
+							<div className="flex-1">
+								<BaseButton type="button" variant="danger">
+									No
+								</BaseButton>
+							</div>
+						</div>
+					</form>
+				</Modal>
+			)} */}
 		</div>
 	);
 }

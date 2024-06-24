@@ -5,8 +5,13 @@ import { Modal } from "../../../../component/modal";
 import { BaseButton } from "../../../../component/button";
 import { Overlay } from "../../../../component/overlay-component";
 import { BaseTextArea } from "../../../../component/text-area";
+import profileAxios from "../../../../helpers/profileAxios";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export function DisputeGig({ open, handleClose }) {
+	const location = useLocation();
+	const { gigData } = location.state;
 	const {
 		register,
 		formState: { errors },
@@ -16,7 +21,15 @@ export function DisputeGig({ open, handleClose }) {
 	const [loading, setLoading] = useState(false);
 
 	const onSubmit = () => {
-		handleClose();
+		setLoading(true);
+		profileAxios
+			.post(`/gigs/dispute-gig/${gigData.gigAccepted[0].uuid}`)
+			.then((res) => {
+				toast.success(res.message);
+				handleClose();
+			})
+			.catch((err) => toast.error(err.response.data.message))
+			.finally(() => setLoading(false));
 	};
 
 	const handleChange = (e) => {
@@ -30,23 +43,31 @@ export function DisputeGig({ open, handleClose }) {
 				style={{ maxWidth: 500, width: "100%" }}
 				onSubmit={handleSubmit(onSubmit)}
 			>
-				{loading && <Overlay message="Updating Industry" />}
+				{loading && <Overlay message="Disputing Gig" />}
 				<div>
-					<p className={`text-primary text-3xl font-bold`}>Dispute Gig</p>
-					<p className="text-sm text-gray-500 mb-2">
-						Please Input reason for dispute.
+					<p className={`text-primary text-3xl font-bold mb-4`}>
+						Dispute Adjustment
 					</p>
-					<div className="my-2">
-						<BaseTextArea
-							placeholder="Enter Dispute Reason"
-							onChange={handleChange}
-						/>
-					</div>
+					<p className="text-sm text-gray-500 mb-6 px-2">
+						Are you sure you want to raise a dispute?
+					</p>
 				</div>
-				<div className="mt-4">
-					<BaseButton type="submit" loading={false}>
-						Submit
-					</BaseButton>
+				<div className="flex gap-2 items-center">
+					<div className="flex-1">
+						<BaseButton type="submit" loading={false}>
+							Yes
+						</BaseButton>
+					</div>
+					<div className="flex-1">
+						<BaseButton
+							type="button"
+							variant="danger"
+							onClick={handleClose}
+							loading={false}
+						>
+							No
+						</BaseButton>
+					</div>
 				</div>
 			</form>
 		</Modal>

@@ -11,22 +11,22 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 export function FundEscrow({ open, handleClose, amount, id }) {
-	// console.log({ amount });
 	const navigate = useNavigate();
 	const { user } = UseAuth();
 	const [loading, setLoading] = useState(false);
-	// console.log({ user });
 	const { handleSubmit } = useForm();
-	// const [loading, setLoading] = useState(false);
 
 	const onSubmit = () => {
 		setLoading(true);
 		profileAxios
 			.post("/gigs/fund-escrow", {
 				amount: Number(amount),
-				gigId: Number(id),
+				gigId: id,
 			})
-			.then((res) => toast.success(res.message))
+			.then((res) => {
+				toast.success(res.message);
+				handleClose()
+			})
 			.catch((err) => toast.error(err.response.data.message))
 			.finally(() => setLoading(false));
 	};
@@ -55,7 +55,10 @@ export function FundEscrow({ open, handleClose, amount, id }) {
 							N{formatNumber(user.walletAmount || 0, 2)}
 						</p>
 
-						<span className="absolute top-4 right-4 px-3 py-1 rounded-full border bg-black/50 text-xs cursor-pointer hover:bg-black/30" onClick={() => navigate("/settings/earning")}>
+						<span
+							className="absolute top-4 right-4 px-3 py-1 rounded-full border bg-black/50 text-xs cursor-pointer hover:bg-black/30"
+							onClick={() => navigate("/settings/earning")}
+						>
 							Fund Wallet &rarr;
 						</span>
 					</div>

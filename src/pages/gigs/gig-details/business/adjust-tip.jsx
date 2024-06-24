@@ -5,23 +5,36 @@ import { Modal } from "../../../../component/modal";
 import { BaseButton } from "../../../../component/button";
 import { Overlay } from "../../../../component/overlay-component";
 import { BaseInput } from "../../../../component/input";
+import profileAxios from "../../../../helpers/profileAxios";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import { formatNumber } from "../../../../helpers/function";
 
 export function AdjustTip({ open, handleClose, openReview }) {
-	const {
-		register,
-		formState: { errors },
-		handleSubmit,
-	} = useForm();
-	const [reason, setReason] = useState("");
+	const location = useLocation();
+	const { gigData } = location.state;
+	const { handleSubmit } = useForm();
+	const [tip, setTip] = useState(0);
 	const [loading, setLoading] = useState(false);
 
 	const onSubmit = () => {
-		handleClose();
-		openReview();
+		setLoading(true);
+		profileAxios
+			.post("/gigs/adjust-tip", {
+				gigId: gigData.uuid,
+				newTip: tip,
+			})
+			.then((res) => {
+				toast.success(res.message);
+				openReview();
+				handleClose();
+			})
+			.catch((err) => toast.error(err.response.data.message))
+			.finally(() => setLoading(false));
 	};
 
 	const handleChange = (e) => {
-		setReason(e.target.value);
+		setTip(e.target.value);
 	};
 
 	return (
@@ -31,9 +44,12 @@ export function AdjustTip({ open, handleClose, openReview }) {
 				style={{ maxWidth: 500, width: "100%" }}
 				onSubmit={handleSubmit(onSubmit)}
 			>
-				{loading && <Overlay message="Updating Industry" />}
+				{loading && <Overlay message="Updating Tip" />}
 				<div>
 					<p className={`text-primary text-3xl font-bold mb-2`}>Adjust Tip</p>
+					<p className="text-sm">
+						Previously stated amount: {formatNumber(gigData.tips)}
+					</p>
 
 					<div className="my-2">
 						<BaseInput
@@ -41,6 +57,7 @@ export function AdjustTip({ open, handleClose, openReview }) {
 							onChange={handleChange}
 							type="number"
 							label="Additional Tip"
+							value={tip}
 						/>
 						<p className="text-xs mt-1 text-gray-500">
 							Based on your discretion and Pros performance beyond minimum

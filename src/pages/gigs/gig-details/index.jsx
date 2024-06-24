@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { MdArrowBackIos } from "react-icons/md";
 // import avatar from "../../../assets/profile-avatar.png";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 // import { KycTag } from "../../../component/kyc-tag";
 import { GigSummary } from "./pro/gig-summary";
 import { ProGigTimeLine } from "./pro/gig-timeline";
@@ -14,11 +14,10 @@ const tabs = ["Details", "Timeline", "Chat"];
 
 function GigDetailsSummary() {
 	const navigate = useNavigate();
-	// const { user: details } = UseAuth();
+	const location = useLocation();
+	const gigData = location?.state?.gigData;
 	const { user } = useSelector((state) => state.auth);
 	const [activeTab, setActiveTab] = useState(tabs[0]);
-
-	// console.log({ details });
 
 	return (
 		<div className="max-w-screen-xl mx-auto m-2 bg-white rounded-md h-full">
@@ -59,8 +58,8 @@ function GigDetailsSummary() {
 					))}
 				</div>
 				<div className="hidden md:block">
-					<span className="p-3 rounded-full bg-primary text-white text-xs">
-						IN PROGRESS
+					<span className="p-3 rounded-full bg-primary text-white text-xs capitalize">
+						{gigData.gigStatusType || gigData.statusType}
 					</span>
 				</div>
 			</div>

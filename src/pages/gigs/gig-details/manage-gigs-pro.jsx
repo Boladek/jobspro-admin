@@ -4,6 +4,7 @@ import {
 	formatDate,
 	formatNumber,
 	generateArray,
+	getDifferenceInHours,
 } from "../../../helpers/function";
 import avatar from "../../../assets/profile-avatar.png";
 import ReactPaginate from "react-paginate";
@@ -25,7 +26,7 @@ export function ManageGigsPro() {
 	const { data: gigs = [], isLoading } = useQuery({
 		queryKey: ["fetch-applied-gigs"],
 		queryFn: () => profileAxios.get("/pro-gigs/applied"),
-		select: (data) => data.data.data,
+		select: (data) => data.data,
 		staleTime: Infinity,
 		retry: 3,
 	});
@@ -86,13 +87,19 @@ export function ManageGigsPro() {
 					{currentItems.length > 0 ? (
 						<>
 							<div className="flex flex-col w-full gap-2">
-								{currentItems.map(() => (
+								{currentItems.map(({ gig, gigStatusType, ...rest }) => (
 									<div
 										key={Math.random()}
-										className="w-full p-4 shadow-sm rounded-md bg-white flex items-center gap-4 justify-between flex-wrap cursor-pointer hover:shadow-md"
-										onClick={() => navigate(`/gigs/${role}/details/gig`)}
+										className="w-full p-4 flex-wrap shadow-sm rounded-md bg-white flex items-center gap-4 justify-between  cursor-pointer hover:shadow-md"
+										onClick={() =>
+											navigate(`/gigs/${role}/details/gig`, {
+												state: {
+													gigData: { gig, ...rest, gigStatusType },
+												},
+											})
+										}
 									>
-										<div className="flex items-center gap-2">
+										{/* <div className="flex items-center gap-2">
 											<img src={avatar} alt="Profile avi" className="h-10" />
 											<div>
 												<p className="text-xs text-gray-400">Business Name</p>
@@ -104,35 +111,32 @@ export function ManageGigsPro() {
 												SuperPro
 											</span>
 											<KycTag text="Tier 1" />
-											{/* <span className="py-1 px-2 bg-[#FFEF98] text-xs rounded-full">
-								Tier 1
-							</span> */}
-										</div>
-										<div>
+										</div> */}
+										<div className="w-1/4">
 											<p className="text-xs text-gray-400">Gig Title</p>
+											<p className="text-sm">{gig?.gigInfos[0]?.title}</p>
+										</div>
+										<div className="flex-1">
+											<p className="text-xs text-gray-400">Gig Date</p>
+											<p className="text-sm">{formatDate(gig.gigDate)}</p>
+										</div>
+										<div className="flex-1">
+											<p className="text-xs text-gray-400">Gig Duration</p>
 											<p className="text-sm">
-												Need servers for a birthday party{" "}
+												{getDifferenceInHours(gig.startTime, gig.endTime)}hrs
 											</p>
 										</div>
-										<div>
-											<p className="text-xs text-gray-400">Gig Date</p>
-											<p className="text-sm">{formatDate(new Date())}</p>
-										</div>
-										<div>
-											<p className="text-xs text-gray-400">Gig Duration</p>
-											<p className="text-sm">8 hours</p>
-										</div>
-										<div>
+										<div className="flex-1">
 											<p className="text-xs text-gray-400">Gig Location</p>
-											<p className="text-sm">Opebi, Ikeja</p>
+											<p className="text-sm">{gig?.gigAddresses[0].address}</p>
 										</div>
-										<div>
+										<div className="flex-1">
 											<p className="text-xs text-gray-400">Budget</p>
-											<p className="text-sm">N{formatNumber(20000)}</p>
+											<p className="text-sm">N{formatNumber(gig.budget)}</p>
 										</div>
-										<div>
+										<div className="flex-1">
 											<span className="p-2 rounded-full bg-[#FFA133] text-white text-xs">
-												Applied
+												{gigStatusType}
 											</span>
 										</div>
 									</div>

@@ -158,7 +158,7 @@ function CreateAccountPage() {
 				)
 				.then((res) => {
 					// setProfile(res.data);
-					console.log({ res });
+					// console.log({ res });
 					setValue("lastName", res.data.family_name);
 					setValue("firstName", res.data.given_name);
 					setValue("email", res.data.email);

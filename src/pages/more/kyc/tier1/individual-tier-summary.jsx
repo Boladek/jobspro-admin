@@ -26,30 +26,30 @@ export function IndividualTierSummary({ gotoNextPage, percent }) {
 			</div>
 			<div className="mb-4">
 				<p className="font-bold text-sm mb-1">Tier 1 Requirement</p>
-				<div className="border border-gray-300 p-3 rounded-md mb-4">
-					<p className="font-bold text-sm">BVN</p>
-					<p className="text-gray-400 text-xs">
-						Please provide us with your BVN number.
-					</p>
-				</div>
-				<div className="border border-gray-300 p-3 rounded-md">
-					{user.userType === "business" ? (
-						<>
-							<p className="font-bold text-sm">Business Verification</p>
+				{user.userType === "business" ? (
+					<div className="border border-gray-300 p-3 rounded-md mb-4">
+						<p className="font-bold text-sm">Business Verification</p>
+						<p className="text-gray-400 text-xs">
+							Please provide us with your CAC registration number.
+						</p>
+					</div>
+				) : (
+					<>
+						<div className="border border-gray-300 p-3 rounded-md mb-4">
+							<p className="font-bold text-sm">BVN</p>
 							<p className="text-gray-400 text-xs">
-								Please provide us with your CAC registration number.
+								Please provide us with your BVN number.
 							</p>
-						</>
-					) : (
-						<>
+						</div>
+						<div className="border border-gray-300 p-3 rounded-md">
 							<p className="font-bold text-sm">Face Capture</p>
 							<p className="text-gray-400 text-xs">
 								Get a face shot by following the instructions that will be
 								provided.
 							</p>
-						</>
-					)}
-				</div>
+						</div>
+					</>
+				)}
 			</div>
 			<div>
 				<p className="text-xs text-gray-400 text-center mb-2">

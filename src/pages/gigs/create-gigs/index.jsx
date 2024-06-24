@@ -28,9 +28,6 @@ function CreateGigPage() {
 		setForm((prev) => ({ ...prev, ...data }));
 	}
 
-	console.log({ form });
-	// console.log({ step });
-
 	return (
 		<div className="max-w-screen-xl mx-auto bg-white rounded-md p-4 h-full">
 			<>
