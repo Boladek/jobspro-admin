@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 // import { BiDislike } from "react-icons/bi";
-import { IoIosHeartEmpty, IoIosHeart } from "react-icons/io";
+import { IoIosHeartEmpty } from "react-icons/io";
 import { BaseButton } from "./button";
 import {
 	formatDate,
@@ -65,63 +65,57 @@ export function GigComponent({ gig, refetch }) {
 	return (
 		<>
 			{loading && <Overlay message="Applying for gig" />}
-			<div className="bg-white p-3 rounded-xl">
-				<div className="flex justify-between mb-2 items-center">
-					<div className="p-3 text-xs text-gray-600 border rounded-full">
-						Posted {timeAgo(gig.createdAt)}
-					</div>
-					<div className="flex gap-2 items-end">
-						<span>
-							{/* {gig.gigFavourites.length > 0 ? (
-								<IoIosHeart size={24} color="red" onClick={unLikeGig} />
-							) : (
-								<IoIosHeartEmpty size={24} color="red" onClick={likeGig} />
-							)} */}
-						</span>
-						{/* <span>
-							<BiDislike size={24} />
-						</span> */}
-					</div>
-				</div>
-				<hr />
-				<div className="pt-2" onClick={() => setOpen(true)}>
-					<p className="font-bold mb-2 text-base">{gig?.gigInfos[0]?.title}</p>
-					<p className="font-extralight text-xs mb-2">
+			<div className="bg-light border border-adminPrimary p-4 rounded-lg">
+				<div className="pt-2">
+					<p className="font-bold mb-2 text-base text-adminPrimary">
+						{gig?.gigInfos[0]?.title}
+					</p>
+					<p className="text-xs mb-2 text-gray-500">
 						{gig?.gigInfos[0]?.description}
 					</p>
-					<div className="flex gap-2 items-center flex-wrap mb-2">
-						<div className="p-2 rounded-lg border">
-							<p className="font-semibold text-xs">
-								{getDifferenceInHours(gig.startTime, gig.endTime)}hrs(
-								{getAmPm(gig.startTime)}-{getAmPm(gig.endTime)})
+					<div className="flex gap-2 items-center flex-wrap mb-4 bg-adminPrimary rounded-lg text-white p-4">
+						<div className="flex-1">
+							<p className="text-sm">
+								Duration:
+								<span className="font-semibold">
+									{getDifferenceInHours(gig.startTime, gig.endTime)}hrs |
+									{getAmPm(gig.startTime)}-{getAmPm(gig.endTime)}
+								</span>
 							</p>
-							<p className="text-xs font-light text-gray-500">Duration</p>
 						</div>
-						<div className="p-2 rounded-lg border">
+						<div className="flex-1">
+							<p className="text-sm">
+								Est Budget:
+								<span className="font-semibold">
+									N{formatNumber(gig.budget)}
+								</span>
+							</p>
+						</div>
+						{/* <div>
 							<p className="font-semibold text-xs">{formatDate(gig.gigDate)}</p>
-							<p className="text-xs font-light text-gray-500">Date</p>
 						</div>
-						<div className="p-2 rounded-lg border">
+						<div>
 							<p className="font-semibold text-xs">
 								{gig.gigAddresses[0].address}
 							</p>
-							<p className="text-xs font-light text-gray-500">location</p>
+						</div> */}
+					</div>
+					<div className="flex justify-between text-xs">
+						<div className="py-2 px-4 border rounded-lg border-adminPrimary bg-white font-light">
+							Start Date:{" "}
+							<span className="font-bold">{formatDate(gig.createdAt)}</span>
+						</div>
+						<div>Posted: {timeAgo(gig.createdAt)}</div>
+						<div
+							className="flex gap-2 items-center"
+							onClick={() => setOpen(true)}
+						>
+							Apply
+							<span className="cursor-pointer h-8 w-8 bg-adminPrimary text-white rounded-full flex items-center justify-center mx-auto transform -rotate-45">
+								&rarr;
+							</span>
 						</div>
 					</div>
-					<div className="flex gap-1 items-center mb-2">
-						<span className="text-xs text-gray-500 font-semibold">Budget</span>
-						<span className="font-bold">N{formatNumber(gig.budget)}</span>
-					</div>
-					{/* <div className="flex gap-2 flex-wrap">
-						{["Total", "Next", "View"].map((item) => (
-							<span
-								key={item}
-								className="text-xs p-2 border rounded-full bg-light"
-							>
-								{item}
-							</span>
-						))}
-					</div> */}
 				</div>
 			</div>
 			{open && (
@@ -156,7 +150,7 @@ export function GigComponent({ gig, refetch }) {
 												<IoIosHeartEmpty size={24} color="red" />
 											</span>
 										</div>
-										<p className="text-primary font-bold mb-2">
+										<p className="text-adminPrimary font-bold mb-2">
 											{gig?.gigInfos[0]?.title}
 										</p>
 										<div className="flex gap-2 items-center mb-4">
@@ -296,7 +290,7 @@ export function GigComponent({ gig, refetch }) {
 										<div className="p-2 border rounded-lg">
 											<div className="flex justify-between items-center mb-2">
 												<div className="text-sm text-gray-400">Gig Amount</div>
-												<div className="text-primary font-bold">
+												<div className="text-adminPrimary font-bold">
 													N{formatNumber(gig.budget)}
 												</div>
 											</div>
@@ -309,13 +303,13 @@ export function GigComponent({ gig, refetch }) {
 														Not guaranteed, based on performance
 													</p>
 												</div>
-												<div className="text-primary font-bold">
+												<div className="text-adminPrimary font-bold">
 													N{formatNumber(gig.tips || 0)}
 												</div>
 											</div>
 											<div className="flex justify-between items-center mb-2">
 												<div className="text-sm text-gray-400">Total</div>
-												<div className="text-primary font-bold">
+												<div className="text-adminPrimary font-bold">
 													N{formatNumber(gig.totalBudget)}
 												</div>
 											</div>
@@ -335,7 +329,7 @@ export function GigComponent({ gig, refetch }) {
 												<div className="text-sm text-gray-400">
 													Estimated Total
 												</div>
-												<div className="text-primary font-bold">
+												<div className="text-adminPrimary font-bold">
 													N{formatNumber(gig.totalBudget)}
 												</div>
 											</div>
@@ -373,7 +367,7 @@ export function GigComponent({ gig, refetch }) {
 					>
 						<div className="flex-1 md:flex md:justify-center md:items-center">
 							<div>
-								<p className={`text-primary text-3xl font-bold`}>
+								<p className={`text-adminPrimary text-3xl font-bold`}>
 									Additional Comments
 								</p>
 								<p className="text-xs text-gray-500 mb-4">

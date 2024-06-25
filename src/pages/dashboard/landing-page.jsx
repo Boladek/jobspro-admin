@@ -5,11 +5,13 @@ import illustration from "../../assets/illustration.png";
 import { BaseButton } from "../../component/button";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { BusinessDashBoard } from "./business";
+import { ProDashBoard } from "./pro";
 
 function LandingPage() {
 	const navigate = useNavigate();
 	const { user } = useSelector((state) => state.auth);
-	const [open, setOpen] = useState(true);
+	const [open, setOpen] = useState(false);
 
 	const handleNavigate = () => {
 		navigate(`/dashboard/profile/${user.userType}`);
@@ -17,7 +19,7 @@ function LandingPage() {
 
 	return (
 		<>
-			<div>Dashboard Page</div>
+			{user.userType === "pro" ? <ProDashBoard /> : <BusinessDashBoard />}
 			{open && (
 				<Modal open={open} handleClose={() => setOpen(false)}>
 					<div className="w-full p-2">
