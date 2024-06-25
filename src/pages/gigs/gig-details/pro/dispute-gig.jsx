@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { Modal } from "../../../../component/modal";
 import { BaseButton } from "../../../../component/button";
 import { Overlay } from "../../../../component/overlay-component";
-import { BaseTextArea } from "../../../../component/text-area";
+// import { BaseTextArea } from "../../../../component/text-area";
 import profileAxios from "../../../../helpers/profileAxios";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -33,10 +33,6 @@ export function DisputeGig({ open, handleClose }) {
 			})
 			.catch((err) => toast.error(err.response.data.message))
 			.finally(() => setLoading(false));
-	};
-
-	const handleChange = (e) => {
-		setReason(e.target.value);
 	};
 
 	return (

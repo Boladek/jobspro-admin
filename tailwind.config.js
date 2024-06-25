@@ -16,7 +16,7 @@ export default {
 				error: "#FF3B30",
 				dark: "#1E1E1E",
 				light: "#F3F8FF",
-				adminPrimary: "#1A68FF",
+				adminPrimary: "#408CFF",
 			},
 			backgroundImage: {
 				"custom-gradient": "linear-gradient(90deg, #005AAA, #020C60)",
