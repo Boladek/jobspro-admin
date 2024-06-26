@@ -91,7 +91,7 @@ export function BusinessDashBoard() {
 					<p className="text-sm mb-2 font-bold">Profile Badge</p>
 					<div className="p-8 rounded-lg bg-black w-48 text-white text-center">
 						<p className="capitalize mb-1 text-sm">{user?.completedTier}</p>
-						<ProgressBar percent={100} color="#14FF9C" thickness={1} />
+						<ProgressBar percent={user?.profileCompletion} color="#14FF9C" thickness={1} />
 						<p className="mt-2 text-4xl">
 							{formatNumber(user?.profileCompletion)}%
 						</p>

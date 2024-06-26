@@ -15,7 +15,9 @@ import { formatDate } from "../../../helpers/function";
 export function ProHeadSection() {
 	const { user } = useSelector((state) => state.auth);
 	const [open, setOpen] = useState(false);
-	const { user: details } = UseAuth();
+	const { user: details, name } = UseAuth();
+
+	console.log({ details });
 
 	return (
 		<>
@@ -45,6 +47,7 @@ export function ProHeadSection() {
 							<EditIcon size={0.8} />
 						</div> */}
 						<div className="mb-2">
+							<p className="text-sm font-bold mb-2">{name}</p>
 							<span className="p-2 px-3 rounded-full text-xs capitalize bg-[#42BE65] text-white">
 								{user?.userType}
 							</span>
@@ -52,7 +55,9 @@ export function ProHeadSection() {
 								<StarIcon />
 								<span>5.0(900)</span>
 							</div>
-							<p className="text-xs text-gray-400 mt-1">Completion rate: 98%</p>
+							<p className="text-xs text-gray-400 mt-1">
+								Completion rate: {details?.profileCompletion}%
+							</p>
 						</div>
 						<div className="flex justify-between items-center mb-2 gap-1">
 							<div className="flex gap-1 items-center text-xs font-extralight">

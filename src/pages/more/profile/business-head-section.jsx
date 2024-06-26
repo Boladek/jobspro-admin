@@ -12,7 +12,7 @@ import { UseAuth } from "../../../context/auth-context";
 import { formatDate } from "../../../helpers/function";
 
 export function BusinessHeadSection() {
-	const { user: details } = UseAuth();
+	const { user: details, name } = UseAuth();
 	const { user } = useSelector((state) => state.auth);
 	const [open, setOpen] = useState(false);
 	const [openPic, setOpenPic] = useState(false);
@@ -40,6 +40,7 @@ export function BusinessHeadSection() {
 						<img src={check} alt="Check alt" className="h-5" />
 						<EditIcon size={0.8} />
 					</div> */}
+					<p className="text-sm font-bold mb-2">{name}</p>
 
 					<div className="mb-4">
 						<span className="p-2 px-3 rounded-full text-xs capitalize bg-[#FFC700] text-dark">

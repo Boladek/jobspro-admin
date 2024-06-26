@@ -64,7 +64,7 @@ export function GigComponent({ gig, refetch }) {
 	return (
 		<>
 			{loading && <Overlay message="Applying for gig" />}
-			<div className="bg-[#F8FAFF] border border-adminPrimary p-4 rounded-lg">
+			<div className="bg-[#F8FAFF] border border-adminPrimary p-4 rounded-lg max-w-xl">
 				<div className="pt-2">
 					<p className="font-bold mb-2 text-base text-adminPrimary">
 						{gig?.gigInfos[0]?.title}
@@ -102,7 +102,9 @@ export function GigComponent({ gig, refetch }) {
 					<div className="flex justify-between text-xs items-center">
 						<div className="py-2 px-4 border rounded-lg border-adminPrimary bg-white font-light">
 							Start Date
-							<span className="font-bold ml-4">{formatDate(gig.createdAt)}</span>
+							<span className="font-bold ml-4">
+								{formatDate(gig.createdAt)}
+							</span>
 						</div>
 						<div>Posted: {timeAgo(gig.createdAt)}</div>
 						<div

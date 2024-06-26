@@ -11,11 +11,14 @@ export function Paginate({
 }) {
 	const totalPages = Math.ceil(total / perPage);
 	const handleClick = (val) => {
-		if (currentPage === 1 && val > 1) {
-			handlePageClick(val);
-		} else if (currentPage > 1 && currentPage < totalPages) {
-			handlePageClick(val);
-		} else if (currentPage === totalPages && val < totalPages) {
+		if (
+			currentPage === 1 &&
+			val > 1 &&
+			currentPage === totalPages &&
+			val < totalPages &&
+			currentPage > 1 &&
+			currentPage < totalPages
+		) {
 			handlePageClick(val);
 		}
 		return;
