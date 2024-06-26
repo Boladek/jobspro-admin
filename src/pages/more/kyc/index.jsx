@@ -27,7 +27,7 @@ function KYCPage() {
 	// const [step, setStep] = useState(1);
 	return (
 		<div className="flex justify-center p-4 relative h-full">
-			{isLoading && (
+			{isLoading ? (
 				<div
 					role="status"
 					className="absolute top-0 left-0 w-full h-full bg-black/5 flex flex-col justify-center items-center"
@@ -50,8 +50,13 @@ function KYCPage() {
 					</svg>
 					<span className="text-2xl">Loading...</span>
 				</div>
+			) : (
+				<>
+					{data.tier === 1 && <Tier1 kycData={data} refetch={refetch} />}
+					{data.tier === 2 && <p>Currently at Tier 2</p>}
+					{data.tier === 3 && <p>Upgraded to Tier 3</p>}
+				</>
 			)}
-			{data.tier === 1 && <Tier1 kycData={data} refetch={refetch} />}
 		</div>
 	);
 }

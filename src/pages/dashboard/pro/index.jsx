@@ -34,7 +34,6 @@ const stats = [
 
 export function ProDashBoard() {
 	const { user } = UseAuth();
-	console.log({ user });
 	return (
 		<div className="h-full flex gap-2 bg-white">
 			<div className="w-1/4 p-4">
