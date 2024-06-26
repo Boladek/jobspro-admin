@@ -6,6 +6,7 @@ import { SearchComponent } from "../../component/search-component";
 import { BaseSelect } from "../../component/select";
 import profileAxios from "../../helpers/profileAxios";
 import { useMemo, useState } from "react";
+import { GigFilter } from "./gig-details/gig-filter";
 
 function GigsPage() {
 	const [searchText, setSearchText] = useState("");
@@ -62,113 +63,28 @@ function GigsPage() {
 		return [];
 	}, [gigs]);
 
-	// const allLocations = useMemo(() => {
-	// 	if (gigs.length > 0) {
-	// 		return [...new Set(gigs.map((gig) => gig.subCategory.name))];
-	// 	}
-	// 	return [];
-	// }, [gigs]);
-
-	// console.log({ allCategories });
+	const reset = () => {
+		refetch();
+		setMax(100000000);
+		setSearchText("")
+		setCategory("")
+		setMin(0)
+	};
 
 	return (
-		<div className="flex bg-[#f6f7fa] h-full max-h-svh">
-			<div className="max-w-sm w-full p-4 h-full max-h-full">
-				<div className="mb-4">
-					<span
-						onClick={refetch}
-						className="p-2 bg-white rounded-full text-xs cursor-pointer hover:outline hover:outline-primary"
-					>
-						Refresh &#x21bb;
-					</span>
-				</div>
-				<div className="w-full">
-					<SearchComponent
-						value={searchText}
-						onChange={(e) => setSearchText(e.target.value)}
-					/>
-				</div>
-				<p className="font-bold mb-2">Filter</p>
-				<div>
-					<p className="font-bold text-sm mb-2">Date</p>
-					<div className="flex gap-2 items-center text-sm mb-2">
-						<input type="radio" name="date" id="all" />
-						<label htmlFor="all">All</label>
-					</div>
-					<div className="flex gap-2 items-center text-sm mb-2">
-						<input type="radio" name="date" id="today" />
-						<label htmlFor="today">Today</label>
-					</div>
-					<div className="flex gap-2 items-center text-sm mb-2">
-						<input type="radio" name="date" id="tomorrow" />
-						<label htmlFor="tomorrow">Tomorrow</label>
-					</div>
-					<div className="flex gap-2 items-center text-sm">
-						<input type="radio" name="date" id="week" />
-						<label htmlFor="week">This week</label>
-					</div>
-				</div>
-				<div className="mt-4">
-					<p className="font-bold text-sm mb-2">Category</p>
-					<div>
-						<BaseSelect
-							label="Select Category"
-							value={category}
-							onChange={(e) => setCategory(e.target.value)}
-						>
-							<option value=""></option>
-							{allCategories.map((item) => (
-								<option key={item} value={item}>
-									{item}
-								</option>
-							))}
-						</BaseSelect>
-					</div>
-				</div>
-				<div className="mt-4">
-					<p className="font-bold text-sm mb-2">Experience Level</p>
-					<div className="flex gap-2 items-center text-sm mb-2">
-						<input
-							type="radio"
-							name="experience"
-							id="exp"
-							value="experienced"
-						/>
-						<label htmlFor="exp">Experienced</label>
-					</div>
-					<div className="flex gap-2 items-center text-sm mb-2">
-						<input type="radio" name="experience" id="non-exp" />
-						<label htmlFor="non-exp">Non-Experience</label>
-					</div>
-				</div>
-				<div className="mt-4">
-					<p className="font-bold text-sm mb-2">Price Range</p>
-					<div className="flex gap-2">
-						<div className="flex-1">
-							<BaseInput
-								placeholder="Min"
-								type="number"
-								onChange={(e) => setMin(e.target.value)}
-								min={0}
-							/>
-						</div>
-						<div className="flex-1">
-							<BaseInput
-								placeholder="Max"
-								type="number"
-								onChange={(e) => setMax(e.target.value)}
-							/>
-						</div>
-					</div>
-				</div>
-				<div className="mt-4">
-					<p className="font-bold text-sm mb-2">Location</p>
-					<div>
-						<BaseSelect label="Select location">
-							<option></option>
-						</BaseSelect>
-					</div>
-				</div>
+		<div className="block md:flex bg-[#f6f7fa] h-full max-h-svh">
+			<div>
+				<GigFilter
+					refetch={reset}
+					searchText={searchText}
+					setSearchText={setSearchText}
+					category={category}
+					allCategories={allCategories}
+					setCategory={setCategory}
+					setMin={setMin}
+					setMax={setMax}
+					min={min}
+				/>
 			</div>
 			<div className="flex-1 p-4 h-full flex flex-col overflow-y-auto">
 				<p className="font-bold mb-2">
