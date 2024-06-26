@@ -8,11 +8,10 @@ import { SearchComponent } from "./search-component";
 import { useNavigate } from "react-router-dom";
 import { AvatarSection } from "./avatar-section";
 import { useSelector } from "react-redux";
-import { DashboardIcon } from "../assets/admin/dashboard-icon";
-import { UsersIcon } from "../assets/admin/users-icon";
-import { TextingIcon } from "../assets/admin/texting-icon";
-import { DocIcon } from "../assets/admin/doc-icon";
-import { SettingIcon } from "../assets/setting-icon";
+import { DocIcon } from "../assets/doc-icon";
+import { PersonIcon } from "../assets/person-icon";
+import { HomeIcon } from "../assets/home-icon";
+import { ChatBubbleIcon } from "../assets/chat-bubble-icon";
 
 // import { UseAuth } from "../context/auth-context";
 // import { useSelector } from "react-redux";
@@ -31,11 +30,11 @@ export function AuthHeader() {
 	};
 
 	const links = [
-		{ title: "dashboard", url: "/dashboard", icon: DashboardIcon },
+		{ title: "dashboard", url: "/dashboard", icon: HomeIcon },
 		{ title: "gigs", url: `/gigs/${userType}`, icon: DocIcon },
-		// { title: "messages", url: "/messages", icon: TextingIcon },
+		// { title: "chats", url: "/messages", icon: ChatBubbleIcon },
 		// { title: "wallets", url: "/wallets" },
-		{ title: "settings", url: "/settings/profile", icon: SettingIcon },
+		{ title: "profile", url: "/settings/profile", icon: PersonIcon },
 	];
 
 	return (

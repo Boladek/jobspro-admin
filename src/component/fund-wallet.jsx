@@ -10,9 +10,8 @@ import { toast } from "react-toastify";
 import { UseAuth } from "../context/auth-context";
 
 export function FundWallet({ open, handleClose }) {
-	const { refetch, user, name } = UseAuth();
+	const { refetch, name } = UseAuth();
 	const [loading, setLoading] = useState(false);
-	console.log({ user, name });
 
 	const {
 		register,

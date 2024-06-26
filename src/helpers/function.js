@@ -93,14 +93,14 @@ export const parseTimeStringToTodayDate = (timeStr) => {
 };
 
 export const getAmPm = (timeStr) => {
-	const [hours, minutes, seconds] = timeStr.split(":").map(Number);
+	const [hours, minutes] = timeStr.split(":").map(Number);
 	const period = hours < 12 ? "AM" : "PM";
 
 	// Convert hours from 24-hour format to 12-hour format
 	const adjustedHours = hours % 12 === 0 ? 12 : hours % 12;
 	const adjustedTimeStr = `${String(adjustedHours).padStart(2, "0")}:${String(
 		minutes
-	).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+	).padStart(2, "0")}`;
 
 	return `${adjustedTimeStr} ${period}`;
 };

@@ -5,6 +5,7 @@ import { ProgressBar } from "../../../component/admin/progress-bar";
 import { UseAuth } from "../../../context/auth-context";
 import disco from "../../../assets/disco-ball.png";
 import { formatNumber } from "../../../helpers/function";
+import { PostedGigs } from "./posted-gigs";
 
 const stats = [
 	{
@@ -35,7 +36,7 @@ const stats = [
 
 export function BusinessDashBoard() {
 	const { user } = UseAuth();
-	console.log({ user });
+
 	return (
 		<div className="h-full flex gap-2 bg-white">
 			<div className="w-1/4 p-4">
@@ -85,7 +86,7 @@ export function BusinessDashBoard() {
 				</div>
 			</div>
 			<div className="flex-1 flex">
-				<div className="w-2/3">{/* <BestMatches /> */}</div>
+				<div className="w-2/3"><PostedGigs /></div>
 				<div className="p-4">
 					<p className="text-sm mb-2 font-bold">Profile Badge</p>
 					<div className="p-8 rounded-lg bg-black w-48 text-white text-center">

@@ -9,6 +9,7 @@ import {
 import ReactPaginate from "react-paginate";
 import profileAxios from "../../../helpers/profileAxios";
 import { useQuery } from "@tanstack/react-query";
+import { Paginate } from "../../../component/paginate";
 
 const proTabs = ["Posted", "Active", "Archived"];
 
@@ -57,7 +58,19 @@ export function ManageGigsBusiness() {
 		<div className="bg-white h-full p-4 flex flex-col">
 			<div className="flex justify-between items-center">
 				<p className="text-2xl font-bold mb-2">Manage Gigs</p>
-
+				<div className="flex bg-adminPrimary p-2 text-sm text-white w-full justify-evenly rounded-lg max-w-md mx-auto mb-4">
+					{proTabs.map((tab) => (
+						<div
+							className={`${
+								activeTab === tab ? "border-b-yellow-300 border-b-4" : ""
+							} p-0.5 cursor-pointer`}
+							key={tab}
+							onClick={() => setActiveTab(tab)}
+						>
+							{tab}
+						</div>
+					))}
+				</div>
 				<span
 					className="p-2 border text-sm bg-adminPrimary text-white rounded-md hover:opacity-75 cursor-pointer"
 					onClick={() => navigate(`/gigs/${role}/create-gig`)}
@@ -66,19 +79,6 @@ export function ManageGigsBusiness() {
 				</span>
 			</div>
 
-			<div className="flex bg-adminPrimary p-2 text-sm text-white w-full justify-evenly rounded-lg max-w-md mx-auto mb-4">
-				{proTabs.map((tab) => (
-					<div
-						className={`${
-							activeTab === tab ? "border-b-yellow-300 border-b-4" : ""
-						} p-0.5 cursor-pointer`}
-						key={tab}
-						onClick={() => setActiveTab(tab)}
-					>
-						{tab}
-					</div>
-				))}
-			</div>
 			{isLoading && <div className="progress"></div>}
 			<div>
 				<>

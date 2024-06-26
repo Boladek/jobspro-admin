@@ -9,6 +9,7 @@ import profileAxios from "../helpers/profileAxios";
 import { useParams } from "react-router-dom";
 import { Overlay } from "./overlay-component";
 import { toast } from "react-toastify";
+import { KycTag } from "./kyc-tag";
 
 export function PropComponent({ pro, gig }) {
 	const { id } = useParams();
@@ -38,11 +39,15 @@ export function PropComponent({ pro, gig }) {
 				<div className="flex justify-between items-center">
 					<div className="py-3 text-xs text-gray-600 flex gap-1 items-center">
 						<div className="p-2 font-2xl h-12 w-12 flex items-center text-primary font-bold text-xl bg-light justify-center rounded-full">
-							OR
+							{pro.user.firstName[0]}
+							{pro.user.lastName[0]}
 						</div>
 						<div>
-							<p className="font-bold">Adeola Alero</p>
-							<div>Tier system</div>
+							<p className="font-bold">
+								{pro.user.firstName} {pro.user.lastName}
+							</p>
+							<KycTag text={pro.user.completedTier} />
+							{/* <div className="capitalize">{pro.user.completedTier}</div> */}
 						</div>
 					</div>
 					<div className="flex">
@@ -50,23 +55,28 @@ export function PropComponent({ pro, gig }) {
 							<span>
 								<StarIcon filled size={0.75} />
 							</span>
-							<span>5.0(900)</span>
+							<span>
+								{pro.user.rating ?? 0}({pro.user.numberOfRatings})
+							</span>
 						</div>
 					</div>
 				</div>
 				<hr />
 				<div className="pt-2">
 					<p className="mb-2 text-xs text-gray-500">
-						Has <span className="text-black font-bold">14 relevant</span> skills
-						relating to your job
+						Has{" "}
+						<span className="text-black font-bold">
+							{pro.user.userSkillSets.length} relevant
+						</span>{" "}
+						skills relating to your job
 					</p>
 					<div className="flex gap-2 flex-wrap">
-						{["Total", "Next", "View"].map((item) => (
+						{pro.user.userSkillSets.map((item) => (
 							<span
-								key={item}
+								key={item.uuid}
 								className="text-xs p-2 border rounded-full bg-light"
 							>
-								{item}
+								{item.skill}
 							</span>
 						))}
 					</div>
@@ -101,7 +111,7 @@ export function PropComponent({ pro, gig }) {
 									</p>
 								</div>
 
-								<div className="p-4 rounded-lg border mb-4">
+								{/* <div className="p-4 rounded-lg border mb-4">
 									<p className="font-bold mb-2">Work Pics</p>
 									<div className="flex gap-2 overflow-x-auto">
 										{generateArray(4).map(() => (
@@ -113,23 +123,25 @@ export function PropComponent({ pro, gig }) {
 											/>
 										))}
 									</div>
-								</div>
+								</div> */}
 
 								<div className="p-4 rounded-lg border mb-4">
 									<p className="font-bold mb-2">Skills</p>
 									<div className="pt-2">
 										<p className="mb-2 text-xs text-gray-500">
 											Has{" "}
-											<span className="text-black font-bold">14 relevant</span>{" "}
+											<span className="text-black font-bold">
+												{pro.user.userSkillSets.length} relevant
+											</span>{" "}
 											skills relating to your job
 										</p>
 										<div className="flex gap-2 flex-wrap">
-											{["Total", "Next", "View"].map((item) => (
+											{pro.user.userSkillSets.map((item) => (
 												<span
-													key={item}
+													key={item.uuid}
 													className="text-xs p-2 border rounded-full bg-light"
 												>
-													{item}
+													{item.skill}
 												</span>
 											))}
 										</div>
@@ -226,25 +238,38 @@ export function PropComponent({ pro, gig }) {
 					maxWidth={400}
 				>
 					<form
-						className="py-4 h-full flex flex-col"
+						className="p-4 h-full flex flex-col"
 						style={{ maxWidth: 500, width: "100%" }}
 						// onSubmit={handleSubmit(onSubmit)}
 					>
-						<div className="flex-1 md:flex md:justify-center md:items-center">
+						<div className="flex-1 md:flex md:justify-center md:items-center border p-4 rounded-lg mb-4">
 							<div>
-								<p className={`text-primary text-3xl font-bold mb-4`}>
-									Are you sure you want to Hire this pro?
+								<div className="flex flex-col items-center gap-2 mb-2">
+									<img
+										src={pro.user.profilePicture ?? avatar}
+										alt="Profile Picture"
+										loading="lazy"
+										className="h-24 w-24 rounded-full"
+									/>
+									<KycTag text={pro.user.completedTier} />
+								</div>
+								<p className={`text-3xl font-bold mb-4`}>
+									Hire {pro.user.firstName} {pro.user.lastName}
 								</p>
-								<p className="text-xs text-gray-500 mb-4">
-									You're about to hire {pro?.user?.finclusionId} for a{" "}
-									{getDifferenceInHours(gig.startTime, gig.endTime)}hrs service.
+								<p className="text-xs text-gray-500">
+									You&apos;re about to hire{" "}
+									<strong>
+										{pro.user.firstName} {pro.user.lastName}
+									</strong>{" "}
+									for a {getDifferenceInHours(gig.startTime, gig.endTime)}hrs
+									service.
 								</p>
 							</div>
 						</div>
 
 						<div>
 							<BaseButton type="button" onClick={hirePro}>
-								Next
+								Hire
 							</BaseButton>
 						</div>
 					</form>

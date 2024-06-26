@@ -4,8 +4,8 @@ import profile from "../../assets/profile.png";
 import earnings from "../../assets/earnings.png";
 import settings from "../../assets/settings-icon.png";
 import stats from "../../assets/stats.png";
-import favourites from "../../assets/favourites.png";
-import help from "../../assets/help.png";
+// import favourites from "../../assets/favourites.png";
+// import help from "../../assets/help.png";
 import { BaseSelect } from "../../component/select";
 
 const links = [
