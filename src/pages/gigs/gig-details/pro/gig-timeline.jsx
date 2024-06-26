@@ -11,6 +11,9 @@ import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { CancelGig } from "../business/cancel-gig";
 import { DisputeGig } from "./dispute-gig";
+import duration from "../../../../assets/clock.png";
+import date from "../../../../assets/calendar-pic.png";
+import time from "../../../../assets/timer.png";
 
 export function ProGigTimeLine() {
 	const location = useLocation();
@@ -116,21 +119,26 @@ export function ProGigTimeLine() {
 									<p className="font-bold mb-2">{data.step2.title}</p>
 									<div className="mb-2">
 										<p className="font-small text-xs">Duration</p>
-										<p className="font-bold text-sm">
+										<div className="font-bold text-sm flex gap-2 items-center">
+											<img src={time} className="h-4" />
 											{data.step2.duration}hrs
-										</p>
+										</div>
 									</div>
 									<hr />
 									<div className="my-2">
 										<p className="font-small text-xs">Time range</p>
-										<p className="font-bold text-sm">
+										<div className="font-bold text-sm flex gap-2 items-center">
+											<img src={duration} className="h-4" />
 											{data.step2.startTime} - {data.step2.endTime}
-										</p>
+										</div>
 									</div>
 									<hr />
 									<div className="mt-2">
 										<p className="font-small text-xs">Date</p>
-										<p className="font-bold text-sm">{data.step2.date}</p>
+										<div className="font-bold text-sm flex gap-2 items-center">
+											<img src={date} className="h-4" />
+											{data.step2.date}
+										</div>
 									</div>
 								</div>
 							</li>
@@ -174,7 +182,9 @@ export function ProGigTimeLine() {
 								</span>
 								<div className="p-2 rounded-lg border">
 									<p className="font-bold mb-2">{data.step3.title}</p>
-									<p className="mb-2">{data.step3.timeLeft} ago</p>
+									<p className="mb-2 flex gap-2 items-center">
+										{data.step3.timeLeft} ago
+									</p>
 									{/* <div
 										className={`mb-2 flex justify-evenly max-w-64 bg-custom-gradient rounded-lg p-4`}
 									>

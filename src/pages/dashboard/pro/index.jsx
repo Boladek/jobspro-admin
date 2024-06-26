@@ -1,28 +1,40 @@
-import React from "react";
 import { WalletIcon } from "../../../assets/admin/wallet-icon";
 import { StarIcon } from "../../../assets/admin/star-icon";
 import { ProgressBar } from "../../../component/admin/progress-bar";
+import { BestMatches } from "./best-matches";
+import { UseAuth } from "../../../context/auth-context";
+import disco from "../../../assets/disco-ball.png";
 
 const stats = [
 	{
 		title: "Gigs Completed",
 		value: 12,
+		bg: "bg-adminPrimary",
+		color: "text-white",
 	},
 	{
 		title: "Gigs Cancelled",
 		value: 12,
+		bg: "bg-[#000]",
+		color: "text-white",
 	},
 	{
 		title: "Ongoing Gigs",
 		value: 12,
+		bg: "bg-[#fff]",
+		color: "text-black",
 	},
 	{
 		title: "Upcoming Gigs",
 		value: 12,
+		bg: "bg-[#E2FFE2]",
+		color: "text-black",
 	},
 ];
 
 export function ProDashBoard() {
+	const { user } = UseAuth();
+	console.log({ user });
 	return (
 		<div className="h-full flex gap-2 bg-white">
 			<div className="w-1/4 p-4">
@@ -54,7 +66,7 @@ export function ProDashBoard() {
 						{stats.map((stat) => (
 							<div
 								key={stat.title}
-								className="px-4 py-8 border rounded-xl text-center border-[#025949] cursor-pointer hover:shadow-lg transition-all ease-linear 300s"
+								className={`${stat.bg} ${stat.color} px-4 py-8 border rounded-xl text-center border-[#025949] cursor-pointer hover:shadow-lg transition-all ease-linear 300s`}
 							>
 								<p className="mb-2">{stat.value}</p>
 								<div className="mb-2 w-1/2 mx-auto">
@@ -71,7 +83,23 @@ export function ProDashBoard() {
 					</div>
 				</div>
 			</div>
-			<div className="flex-1">Gigs</div>
+			<div className="flex-1 flex">
+				<div className="w-2/3">
+					<BestMatches />
+				</div>
+				<div className="p-4">
+					<p className="text-sm mb-2 font-bold">Profile Badge</p>
+					<div className="p-8 rounded-lg bg-black w-48 text-white text-center">
+						<p className="capitalize mb-1 text-sm">{user?.completedTier}</p>
+						<ProgressBar percent={100} color="#14FF9C" thickness={1} />
+						<p className="mt-2 text-4xl">{user?.profileCompletion}%</p>
+						<p className="text-xs">completed</p>
+						<div className="flex justify-center p-2">
+							<img src={disco} alt="Disco Ball" className="h-8" />
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	);
 }

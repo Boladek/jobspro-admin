@@ -1,11 +1,12 @@
 import PropTypes from "prop-types";
 
-export function ProgressBar({ percent, color, thickness = 1.5, bg = "#fff" }) {
+export function ProgressBar({ percent, color, thickness = 1, bg = "#fff" }) {
 	return (
 		<div
-			className={`h-${thickness} w-full rounded-md overflow-hidden`}
+			className={`w-full rounded-md overflow-hidden`}
 			style={{
 				background: bg,
+				height: `${thickness * 0.25}rem`,
 			}}
 		>
 			<div

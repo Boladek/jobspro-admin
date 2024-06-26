@@ -35,9 +35,6 @@ function GigsPage() {
 					const detailedDescriptionMatch = gig?.gigInfos[0]?.description
 						?.toLowerCase()
 						?.includes(searchText.toLowerCase());
-					// const categoryMatch = gig?.subCategory?.name
-					// 	?.toLowerCase()
-					// 	?.includes(category.toLowerCase());
 
 					return titleMatch || detailedDescriptionMatch;
 				})

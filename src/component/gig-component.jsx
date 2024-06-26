@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
-// import { BiDislike } from "react-icons/bi";
-import { IoIosHeartEmpty } from "react-icons/io";
+import { IoIosHeartEmpty, IoIosHeart } from "react-icons/io";
 import { BaseButton } from "./button";
 import {
 	formatDate,
@@ -65,7 +64,7 @@ export function GigComponent({ gig, refetch }) {
 	return (
 		<>
 			{loading && <Overlay message="Applying for gig" />}
-			<div className="bg-light border border-adminPrimary p-4 rounded-lg">
+			<div className="bg-[#F8FAFF] border border-adminPrimary p-4 rounded-lg">
 				<div className="pt-2">
 					<p className="font-bold mb-2 text-base text-adminPrimary">
 						{gig?.gigInfos[0]?.title}
@@ -73,20 +72,20 @@ export function GigComponent({ gig, refetch }) {
 					<p className="text-xs mb-2 text-gray-500">
 						{gig?.gigInfos[0]?.description}
 					</p>
-					<div className="flex gap-2 items-center flex-wrap mb-4 bg-adminPrimary rounded-lg text-white p-4">
-						<div className="flex-1">
-							<p className="text-sm">
-								Duration:
-								<span className="font-semibold">
-									{getDifferenceInHours(gig.startTime, gig.endTime)}hrs |
+					<div className="flex items-center flex-wrap mb-4 bg-adminPrimary rounded-lg text-white p-4 text-xs justify-between font-extralight">
+						<div>
+							<p>
+								Duration
+								<span className="font-semibold ml-4">
+									{getDifferenceInHours(gig.startTime, gig.endTime)}hrs |{" "}
 									{getAmPm(gig.startTime)}-{getAmPm(gig.endTime)}
 								</span>
 							</p>
 						</div>
-						<div className="flex-1">
-							<p className="text-sm">
-								Est Budget:
-								<span className="font-semibold">
+						<div>
+							<p>
+								Budget
+								<span className="font-semibold ml-4">
 									N{formatNumber(gig.budget)}
 								</span>
 							</p>
@@ -100,10 +99,10 @@ export function GigComponent({ gig, refetch }) {
 							</p>
 						</div> */}
 					</div>
-					<div className="flex justify-between text-xs">
+					<div className="flex justify-between text-xs items-center">
 						<div className="py-2 px-4 border rounded-lg border-adminPrimary bg-white font-light">
-							Start Date:{" "}
-							<span className="font-bold">{formatDate(gig.createdAt)}</span>
+							Start Date
+							<span className="font-bold ml-4">{formatDate(gig.createdAt)}</span>
 						</div>
 						<div>Posted: {timeAgo(gig.createdAt)}</div>
 						<div
@@ -118,6 +117,7 @@ export function GigComponent({ gig, refetch }) {
 					</div>
 				</div>
 			</div>
+
 			{open && (
 				<div
 					className="fixed top-0 left-0 w-screen h-screen bg-gray-400/30 flex justify-end"
@@ -147,7 +147,11 @@ export function GigComponent({ gig, refetch }) {
 												Posted {timeAgo(gig.createdAt)}
 											</p>
 											<span>
-												<IoIosHeartEmpty size={24} color="red" />
+												{gig?.isLiked ? (
+													<IoIosHeart size={24} color="red" />
+												) : (
+													<IoIosHeartEmpty size={24} color="red" />
+												)}
 											</span>
 										</div>
 										<p className="text-adminPrimary font-bold mb-2">
@@ -155,11 +159,7 @@ export function GigComponent({ gig, refetch }) {
 										</p>
 										<div className="flex gap-2 items-center mb-4">
 											<span className="p-2 hover:pr-4 border rounded-full text-xs capitalize bg-light relative overflow-hidden">
-												Entertainment
-											</span>
-											<span> &gt; </span>
-											<span className="p-2 hover:pr-4 border rounded-full text-xs capitalize bg-light relative overflow-hidden">
-												Acting
+												{gig.subCategory.name}
 											</span>
 										</div>
 										<div className="mb-2">
@@ -179,7 +179,9 @@ export function GigComponent({ gig, refetch }) {
 											<div>
 												<span className="text-xs w-fit border border-[#FF9533] gap-2 text-[#FF9533] p-2 flex items-center rounded-full">
 													<span className="h-2 w-2 rounded-full bg-[#FF9533]" />{" "}
-													Required
+													{gig?.gigInfos[0]?.isExperienced
+														? "Required"
+														: "Not Required"}
 												</span>
 											</div>
 										</div>
