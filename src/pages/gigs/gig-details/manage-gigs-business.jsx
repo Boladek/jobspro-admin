@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
 	formatDate,
 	formatNumber,
 	generateArray,
 	getDifferenceInHours,
-	getAmPm,
 } from "../../../helpers/function";
 import ReactPaginate from "react-paginate";
 import profileAxios from "../../../helpers/profileAxios";
@@ -29,13 +28,21 @@ export function ManageGigsBusiness() {
 		staleTime: Infinity,
 	});
 
-	// Simulate fetching items from another resources.
-	// (This could be items from props; or items loaded in a local state
-	// from an API endpoint with useEffect and useState)
 	const endOffset = itemOffset + itemsPerPage;
-	// console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-	const currentItems = gigs.slice(itemOffset, endOffset);
-	const pageCount = Math.ceil(gigs.length / itemsPerPage);
+
+	const filteredGigData = useMemo(() => {
+		if (gigs.length > 0) {
+			return gigs.filter((gig) => {
+				if (activeTab === proTabs[0]) return gig;
+				if (activeTab === proTabs[1]) return gig.statusType === "hired";
+				if (activeTab === proTabs[2]) return gig.statusType === "completed";
+			});
+		}
+		return [];
+	}, [activeTab, gigs]);
+
+	const currentItems = filteredGigData.slice(itemOffset, endOffset);
+	const pageCount = Math.ceil(filteredGigData.length / itemsPerPage);
 
 	// Invoke when user click to request another page.
 	const handlePageClick = (event) => {
@@ -47,163 +54,125 @@ export function ManageGigsBusiness() {
 	};
 
 	return (
-		<div className="bg-[#f6f7fa] h-full p-4 flex flex-col">
+		<div className="bg-white h-full p-4 flex flex-col">
 			<div className="flex justify-between items-center">
 				<p className="text-2xl font-bold mb-2">Manage Gigs</p>
-				{role === "pro" ? (
-					<span
-						className="p-2 border text-sm bg-primary text-white rounded-md hover:opacity-75 cursor-pointer"
-						onClick={() => navigate(`/gigs/${role}/find-gigs`)}
-					>
-						Find Gigs
-					</span>
-				) : (
-					<span
-						className="p-2 border text-sm bg-primary text-white rounded-md hover:opacity-75 cursor-pointer"
-						onClick={() => navigate(`/gigs/${role}/create-gig`)}
-					>
-						Create Gig &#43;
-					</span>
-				)}
+
+				<span
+					className="p-2 border text-sm bg-adminPrimary text-white rounded-md hover:opacity-75 cursor-pointer"
+					onClick={() => navigate(`/gigs/${role}/create-gig`)}
+				>
+					Create Gig &#43;
+				</span>
 			</div>
-			<div className="flex bg-[#F3F8FF] rounded-full p-1 overflow-x-auto justify-center mb-4">
-				{proTabs.map((item) => (
+
+			<div className="flex bg-adminPrimary p-2 text-sm text-white w-full justify-evenly rounded-lg max-w-md mx-auto mb-4">
+				{proTabs.map((tab) => (
 					<div
-						key={item}
-						onClick={() => setActiveTab(item)}
-						className={`py-2 px-6 text-xs md:text-sm cursor-pointer flex justify-center items-center text-center ${
-							item === activeTab
-								? "bg-primary text-white rounded-full"
-								: "text-[#789DB8]"
-						}`}
+						className={`${
+							activeTab === tab ? "border-b-yellow-300 border-b-4" : ""
+						} p-0.5 cursor-pointer`}
+						key={tab}
+						onClick={() => setActiveTab(tab)}
 					>
-						{item}
+						{tab}
 					</div>
 				))}
 			</div>
 			{isLoading && <div className="progress"></div>}
-			<div className="flex flex-col w-full gap-2 flex-1">
-				{/* {currentItems?.map((item) => (
-					<div
-						key={Math.random()}
-						className="w-full p-4 shadow-sm rounded-md bg-white flex items-center gap-4 justify-between flex-wrap cursor-pointer hover:shadow-md"
-						onClick={() => navigate(`/gigs/${role}/details/${item.uuid}`)}
-					>
-						<div>
-							<p className="text-xs text-gray-400">Gig Title</p>
-							<p className="text-sm">{item.gigInfos[0].title}</p>
-						</div>
-						<div>
-							<p className="text-xs text-gray-400">Gig Date</p>
-							<p className="text-sm">{formatDate(new Date(item.gigDate))}</p>
-						</div>
-						<div>
-							<p className="text-xs text-gray-400">Gig Duration</p>
-							<p className="text-sm">
-								{getDifferenceInHours(item.startTime, item.endTime)}hrs
-							</p>
-						</div>
-						<div>
-							<p className="text-xs text-gray-400">Gig Location</p>
-							<p className="text-sm">{item.gigAddresses[0].address}</p>
-						</div>
-						<div>
-							<p className="text-xs text-gray-400">Budget</p>
-							<p className="text-sm">N{formatNumber(item.budget)}</p>
-						</div>
-						<div>
-							<p className="text-xs text-gray-400">No Applied</p>
-							<p className="text-sm">{item.gigApplies.length}</p>
-						</div>
-						<div>
-							<p className="text-xs text-gray-400">Hired</p>
-							<p className="text-sm">{item.gigAccepted.length}</p>
-						</div>
-						<div>
-							<span className="p-2 rounded-full bg-[#FFA133] text-white text-xs">
-								{item.statusType}
-							</span>
-						</div>
-					</div>
-				))} */}
-				<table className="w-full table-auto">
-					<tbody>
-						{currentItems?.map((item) => (
-							<tr
-								key={Math.random()}
-								className="w-full p-4 shadow-sm rounded-md bg-white flex items-center gap-4 justify-between flex-wrap cursor-pointer hover:shadow-md"
-								onClick={() =>
-									navigate(`/gigs/${role}/details/${item.uuid}`, {
-										state: {
-											gigData: item,
-										},
-									})
-								}
-							>
-								<td>
-									<p className="text-xs text-gray-400">Gig Title</p>
-									<p className="text-sm">{item.gigInfos[0].title}</p>
-								</td>
-								<td>
-									<p className="text-xs text-gray-400">Gig Date</p>
-									<p className="text-sm">
-										{formatDate(new Date(item.gigDate))}
-									</p>
-								</td>
-								<td>
-									<p className="text-xs text-gray-400">Gig Duration</p>
-									<p className="text-sm">
-										{getDifferenceInHours(item.startTime, item.endTime)}hrs
-									</p>
-								</td>
-								<td>
-									<p className="text-xs text-gray-400">Gig Location</p>
-									<p className="text-sm">{item.gigAddresses[0].address}</p>
-								</td>
-								<td>
-									<p className="text-xs text-gray-400">Budget</p>
-									<p className="text-sm">N{formatNumber(item.budget)}</p>
-								</td>
-								<td>
-									<p className="text-xs text-gray-400">No Applied</p>
-									<p className="text-sm">{item.gigApplies.length}</p>
-								</td>
-								<td>
-									<p className="text-xs text-gray-400">Hired</p>
-									<p className="text-sm">{item.gigAccepted.length}</p>
-								</td>
-								<td>
-									<span className="p-2 rounded-full bg-[#FFA133] text-white text-xs">
-										{item.statusType}
-									</span>
-								</td>
-							</tr>
-						))}
-					</tbody>
-				</table>
-			</div>
 			<div>
-				<ReactPaginate
-					breakLabel="..."
-					// nextLabel="next >"
-					onPageChange={handlePageClick}
-					pageRangeDisplayed={2}
-					pageCount={pageCount}
-					renderOnZeroPageCount={null}
-					className="flex p-2 gap-2 justify-center items-center"
-					nextLabel={
-						<span className="py-1 capitalize px-3 text-xs text-white font-bold border border-primary bg-primary hover:opacity-70 rounded-full select-none">
-							&rarr;
-						</span>
-					}
-					previousLabel={
-						<span className="py-1 capitalize px-3 text-xs text-white font-bold border border-accent bg-accent hover:opacity-70 rounded-full select-none">
-							&larr;
-						</span>
-					}
-					pageLinkClassName="text-sm"
-					activeClassName="text-primary text-sm font-bold"
-				/>
+				<>
+					{currentItems.length > 0 ? (
+						<>
+							<table className="w-full">
+								<thead className="bg-[#F7F9FF] shadow-sm">
+									<tr>
+										<th className="py-4 px-2 text-sm text-left">Title</th>
+										<th className="py-4 px-2 text-sm text-left">Date</th>
+										<th className="py-4 px-2 text-sm text-left">Duration</th>
+										<th className="py-4 px-2 text-sm text-left">Location</th>
+										<th className="py-4 px-2 text-sm text-left">Budget</th>
+										<th className="py-4 px-2 text-sm text-left">No Applied</th>
+										<th className="py-4 px-2 text-sm text-left">Hired</th>
+										<th className="py-4 px-2 text-sm text-left">Status</th>
+									</tr>
+								</thead>
+								<tbody className="rounded-xl">
+									{currentItems.map((item) => (
+										<tr
+											key={item.uuid}
+											onClick={() => {
+												if (
+													item.statusType === "hired" ||
+													item.statusType === "completed"
+												) {
+													navigate(`/gigs/${role}/details/${item.uuid}`, {
+														state: {
+															gigData: item,
+														},
+													});
+												}
+											}}
+											className="cursor-pointer hover:bg-gray-100"
+										>
+											<td className="py-4 px-2 text-xs text-left">
+												{item?.gigInfos[0]?.title}
+											</td>
+											<td className="py-4 px-2 text-xs text-left">
+												{formatDate(item.gigDate)}
+											</td>
+											<td className="py-4 px-2 text-xs text-left">
+												{getDifferenceInHours(item.startTime, item.endTime)}hrs
+											</td>
+											<td className="py-4 px-2 text-xs text-left">
+												{item?.gigAddresses[0].address}
+											</td>
+											<td className="py-4 px-2 text-xs text-left">
+												N{formatNumber(item.budget)}
+											</td>
+											<td className="py-4 px-2 text-xs text-left">
+												{item.gigApplies.length}
+											</td>
+											<td className="py-4 px-2 text-xs text-left">
+												{item.gigAccepted.length}
+											</td>
+											<td className="py-4 px-2 text-xs text-left capitalize">
+												{item.statusType}
+											</td>
+										</tr>
+									))}
+								</tbody>
+							</table>
+							{filteredGigData.length > 10 && (
+								<div>
+									<ReactPaginate
+										breakLabel="..."
+										// nextLabel="next >"
+										onPageChange={handlePageClick}
+										pageRangeDisplayed={2}
+										pageCount={pageCount}
+										renderOnZeroPageCount={null}
+										className="flex p-2 gap-2 justify-center items-center"
+										nextLabel={
+											<span className="py-1 capitalize px-3 text-xs text-white font-bold border border-primary bg-primary hover:opacity-70 rounded-full select-none">
+												&rarr;
+											</span>
+										}
+										previousLabel={
+											<span className="py-1 capitalize px-3 text-xs text-white font-bold border border-accent bg-accent hover:opacity-70 rounded-full select-none">
+												&larr;
+											</span>
+										}
+										pageLinkClassName="text-sm"
+										activeClassName="text-primary text-sm font-bold"
+									/>
+								</div>
+							)}
+						</>
+					) : (
+						<p>No gigs match this criteria</p>
+					)}
+				</>
 			</div>
 		</div>
 	);

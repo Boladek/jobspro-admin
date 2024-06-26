@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
 	formatDate,
@@ -6,13 +6,13 @@ import {
 	generateArray,
 	getDifferenceInHours,
 } from "../../../helpers/function";
-import avatar from "../../../assets/profile-avatar.png";
+// import avatar from "../../../assets/profile-avatar.png";
 import ReactPaginate from "react-paginate";
-import { KycTag } from "../../../component/kyc-tag";
+// import { KycTag } from "../../../component/kyc-tag";
 import profileAxios from "../../../helpers/profileAxios";
 import { useQuery } from "@tanstack/react-query";
 
-const proTabs = ["Applied", "Active", "Archived"];
+const proTabs = ["Applied", "Active", "On-going", "Cancelled"];
 const busTabs = ["Active", "Archived"];
 
 export function ManageGigsPro() {
@@ -31,6 +31,20 @@ export function ManageGigsPro() {
 		retry: 3,
 	});
 
+	const filteredGigData = useMemo(() => {
+		if (gigs.length > 0) {
+			return gigs.filter((gig) => {
+				if (activeTab === proTabs[0]) return gig;
+				if (activeTab === proTabs[1]) return gig.gigStatusType === "hired";
+				if (activeTab === proTabs[2])
+					return gig.gigStatusType === "in-progress";
+				if (activeTab === proTabs[3])
+					return gig.gigStatusType === "in-progress";
+			});
+		}
+		return [];
+	}, [activeTab, gigs]);
+
 	const [itemOffset, setItemOffset] = useState(0);
 
 	// Simulate fetching items from another resources.
@@ -38,8 +52,8 @@ export function ManageGigsPro() {
 	// from an API endpoint with useEffect and useState)
 	const endOffset = itemOffset + itemsPerPage;
 	// console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-	const currentItems = gigs.slice(itemOffset, endOffset);
-	const pageCount = Math.ceil(gigs.length / itemsPerPage);
+	const currentItems = filteredGigData.slice(itemOffset, endOffset);
+	const pageCount = Math.ceil(filteredGigData.length / itemsPerPage);
 
 	// Invoke when user click to request another page.
 	const handlePageClick = (event) => {
@@ -55,38 +69,36 @@ export function ManageGigsPro() {
 	}, []);
 
 	return (
-		<div className="bg-[#f6f7fa] h-full p-4">
+		<div className="bg-white h-full p-4">
 			<div className="flex justify-between items-center">
 				<p className="text-2xl font-bold mb-2">Manage Gigs</p>
 				<span
-					className="p-2 border text-sm bg-primary text-white rounded-md hover:opacity-75 cursor-pointer"
+					className="p-2 border text-sm bg-adminPrimary text-white rounded-md hover:opacity-75 cursor-pointer"
 					onClick={() => navigate(`/gigs/${role}/find-gigs`)}
 				>
 					Find Gigs
 				</span>
 			</div>
-			<div className="flex bg-[#F3F8FF] rounded-full p-1 overflow-x-auto justify-center mb-4">
-				{tabs.map((item) => (
+			<div className="flex bg-adminPrimary p-2 text-sm text-white w-full justify-evenly rounded-lg max-w-md mx-auto mb-4">
+				{proTabs.map((tab) => (
 					<div
-						key={item}
-						onClick={() => setActiveTab(item)}
-						className={`py-2 px-6 text-xs md:text-sm cursor-pointer flex justify-center items-center text-center ${
-							item === activeTab
-								? "bg-primary text-white rounded-full"
-								: "text-[#789DB8]"
-						}`}
+						className={`${
+							activeTab === tab ? "border-b-yellow-300 border-b-4" : ""
+						} p-0.5 cursor-pointer`}
+						key={tab}
+						onClick={() => setActiveTab(tab)}
 					>
-						{item}
+						{tab}
 					</div>
 				))}
 			</div>
 			{isLoading ? (
-				<div>Getting Applied Gigs</div>
+				<div>Fetching applied gigs...</div>
 			) : (
 				<>
 					{currentItems.length > 0 ? (
 						<>
-							<div className="flex flex-col w-full gap-2">
+							{/* <div className="flex flex-col w-full gap-2">
 								{currentItems.map(({ gig, gigStatusType, ...rest }) => (
 									<div
 										key={Math.random()}
@@ -99,19 +111,6 @@ export function ManageGigsPro() {
 											})
 										}
 									>
-										{/* <div className="flex items-center gap-2">
-											<img src={avatar} alt="Profile avi" className="h-10" />
-											<div>
-												<p className="text-xs text-gray-400">Business Name</p>
-												<p>Adeola Alero</p>
-											</div>
-										</div>
-										<div className="flex gap-2 items-center">
-											<span className="py-1 px-2 bg-[#FF2787] text-xs text-white rounded-full">
-												SuperPro
-											</span>
-											<KycTag text="Tier 1" />
-										</div> */}
 										<div className="w-1/4">
 											<p className="text-xs text-gray-400">Gig Title</p>
 											<p className="text-sm">{gig?.gigInfos[0]?.title}</p>
@@ -142,6 +141,75 @@ export function ManageGigsPro() {
 									</div>
 								))}
 							</div>
+							<div>
+								<ReactPaginate
+									breakLabel="..."
+									// nextLabel="next >"
+									onPageChange={handlePageClick}
+									pageRangeDisplayed={2}
+									pageCount={pageCount}
+									renderOnZeroPageCount={null}
+									className="flex p-2 gap-2 justify-center items-center"
+									nextLabel={
+										<span className="py-1 capitalize px-3 text-xs text-white font-bold border border-primary bg-primary hover:opacity-70 rounded-full select-none">
+											&rarr;
+										</span>
+									}
+									previousLabel={
+										<span className="py-1 capitalize px-3 text-xs text-white font-bold border border-accent bg-accent hover:opacity-70 rounded-full select-none">
+											&larr;
+										</span>
+									}
+									pageLinkClassName="text-sm"
+									activeClassName="text-primary text-sm font-bold"
+								/>
+							</div> */}
+							<table className="w-full">
+								<thead className="bg-[#F7F9FF] shadow-sm">
+									<tr>
+										<th className="py-4 px-2 text-sm text-left">Title</th>
+										<th className="py-4 px-2 text-sm text-left">Date</th>
+										<th className="py-4 px-2 text-sm text-left">Duration</th>
+										<th className="py-4 px-2 text-sm text-left">Location</th>
+										<th className="py-4 px-2 text-sm text-left">Budget</th>
+										<th className="py-4 px-2 text-sm text-left">Status</th>
+									</tr>
+								</thead>
+								<tbody className="rounded-xl">
+									{currentItems.map(({ gig, gigStatusType, ...rest }) => (
+										<tr
+											key={gig.uuid}
+											onClick={() =>
+												navigate(`/gigs/${role}/details/gig`, {
+													state: {
+														gigData: { gig, ...rest, gigStatusType },
+													},
+												})
+											}
+											className="cursor-pointer hover:bg-gray-100"
+										>
+											<td className="py-4 px-2 text-xs text-left">
+												{gig?.gigInfos[0]?.title}
+											</td>
+											<td className="py-4 px-2 text-xs text-left">
+												{formatDate(gig.gigDate)}
+											</td>
+											<td className="py-4 px-2 text-xs text-left">
+												{getDifferenceInHours(gig.startTime, gig.endTime)}hrs
+											</td>
+											<td className="py-4 px-2 text-xs text-left">
+												{gig?.gigAddresses[0].address}
+											</td>
+											<td className="py-4 px-2 text-xs text-left">
+												N{formatNumber(gig.budget)}
+											</td>
+											<td className="py-4 px-2 text-xs text-left capitalize">
+												{gigStatusType}
+											</td>
+										</tr>
+									))}
+								</tbody>
+							</table>
 							<div>
 								<ReactPaginate
 									breakLabel="..."

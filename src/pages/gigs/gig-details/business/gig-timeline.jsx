@@ -39,6 +39,8 @@ export function BusinessGigTimeLine() {
 		retry: 2,
 	});
 
+	console.log({ data });
+
 	return (
 		<div className="p-4 max-w-2xl mx-auto">
 			{isLoading ? (
@@ -388,7 +390,13 @@ export function BusinessGigTimeLine() {
 			)}
 
 			{openCancel && (
-				<CancelGig open={openCancel} handleClose={() => setOpenCancel(false)} />
+				<CancelGig
+					open={openCancel}
+					handleClose={() => {
+						setOpenCancel(false);
+						refetch();
+					}}
+				/>
 			)}
 
 			{openComplete && (

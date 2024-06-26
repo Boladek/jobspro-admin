@@ -156,18 +156,20 @@ export function AvatarSection() {
 					)}
 					<hr />
 					<div className="mt-4">
-						<div className="flex justify-between items-center p-1">
-							<div className="flex gap-2 items-center">
-								<img src={available} alt="Availability" className="h-6" />
-								<span className="text-xs text-gray-500">Availability</span>
+						{user.userType === "pro" && (
+							<div className="flex justify-between items-center p-1">
+								<div className="flex gap-2 items-center">
+									<img src={available} alt="Availability" className="h-6" />
+									<span className="text-xs text-gray-500">Availability</span>
+								</div>
+								<div>
+									<Switch
+										checked={availableCheck}
+										handleChecked={() => setAvailableCheck((prev) => !prev)}
+									/>
+								</div>
 							</div>
-							<div>
-								<Switch
-									checked={availableCheck}
-									handleChecked={() => setAvailableCheck((prev) => !prev)}
-								/>
-							</div>
-						</div>
+						)}
 						<div className="p-1">
 							<div className="flex gap-2 items-center cursor-pointer">
 								<img src={referral} alt="Referrals" className="h-6" />

@@ -8,6 +8,12 @@ import { SearchComponent } from "./search-component";
 import { useNavigate } from "react-router-dom";
 import { AvatarSection } from "./avatar-section";
 import { useSelector } from "react-redux";
+import { DashboardIcon } from "../assets/admin/dashboard-icon";
+import { UsersIcon } from "../assets/admin/users-icon";
+import { TextingIcon } from "../assets/admin/texting-icon";
+import { DocIcon } from "../assets/admin/doc-icon";
+import { SettingIcon } from "../assets/setting-icon";
+
 // import { UseAuth } from "../context/auth-context";
 // import { useSelector } from "react-redux";
 
@@ -25,16 +31,16 @@ export function AuthHeader() {
 	};
 
 	const links = [
-		{ title: "dashboard", url: "/dashboard" },
-		{ title: "gigs", url: `/gigs/${userType}` },
-		{ title: "messages", url: "/messages" },
-		{ title: "wallets", url: "/wallets" },
-		{ title: "settings", url: "/settings/profile" },
+		{ title: "dashboard", url: "/dashboard", icon: DashboardIcon },
+		{ title: "gigs", url: `/gigs/${userType}`, icon: DocIcon },
+		// { title: "messages", url: "/messages", icon: TextingIcon },
+		// { title: "wallets", url: "/wallets" },
+		{ title: "settings", url: "/settings/profile", icon: SettingIcon },
 	];
 
 	return (
 		<div className="py-3 px-2 sm:px-6 w-full flex justify-between items-center border-gray-300 border-b sticky top-0 bg-white z-10">
-			<div className="flex items-center justify-between w-2/5">
+			<div className="flex items-center justify-between">
 				<div
 					className="relative cursor-pointer"
 					onClick={() => navigate("/dashboard")}
@@ -42,18 +48,18 @@ export function AuthHeader() {
 					<img src={logo} alt="Favicon" className="cursor-pointer h-8" />
 					<div className="absolute inset-0 opacity-50 hover:bg-gray-50 z-10"></div>
 				</div>
-				<div className="hidden md:flex gap-1">
-					{links.map((link, index) => (
-						<LinkElement key={link.title + index} link={link} />
-					))}
-				</div>
 			</div>
-			<div className="w-3/5 hidden md:flex justify-end items-center gap-2">
-				<div>
+			<div className="hidden md:flex gap-2">
+				{links.map((link, index) => (
+					<LinkElement key={link.title + index} link={link} />
+				))}
+			</div>
+			<div className="hidden md:flex justify-end items-center gap-2">
+				{/* <div>
 					<SearchComponent />
-				</div>
-				<img src={settings} className="h-5" />
-				<img src={notification} className="h-5" />
+				</div> */}
+				{/* <img src={settings} className="h-5" />
+				<img src={notification} className="h-5" /> */}
 
 				<AvatarSection />
 			</div>
