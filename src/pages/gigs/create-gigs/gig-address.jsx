@@ -4,6 +4,7 @@ import { BaseButton } from "../../../component/button";
 import { GigLocation } from "./gig-location";
 import { DeleteIcon } from "../../../assets/delete-icon";
 import { EditIcon } from "../../../assets/edit-icon";
+// import { LocationIcon } from "../../../assets/admin/location-icon";
 
 const tabs = ["Yes, In-Person", "No, Virtual"];
 
@@ -40,7 +41,7 @@ export function GigAddress({ handleForm, gotoNextStep, form }) {
 						<div
 							key={item}
 							onClick={() => handleAccount(item)}
-							className={`capitalize p-3 px-4 border-2 border-secondary text-sm text-primary rounded-full text-center hover:bg-secondary hover:text-white cursor-pointer font-bold w-fit ${
+							className={`capitalize p-3 px-4 border border-secondary text-sm text-primary rounded-full text-center hover:bg-secondary hover:text-white cursor-pointer font-bold w-fit ${
 								item === selected ? "bg-primary text-white" : ""
 							}`}
 						>
@@ -79,10 +80,10 @@ export function GigAddress({ handleForm, gotoNextStep, form }) {
 					</div>
 				)}
 				{selected && !address.lat && (
-					<div className="py-4">
+					<div className="py-4 max-w-sm mx-auto mt-4">
 						<div
 							onClick={() => setOpen(true)}
-							className="p-3  border rounded-full w-fit text-sm hover:text-secondary text-primary font-bold cursor-pointer hover:bg-gray-100 mx-auto"
+							className="p-3  border border-dashed border-primary text-center rounded-full w-full  text-sm hover:text-secondary text-primary font-bold cursor-pointer hover:bg-gray-100 mx-auto"
 						>
 							Add Address &#43;
 						</div>

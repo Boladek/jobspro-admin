@@ -33,6 +33,8 @@ export function GigSummaryBusiness() {
 		retry: 2,
 	});
 
+	// console.log({ proApplications, data });
+
 	return (
 		<div>
 			{isLoading ? (
@@ -106,10 +108,10 @@ export function GigSummaryBusiness() {
 											N{formatNumber(data.budget)}
 										</p>
 									</div>
-									{/* <div className="flex-1">
+									<div className="flex-1">
 										<p className="text-xs text-gray-500">Service</p>
 										<p className="font-bold text-sm">Event Caterings</p>
-									</div> */}
+									</div>
 								</div>
 							</div>
 							{data?.gigAccepted?.length > 0 && (
@@ -125,14 +127,14 @@ export function GigSummaryBusiness() {
 						</div>
 					) : (
 						<>
-							<div className="mb-4">
+							{/* <div className="mb-4">
 								<span
 									className="p-2 border text-xs rounded-full cursor-pointer hover:bg-light hover:text-primary"
 									onClick={() => setShowPros(false)}
 								>
 									Back
 								</span>
-							</div>
+							</div> */}
 							{proApplications.gigApplies.length > 0 ? (
 								proApplications.gigApplies.map((item, index) => (
 									<div key={index}>

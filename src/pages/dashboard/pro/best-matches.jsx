@@ -11,7 +11,7 @@ export function BestMatches() {
 		data: gigs = [],
 		isLoading,
 		refetch,
-		isRefetching,
+		// isRefetching,
 	} = useQuery({
 		queryKey: ["fetch-gig-pros"],
 		queryFn: () => profileAxios.get("/pro-gigs/best-matches?page=1&limit=100"),
