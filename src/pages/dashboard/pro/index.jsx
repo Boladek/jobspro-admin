@@ -4,6 +4,7 @@ import { ProgressBar } from "../../../component/admin/progress-bar";
 import { BestMatches } from "./best-matches";
 import { UseAuth } from "../../../context/auth-context";
 import disco from "../../../assets/disco-ball.png";
+import { PieChart } from "../../../component/pie-chart";
 
 const stats = [
 	{
@@ -36,7 +37,10 @@ export function ProDashBoard() {
 	const { user } = UseAuth();
 	return (
 		<div className="h-full flex gap-2 bg-white">
-			<div className="w-1/4 p-4">
+			<div
+				className="w-1/4 p-4 h-full overflow-auto"
+				style={{ maxHeight: "90vh" }}
+			>
 				<div className="mb-4">
 					<p className="text-sm mb-2 font-bold">Pro Rating</p>
 					<div className="px-4 py-8 bg-[#F6FFF4] rounded-xl flex gap-2 items-center border border-[#025949]">
@@ -59,7 +63,7 @@ export function ProDashBoard() {
 						</div>
 					</div>
 				</div>
-				<div>
+				<div className="mb-4">
 					<p className="text-sm mb-2 font-bold">Gigs Stat</p>
 					<div className="grid grid-cols-2 gap-4">
 						{stats.map((stat) => (
@@ -81,6 +85,59 @@ export function ProDashBoard() {
 						))}
 					</div>
 				</div>
+				<div>
+					<div className="mb-4">
+						<p className="text-sm mb-2 font-bold">Task done by region</p>
+						<div className="flex gap-2 items-center mb-2">
+							<div className="bg-[#CFFFCE] p-4 rounded-full">
+								<WalletIcon fill="#00DE74" />
+							</div>
+							<div className="flex-1">
+								<div className="flex justify-between text-xs mb-1 items-center">
+									<span className="bg-light px-2 py-1 rounded-full">West</span>
+									<span className="font-bold">2k</span>
+								</div>
+								<ProgressBar percent={100} color="#14FF9C" thickness={3.5} />
+							</div>
+						</div>
+						<div className="flex gap-2 items-center mb-2">
+							<div className="bg-[#ECFFD4] p-4 rounded-full">
+								<WalletIcon fill="#ABFF40" />
+							</div>
+							<div className="flex-1">
+								<div className="flex justify-between text-xs mb-1 items-center">
+									<span className="bg-light px-2 py-1 rounded-full">South</span>
+									<span className="font-bold">500</span>
+								</div>
+								<ProgressBar percent={50} color="#14FF9C" thickness={3.5} />
+							</div>
+						</div>
+						<div className="flex gap-2 items-center mb-2">
+							<div className="bg-[#E6E2FF] p-4 rounded-full">
+								<WalletIcon fill="#3514FF" />
+							</div>
+							<div className="flex-1">
+								<div className="flex justify-between text-xs mb-1 items-center">
+									<span className="bg-light px-2 py-1 rounded-full">East</span>
+									<span className="font-bold">20</span>
+								</div>
+								<ProgressBar percent={20} color="#14FF9C" thickness={3.5} />
+							</div>
+						</div>
+					</div>
+					<div className="flex justify-center">
+						<PieChart
+							width="220px"
+							height="220px"
+							numberStyle={{ fontWeight: 500, fontSize: 48 }}
+							// numberCenter={`${numberValue}`}
+							textStyle={{ fontWeight: "", fontSize: "1rem" }}
+							textCenter="Status"
+							colors={["#0FFF9A", "#ABFF40", "#3514FF"]}
+							innerRadius={0.5}
+						/>
+					</div>
+				</div>
 			</div>
 			<div className="flex-1 flex">
 				<div className="w-2/3">
@@ -90,7 +147,11 @@ export function ProDashBoard() {
 					<p className="text-sm mb-2 font-bold">Profile Badge</p>
 					<div className="p-8 rounded-lg bg-black w-48 text-white text-center">
 						<p className="capitalize mb-1 text-sm">{user?.completedTier}</p>
-						<ProgressBar percent={user?.profileCompletion} color="#14FF9C" thickness={1} />
+						<ProgressBar
+							percent={user?.profileCompletion}
+							color="#14FF9C"
+							thickness={1}
+						/>
 						<p className="mt-2 text-4xl">{user?.profileCompletion}%</p>
 						<p className="text-xs">completed</p>
 						<div className="flex justify-center p-2">
