@@ -112,13 +112,15 @@ export function ManageGigsPro() {
 									{currentItems.map(({ gig, gigStatusType, ...rest }) => (
 										<tr
 											key={gig.uuid}
-											onClick={() =>
-												navigate(`/gigs/${role}/details/gig`, {
-													state: {
-														gigData: { gig, ...rest, gigStatusType },
-													},
-												})
-											}
+											onClick={() => {
+												if (gigStatusType !== "in-progress") {
+													navigate(`/gigs/${role}/details/gig`, {
+														state: {
+															gigData: { gig, ...rest, gigStatusType },
+														},
+													});
+												}
+											}}
 											className="cursor-pointer hover:bg-gray-100"
 										>
 											<td className="py-4 px-2 text-xs text-left">

@@ -177,25 +177,34 @@ export function ProGigTimeLine() {
 								</span>
 								<div className="p-2 rounded-lg border">
 									<p className="font-bold mb-2">{data.step3.title}</p>
-									<p className="mb-2 flex gap-2 items-center">
-										{data.step3.timeLeft} ago
-									</p>
-									{/* <div
-										className={`mb-2 flex justify-evenly max-w-64 bg-custom-gradient rounded-lg p-4`}
-									>
-										<div className={"text-center text-white font-bold"}>
-											<p className="text-3xl">{hours}</p>
-											<p className="font-extralight text-xs">hours</p>
+									{data.step3.timeLeft && (
+										<p className="mb-2 flex gap-2 items-center">
+											{data.step3.timeLeft} ago
+										</p>
+									)}
+									{data.step3.status && (
+										<p className="mb-2 flex gap-2 items-center">
+											{data.step3.status}
+										</p>
+									)}
+									{data.step3.timeLeft && (
+										<div
+											className={`mb-2 flex justify-evenly max-w-64 bg-custom-gradient rounded-lg p-4`}
+										>
+											<div className={"text-center text-white font-bold"}>
+												{/* <p className="text-3xl">{hours}</p> */}
+												<p className="font-extralight text-xs">hours</p>
+											</div>
+											<div className={"text-center text-white font-bold"}>
+												{/* <p className="text-3xl">{minutes}</p> */}
+												<p className="font-extralight text-xs">minutes</p>
+											</div>
+											<div className={"text-center text-white font-bold"}>
+												{/* <p className="text-3xl">{seconds}</p> */}
+												<p className="font-extralight text-xs">seconds</p>
+											</div>
 										</div>
-										<div className={"text-center text-white font-bold"}>
-											<p className="text-3xl">{minutes}</p>
-											<p className="font-extralight text-xs">minutes</p>
-										</div>
-										<div className={"text-center text-white font-bold"}>
-											<p className="text-3xl">{seconds}</p>
-											<p className="font-extralight text-xs">seconds</p>
-										</div>
-									</div> */}
+									)}
 								</div>
 							</li>
 						)}
