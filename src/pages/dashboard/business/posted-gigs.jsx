@@ -16,8 +16,9 @@ export function PostedGigs() {
 
 	return (
 		<div className="p-4">
+			<p className="text-sm font-bold">Recent Posts</p>
 			<div
-				className="flex flex-col gap-4 mt-4 overflow-y-auto h-full"
+				className="flex flex-col gap-4 mt-2 overflow-y-auto h-full"
 				style={{ maxHeight: "80vh" }}
 			>
 				{isLoading ? (
