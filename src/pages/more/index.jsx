@@ -12,10 +12,10 @@ const links = [
 	{ title: "Profile", img: profile, url: "profile" },
 	{ title: "Earning", img: earnings, url: "earning" },
 	{ title: "Preferences", img: settings, url: "preferences" },
-	{ title: "Stats", img: stats, url: "stats" },
+	// { title: "Stats", img: stats, url: "stats" },
 	{ title: "KYC", img: stats, url: "kyc" },
-	{ title: "Favourites", img: favourites, url: "favourites" },
-	{ title: "Help & Support", img: help, url: "help-and-support" },
+	// { title: "Favourites", img: favourites, url: "favourites" },
+	// { title: "Help & Support", img: help, url: "help-and-support" },
 ];
 
 function MorePage() {

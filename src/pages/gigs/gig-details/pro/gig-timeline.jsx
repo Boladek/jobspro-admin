@@ -39,17 +39,12 @@ export function ProGigTimeLine() {
 		retry: 2,
 	});
 
-	// const { hours, seconds, minutes, startTimer } = useTimer(
-	// 	data?.step2?.duration || 0
-	// );
-
 	function startGig() {
 		setStartingGig(true);
 		profileAxios
 			.post(`/pro-gigs/start-gig/${gigData.gig?.gigAccepted[0]?.uuid}`)
 			.then(() => {
 				refetch();
-				// startTimer();
 			})
 			.catch((err) => {
 				toast.error(err.response.data.message);
