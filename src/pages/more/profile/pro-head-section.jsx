@@ -17,7 +17,7 @@ export function ProHeadSection() {
 	const [open, setOpen] = useState(false);
 	const { user: details, name } = UseAuth();
 
-	console.log({ details });
+	// console.log({ details });
 
 	return (
 		<>

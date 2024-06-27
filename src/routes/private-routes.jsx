@@ -3,15 +3,15 @@ import { Navigate } from "react-router-dom";
 import { auth } from "../helpers/auth";
 import { AuthProvider } from "../context/auth-context";
 import { KycProvider } from "../context/kyc-context";
-import { WalletProvider } from "../context/wallet-context";
+import { ModalProvider } from "../context/wallet-context";
 
 export function PrivateRoutes({ children }) {
 	return (
 		<AuthProvider>
 			<KycProvider>
-				<WalletProvider>
+				<ModalProvider>
 					<div>{auth() ? children : <Navigate to="/" />}</div>
-				</WalletProvider>
+				</ModalProvider>
 			</KycProvider>
 		</AuthProvider>
 	);

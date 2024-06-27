@@ -1,17 +1,15 @@
-import { UseAuth } from "../../context/auth-context";
-import { useState } from "react";
 import { HeadSection } from "./head-section";
 import { AccountSwitch } from "./account-switch";
-import { EscrowCard } from "./accounts/escrow-card";
+// import { EscrowCard } from "./accounts/escrow-card";
 import { WalletCard } from "./accounts/wallet-card";
 import { BadgeCard } from "./accounts/badge-card";
 import { ManageProfile } from "./manage-profile";
-import { UseWallet } from "../../context/wallet-context";
+import { UseModal } from "../../context/wallet-context";
 import { WalletSection } from "./wallet-section";
 
 function AccountProfilePage() {
 	// const { name, user } = UseAuth();
-	const { openWallet } = UseWallet();
+	const { openWallet } = UseModal();
 
 	return (
 		<div className="bg-white h-full px-4 py-1 relative">

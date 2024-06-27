@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { UseWallet } from "../../../context/wallet-context";
+import { UseModal } from "../../../context/wallet-context";
 import { IoIosCopy } from "react-icons/io";
 import { WithdrawIcon } from "../../../assets/withdraw-icon";
 import { FundWalletIcon } from "../../../assets/fund-wallet-icon";
@@ -18,7 +18,7 @@ const tabs = [
 
 export function WalletSection() {
 	const [activeTab, setActiveTab] = useState(tabs[0].title);
-	const { handleCloseWallet } = UseWallet();
+	const { handleCloseWallet } = UseModal();
 
 	return (
 		<div

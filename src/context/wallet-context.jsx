@@ -1,47 +1,29 @@
-import { useQuery } from "@tanstack/react-query";
 import PropTypes from "prop-types";
 import { createContext, useContext, useState } from "react";
-import kycAxios from "../helpers/kycAxios";
 
 // Create AuthContext
-const WalletContext = createContext();
+const ModalContext = createContext();
 
-// Create a custom hook to use the WalletContext
-export const UseWallet = () => {
-	return useContext(WalletContext);
+// Create a custom hook to use the ModalContext
+export const UseModal = () => {
+	return useContext(ModalContext);
 };
 
-// Create WalletProvider component
-export const WalletProvider = ({ children }) => {
+// Create ModalProvider component
+export const ModalProvider = ({ children }) => {
 	const [openWallet, setOpenWallet] = useState(false);
-	// const {
-	// 	data = {},
-	// 	isLoading,
-	// 	refetch,
-	// } = useQuery({
-	// 	queryKey: ["kyc-status"],
-	// 	queryFn: () => kycAxios.get("/kyc/status"),
-	// 	select: (data) => data,
-	// 	retry: 2,
-	// 	staleTime: Infinity,
-	// });
 
 	const value = {
-		// kyc: data ?? {},
-		// loading: isLoading,
-		// percentageComplete: data?.percentageComplete || 0,
-		// tier: data.tier || 0,
-		// refetch,
 		openWallet,
 		handleOpenWallet: () => setOpenWallet(true),
 		handleCloseWallet: () => setOpenWallet(false),
 	};
 
 	return (
-		<WalletContext.Provider value={value}>{children}</WalletContext.Provider>
+		<ModalContext.Provider value={value}>{children}</ModalContext.Provider>
 	);
 };
 
-WalletProvider.propTypes = {
+ModalProvider.propTypes = {
 	children: PropTypes.node,
 };
