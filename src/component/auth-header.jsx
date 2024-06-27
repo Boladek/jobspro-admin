@@ -34,7 +34,7 @@ export function AuthHeader() {
 		{ title: "gigs", url: `/gigs/${userType}`, icon: DocIcon },
 		// { title: "chats", url: "/messages", icon: ChatBubbleIcon },
 		// { title: "wallets", url: "/wallets" },
-		{ title: "profile", url: "/settings/profile", icon: PersonIcon },
+		{ title: "profile", url: "/profile", icon: PersonIcon },
 	];
 
 	return (

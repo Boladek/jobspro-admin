@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 export function AvatarSection() {
 	const navigate = useNavigate();
 	const [loading, setLoading] = useState(false);
-	const { user: details } = UseAuth();
+	const { user: details, refetch } = UseAuth();
 	const dispatch = useDispatch();
 	const { user } = useSelector((state) => state.auth);
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -94,6 +94,16 @@ export function AvatarSection() {
 			.finally(() => setLoading(false));
 	};
 
+	const toggleAviability = () => {
+		profileAxios
+			.patch("/profile/toggle-availability")
+			.then((res) => {
+				toast.success(res.message);
+				refetch();
+			})
+			.catch((err) => toast.error(err.response.data.message));
+	};
+
 	return (
 		<div className="relative">
 			<img
@@ -164,8 +174,8 @@ export function AvatarSection() {
 								</div>
 								<div>
 									<Switch
-										checked={availableCheck}
-										handleChecked={() => setAvailableCheck((prev) => !prev)}
+										checked={details.availability}
+										handleChecked={toggleAviability}
 									/>
 								</div>
 							</div>
