@@ -6,14 +6,14 @@ import profileAxios from "../../../helpers/profileAxios";
 import { UseAuth } from "../../../context/auth-context";
 import { toast } from "react-toastify";
 import { Overlay } from "../../../component/overlay-component";
-import { UseWallet } from "../../../context/wallet-context";
+import { UseModal } from "../../../context/wallet-context";
 
 const amounts = [20000, 10000, 5000, 1000];
 
 export function Funding() {
 	const [loading, setLoading] = useState(false);
 	const { refetch } = UseAuth();
-	const { handleCloseWallet } = UseWallet();
+	const { handleCloseWallet } = UseModal();
 	const {
 		register,
 		formState: { errors },

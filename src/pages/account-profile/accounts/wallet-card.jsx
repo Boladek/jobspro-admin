@@ -1,12 +1,12 @@
 import safe from "../../../assets/safe-image.svg";
 import { UseAuth } from "../../../context/auth-context";
-import { UseWallet } from "../../../context/wallet-context";
+import { UseModal } from "../../../context/wallet-context";
 import { formatNumber } from "../../../helpers/function";
 
 export function WalletCard() {
 	const { user } = UseAuth();
 
-	const { handleOpenWallet } = UseWallet();
+	const { handleOpenWallet } = UseModal();
 	return (
 		<div className="p-4 rounded-lg w-full bg-[#4440FF]">
 			<div className="flex items-center justify-between w-full mb-4">

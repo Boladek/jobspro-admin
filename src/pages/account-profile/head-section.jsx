@@ -1,5 +1,6 @@
 import { UseAuth } from "../../context/auth-context";
 import avatar from "../../assets/profile-avatar.png";
+import camera from "../../assets/camera.png";
 import { IoIosCopy } from "react-icons/io";
 import { useState } from "react";
 import { UploadProfilePicModal } from "../../component/upload-pic-modal";
@@ -28,12 +29,19 @@ export function HeadSection() {
 		<>
 			<div className="p-8 bg-[#4440FF] flex justify-between items-center text-white">
 				<div className="flex gap-2 items-center">
-					<label onClick={() => setOpen(true)}>
+					<div className="h-20 w-20 relative overflow-hidden border-4 border-white rounded-full shadow-sm">
+						<div
+							className="absolute top-0 left-0 opacity-0 hover:opacity-100 w-full h-full hover:bg-black/50 rounded-full flex justify-center items-center cursor-pointer"
+							onClick={() => setOpen(true)}
+						>
+							<img src={camera} className="h-6" alt="Camera Icon" />
+						</div>
 						<img
-							src={user.profilePicture ?? avatar}
-							className="h-14 w-14 rounded-full"
+							src={user?.profilePicture ?? avatar}
+							alt="user avatar"
+							className="h-full w-full"
 						/>
-					</label>
+					</div>
 					<div>
 						<p className="text-sm font-semibold mb-1">{name}</p>
 						<div className="text-xs flex items-center gap-1">
