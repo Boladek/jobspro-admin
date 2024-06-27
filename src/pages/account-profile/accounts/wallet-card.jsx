@@ -8,7 +8,7 @@ export function WalletCard() {
 
 	const { handleOpenWallet } = UseWallet();
 	return (
-		<div className="p-4 border bg- rounded-lg w-full bg-[#4440FF]">
+		<div className="p-4 rounded-lg w-full bg-[#4440FF]">
 			<div className="flex items-center justify-between w-full mb-4">
 				<div className="text-xs flex gap-1 items-center">
 					<span className="text-[#95FF0F] font-semibold">Pro</span>

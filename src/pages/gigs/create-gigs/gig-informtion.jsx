@@ -5,7 +5,7 @@ import { GigLocation } from "./gig-location";
 import { GigInformationModal } from "./gig-information-modal";
 import { EditIcon } from "../../../assets/edit-icon";
 
-export function GigInformation({ handleForm, gotoNextStep }) {
+export function GigInformation({ handleForm, gotoNextStep, goBack }) {
 	const [open, setOpen] = useState(false);
 	const [gigTemplate, setGigTemplate] = useState({});
 
@@ -36,7 +36,12 @@ export function GigInformation({ handleForm, gotoNextStep }) {
 
 			<div className="flex justify-center gap-2 mt-4">
 				<div className="w-1/4">
-					<BaseButton type="button" variant="sec" loading={false}>
+					<BaseButton
+						type="button"
+						variant="sec"
+						onClick={goBack}
+						loading={false}
+					>
 						Back
 					</BaseButton>
 				</div>
@@ -68,4 +73,5 @@ export function GigInformation({ handleForm, gotoNextStep }) {
 GigInformation.propTypes = {
 	handleForm: PropTypes.func.isRequired,
 	gotoNextStep: PropTypes.func.isRequired, // Proper usage of PropTypes
+	goBack: PropTypes.func,
 };

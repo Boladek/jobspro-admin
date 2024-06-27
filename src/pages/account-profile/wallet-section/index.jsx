@@ -12,15 +12,13 @@ import { Analytics } from "./Analytics";
 const tabs = [
 	{ title: "Withdraw", icon: WithdrawIcon },
 	{ title: "Fund Wallet", icon: FundWalletIcon },
-	{ title: "Analytics", icon: AnalyticsIcon },
+	// { title: "Analytics", icon: AnalyticsIcon },
 	{ title: "Escrow", icon: FundWalletIcon },
 ];
 
 export function WalletSection() {
 	const [activeTab, setActiveTab] = useState(tabs[0].title);
 	const { handleCloseWallet } = UseWallet();
-
-	console.log({ activeTab });
 
 	return (
 		<div
@@ -78,8 +76,7 @@ export function WalletSection() {
 					<div className="text-primary font-bold flex gap-2 items-center">
 						<div className="p-2 border rounded-full">
 							{activeTab === tabs[1].title && <FundWalletIcon />}
-							{activeTab === tabs[2].title && <AnalyticsIcon />}
-							{activeTab === tabs[3].title && <WithdrawIcon />}
+							{activeTab === tabs[2].title && <WithdrawIcon />}
 						</div>
 						{activeTab}
 					</div>
@@ -90,8 +87,8 @@ export function WalletSection() {
 			<div>
 				{activeTab === tabs[0].title && <Transactions />}
 				{activeTab === tabs[1].title && <Funding />}
-				{activeTab === tabs[2].title && <Analytics />}
-				{activeTab === tabs[3].title && <Withdrawal />}
+				{activeTab === tabs[2].title && <Withdrawal />}
+				{/* {activeTab === tabs[3].title && <Withdrawal />} */}
 			</div>
 		</div>
 	);

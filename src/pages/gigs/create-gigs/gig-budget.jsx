@@ -10,10 +10,10 @@ import { useForm, Controller } from "react-hook-form";
 import { Overlay } from "../../../component/overlay-component";
 
 const tiers = [
-	{
-		value: "tier0",
-		label: "Tier 0",
-	},
+	// {
+	// 	value: "tier0",
+	// 	label: "Tier 0",
+	// },
 	{
 		value: "tier1",
 		label: "Tier 1",
@@ -59,7 +59,7 @@ const ratings = [
 	},
 ];
 
-export function GigBudget({ handleForm, gotoNextStep }) {
+export function GigBudget({ handleForm, gotoNextStep, goBack }) {
 	const {
 		register,
 		formState: { errors },
@@ -76,7 +76,6 @@ export function GigBudget({ handleForm, gotoNextStep }) {
 	const watchState = watch("state", "");
 	const watchCity = watch("city", "");
 	const watchSubCategoryId = watch("subCategory", "");
-	const watchPros = watch("numberOfPros", "");
 	const watchRatings = watch("ratings");
 	const watchTiers = watch("tiers");
 	const watchBudget = watch("budget", "");
@@ -87,18 +86,17 @@ export function GigBudget({ handleForm, gotoNextStep }) {
 
 	const { data: calculation = {}, isLoading: calculatingBudget } = useQuery({
 		queryKey: [
-			`calculateBudget-${watchCity}-${watchSubCategoryId}-${watchTiers.length}-${watchRatings.length}-${watchPros}`,
+			`calculateBudget-${watchCity}-${watchSubCategoryId}-${watchTiers.length}-${watchRatings.length}`,
 			watchCity,
 			watchSubCategoryId,
 			watchRatings,
 			watchTiers,
-			watchPros,
 		],
 		queryFn: () => {
 			return profileAxios.post("/gigs/calculate-budget", {
 				subCategoryId: Number(watchSubCategoryId || 0),
 				cityId: Number(watchCity || 0),
-				numberOfPros: Number(watchPros || 0),
+				numberOfPros: 1,
 				tiers: watchTiers,
 				proRatings: watchRatings,
 			});
@@ -110,8 +108,7 @@ export function GigBudget({ handleForm, gotoNextStep }) {
 			!!watchSubCategoryId &&
 			!!watchCity &&
 			watchTiers.length > 0 &&
-			watchRatings.length > 0 &&
-			!!watchPros,
+			watchRatings.length > 0,
 	});
 
 	const { data: industries = [], isLoading: gettingIndustries } = useQuery({
@@ -268,17 +265,6 @@ export function GigBudget({ handleForm, gotoNextStep }) {
 							))}
 						</BaseSelect>
 					</div>
-					<div className="mb-2">
-						<BaseInput
-							label="No of pros needed"
-							type="number"
-							{...register("numberOfPros", {
-								required: "This field is required",
-							})}
-							error={errors.numberOfPros}
-							errorText={errors.numberOfPros && errors.numberOfPros.message}
-						/>
-					</div>
 					<div className="mb-4">
 						<p className="text-sm mb-2">Select Pro Tier(s)</p>
 						<CheckboxGroup name="tiers" control={control} options={tiers} />
@@ -306,7 +292,7 @@ export function GigBudget({ handleForm, gotoNextStep }) {
 								{...register("budget", {
 									required: "This field is required",
 								})}
-								min={0}
+								min={calculation?.minBudget}
 								error={errors.budget}
 								errorText={errors.budget && errors.budget.message}
 							/>
@@ -338,7 +324,9 @@ export function GigBudget({ handleForm, gotoNextStep }) {
 			</div>
 			<div className="flex gap-4 max-w-sm mx-auto mt-6">
 				<div className="w-1/2">
-					<BaseButton variant="sec">Previous</BaseButton>
+					<BaseButton variant="sec" onClick={goBack}>
+						Previous
+					</BaseButton>
 				</div>
 				<div className="w-1/2">
 					<BaseButton>Next</BaseButton>
@@ -351,6 +339,7 @@ export function GigBudget({ handleForm, gotoNextStep }) {
 GigBudget.propTypes = {
 	handleForm: PropTypes.func.isRequired,
 	gotoNextStep: PropTypes.func.isRequired, // Proper usage of PropTypes
+	goBack: PropTypes.func,
 };
 
 CheckboxGroup.propTypes = {

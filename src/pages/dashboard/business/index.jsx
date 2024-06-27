@@ -39,20 +39,8 @@ const stats = [
 ];
 
 export function BusinessDashBoard() {
-	const { user } = UseAuth();
+	const { user, gigStats } = UseAuth();
 	const { tier } = UseKyc();
-	const {
-		data: gigStats = {},
-		isLoading,
-		refetch,
-	} = useQuery({
-		queryKey: ["pro-dashboard"],
-		queryFn: () => profileAxios.get("/pro-gigs/gig-stats"),
-		select: (data) => data.data,
-		staleTime: Infinity,
-	});
-
-	// console.log({ gigStats });
 
 	return (
 		<div className="h-full flex gap-2 bg-white">
@@ -135,12 +123,12 @@ export function BusinessDashBoard() {
 							className={`bg-[#E2FFE2] px-4 py-8 border rounded-xl text-center border-[#025949] cursor-pointer hover:shadow-lg transition-all ease-linear 300s`}
 						>
 							<p className="mb-2">
-								{formatNumber(gigStats?.approvedGigs || 0)}
+								{formatNumber(gigStats?.upcomingGigs || 0)}
 							</p>
 							<div className="mb-2 w-1/2 mx-auto">
 								<ProgressBar percent={100} color="#14FF9C" thickness={2} />
 							</div>
-							<p className="text-xs font-semibold mb-2">Approved Gigs</p>
+							<p className="text-xs font-semibold mb-2">Upcoming Gigs</p>
 							<div>
 								<span className="cursor-pointer h-8 w-8 bg-[#FEDF00] rounded-full flex items-center justify-center mx-auto transform -rotate-45">
 									&rarr;
@@ -168,7 +156,7 @@ export function BusinessDashBoard() {
 						))}
 					</div> */}
 				</div>
-				<div>
+				{/* <div>
 					<div className="mb-4">
 						<p className="text-sm mb-2 font-bold">Task done by region</p>
 						<div className="flex gap-2 items-center mb-2">
@@ -220,7 +208,7 @@ export function BusinessDashBoard() {
 							innerRadius={0.5}
 						/>
 					</div>
-				</div>
+				</div> */}
 			</div>
 			<div className="flex-1 flex">
 				<div className="w-2/3">

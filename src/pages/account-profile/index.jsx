@@ -10,7 +10,7 @@ import { UseWallet } from "../../context/wallet-context";
 import { WalletSection } from "./wallet-section";
 
 function AccountProfilePage() {
-	const { name, user } = UseAuth();
+	// const { name, user } = UseAuth();
 	const { openWallet } = UseWallet();
 
 	return (

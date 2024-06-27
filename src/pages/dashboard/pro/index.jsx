@@ -1,35 +1,16 @@
-import { WalletIcon } from "../../../assets/admin/wallet-icon";
-import { StarIcon } from "../../../assets/admin/star-icon";
+// import { WalletIcon } from "../../../assets/admin/wallet-icon";
+// import { StarIcon } from "../../../assets/admin/star-icon";
 import { ProgressBar } from "../../../component/admin/progress-bar";
 import { BestMatches } from "./best-matches";
 import { UseAuth } from "../../../context/auth-context";
 import disco from "../../../assets/disco-ball.png";
-import { PieChart } from "../../../component/pie-chart";
-import { useQuery } from "@tanstack/react-query";
-import profileAxios from "../../../helpers/profileAxios";
+// import { PieChart } from "../../../component/pie-chart";
 import { formatNumber } from "../../../helpers/function";
 import { UseKyc } from "../../../context/kyc-context";
 
 export function ProDashBoard() {
-	const { user } = UseAuth();
+	const { user, gigStats } = UseAuth();
 	const { tier } = UseKyc();
-	const {
-		data: gigStats = {},
-		isLoading,
-		refetch,
-	} = useQuery({
-		queryKey: ["business-dashboard"],
-		queryFn: () => profileAxios.get("/gigs/gig-stats"),
-		select: (data) => data.data,
-		staleTime: Infinity,
-	});
-
-	// const { data: approval } = useQuery({
-	// 	queryKey: ["business-approval-stats"],
-	// 	queryFn: () => profileAxios.get("/gigs/approval-stats"),
-	// 	select: (data) => data.data,
-	// 	staleTime: Infinity,
-	// });
 
 	return (
 		<div className="h-full flex gap-2 bg-white">
@@ -107,11 +88,11 @@ export function ProDashBoard() {
 						<div
 							className={`bg-[#E2FFE2] px-4 py-8 border rounded-xl text-center border-[#025949] cursor-pointer hover:shadow-lg transition-all ease-linear 300s`}
 						>
-							<p className="mb-2">{formatNumber(gigStats?.upcomingGigs)}</p>
+							<p className="mb-2">{formatNumber(gigStats?.approvedGigs)}</p>
 							<div className="mb-2 w-1/2 mx-auto">
 								<ProgressBar percent={100} color="#14FF9C" thickness={2} />
 							</div>
-							<p className="text-xs font-semibold mb-2">Upcoming Gigs</p>
+							<p className="text-xs font-semibold mb-2">Approved Gigs</p>
 							<div>
 								<span className="cursor-pointer h-8 w-8 bg-[#FEDF00] rounded-full flex items-center justify-center mx-auto transform -rotate-45">
 									&rarr;
@@ -120,7 +101,7 @@ export function ProDashBoard() {
 						</div>
 					</div>
 				</div>
-				<div>
+				{/* <div>
 					<div className="mb-4">
 						<p className="text-sm mb-2 font-bold">Task done by region</p>
 						<div className="flex gap-2 items-center mb-2">
@@ -172,7 +153,7 @@ export function ProDashBoard() {
 							innerRadius={0.5}
 						/>
 					</div>
-				</div>
+				</div> */}
 			</div>
 			<div className="flex-1 flex">
 				<div className="w-2/3">
