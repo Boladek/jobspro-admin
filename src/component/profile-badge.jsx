@@ -1,31 +1,18 @@
-import { useQuery } from "@tanstack/react-query";
-import profileAxios from "../../../helpers/profileAxios";
-import { GigCard } from "../../../component/gig-card";
+import { ProgressBar } from "./admin/progress-bar";
+import { UseAuth } from "../context/auth-context";
+import { formatNumber } from "../helpers/function";
+import disco from "../assets/disco-ball.png";
+import { UseKyc } from "../context/kyc-context";
 
-export function PostedGigs() {
-	const {
-		data: gigs = [],
-		isLoading,
-		refetch,
-	} = useQuery({
-		queryKey: ["fetch-gig-business"],
-		queryFn: () => profileAxios.get("/gigs/all?page=1&limit=100"),
-		select: (data) => data.data.items,
-		staleTime: Infinity,
-	});
-
+export function ProfileBadge() {
+	const { user, gettingStats } = UseAuth();
+	const { tier, loading } = UseKyc();
 	return (
-		<div className="p-4">
-			<p className="text-sm font-bold">Recent Posts</p>
-			<div
-				className="flex flex-col gap-4 mt-2 overflow-y-auto h-full"
-				style={{ maxHeight: "80vh" }}
-			>
-				{isLoading ? (
-					<div
-						role="status"
-						className="absolute top-0 left-0 w-full h-full bg-black/5 flex flex-col justify-center items-center"
-					>
+		<div>
+			<p className="text-sm mb-2 font-bold">Profile Badge</p>
+			<div className="p-8 rounded-lg bg-black w-48 text-white text-center relative">
+				{(loading || gettingStats) && (
+					<div className="flex justify-center items-center absolute top-0 left-0 h-full w-full bg-white/50">
 						<svg
 							aria-hidden="true"
 							className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
@@ -43,19 +30,20 @@ export function PostedGigs() {
 							/>
 						</svg>
 					</div>
-				) : (
-					<>
-						{gigs.length > 0 ? (
-							gigs.map((gig) => (
-								<GigCard key={gig.uuid} refetch={refetch} gig={gig} />
-							))
-						) : (
-							<p className="text-center">
-								No gig match this criteria at the moment.
-							</p>
-						)}
-					</>
 				)}
+				<p className="capitalize mb-1 text-sm">Tier {tier}</p>
+				<ProgressBar
+					percent={user?.profileCompletion}
+					color="#14FF9C"
+					thickness={1}
+				/>
+				<p className="mt-2 text-4xl">
+					{formatNumber(user?.profileCompletion || 0)}%
+				</p>
+				<p className="text-xs">completed</p>
+				<div className="flex justify-center p-2">
+					<img src={disco} alt="Disco Ball" className="h-8" />
+				</div>
 			</div>
 		</div>
 	);

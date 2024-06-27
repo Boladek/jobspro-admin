@@ -20,14 +20,11 @@ export function GigReview({ open, handleClose }) {
 
 	const [rating, setRating] = useState(0);
 
-
-	// Catch Rating value
-
 	const onSubmit = () => {
 		setLoading(true);
 		profileAxios
 			.post("/pro-gigs/rate-business", {
-				gigId: gigData.gig.uuid,
+				gigId: gigData.gig.gigAccepted[0].uuid,
 				rating,
 				comments: comment,
 			})

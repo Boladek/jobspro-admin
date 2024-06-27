@@ -39,7 +39,6 @@ export function BusinessGigTimeLine() {
 		retry: 2,
 	});
 
-
 	return (
 		<div className="p-4 max-w-2xl mx-auto">
 			{isLoading ? (
@@ -292,7 +291,7 @@ export function BusinessGigTimeLine() {
 											Rating
 										</p>
 										<div className="flex gap-1 items-center">
-											<div className="flex flex-row-reverse gap-1">
+											<div className="flex gap-1">
 												{generateArray(5).map((_, index) => (
 													<StarIcon
 														key={Math.random()}

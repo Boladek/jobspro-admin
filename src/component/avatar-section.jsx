@@ -191,7 +191,7 @@ export function AvatarSection() {
 						<div className="p-1">
 							<div
 								className="flex gap-2 items-center cursor-pointer"
-								onClick={() => navigate("/settings/profile")}
+								// onClick={() => navigate("/settings/profile")}
 							>
 								<img src={settings} alt="Settings" className="h-6" />
 								<span className="text-xs text-gray-500 hover:text-black">

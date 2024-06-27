@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
 
 	const {
 		data: gigStats = {},
-		// isLoading: gettingStats,
+		isLoading: gettingStats,
 		// refetch: refetchStats,
 	} = useQuery({
 		queryKey: ["gig-stats-" + user.userType, user.userType],
@@ -45,6 +45,7 @@ export const AuthProvider = ({ children }) => {
 		loading: isLoading,
 		refetch,
 		gigStats: gigStats,
+		gettingStats,
 		name:
 			user?.userType !== "business"
 				? `${user?.firstName} ${user?.lastName}`
