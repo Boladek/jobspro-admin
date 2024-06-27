@@ -8,6 +8,7 @@ import {
 import profileAxios from "../../../helpers/profileAxios";
 import { useQuery } from "@tanstack/react-query";
 import { Paginate } from "../../../component/paginate";
+import avatar from "../../../assets/profile-avatar.png";
 
 const proTabs = ["Applied", "Active", "On-going", "Cancelled"];
 
@@ -100,6 +101,7 @@ export function ManageGigsPro() {
 							<table className="w-full">
 								<thead className="bg-[#F7F9FF] shadow-sm">
 									<tr>
+										<th className="py-4 px-2 text-sm text-left">Owner</th>
 										<th className="py-4 px-2 text-sm text-left">Title</th>
 										<th className="py-4 px-2 text-sm text-left">Date</th>
 										<th className="py-4 px-2 text-sm text-left">Duration</th>
@@ -123,6 +125,23 @@ export function ManageGigsPro() {
 											}}
 											className="cursor-pointer hover:bg-gray-100"
 										>
+											<td className="py-4 px-2 text-xs text-left">
+												<div className="flex gap-1 items-center">
+													<img
+														src={gig?.user.profilePicture ?? avatar}
+														alt="User Avatar"
+														className="h-10 w-10 rounded-full"
+													/>
+													<div>
+														<p className="font-bold text-adminPrimary">
+															{gig?.user.companyName
+																? gig?.user.companyName
+																: `${gig?.user.firstName} ${gig?.user.lastName}`}
+														</p>
+														<p>{gig?.user.finclusionId}</p>
+													</div>
+												</div>
+											</td>
 											<td className="py-4 px-2 text-xs text-left">
 												{gig?.gigInfos[0]?.title}
 											</td>
