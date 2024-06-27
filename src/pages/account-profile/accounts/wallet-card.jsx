@@ -10,10 +10,7 @@ export function WalletCard() {
 	return (
 		<div className="p-4 rounded-lg w-full bg-[#4440FF]">
 			<div className="flex items-center justify-between w-full mb-4">
-				<div className="text-xs flex gap-1 items-center">
-					<span className="text-[#95FF0F] font-semibold">Pro</span>
-					<span className="text-white">Wallet</span>
-				</div>
+				<span className="font-semibold text-white text-xs">Wallet</span>
 				<div
 					className="cursor-pointer h-7 w-7 bg-[#664DFF] rounded-full flex items-center justify-center transform -rotate-45 text-yellow-200"
 					onClick={handleOpenWallet}

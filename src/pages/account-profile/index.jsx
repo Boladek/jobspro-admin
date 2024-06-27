@@ -15,7 +15,7 @@ function AccountProfilePage() {
 
 	return (
 		<div className="bg-white h-full px-4 py-1 relative">
-			<div className="h-full w-full max-w-screen-2xl border mx-auto rounded-lg overflow-hidden flex flex-col">
+			<div className="h-full w-full max-w-screen-2xl border border-adminPrimary mx-auto rounded-lg overflow-hidden flex flex-col">
 				<div className="w-full">
 					<HeadSection />
 				</div>

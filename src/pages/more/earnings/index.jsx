@@ -1,13 +1,13 @@
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { Actions } from "./actions";
 import { WalletCard } from "./wallet-card";
 import { WalletHistory } from "./wallet-history";
 import { UseAuth } from "../../../context/auth-context";
 
 function EarningsPage() {
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 	const { user } = UseAuth();
-	console.log({ user });
+	// console.log({ user });
 	return (
 		<div className="p-4 flex w-full h-full flex-col">
 			<div className="flex gap-4 justify-center overflow-x-auto mb-4">

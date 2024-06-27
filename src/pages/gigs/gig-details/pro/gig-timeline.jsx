@@ -24,8 +24,6 @@ export function ProGigTimeLine() {
 	const [openDispute, setOpenDispute] = useState(false);
 	const [openCancel, setOpenCancel] = useState(false);
 
-	console.log(gigData.gig.uuid);
-
 	const {
 		data = {},
 		isLoading,
@@ -353,7 +351,7 @@ export function ProGigTimeLine() {
 									<div className="flex justify-between items-center">
 										<p className="text-xs">Rate Pros Professionalism</p>
 										<div className="flex gap-1 items-center">
-											<div className="flex flex-row-reverse gap-1">
+											<div className="flex gap-1">
 												{generateArray(5).map((_, index) => (
 													<StarIcon
 														key={Math.random()}

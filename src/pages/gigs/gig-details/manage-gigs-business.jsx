@@ -6,10 +6,10 @@ import {
 	generateArray,
 	getDifferenceInHours,
 } from "../../../helpers/function";
-import ReactPaginate from "react-paginate";
+// import ReactPaginate from "react-paginate";
 import profileAxios from "../../../helpers/profileAxios";
 import { useQuery } from "@tanstack/react-query";
-import { Paginate } from "../../../component/paginate";
+// import { Paginate } from "../../../component/paginate";
 
 const proTabs = ["Posted", "Active", "Archived"];
 
@@ -137,37 +137,14 @@ export function ManageGigsBusiness() {
 												{item.gigAccepted.length}
 											</td>
 											<td className="py-4 px-2 text-xs text-left capitalize">
-												{item.statusType}
+												<span className={handleStatusColor(item.statusType)}>
+													{item.statusType}
+												</span>
 											</td>
 										</tr>
 									))}
 								</tbody>
 							</table>
-							{filteredGigData.length > 10 && (
-								<div>
-									<ReactPaginate
-										breakLabel="..."
-										// nextLabel="next >"
-										onPageChange={handlePageClick}
-										pageRangeDisplayed={2}
-										pageCount={pageCount}
-										renderOnZeroPageCount={null}
-										className="flex p-2 gap-2 justify-center items-center"
-										nextLabel={
-											<span className="py-1 capitalize px-3 text-xs text-white font-bold border border-primary bg-primary hover:opacity-70 rounded-full select-none">
-												&rarr;
-											</span>
-										}
-										previousLabel={
-											<span className="py-1 capitalize px-3 text-xs text-white font-bold border border-accent bg-accent hover:opacity-70 rounded-full select-none">
-												&larr;
-											</span>
-										}
-										pageLinkClassName="text-sm"
-										activeClassName="text-primary text-sm font-bold"
-									/>
-								</div>
-							)}
 						</>
 					) : (
 						<p>No gigs match this criteria</p>
@@ -176,4 +153,16 @@ export function ManageGigsBusiness() {
 			</div>
 		</div>
 	);
+}
+
+function handleStatusColor(status) {
+	if (status === "completed") {
+		return "text-white p-2 bg-green-500 rounded-full text-xs";
+	}
+	if (status === "new") {
+		return "text-white p-2 bg-orange-500 rounded-full text-xs";
+	}
+	if (status === "hired") {
+		return "text-white p-2 bg-primary rounded-full text-xs";
+	}
 }

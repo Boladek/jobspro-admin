@@ -1,21 +1,23 @@
 import { ProgressBar } from "../../../component/admin/progress-bar";
 import { StarIcon } from "../../../assets/admin/star-icon";
+import { UseAuth } from "../../../context/auth-context";
+import { formatNumber } from "../../../helpers/function";
 
 export function BadgeCard() {
+	const { gigStats } = UseAuth();
 	return (
 		<div
 			className="p-4 py-12 bg- rounded-lg w-full bg-[#4440FF] flex items-center justify-between gap-4 relative overflow-visible"
 			style={{ overflow: "visible !important" }}
 		>
-			{/* <span className="absolute -top-4 bg-[#FFBE16] p-2 text-xs font-bold rounded-lg z-50">
-				Role Model
-			</span> */}
 			<div className="py-0.5">
 				<p className="text-sm text-[#FFBE16] font-semibold">Jobs Pro</p>
 				<p className="text-sm font-extralight text-white">Badge of honour</p>
 			</div>
 			<div>
-				<p className="text-sm font-bold text-white">56 Gigs completed</p>
+				<p className="text-sm font-bold text-white">
+					{formatNumber(gigStats?.completedGigs)} Gigs completed
+				</p>
 				<div className="w-12">
 					<ProgressBar color="#95FF0F" />
 				</div>
