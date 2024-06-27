@@ -5,43 +5,39 @@ import { BestMatches } from "./best-matches";
 import { UseAuth } from "../../../context/auth-context";
 import disco from "../../../assets/disco-ball.png";
 import { PieChart } from "../../../component/pie-chart";
-
-const stats = [
-	{
-		title: "Gigs Completed",
-		value: 12,
-		bg: "bg-adminPrimary",
-		color: "text-white",
-	},
-	{
-		title: "Gigs Cancelled",
-		value: 12,
-		bg: "bg-[#000]",
-		color: "text-white",
-	},
-	{
-		title: "Ongoing Gigs",
-		value: 12,
-		bg: "bg-[#fff]",
-		color: "text-black",
-	},
-	{
-		title: "Upcoming Gigs",
-		value: 12,
-		bg: "bg-[#E2FFE2]",
-		color: "text-black",
-	},
-];
+import { useQuery } from "@tanstack/react-query";
+import profileAxios from "../../../helpers/profileAxios";
+import { formatNumber } from "../../../helpers/function";
+import { UseKyc } from "../../../context/kyc-context";
 
 export function ProDashBoard() {
 	const { user } = UseAuth();
+	const { tier } = UseKyc();
+	const {
+		data: gigStats = {},
+		isLoading,
+		refetch,
+	} = useQuery({
+		queryKey: ["business-dashboard"],
+		queryFn: () => profileAxios.get("/gigs/gig-stats"),
+		select: (data) => data.data,
+		staleTime: Infinity,
+	});
+
+	// const { data: approval } = useQuery({
+	// 	queryKey: ["business-approval-stats"],
+	// 	queryFn: () => profileAxios.get("/gigs/approval-stats"),
+	// 	select: (data) => data.data,
+	// 	staleTime: Infinity,
+	// });
+
 	return (
 		<div className="h-full flex gap-2 bg-white">
 			<div
 				className="w-1/4 p-4 h-full overflow-auto"
 				style={{ maxHeight: "90vh" }}
 			>
-				<div className="mb-4">
+				{/* <div className="mb-4">
 					<p className="text-sm mb-2 font-bold">Pro Rating</p>
 					<div className="px-4 py-8 bg-[#F6FFF4] rounded-xl flex gap-2 items-center border border-[#025949]">
 						<div>
@@ -62,27 +58,66 @@ export function ProDashBoard() {
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> */}
 				<div className="mb-4">
 					<p className="text-sm mb-2 font-bold">Gigs Stat</p>
 					<div className="grid grid-cols-2 gap-4">
-						{stats.map((stat) => (
-							<div
-								key={stat.title}
-								className={`${stat.bg} ${stat.color} px-4 py-8 border rounded-xl text-center border-[#025949] cursor-pointer hover:shadow-lg transition-all ease-linear 300s`}
-							>
-								<p className="mb-2">{stat.value}</p>
-								<div className="mb-2 w-1/2 mx-auto">
-									<ProgressBar percent={100} color="#14FF9C" thickness={2} />
-								</div>
-								<p className="text-xs font-semibold mb-2">{stat.title}</p>
-								<div>
-									<span className="cursor-pointer h-8 w-8 bg-[#FEDF00] rounded-full flex items-center justify-center mx-auto transform -rotate-45">
-										&rarr;
-									</span>
-								</div>
+						<div
+							className={`bg-adminPrimary px-4 py-8 border rounded-xl text-center border-[#025949] cursor-pointer hover:shadow-lg transition-all ease-linear 300s`}
+						>
+							<p className="mb-2">{formatNumber(gigStats?.completedGigs)}</p>
+							<div className="mb-2 w-1/2 mx-auto">
+								<ProgressBar percent={100} color="#14FF9C" thickness={2} />
 							</div>
-						))}
+							<p className="text-xs font-semibold mb-2">Gigs Completed</p>
+							<div>
+								<span className="cursor-pointer h-8 w-8 bg-[#FEDF00] rounded-full flex items-center justify-center mx-auto transform -rotate-45">
+									&rarr;
+								</span>
+							</div>
+						</div>
+						<div
+							className={`bg-black text-white px-4 py-8 border rounded-xl text-center border-[#025949] cursor-pointer hover:shadow-lg transition-all ease-linear 300s`}
+						>
+							<p className="mb-2">{formatNumber(gigStats?.cancelledGigs)}</p>
+							<div className="mb-2 w-1/2 mx-auto">
+								<ProgressBar percent={100} color="#14FF9C" thickness={2} />
+							</div>
+							<p className="text-xs font-semibold mb-2">Gigs Cancelled</p>
+							<div>
+								<span className="cursor-pointer h-8 w-8 bg-[#FEDF00] rounded-full flex items-center justify-center mx-auto transform -rotate-45">
+									&rarr;
+								</span>
+							</div>
+						</div>
+						<div
+							className={`bg-white px-4 py-8 border rounded-xl text-center border-[#025949] cursor-pointer hover:shadow-lg transition-all ease-linear 300s`}
+						>
+							<p className="mb-2">{formatNumber(gigStats?.ongoingGigs)}</p>
+							<div className="mb-2 w-1/2 mx-auto">
+								<ProgressBar percent={100} color="#14FF9C" thickness={2} />
+							</div>
+							<p className="text-xs font-semibold mb-2">Ongoing Gigs</p>
+							<div>
+								<span className="cursor-pointer h-8 w-8 bg-[#FEDF00] rounded-full flex items-center justify-center mx-auto transform -rotate-45">
+									&rarr;
+								</span>
+							</div>
+						</div>
+						<div
+							className={`bg-[#E2FFE2] px-4 py-8 border rounded-xl text-center border-[#025949] cursor-pointer hover:shadow-lg transition-all ease-linear 300s`}
+						>
+							<p className="mb-2">{formatNumber(gigStats?.upcomingGigs)}</p>
+							<div className="mb-2 w-1/2 mx-auto">
+								<ProgressBar percent={100} color="#14FF9C" thickness={2} />
+							</div>
+							<p className="text-xs font-semibold mb-2">Upcoming Gigs</p>
+							<div>
+								<span className="cursor-pointer h-8 w-8 bg-[#FEDF00] rounded-full flex items-center justify-center mx-auto transform -rotate-45">
+									&rarr;
+								</span>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div>
@@ -146,7 +181,7 @@ export function ProDashBoard() {
 				<div className="p-4">
 					<p className="text-sm mb-2 font-bold">Profile Badge</p>
 					<div className="p-8 rounded-lg bg-black w-48 text-white text-center">
-						<p className="capitalize mb-1 text-sm">{user?.completedTier}</p>
+						<p className="capitalize mb-1 text-sm">Tier {tier}</p>
 						<ProgressBar
 							percent={user?.profileCompletion}
 							color="#14FF9C"

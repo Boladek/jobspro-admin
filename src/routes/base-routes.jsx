@@ -33,6 +33,7 @@ import ManageGigs from "../pages/gigs/manage-gigs";
 import GigDetailsSummary from "../pages/gigs/gig-details";
 import CreateGigPage from "../pages/gigs/create-gigs";
 import EscrowPage from "../pages/more/earnings/escrow-page";
+import AccountProfilePage from "../pages/account-profile";
 
 const router = createBrowserRouter([
 	{
@@ -106,6 +107,7 @@ const router = createBrowserRouter([
 				],
 			},
 			{ path: "dashboard", element: <LandingPage /> },
+			{ path: "profile", element: <AccountProfilePage /> },
 			{
 				path: "gigs/:role",
 				element: <Outlet />,
@@ -146,9 +148,9 @@ const router = createBrowserRouter([
 				path: "dashboard/review",
 				element: <ReviewProfilePage />,
 			},
-			{ path: "tasks", element: <div>Tasks</div> },
-			{ path: "messages", element: <div>Messages</div> },
-			{ path: "wallets", element: <div>Wallets</div> },
+			// { path: "tasks", element: <div>Tasks</div> },
+			// { path: "messages", element: <div>Messages</div> },
+			// { path: "wallets", element: <div>Wallets</div> },
 		],
 	},
 	{

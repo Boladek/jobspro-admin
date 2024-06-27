@@ -7,6 +7,9 @@ import disco from "../../../assets/disco-ball.png";
 import { formatNumber } from "../../../helpers/function";
 import { PostedGigs } from "./posted-gigs";
 import { PieChart } from "../../../component/pie-chart";
+import { useQuery } from "@tanstack/react-query";
+import profileAxios from "../../../helpers/profileAxios";
+import { UseKyc } from "../../../context/kyc-context";
 
 const stats = [
 	{
@@ -37,11 +40,27 @@ const stats = [
 
 export function BusinessDashBoard() {
 	const { user } = UseAuth();
+	const { tier } = UseKyc();
+	const {
+		data: gigStats = {},
+		isLoading,
+		refetch,
+	} = useQuery({
+		queryKey: ["pro-dashboard"],
+		queryFn: () => profileAxios.get("/pro-gigs/gig-stats"),
+		select: (data) => data.data,
+		staleTime: Infinity,
+	});
+
+	// console.log({ gigStats });
 
 	return (
 		<div className="h-full flex gap-2 bg-white">
-			<div className="w-1/4 p-4">
-				<div className="mb-4">
+			<div
+				className="w-1/4 p-4"
+				style={{ maxHeight: "100vh", overflowY: "auto" }}
+			>
+				{/* <div className="mb-4">
 					<p className="text-sm mb-2 font-bold">Pro Rating</p>
 					<div className="px-4 py-8 bg-[#F6FFF4] rounded-xl flex gap-2 items-center border border-[#025949]">
 						<div>
@@ -62,10 +81,74 @@ export function BusinessDashBoard() {
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> */}
 				<div className="mb-4">
 					<p className="text-sm mb-2 font-bold">Gigs Stat</p>
 					<div className="grid grid-cols-2 gap-4">
+						<div
+							className={`bg-adminPrimary px-4 py-8 border rounded-xl text-center border-[#025949] cursor-pointer hover:shadow-lg transition-all ease-linear 300s`}
+						>
+							<p className="mb-2">
+								{formatNumber(gigStats?.completedGigs || 0)}
+							</p>
+							<div className="mb-2 w-1/2 mx-auto">
+								<ProgressBar percent={100} color="#14FF9C" thickness={2} />
+							</div>
+							<p className="text-xs font-semibold mb-2">Gigs Completed</p>
+							<div>
+								<span className="cursor-pointer h-8 w-8 bg-[#FEDF00] rounded-full flex items-center justify-center mx-auto transform -rotate-45">
+									&rarr;
+								</span>
+							</div>
+						</div>
+						<div
+							className={`bg-black text-white px-4 py-8 border rounded-xl text-center border-[#025949] cursor-pointer hover:shadow-lg transition-all ease-linear 300s`}
+						>
+							<p className="mb-2">
+								{formatNumber(gigStats?.cancelledGigs || 0)}
+							</p>
+							<div className="mb-2 w-1/2 mx-auto">
+								<ProgressBar percent={100} color="#14FF9C" thickness={2} />
+							</div>
+							<p className="text-xs font-semibold mb-2">Gigs Cancelled</p>
+							<div>
+								<span className="cursor-pointer h-8 w-8 bg-[#FEDF00] rounded-full flex items-center justify-center mx-auto transform -rotate-45">
+									&rarr;
+								</span>
+							</div>
+						</div>
+						<div
+							className={`bg-white px-4 py-8 border rounded-xl text-center border-[#025949] cursor-pointer hover:shadow-lg transition-all ease-linear 300s`}
+						>
+							<p className="mb-2">{formatNumber(gigStats?.ongoingGigs || 0)}</p>
+							<div className="mb-2 w-1/2 mx-auto">
+								<ProgressBar percent={100} color="#14FF9C" thickness={2} />
+							</div>
+							<p className="text-xs font-semibold mb-2">Ongoing Gigs</p>
+							<div>
+								<span className="cursor-pointer h-8 w-8 bg-[#FEDF00] rounded-full flex items-center justify-center mx-auto transform -rotate-45">
+									&rarr;
+								</span>
+							</div>
+						</div>
+						<div
+							className={`bg-[#E2FFE2] px-4 py-8 border rounded-xl text-center border-[#025949] cursor-pointer hover:shadow-lg transition-all ease-linear 300s`}
+						>
+							<p className="mb-2">
+								{formatNumber(gigStats?.approvedGigs || 0)}
+							</p>
+							<div className="mb-2 w-1/2 mx-auto">
+								<ProgressBar percent={100} color="#14FF9C" thickness={2} />
+							</div>
+							<p className="text-xs font-semibold mb-2">Approved Gigs</p>
+							<div>
+								<span className="cursor-pointer h-8 w-8 bg-[#FEDF00] rounded-full flex items-center justify-center mx-auto transform -rotate-45">
+									&rarr;
+								</span>
+							</div>
+						</div>
+					</div>
+					{/* <div className="grid grid-cols-2 gap-4">
 						{stats.map((stat) => (
 							<div
 								key={stat.title}
@@ -83,7 +166,7 @@ export function BusinessDashBoard() {
 								</div>
 							</div>
 						))}
-					</div>
+					</div> */}
 				</div>
 				<div>
 					<div className="mb-4">
@@ -140,14 +223,20 @@ export function BusinessDashBoard() {
 				</div>
 			</div>
 			<div className="flex-1 flex">
-				<div className="w-2/3"><PostedGigs /></div>
+				<div className="w-2/3">
+					<PostedGigs />
+				</div>
 				<div className="p-4">
 					<p className="text-sm mb-2 font-bold">Profile Badge</p>
 					<div className="p-8 rounded-lg bg-black w-48 text-white text-center">
-						<p className="capitalize mb-1 text-sm">{user?.completedTier}</p>
-						<ProgressBar percent={user?.profileCompletion} color="#14FF9C" thickness={1} />
+						<p className="capitalize mb-1 text-sm">Tier {tier}</p>
+						<ProgressBar
+							percent={user?.profileCompletion}
+							color="#14FF9C"
+							thickness={1}
+						/>
 						<p className="mt-2 text-4xl">
-							{formatNumber(user?.profileCompletion)}%
+							{formatNumber(user?.profileCompletion || 0)}%
 						</p>
 						<p className="text-xs">completed</p>
 						<div className="flex justify-center p-2">

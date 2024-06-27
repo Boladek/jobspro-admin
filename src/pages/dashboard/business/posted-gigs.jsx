@@ -19,7 +19,7 @@ export function PostedGigs() {
 			<p className="text-sm font-bold">Recent Posts</p>
 			<div
 				className="flex flex-col gap-4 mt-2 overflow-y-auto h-full"
-				style={{ maxHeight: "80vh" }}
+				style={{ maxHeight: "95vh" }}
 			>
 				{isLoading ? (
 					<p>Fetching gigs...</p>
