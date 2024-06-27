@@ -24,6 +24,8 @@ export function ProGigTimeLine() {
 	const [openDispute, setOpenDispute] = useState(false);
 	const [openCancel, setOpenCancel] = useState(false);
 
+	console.log(gigData.gig.uuid);
+
 	const {
 		data = {},
 		isLoading,

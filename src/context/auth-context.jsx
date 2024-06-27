@@ -22,10 +22,29 @@ export const AuthProvider = ({ children }) => {
 		staleTime: Infinity,
 	});
 
+	const {
+		data: gigStats = {},
+		// isLoading: gettingStats,
+		// refetch: refetchStats,
+	} = useQuery({
+		queryKey: ["gig-stats-" + user.userType, user.userType],
+		queryFn: () => {
+			if (user.userType === "pro") {
+				return profileAxios.get("/pro-gigs/gig-stats");
+			} else {
+				return profileAxios.get("/gigs/gig-stats");
+			}
+		},
+		select: (data) => data.data,
+		staleTime: Infinity,
+		enabled: !!user.userType,
+	});
+
 	const value = {
 		user: data ?? {},
 		loading: isLoading,
 		refetch,
+		gigStats: gigStats,
 		name:
 			user?.userType !== "business"
 				? `${user?.firstName} ${user?.lastName}`

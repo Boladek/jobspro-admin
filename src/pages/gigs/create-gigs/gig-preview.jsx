@@ -32,7 +32,7 @@ export function GigPreview({ steps, handleStep, form }) {
 				isSaved: form.isSaved,
 				subCategoryId: form.subCategoryId,
 				cityId: form.cityId,
-				numberOfPros: form.numberOfPros,
+				numberOfPros: 1,
 				tiers: form.tiers,
 				proRatings: form.proRatings,
 				budget: form.budget,

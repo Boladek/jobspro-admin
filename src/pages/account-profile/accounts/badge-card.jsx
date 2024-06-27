@@ -3,10 +3,13 @@ import { StarIcon } from "../../../assets/admin/star-icon";
 
 export function BadgeCard() {
 	return (
-		<div className="p-4 py-12 border bg- rounded-lg w-full bg-[#4440FF] flex items-center justify-between gap-4 relative">
-			<span className="absolute -top-4 bg-[#FFBE16] p-2 text-xs font-bold rounded-lg z-10">
+		<div
+			className="p-4 py-12 bg- rounded-lg w-full bg-[#4440FF] flex items-center justify-between gap-4 relative overflow-visible"
+			style={{ overflow: "visible !important" }}
+		>
+			{/* <span className="absolute -top-4 bg-[#FFBE16] p-2 text-xs font-bold rounded-lg z-50">
 				Role Model
-			</span>
+			</span> */}
 			<div className="py-0.5">
 				<p className="text-sm text-[#FFBE16] font-semibold">Jobs Pro</p>
 				<p className="text-sm font-extralight text-white">Badge of honour</p>

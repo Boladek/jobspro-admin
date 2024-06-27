@@ -102,16 +102,16 @@ export function ManageGigsBusiness() {
 										<tr
 											key={item.uuid}
 											onClick={() => {
-												if (
-													item.statusType === "hired" ||
-													item.statusType === "completed"
-												) {
-													navigate(`/gigs/${role}/details/${item.uuid}`, {
-														state: {
-															gigData: item,
-														},
-													});
-												}
+												// if (
+												// 	item.statusType === "hired" ||
+												// 	item.statusType === "completed"
+												// ) {
+												// }
+												navigate(`/gigs/${role}/details/${item.uuid}`, {
+													state: {
+														gigData: item,
+													},
+												});
 											}}
 											className="cursor-pointer hover:bg-gray-100"
 										>

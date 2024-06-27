@@ -20,6 +20,7 @@ export function GigReview({ open, handleClose }) {
 
 	const [rating, setRating] = useState(0);
 
+
 	// Catch Rating value
 
 	const onSubmit = () => {

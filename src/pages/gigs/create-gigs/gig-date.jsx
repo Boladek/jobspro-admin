@@ -14,7 +14,7 @@ import { BaseInput } from "../../../component/input";
 
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-export function GigDate({ handleForm, gotoNextStep }) {
+export function GigDate({ handleForm, gotoNextStep, goBack }) {
 	const [selected, setSelected] = useState(null);
 
 	const {
@@ -151,7 +151,12 @@ export function GigDate({ handleForm, gotoNextStep }) {
 
 			<div className="flex justify-center gap-2 mt-4">
 				<div className="w-1/4">
-					<BaseButton type="button" variant="sec" loading={false}>
+					<BaseButton
+						type="button"
+						variant="sec"
+						onClick={goBack}
+						loading={false}
+					>
 						Back
 					</BaseButton>
 				</div>
@@ -172,4 +177,5 @@ export function GigDate({ handleForm, gotoNextStep }) {
 GigDate.propTypes = {
 	handleForm: PropTypes.func.isRequired,
 	gotoNextStep: PropTypes.func.isRequired, // Proper usage of PropTypes
+	goBack: PropTypes.func,
 };

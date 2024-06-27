@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { MdArrowBackIos } from "react-icons/md";
 import { GigPreview } from "./gig-preview";
 import { GigAddress } from "./gig-address";
@@ -51,18 +51,21 @@ function CreateGigPage() {
 					<GigBudget
 						handleForm={handleForm}
 						gotoNextStep={() => setStep(steps[2])}
+						goBack={() => setStep(steps[0])}
 					/>
 				)}
 				{step === steps[2] && (
 					<GigInformation
 						handleForm={handleForm}
 						gotoNextStep={() => setStep(steps[3])}
+						goBack={() => setStep(steps[1])}
 					/>
 				)}
 				{step === steps[3] && (
 					<GigDate
 						handleForm={handleForm}
 						gotoNextStep={() => setStep(steps[4])}
+						goBack={() => setStep(steps[2])}
 					/>
 				)}
 				{step === steps[4] && (
@@ -70,6 +73,7 @@ function CreateGigPage() {
 						form={form}
 						handleStep={(arg) => setStep(arg)}
 						steps={steps}
+						goBack={() => setStep(steps[3])}
 					/>
 				)}
 			</>
