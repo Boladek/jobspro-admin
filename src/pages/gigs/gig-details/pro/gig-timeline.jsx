@@ -35,8 +35,9 @@ export function ProGigTimeLine() {
 				`/pro-gigs/timeline/${gigData.gig?.gigAccepted[0]?.uuid}`
 			),
 		select: (data) => data.data,
-		staleTime: Infinity,
+		// staleTime: Infinity,
 		retry: 2,
+		refetchOnWindowFocus: true,
 	});
 
 	function startGig() {

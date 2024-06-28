@@ -27,7 +27,8 @@ export function ManageGigsBusiness() {
 		queryKey: ["fetch-gig-business"],
 		queryFn: () => profileAxios.get("/gigs/all?page=1&limit=100"),
 		select: (data) => data.data.items,
-		staleTime: Infinity,
+		// staleTime: Infinity,
+		refetchOnWindowFocus: true,
 	});
 
 	const endOffset = itemOffset + itemsPerPage;

@@ -35,8 +35,9 @@ export function BusinessGigTimeLine() {
 				`/gigs/timeline/business/${gigData?.gigAccepted[0]?.uuid}`
 			),
 		select: (data) => data.data,
-		staleTime: Infinity,
+		// staleTime: Infinity,
 		retry: 2,
+		refetchOnWindowFocus: true,
 	});
 
 	return (

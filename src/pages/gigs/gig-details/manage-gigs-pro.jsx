@@ -24,8 +24,9 @@ export function ManageGigsPro() {
 		queryKey: ["fetch-applied-gigs"],
 		queryFn: () => profileAxios.get("/pro-gigs/applied"),
 		select: (data) => data.data,
-		staleTime: Infinity,
+		// staleTime: Infinity,
 		retry: 3,
+		refetchOnWindowFocus: true,
 	});
 
 	const filteredGigData = useMemo(() => {
