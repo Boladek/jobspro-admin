@@ -7,7 +7,7 @@ export function BadgeCard() {
 	const { gigStats } = UseAuth();
 	return (
 		<div
-			className="p-4 py-12 bg- rounded-lg w-full bg-[#4440FF] flex items-center justify-between gap-4 relative overflow-visible"
+			className="p-4 py-12 bg- rounded-lg w-full bg-[#4440FF] flex items-center justify-between gap-4 relative overflow-visible min-w-96"
 			style={{ overflow: "visible !important" }}
 		>
 			<div className="py-0.5">

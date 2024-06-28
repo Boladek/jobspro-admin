@@ -12,12 +12,12 @@ function AccountProfilePage() {
 	const { openWallet } = UseModal();
 
 	return (
-		<div className="bg-white h-full px-4 py-1 relative">
-			<div className="h-full w-full max-w-screen-2xl border border-adminPrimary mx-auto rounded-lg overflow-hidden flex flex-col">
+		<div className="h-full p-0 md:px-4 md:py-1 relative">
+			<div className="h-full w-full max-w-screen-2xl border md:border-adminPrimary mx-auto md:rounded-lg md:overflow-hidden overflow-y-scroll flex flex-col">
 				<div className="w-full">
 					<HeadSection />
 				</div>
-				<div className="p-8 bg-light flex-1 relative">
+				<div className="px-2 py-4 md:p-8 bg-light flex-1 relative">
 					<div className="mb-4">
 						<AccountSwitch />
 					</div>

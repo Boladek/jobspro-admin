@@ -72,8 +72,8 @@ export function GigComponent({ gig, refetch }) {
 					<p className="text-xs mb-2 text-gray-500">
 						{gig?.gigInfos[0]?.description}
 					</p>
-					<div className="flex items-center flex-wrap mb-4 bg-adminPrimary rounded-lg text-white p-4 text-xs justify-between font-extralight">
-						<div>
+					<div className="md:flex items-center flex-wrap mb-4 bg-adminPrimary rounded-lg text-white p-4 text-xs justify-between font-extralight">
+						<div className="mb-2 md:mb-0">
 							<p>
 								Duration
 								<span className="font-semibold ml-4">
@@ -90,19 +90,11 @@ export function GigComponent({ gig, refetch }) {
 								</span>
 							</p>
 						</div>
-						{/* <div>
-							<p className="font-semibold text-xs">{formatDate(gig.gigDate)}</p>
-						</div>
-						<div>
-							<p className="font-semibold text-xs">
-								{gig.gigAddresses[0].address}
-							</p>
-						</div> */}
 					</div>
 					<div className="flex justify-between text-xs items-center">
-						<div className="py-2 px-4 border rounded-lg border-adminPrimary bg-white font-light">
+						<div className="p-2 md:py-2 md:px-4 border rounded-lg border-adminPrimary bg-white font-light">
 							Start Date
-							<span className="font-bold ml-4">
+							<span className="font-bold ml-2 md:ml-4">
 								{formatDate(gig.createdAt)}
 							</span>
 						</div>
@@ -150,9 +142,17 @@ export function GigComponent({ gig, refetch }) {
 											</p>
 											<span>
 												{gig?.isLiked ? (
-													<IoIosHeart size={24} color="red" />
+													<IoIosHeart
+														size={24}
+														color="red"
+														onClick={unLikeGig}
+													/>
 												) : (
-													<IoIosHeartEmpty size={24} color="red" />
+													<IoIosHeartEmpty
+														size={24}
+														color="red"
+														onClick={likeGig}
+													/>
 												)}
 											</span>
 										</div>

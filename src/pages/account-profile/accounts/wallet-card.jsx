@@ -9,7 +9,7 @@ export function WalletCard() {
 	const { handleOpenWallet } = UseModal();
 	return (
 		<div
-			className="p-4 rounded-lg w-full bg-[#4440FF]"
+			className="p-4 rounded-lg w-full bg-[#4440FF] min-w-80"
 			onClick={handleOpenWallet}
 		>
 			<div className="flex items-center justify-between w-full mb-4">
