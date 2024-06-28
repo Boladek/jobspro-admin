@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import profileAxios from "../../../helpers/profileAxios";
 import { useMemo, useState } from "react";
 import { GigComponent } from "../../../component/gig-component";
+import { CgUnavailable } from "react-icons/cg";
 
 const tabs = ["Best Matches", "Remote", "On-Site"];
 
@@ -39,7 +40,7 @@ export function BestMatches() {
 
 	return (
 		<div className="p-4">
-			<div className="flex bg-adminPrimary p-2 text-sm text-white w-full justify-evenly rounded-lg">
+			<div className="flex bg-adminPrimary p-2 text-sm text-white w-full justify-evenly rounded-lg max-w-lg">
 				{tabs.map((tab) => (
 					<div
 						className={`${
@@ -85,9 +86,12 @@ export function BestMatches() {
 								<GigComponent key={gig.uuid} refetch={refetch} gig={gig} />
 							))
 						) : (
-							<p className="text-center">
-								No gig match this criteria at the moment.
-							</p>
+							<div className="text-center">
+								<div className="flex justify-center">
+									<CgUnavailable className="text-9xl" />
+								</div>
+								<p>No gig match this criteria at the moment.</p>
+							</div>
 						)}
 					</>
 				)}

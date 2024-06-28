@@ -1,6 +1,6 @@
 import { HeadSection } from "./head-section";
 import { AccountSwitch } from "./account-switch";
-// import { EscrowCard } from "./accounts/escrow-card";
+import { EscrowCard } from "./accounts/escrow-card";
 import { WalletCard } from "./accounts/wallet-card";
 import { BadgeCard } from "./accounts/badge-card";
 import { ManageProfile } from "./manage-profile";
@@ -25,7 +25,9 @@ function AccountProfilePage() {
 						<div className="max-w-sm w-full">
 							<WalletCard />
 						</div>
-
+						<div className="max-w-sm w-full">
+							<EscrowCard />
+						</div>
 						<div className="max-w-sm w-full">
 							<BadgeCard />
 						</div>
