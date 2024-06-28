@@ -16,7 +16,8 @@ export function BestMatches() {
 		queryKey: ["fetch-gig-pros"],
 		queryFn: () => profileAxios.get("/pro-gigs/best-matches?page=1&limit=100"),
 		select: (data) => data.data.data,
-		staleTime: Infinity,
+		// staleTime: Infinity,
+		refetchOnWindowFocus: true, //
 	});
 
 	const filteredGigs = useMemo(() => {

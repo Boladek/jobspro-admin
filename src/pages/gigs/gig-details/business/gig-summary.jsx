@@ -19,7 +19,7 @@ export function GigSummaryBusiness() {
 		queryKey: ["fetch-gig-details" + id],
 		queryFn: () => profileAxios.get(`/gigs/details/${id}`),
 		select: (data) => data.data,
-		staleTime: Infinity,
+		// staleTime: Infinity,
 		refetchOnMount: true,
 		retry: 2,
 	});
