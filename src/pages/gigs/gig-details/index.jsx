@@ -1,14 +1,11 @@
 import { useState } from "react";
 import { MdArrowBackIos } from "react-icons/md";
-// import avatar from "../../../assets/profile-avatar.png";
 import { useLocation, useNavigate } from "react-router-dom";
-// import { KycTag } from "../../../component/kyc-tag";
 import { GigSummary } from "./pro/gig-summary";
 import { ProGigTimeLine } from "./pro/gig-timeline";
 import { useSelector } from "react-redux";
 import { BusinessGigTimeLine } from "./business/gig-timeline";
 import { GigSummaryBusiness } from "./business/gig-summary";
-// import { UseAuth } from "../../../context/auth-context";
 
 const tabs = ["Details", "Timeline", "Chat"];
 
