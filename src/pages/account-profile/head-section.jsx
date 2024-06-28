@@ -27,8 +27,8 @@ export function HeadSection() {
 
 	return (
 		<>
-			<div className="p-8 bg-[#4440FF] flex justify-between items-center text-white">
-				<div className="flex gap-2 items-center">
+			<div className="p-8 bg-[#4440FF] md:flex justify-between items-center text-white">
+				<div className="flex gap-2 items-center mb-4 md:mb-0">
 					<div className="h-20 w-20 relative overflow-hidden border-4 border-white rounded-full shadow-sm">
 						<div
 							className="absolute top-0 left-0 opacity-0 hover:opacity-100 w-full h-full hover:bg-black/50 rounded-full flex justify-center items-center cursor-pointer"

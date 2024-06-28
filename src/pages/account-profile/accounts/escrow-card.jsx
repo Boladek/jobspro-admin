@@ -7,7 +7,7 @@ export function EscrowCard() {
 	const {} = UseAuth();
 
 	return (
-		<div className="p-4 rounded-lg w-full bg-[#7107f6] relative text-white">
+		<div className="p-4 rounded-lg w-full bg-[#7107f6] relative text-white min-w-80">
 			<img src={pattern} className="absolute top-0 left-0 h-full z-20" />
 			<div className="flex mb-4 justify-between">
 				<div>

@@ -45,8 +45,8 @@ export function DashBoardWrapper({ children }) {
 					</div>
 				)}
 				<div className="flex">
-					<div className="w-2/3">{children}</div>
-					<div className="p-4">
+					<div className="w-full md:w-2/3">{children}</div>
+					<div className="p-4 hidden md:block">
 						<ProfileBadge />
 					</div>
 				</div>

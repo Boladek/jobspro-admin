@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 export function FundEscrow({ open, handleClose, amount, id }) {
 	const navigate = useNavigate();
-	const { user } = UseAuth();
+	const { user, refetch } = UseAuth();
 	const [loading, setLoading] = useState(false);
 	const { handleSubmit } = useForm();
 
@@ -25,7 +25,8 @@ export function FundEscrow({ open, handleClose, amount, id }) {
 			})
 			.then((res) => {
 				toast.success(res.message);
-				handleClose()
+				refetch();
+				handleClose();
 			})
 			.catch((err) => toast.error(err.response.data.message))
 			.finally(() => setLoading(false));

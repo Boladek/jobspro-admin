@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { UseModal } from "../../../context/wallet-context";
 import { IoIosCopy } from "react-icons/io";
 import { WithdrawIcon } from "../../../assets/withdraw-icon";
@@ -7,13 +7,13 @@ import { AnalyticsIcon } from "../../../assets/analytics-icon";
 import { Transactions } from "./transactions";
 import { Funding } from "./funding";
 import { Withdrawal } from "./withdrawal";
-import { Analytics } from "./Analytics";
+// import { Analytics } from "./Analytics";
 
 const tabs = [
-	{ title: "Withdraw", icon: WithdrawIcon },
+	{ title: "Transactions", icon: AnalyticsIcon },
 	{ title: "Fund Wallet", icon: FundWalletIcon },
-	// { title: "Analytics", icon: AnalyticsIcon },
-	{ title: "Escrow", icon: FundWalletIcon },
+	{ title: "Withdraw", icon: WithdrawIcon },
+	// { title: "Escrow", icon: FundWalletIcon },
 ];
 
 export function WalletSection() {
@@ -22,7 +22,7 @@ export function WalletSection() {
 
 	return (
 		<div
-			className="absolute top-0 right-0 p-4 border rounded-lg max-w-md w-full h-full bg-white border-primary"
+			className="absolute top-0 right-0 p-4 md:p-8 border rounded-lg max-w-md w-full h-full bg-white border-primary"
 			style={{ maxHeight: "95vh", overflowY: "auto" }}
 		>
 			<div className="flex justify-between items-center mb-4">
@@ -60,7 +60,7 @@ export function WalletSection() {
 								className="text-center items-center"
 							>
 								<div className="flex justify-center">
-									<div className="p-2 border rounded-full">
+									<div className="p-2 border rounded-full cursor-pointer">
 										<tab.icon />
 									</div>
 								</div>
@@ -80,7 +80,12 @@ export function WalletSection() {
 						</div>
 						{activeTab}
 					</div>
-					<div onClick={() => setActiveTab(tabs[0].title)}>Back</div>
+					<div
+						onClick={() => setActiveTab(tabs[0].title)}
+						className="hover:underline cursor-pointer"
+					>
+						Back
+					</div>
 				</div>
 			)}
 

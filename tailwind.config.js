@@ -21,6 +21,9 @@ export default {
 			backgroundImage: {
 				"custom-gradient": "linear-gradient(90deg, #005AAA, #020C60)",
 			},
+			maxHeight: {
+				"90vh": "90vh",
+			},
 		},
 	},
 };
