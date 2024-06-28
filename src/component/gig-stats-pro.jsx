@@ -8,7 +8,7 @@ export function GigStatsPro() {
 	return (
 		<div className="mb-4 relative">
 			<p className="text-sm mb-2 font-bold">Gigs Stat</p>
-			<div className="grid grid-cols-2 gap-4 relative">
+			<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative">
 				{gettingStats && (
 					<div className="flex justify-center items-center absolute top-0 left-0 h-full w-full bg-white/50">
 						<svg

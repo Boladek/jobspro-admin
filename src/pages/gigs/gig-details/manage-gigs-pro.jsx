@@ -9,6 +9,7 @@ import profileAxios from "../../../helpers/profileAxios";
 import { useQuery } from "@tanstack/react-query";
 import { Paginate } from "../../../component/paginate";
 import avatar from "../../../assets/profile-avatar.png";
+import { ProgressBar } from "../../../component/admin/progress-bar";
 
 const proTabs = ["Applied", "Active", "On-going", "Cancelled"];
 
@@ -31,15 +32,16 @@ export function ManageGigsPro() {
 		if (gigs.length > 0) {
 			return gigs.filter((gig) => {
 				if (activeTab === proTabs[0]) return gig;
-				if (activeTab === proTabs[1]) return gig.gigStatusType === "hired";
+				if (activeTab === proTabs[1]) return gig.gig.statusType === "hired";
 				if (activeTab === proTabs[2])
-					return gig.gigStatusType === "in-progress";
-				if (activeTab === proTabs[3])
-					return gig.gigStatusType === "in-progress";
+					return gig.gig.statusType === "in-progress";
+				if (activeTab === proTabs[3]) return gig.gig.statusType === "cancelled";
 			});
 		}
 		return [];
 	}, [activeTab, gigs]);
+
+	// console.log({ filteredGigData });
 
 	const [itemOffset, setItemOffset] = useState(0);
 
@@ -131,11 +133,11 @@ export function ManageGigsPro() {
 									</tr>
 								</thead>
 								<tbody className="rounded-xl">
-									{currentItems.map(({ gig, gigStatusType, ...rest }) => (
+									{filteredGigData.map(({ gig, gigStatusType, ...rest }) => (
 										<tr
 											key={gig.uuid}
 											onClick={() => {
-												if (gigStatusType !== "in-progress") {
+												if (gig.statusType !== "in-progress") {
 													navigate(`/gigs/${role}/details/gig`, {
 														state: {
 															gigData: { gig, ...rest, gigStatusType },
@@ -178,13 +180,17 @@ export function ManageGigsPro() {
 												N{formatNumber(gig.budget)}
 											</td>
 											<td className="py-4 px-2 text-xs text-left capitalize">
-												{gigStatusType}
+												{gig.statusType}
+												<ProgressBar
+													color={handleProgressColor(gig.statusType)}
+													thickness={1.2}
+												/>
 											</td>
 										</tr>
 									))}
 								</tbody>
 							</table>
-							<div>
+							{/* <div>
 								<Paginate
 									total={filteredGigData.length}
 									pageCount={pageCount}
@@ -194,11 +200,11 @@ export function ManageGigsPro() {
 									perPage={itemsPerPage}
 									currentPage={currentPage}
 								/>
-							</div>
+							</div> */}
 						</>
 					) : (
 						<div className="flex flex-col items-center p-4">
-							<p className="font-bold">You have no applications</p>
+							<p className="font-bold">You have no {activeTab} applications</p>
 							<div
 								onClick={() => navigate(`/gigs/${role}/find-gigs`)}
 								className="px-4 py-2 bg-primary text-xs text-white cursor-pointer rounded-md hover:bg-secondary mt-2"
@@ -211,4 +217,10 @@ export function ManageGigsPro() {
 			)}
 		</div>
 	);
+}
+
+function handleProgressColor(stat) {
+	if (stat === "cancelled") return "red";
+	if (stat === "completed") return "green";
+	return "orange";
 }

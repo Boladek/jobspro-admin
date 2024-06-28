@@ -12,7 +12,7 @@ export function DashBoardWrapper({ children }) {
 	const { name, user } = UseAuth();
 	return (
 		<div className="h-full flex gap-2 bg-white">
-			<div className="w-1/4 p-4">
+			<div className="hidden md:block w-80 p-4">
 				{user.userType === "pro" ? <GigStatsPro /> : <GigStatsBusiness />}
 			</div>
 			<div className="flex-1 ">
