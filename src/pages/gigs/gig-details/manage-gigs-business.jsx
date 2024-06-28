@@ -9,6 +9,7 @@ import {
 // import ReactPaginate from "react-paginate";
 import profileAxios from "../../../helpers/profileAxios";
 import { useQuery } from "@tanstack/react-query";
+import { ProgressBar } from "../../../component/admin/progress-bar";
 // import { Paginate } from "../../../component/paginate";
 
 const proTabs = ["Posted", "Active", "Archived"];
@@ -41,6 +42,8 @@ export function ManageGigsBusiness() {
 		}
 		return [];
 	}, [activeTab, gigs]);
+
+	// console.log({ filteredGigData });
 
 	const currentItems = filteredGigData.slice(itemOffset, endOffset);
 	const pageCount = Math.ceil(filteredGigData.length / itemsPerPage);
@@ -82,7 +85,7 @@ export function ManageGigsBusiness() {
 			{isLoading && <div className="progress"></div>}
 			<div>
 				<>
-					{currentItems.length > 0 ? (
+					{filteredGigData.length > 0 ? (
 						<>
 							<table className="w-full">
 								<thead className="bg-[#F7F9FF] shadow-sm">
@@ -137,9 +140,13 @@ export function ManageGigsBusiness() {
 												{item.gigAccepted.length}
 											</td>
 											<td className="py-4 px-2 text-xs text-left capitalize">
-												<span className={handleStatusColor(item.statusType)}>
-													{item.statusType}
-												</span>
+												{item.statusType}
+												<ProgressBar
+													color={handleProgressColor(item.statusType)}
+													thickness={1.2}
+												/>
+												{/* <span className={handleStatusColor(item.statusType)}>
+												</span> */}
 											</td>
 										</tr>
 									))}
@@ -155,14 +162,8 @@ export function ManageGigsBusiness() {
 	);
 }
 
-function handleStatusColor(status) {
-	if (status === "completed") {
-		return "text-white p-2 bg-green-500 rounded-full text-xs";
-	}
-	if (status === "new") {
-		return "text-white p-2 bg-orange-500 rounded-full text-xs";
-	}
-	if (status === "hired") {
-		return "text-white p-2 bg-primary rounded-full text-xs";
-	}
+function handleProgressColor(stat) {
+	if (stat === "hired") return "#206DB0";
+	if (stat === "completed") return "green";
+	return "orange";
 }
