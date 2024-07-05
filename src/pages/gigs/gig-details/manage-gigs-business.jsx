@@ -75,12 +75,12 @@ export function ManageGigsBusiness() {
 						</div>
 					))}
 				</div>
-				<span
+				{/* <span
 					className="p-2 border text-sm bg-adminPrimary text-white rounded-md hover:opacity-75 cursor-pointer"
 					onClick={() => navigate(`/gigs/${role}/create-gig`)}
 				>
 					Create Gig &#43;
-				</span>
+				</span> */}
 			</div>
 
 			{isLoading && <div className="progress"></div>}

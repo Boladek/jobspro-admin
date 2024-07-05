@@ -91,10 +91,10 @@ export function GigComponent({ gig, refetch }) {
 							</p>
 						</div>
 					</div>
-					<div className="flex justify-between text-xs items-center">
+					<div className="flex justify-between gap-1 text-xs items-center">
 						<div className="p-2 md:py-2 md:px-4 border rounded-lg border-adminPrimary bg-white font-light">
 							Start Date
-							<span className="font-bold ml-2 md:ml-4">
+							<span className="font-bold ml-1 md:ml-4">
 								{formatDate(gig.createdAt)}
 							</span>
 						</div>
@@ -103,7 +103,7 @@ export function GigComponent({ gig, refetch }) {
 							className="flex gap-2 items-center"
 							onClick={() => setOpen(true)}
 						>
-							Apply
+							<span className="hidden md:block">Apply</span>
 							<span className="cursor-pointer h-8 w-8 bg-adminPrimary text-white rounded-full flex items-center justify-center mx-auto transform -rotate-45">
 								&rarr;
 							</span>

@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { Modal } from "../../../../component/modal";
 import { BaseButton } from "../../../../component/button";
 import { Overlay } from "../../../../component/overlay-component";
-// import { BaseTextArea } from "../../../../component/text-area";
+import { BaseTextArea } from "../../../../component/text-area";
 import profileAxios from "../../../../helpers/profileAxios";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -20,7 +20,8 @@ export function DisputeGig({ open, handleClose }) {
 	const [reason, setReason] = useState("");
 	const [loading, setLoading] = useState(false);
 
-	const onSubmit = () => {
+	const onSubmit = (e) => {
+		e.preventDefault();
 		setLoading(true);
 		profileAxios
 			.post(`/gigs/dispute-gig/${gigData.gigAccepted[0].uuid}`, {
@@ -45,7 +46,7 @@ export function DisputeGig({ open, handleClose }) {
 				{loading && <Overlay message="Disputing Gig" />}
 				<div>
 					<p className={`text-primary text-3xl font-bold mb-4`}>
-						Dispute Adjustment
+						Dispute Gig
 					</p>
 					<p className="text-sm text-gray-500 mb-6 px-2">
 						Are you sure you want to raise a dispute?

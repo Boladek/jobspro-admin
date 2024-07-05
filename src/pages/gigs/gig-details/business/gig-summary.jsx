@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { MdArrowBackIos } from "react-icons/md";
-import { formatDate, formatNumber } from "../../../../helpers/function";
 import { PropComponent } from "../../../../component/pro-component";
+import { formatDate, formatNumber } from "../../../../helpers/function";
 import profileAxios from "../../../../helpers/profileAxios";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";

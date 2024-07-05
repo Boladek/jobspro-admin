@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import { Modal } from "../../../component/modal";
 import { BaseButton } from "../../../component/button";
-import { BaseSelect } from "../../../component/select";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import profileAxios from "../../../helpers/profileAxios";

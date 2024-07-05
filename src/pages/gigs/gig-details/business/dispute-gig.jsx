@@ -21,9 +21,13 @@ export function DisputeGig({ open, handleClose }) {
 	const [loading, setLoading] = useState(false);
 
 	const onSubmit = () => {
+		// e.preventDefault();
 		setLoading(true);
 		profileAxios
-			.post(`/gigs/dispute-gig/${gigData.gigAccepted[0].uuid}`)
+			.post(`/gigs/dispute-gig`, {
+				gigAcceptedId: gigData.gigAccepted[0].uuid,
+				reason: reason,
+			})
 			.then((res) => {
 				toast.success(res.message);
 				handleClose();
@@ -32,25 +36,26 @@ export function DisputeGig({ open, handleClose }) {
 			.finally(() => setLoading(false));
 	};
 
-	const handleChange = (e) => {
-		setReason(e.target.value);
-	};
-
 	return (
 		<Modal open={open} handleClose={handleClose} maxWidth={400}>
 			<form
-				className="py-4 h-full flex flex-col"
+				className="p-4 h-full flex flex-col"
 				style={{ maxWidth: 500, width: "100%" }}
 				onSubmit={handleSubmit(onSubmit)}
 			>
 				{loading && <Overlay message="Disputing Gig" />}
 				<div>
-					<p className={`text-primary text-3xl font-bold mb-4`}>
-						Dispute Adjustment
-					</p>
-					<p className="text-sm text-gray-500 mb-6 px-2">
+					<p className={`text-primary text-3xl font-bold mb-4`}>Dispute Gig</p>
+					<p className="text-sm text-gray-500 mb-6">
 						Are you sure you want to raise a dispute?
 					</p>
+					<div className="my-2">
+						<BaseTextArea
+							onChange={(e) => setReason(e.target.value)}
+							required
+							label="Comments"
+						/>
+					</div>
 				</div>
 				<div className="flex gap-2 items-center">
 					<div className="flex-1">

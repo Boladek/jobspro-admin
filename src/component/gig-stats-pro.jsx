@@ -1,9 +1,9 @@
 import { ProgressBar } from "./admin/progress-bar";
 import { formatNumber } from "../helpers/function";
-import { UseAuth } from "../context/auth-context";
+import { UseDashboard } from "../context/dashboard-context";
 
 export function GigStatsPro() {
-	const { gigStats, gettingStats } = UseAuth();
+	const { gigStats, gettingStats } = UseDashboard();
 
 	return (
 		<div className="mb-4 relative">

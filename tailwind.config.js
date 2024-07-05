@@ -24,6 +24,9 @@ export default {
 			maxHeight: {
 				"90vh": "90vh",
 			},
+			fontSize: {
+				tiny: ["0.625rem", { lineHeight: "0.875rem" }], // Custom smaller text
+			},
 		},
 	},
 };

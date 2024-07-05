@@ -16,7 +16,7 @@ export function NavBar() {
 		{ title: "profile", url: "/profile", icon: PersonIcon },
 	];
 	return (
-		<div className="flex gap-2 w-full justify-evenly p-2 shadow-sm border-t">
+		<div className="flex gap-2 w-full justify-evenly p-2 shadow-sm border-t z-30 bg-white">
 			{links.map((link, index) => (
 				<LinkElement key={link.title + index} link={link} />
 			))}

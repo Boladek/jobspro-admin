@@ -1,17 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-	formatDate,
-	formatNumber,
-	getDifferenceInHours,
-} from "../../../helpers/function";
+import { formatDate } from "../../../helpers/function";
 import profileAxios from "../../../helpers/profileAxios";
 import { useQuery } from "@tanstack/react-query";
-import { Paginate } from "../../../component/paginate";
 import avatar from "../../../assets/profile-avatar.png";
 import { ProgressBar } from "../../../component/admin/progress-bar";
+import { CgUnavailable } from "react-icons/cg";
+import { GigApplicationComponent } from "./pro/gig-application-component";
 
-const proTabs = ["Applied", "Active", "On-going", "Cancelled"];
+const proTabs = ["Applications", "Hired", "On-going", "Completed", "Cancelled"];
 
 export function ManageGigsPro() {
 	const navigate = useNavigate();
@@ -36,7 +33,8 @@ export function ManageGigsPro() {
 				if (activeTab === proTabs[1]) return gig.gig.statusType === "hired";
 				if (activeTab === proTabs[2])
 					return gig.gig.statusType === "in-progress";
-				if (activeTab === proTabs[3]) return gig.gig.statusType === "cancelled";
+				if (activeTab === proTabs[3]) return gig.gig.statusType === "completed";
+				if (activeTab === proTabs[4]) return gig.gig.statusType === "cancelled";
 			});
 		}
 		return [];
@@ -70,11 +68,13 @@ export function ManageGigsPro() {
 		document.title = "Jobs Pro | Gigs";
 	}, []);
 
+	// console.log({ currentItems });
+
 	return (
 		<div className="bg-white h-full p-4">
-			<div className="flex justify-between items-center">
-				<p className="text-2xl font-bold mb-2">Manage Gigs</p>
-				<div className="flex bg-adminPrimary p-2 text-sm text-white w-full justify-evenly rounded-lg max-w-md mx-auto mb-4">
+			<div className="flex justify-center">
+				{/* <p className="text-2xl font-bold mb-2">Manage Gigs</p> */}
+				<div className="flex bg-adminPrimary p-2 text-sm text-white w-full justify-evenly rounded-lg max-w-md mb-4">
 					{proTabs.map((tab) => (
 						<div
 							className={`${
@@ -87,12 +87,6 @@ export function ManageGigsPro() {
 						</div>
 					))}
 				</div>
-				<span
-					className="p-2 border text-sm bg-adminPrimary text-white rounded-md hover:opacity-75 cursor-pointer"
-					onClick={() => navigate(`/gigs/${role}/find-gigs`)}
-				>
-					Find Gigs
-				</span>
 			</div>
 
 			{isLoading ? (
@@ -121,25 +115,35 @@ export function ManageGigsPro() {
 				<>
 					{currentItems.length > 0 ? (
 						<>
-							<table className="w-full">
-								<thead className="bg-[#F7F9FF] shadow-sm">
+							<table className="hidden md:table w-full">
+								<thead className="bg-adminPrimary/20 shadow-sm rounded-md">
 									<tr>
-										<th className="py-4 px-2 text-sm text-left">Owner</th>
-										<th className="py-4 px-2 text-sm text-left">Title</th>
-										<th className="py-4 px-2 text-sm text-left">Date</th>
-										<th className="py-4 px-2 text-sm text-left">Duration</th>
-										<th className="py-4 px-2 text-sm text-left">Location</th>
-										<th className="py-4 px-2 text-sm text-left">Budget</th>
-										<th className="py-4 px-2 text-sm text-left">Status</th>
+										<th className="py-4 px-2 text-sm text-left font-bold">
+											Owner
+										</th>
+										<th className="py-4 px-2 text-sm text-left font-bold">
+											Title
+										</th>
+										<th className="py-4 px-2 text-sm text-left font-bold">
+											Date
+										</th>
+										{/* <th className="py-4 px-2 text-sm text-left">Duration</th> */}
+										<th className="py-4 px-2 text-sm text-left font-bold">
+											Location
+										</th>
+										{/* <th className="py-4 px-2 text-sm text-left">Budget</th> */}
+										<th className="py-4 px-2 text-sm text-left font-bold">
+											Status
+										</th>
 									</tr>
 								</thead>
-								<tbody className="rounded-xl">
+								<tbody className="rounded-xl font-semibold">
 									{filteredGigData.map(({ gig, gigStatusType, ...rest }) => (
 										<tr
 											key={gig.uuid}
 											onClick={() => {
 												if (gig.statusType !== "in-progress") {
-													navigate(`/gigs/${role}/details/gig`, {
+													navigate(`/gigs/${role}/details/${gig.uuid}`, {
 														state: {
 															gigData: { gig, ...rest, gigStatusType },
 														},
@@ -161,7 +165,9 @@ export function ManageGigsPro() {
 																? gig?.user.companyName
 																: `${gig?.user.firstName} ${gig?.user.lastName}`}
 														</p>
-														<p>{gig?.user.finclusionId}</p>
+														<p style={{ fontSize: ".5rem" }}>
+															{gig?.user.finclusionId}
+														</p>
 													</div>
 												</div>
 											</td>
@@ -171,15 +177,15 @@ export function ManageGigsPro() {
 											<td className="py-4 px-2 text-xs text-left">
 												{formatDate(gig.gigDate)}
 											</td>
-											<td className="py-4 px-2 text-xs text-left">
+											{/* <td className="py-4 px-2 text-xs text-left">
 												{getDifferenceInHours(gig.startTime, gig.endTime)}hrs
-											</td>
+											</td> */}
 											<td className="py-4 px-2 text-xs text-left">
 												{gig?.gigAddresses[0].address}
 											</td>
-											<td className="py-4 px-2 text-xs text-left">
+											{/* <td className="py-4 px-2 text-xs text-left">
 												N{formatNumber(gig.budget)}
-											</td>
+											</td> */}
 											<td className="py-4 px-2 text-xs text-left capitalize">
 												{gig.statusType}
 												<ProgressBar
@@ -191,6 +197,14 @@ export function ManageGigsPro() {
 									))}
 								</tbody>
 							</table>
+							<div
+								className="md:hidden grid grid-cols-1 gap-4 overflow-y-auto"
+								style={{ maxHeight: "80vh" }}
+							>
+								{filteredGigData.map(({ gig }) => (
+									<GigApplicationComponent key={gig.uuid} gig={gig} />
+								))}
+							</div>
 							{/* <div>
 								<Paginate
 									total={filteredGigData.length}
@@ -205,13 +219,10 @@ export function ManageGigsPro() {
 						</>
 					) : (
 						<div className="flex flex-col items-center p-4">
-							<p className="font-bold">You have no {activeTab} applications</p>
-							<div
-								onClick={() => navigate(`/gigs/${role}/find-gigs`)}
-								className="px-4 py-2 bg-primary text-xs text-white cursor-pointer rounded-md hover:bg-secondary mt-2"
-							>
-								Find gigs
+							<div className="flex justify-center">
+								<CgUnavailable className="text-9xl" />
 							</div>
+							<p className="font-bold">You have no {activeTab} applications</p>
 						</div>
 					)}
 				</>

@@ -1,12 +1,12 @@
 import safe from "../../../assets/safe-image.svg";
-import { UseAuth } from "../../../context/auth-context";
-import { UseModal } from "../../../context/wallet-context";
+import { UseDashboard } from "../../../context/dashboard-context";
+import { UseModal } from "../../../context/modal-context";
 import { formatNumber } from "../../../helpers/function";
 
 export function WalletCard() {
-	const { user } = UseAuth();
-
+	const { dashboardStats } = UseDashboard();
 	const { handleOpenWallet } = UseModal();
+
 	return (
 		<div
 			className="p-4 rounded-lg w-full bg-[#4440FF] min-w-80"
@@ -23,9 +23,9 @@ export function WalletCard() {
 				<div>
 					<p className="text-xs text-gray-400">Current Balance</p>
 					<div className="text-white font-extralight">
-						NGN{" "}
+						{dashboardStats.walletBalanceCurrency}{" "}
 						<span className="font-semibold">
-							{formatNumber(user.walletAmount, 2)}
+							{formatNumber(dashboardStats.currentWalletBalance)}
 						</span>
 					</div>
 				</div>

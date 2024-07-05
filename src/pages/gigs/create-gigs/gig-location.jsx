@@ -9,6 +9,24 @@ import { UseAuth } from "../../../context/auth-context";
 import { BaseInput } from "../../../component/input";
 import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 
+const extractAddressComponents = (addressComponents) => {
+	let city = "";
+	let state = "";
+	let country = "";
+
+	addressComponents.forEach((component) => {
+		const types = component.types;
+		if (types.includes("locality")) {
+			city = component.long_name;
+		} else if (types.includes("administrative_area_level_1")) {
+			state = component.long_name;
+		} else if (types.includes("country")) {
+			country = component.long_name;
+		}
+	});
+
+	return { city, state, country };
+};
 export function GigLocation({ open, handleClose, handleAddress }) {
 	const inputRef = useRef();
 	const { refetch } = UseAuth();
@@ -25,6 +43,8 @@ export function GigLocation({ open, handleClose, handleAddress }) {
 		googleMapsApiKey: "AIzaSyBW5n6FBHUtMCABUGs4I-93IV8uceI8Y48",
 		libraries: ["places"],
 	});
+
+	console.log({ details });
 
 	return (
 		<>
@@ -57,7 +77,18 @@ export function GigLocation({ open, handleClose, handleAddress }) {
 									const lat = place.geometry.location.lat();
 									const lng = place.geometry.location.lng();
 									const destination = place.formatted_address;
-									setDetails({ lat, lng, address: destination });
+									const { city, state, country } = extractAddressComponents(
+										place.address_components
+									);
+
+									setDetails({
+										lat,
+										lng,
+										address: destination,
+										city,
+										state,
+										country,
+									});
 								}}
 							>
 								<input

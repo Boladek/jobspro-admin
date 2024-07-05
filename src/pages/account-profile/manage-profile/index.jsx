@@ -1,13 +1,19 @@
-import React from "react";
 import { SectionCard } from "./section-card";
 import { UseKyc } from "../../../context/kyc-context";
 import { ProgressBar } from "../../../component/admin/progress-bar";
+import { UseModal } from "../../../context/modal-context";
 
 export function ManageProfile() {
 	const { percentageComplete } = UseKyc();
+	const {
+		handleOpenKyc,
+		handleOpenProfile,
+		handleOpenFaq,
+		handleOpenPassword,
+	} = UseModal();
 	return (
 		<div className="flex gap-4 flex-wrap">
-			<div className="max-w-sm w-full">
+			<div className="max-w-sm w-full" onClick={handleOpenKyc}>
 				<SectionCard
 					isReversed={false}
 					title="Kyc"
@@ -24,16 +30,16 @@ export function ManageProfile() {
 					}
 				/>
 			</div>
-			<div className="max-w-sm w-full">
+			<div className="max-w-sm w-full" onClick={handleOpenPassword}>
 				<SectionCard title="Password" text="Update your password" />
 			</div>
-			<div className="max-w-sm w-full">
+			<div className="max-w-sm w-full" onClick={handleOpenProfile}>
 				<SectionCard
 					title="Account"
 					text="Update your bio, bank information, e.t.c"
 				/>
 			</div>
-			<div className="max-w-sm w-full">
+			<div className="max-w-sm w-full" onClick={handleOpenFaq}>
 				<SectionCard title="FAQ" text="Most of your questions answered here" />
 			</div>
 			<div className="max-w-sm w-full">

@@ -4,12 +4,29 @@ import { EscrowCard } from "./accounts/escrow-card";
 import { WalletCard } from "./accounts/wallet-card";
 import { BadgeCard } from "./accounts/badge-card";
 import { ManageProfile } from "./manage-profile";
-import { UseModal } from "../../context/wallet-context";
+import { UseModal } from "../../context/modal-context";
 import { WalletSection } from "./wallet-section";
+import { KycSection } from "./kyc-section";
+import { Escrow } from "./escrow";
+import { ProfileSection } from "./profile-section";
+import { FAQSection } from "./faq";
+import { PasswordResetSection } from "./password-reset";
+import { useEffect } from "react";
 
 function AccountProfilePage() {
 	// const { name, user } = UseAuth();
-	const { openWallet } = UseModal();
+	const {
+		openWallet,
+		openKyc,
+		openEscrow,
+		openProfile,
+		openFaq,
+		openPassword,
+	} = UseModal();
+
+	useEffect(() => {
+		document.title = "Account Profile";
+	}, []);
 
 	return (
 		<div className="h-full p-0 md:px-4 md:py-1 relative">
@@ -36,9 +53,14 @@ function AccountProfilePage() {
 						<p className="text-sm text-primary mb-4">Manage Profile</p>
 						<ManageProfile />
 					</div>
-					{openWallet && <WalletSection />}
 				</div>
 			</div>
+			{openWallet && <WalletSection />}
+			{openKyc && <KycSection />}
+			{openEscrow && <Escrow />}
+			{openProfile && <ProfileSection />}
+			{openFaq && <FAQSection />}
+			{openPassword && <PasswordResetSection />}
 		</div>
 	);
 }

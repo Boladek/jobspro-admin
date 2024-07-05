@@ -1,42 +1,136 @@
-import { useQuery } from "@tanstack/react-query";
-import profileAxios from "../../../helpers/profileAxios";
 import { useMemo, useState } from "react";
 import { GigComponent } from "../../../component/gig-component";
-import { CgUnavailable } from "react-icons/cg";
+import { NoInfo } from "../../../component/no-info";
+import { UseGig } from "../../../context/gig-context";
 
 const tabs = ["Best Matches", "Remote", "On-Site"];
 
 export function BestMatches() {
 	const [activeTab, setActiveTab] = useState(tabs[0]);
 	const {
-		data: gigs = [],
-		isLoading,
+		bestMatches,
 		refetch,
-		// isRefetching,
-	} = useQuery({
-		queryKey: ["fetch-gig-pros"],
-		queryFn: () => profileAxios.get("/pro-gigs/best-matches?page=1&limit=100"),
-		select: (data) => data.data.data,
-		// staleTime: Infinity,
-		refetchOnWindowFocus: true, //
-	});
+		gettingGigs,
+		searchText,
+		category,
+		min,
+		max,
+		time,
+		experience,
+	} = UseGig();
+
+	function getWeekBounds(date) {
+		const startOfWeek = new Date(date);
+		const endOfWeek = new Date(date);
+		const day = date.getDay();
+
+		// Adjust the date to the start of the week (Monday)
+		const diffToMonday = day === 0 ? 6 : day - 1; // If it's Sunday (0), move back 6 days
+		startOfWeek.setDate(date.getDate() - diffToMonday);
+		startOfWeek.setHours(0, 0, 0, 0);
+
+		// Adjust the date to the end of the week (Sunday)
+		const diffToSunday = day === 0 ? 0 : 7 - day; // If it's Sunday (0), no adjustment needed
+		endOfWeek.setDate(date.getDate() + diffToSunday);
+		endOfWeek.setHours(23, 59, 59, 999);
+
+		return { startOfWeek, endOfWeek };
+	}
 
 	const filteredGigs = useMemo(() => {
-		if (gigs.length > 0) {
-			return gigs.filter((gig) => {
-				if (activeTab === tabs[0]) {
-					return gig;
-				}
-				if (activeTab === tabs[1]) {
-					return !gig.isPhysical;
-				}
-				if (activeTab === tabs[2]) {
-					return gig.isPhysical;
-				}
-			});
+		if (bestMatches.length > 0) {
+			return bestMatches
+				.filter((gig) => {
+					if (activeTab === tabs[0]) {
+						return gig;
+					}
+					if (activeTab === tabs[1]) {
+						return !gig.isPhysical;
+					}
+					if (activeTab === tabs[2]) {
+						return gig.isPhysical;
+					}
+				})
+				.filter((gig) => {
+					const today = new Date();
+					today.setHours(0, 0, 0, 0); // Set to start of day
+
+					const tomorrow = new Date(today);
+					tomorrow.setDate(today.getDate() + 1);
+
+					const endOfWeek = new Date(today);
+					const dayOfWeek = today.getDay();
+					const daysToEndOfWeek = 6 - dayOfWeek;
+					endOfWeek.setDate(today.getDate() + daysToEndOfWeek);
+
+					const isSameDay = (date1, date2) => {
+						return (
+							date1.getFullYear() === date2.getFullYear() &&
+							date1.getMonth() === date2.getMonth() &&
+							date1.getDate() === date2.getDate()
+						);
+					};
+
+					const gigDate = new Date(gig.gigDate);
+
+					if (time === "all") {
+						return gig;
+					}
+					if (time === "today") {
+						return isSameDay(gigDate, today);
+					}
+					if (time === "tomorrow") {
+						return isSameDay(gigDate, tomorrow);
+					}
+					if (time === "week") {
+						return (
+							getWeekBounds(new Date()).startOfWeek <= gigDate &&
+							getWeekBounds(new Date()).endOfWeek >= gigDate
+						);
+					}
+				})
+				.filter((gig) => {
+					return experience === "exp"
+						? gig.gigInfos[0].isExperienced
+						: !gig.gigInfos[0].isExperienced;
+				})
+				.filter((gig) => {
+					const titleMatch = gig?.gigInfos[0]?.title
+						?.toLowerCase()
+						?.includes(searchText.toLowerCase());
+					const detailedDescriptionMatch = gig?.gigInfos[0]?.description
+						?.toLowerCase()
+						?.includes(searchText.toLowerCase());
+
+					return titleMatch || detailedDescriptionMatch;
+				})
+				.filter((gig) =>
+					gig?.subCategory?.name
+						?.toLowerCase()
+						?.includes(category.toLowerCase())
+				)
+				.filter((gig) => {
+					const minMatch = Number(min)
+						? Number(gig?.budget) >= Number(min)
+						: true;
+					const maxMatch = Number(max)
+						? Number(gig?.budget) <= Number(max)
+						: true;
+
+					return minMatch && maxMatch;
+				});
 		}
 		return [];
-	}, [activeTab, gigs]);
+	}, [
+		activeTab,
+		bestMatches,
+		searchText,
+		category,
+		min,
+		max,
+		time,
+		experience,
+	]);
 
 	return (
 		<div className="p-4">
@@ -57,7 +151,7 @@ export function BestMatches() {
 				className="flex flex-col gap-4 mt-4 overflow-y-auto h-full"
 				style={{ maxHeight: "80vh" }}
 			>
-				{isLoading ? (
+				{gettingGigs ? (
 					<div
 						role="status"
 						className="absolute top-0 left-0 w-full h-full bg-black/5 flex flex-col justify-center items-center"
@@ -86,12 +180,7 @@ export function BestMatches() {
 								<GigComponent key={gig.uuid} refetch={refetch} gig={gig} />
 							))
 						) : (
-							<div className="text-center">
-								<div className="flex justify-center">
-									<CgUnavailable className="text-9xl" />
-								</div>
-								<p>No gig match this criteria at the moment.</p>
-							</div>
+							<NoInfo message="No gig match this criteria at the moment." />
 						)}
 					</>
 				)}

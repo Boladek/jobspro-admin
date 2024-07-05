@@ -43,9 +43,8 @@ export function VerifyPhoneNumber({ gotoNextStep }) {
 									containerStyle="otp-container"
 									inputStyle="otp-input"
 									// inputType="number"
-									required
 									// renderSeparator={<span>-</span>}
-									renderInput={(props) => <input {...props} />}
+									renderInput={(props) => <input required {...props} />}
 								/>
 							</div>
 						</div>

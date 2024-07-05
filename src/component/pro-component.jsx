@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { BaseButton } from "./button";
-import { generateArray, getDifferenceInHours } from "../helpers/function";
+import { getDifferenceInHours } from "../helpers/function";
 import { Modal } from "./modal";
 import { StarIcon } from "../assets/admin/star-icon";
 import avatar from "../assets/profile-avatar.png";
@@ -11,7 +11,7 @@ import { Overlay } from "./overlay-component";
 import { toast } from "react-toastify";
 import { KycTag } from "./kyc-tag";
 
-export function PropComponent({ pro, gig }) {
+export function PropComponent({ pro, gig, refetch }) {
 	const { id } = useParams();
 	const [loading, setLoading] = useState(false);
 	const [open, setOpen] = useState(false);
@@ -24,7 +24,10 @@ export function PropComponent({ pro, gig }) {
 				gigId: id,
 				applicationId: gig.gigApplies[0].uuid,
 			})
-			.then((res) => toast.success(res.message))
+			.then((res) => {
+				toast.success(res.message);
+				refetch();
+			})
 			.catch((err) => toast.error(err.response.data.message))
 			.finally(() => setLoading(false));
 	};
@@ -104,6 +107,19 @@ export function PropComponent({ pro, gig }) {
 						</div>
 						<div className="p-2 flex-1 min-h-96 overflow-y-auto">
 							<div className="mx-auto w-full max-w-lg px-4">
+								<div className="flex items-center gap-2 mb-4">
+									<img
+										src={pro.user.profilePicture ?? avatar}
+										alt="User Avatar"
+										className="h-20 w-20 rounded-full"
+									/>
+									<div>
+										<p className="font-bold text-adminPrimary">
+											{pro.user.firstName} {pro.user.lastName}
+										</p>
+										<p className="text-xs">{pro.user.finclusionId}</p>
+									</div>
+								</div>
 								<div className="p-4 rounded-lg border mb-4">
 									<p className="font-bold mb-2">What the Pro has to say</p>
 									<p className="text-xs text-gray-500">
@@ -148,7 +164,7 @@ export function PropComponent({ pro, gig }) {
 									</div>
 								</div>
 
-								<div className="p-4 rounded-lg border mb-4">
+								{/* <div className="p-4 rounded-lg border mb-4">
 									<div className="flex justify-between">
 										<p className="font-bold mb-2">Reviews</p>
 										<p className="text-xs underline text-gray-500 cursor-pointer">
@@ -182,16 +198,16 @@ export function PropComponent({ pro, gig }) {
 											5.00
 										</div>
 									</div>
-								</div>
+								</div> */}
 								<div className="flex gap-2">
 									<div className="flex-1">
 										<BaseButton variant="sec" onClick={() => setOpenHire(true)}>
 											Hire
 										</BaseButton>
 									</div>
-									<div className="flex-1">
+									{/* <div className="flex-1">
 										<BaseButton>Message</BaseButton>
-									</div>
+									</div> */}
 								</div>
 							</div>
 						</div>
@@ -282,4 +298,5 @@ export function PropComponent({ pro, gig }) {
 PropComponent.propTypes = {
 	pro: PropTypes.object,
 	gig: PropTypes.object,
+	refetch: PropTypes.func,
 };
