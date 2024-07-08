@@ -38,9 +38,9 @@ export function Notifications() {
 	return (
 		<>
 			<div className="relative">
-				<span className="p-1 rounded-full absolute -right-2 -top-2 text-tiny bg-adminPrimary text-white">
-					20
-				</span>
+				<div className="p-1 rounded-full absolute -right-2 -top-3 text-tiny bg-adminPrimary text-white w-fit">
+					<span>20</span>
+				</div>
 				<BsFillBellFill
 					className="text-2xl hover:text-gray-500 cursor-pointer"
 					// ref={buttonRef}

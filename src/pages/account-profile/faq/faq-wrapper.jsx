@@ -4,6 +4,7 @@ import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 
 export function FAQWrapper({ title, children }) {
 	const [expanded, setExpanded] = useState(false);
+
 	return (
 		<div className="px-4 py-3 border border-primary rounded-lg">
 			<div

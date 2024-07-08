@@ -1,11 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import {
-	formatDate,
-	formatNumber,
-} from "../../../helpers/function";
 import profileAxios from "../../../helpers/profileAxios";
 import { NoInfo } from "../../../component/no-info";
 import { useMemo } from "react";
+import { TransactionCard } from "./transaction-card";
 
 function groupTransactionsByDate(transactions) {
 	// Sort transactions by 'createdAt' date in descending order
@@ -35,14 +32,12 @@ export function Transactions() {
 		staleTime: Infinity,
 	});
 
-	// const groupedTransactions = useMemo(() => {
-	// 	if (transactions.length > 0) {
-	// 		return groupTransactionsByDate(transactions);
-	// 	}
-	// 	return {};
-	// }, [transactions]);
-
-	// console.log({ groupedTransactions });
+	const groupedTransactions = useMemo(() => {
+		if (transactions.length > 0) {
+			return groupTransactionsByDate(transactions);
+		}
+		return {};
+	}, [transactions]);
 
 	return (
 		<div>
@@ -50,7 +45,7 @@ export function Transactions() {
 			{isLoading ? (
 				<div
 					role="status"
-					className="absolute top-0 left-0 w-full h-full bg-black/5 flex flex-col justify-center items-center"
+					className="w-full h-full p-8 flex flex-col justify-center items-center"
 				>
 					<svg
 						aria-hidden="true"
@@ -71,32 +66,20 @@ export function Transactions() {
 				</div>
 			) : (
 				<div>
-					{transactions.length > 0 ? (
-						transactions.map((item) => (
-							<div key={item.uuid} className="flex gap-2 items-center mb-2">
-								<div
-									className={`${
-										item.ledgerType === "credit"
-											? "bg-[#FFDE16]"
-											: "bg-[#664DFF]"
-									} h-10 w-10 flex justify-center items-center rounded-md text-xs font-bold text-white`}
-								>
-									{item.ledgerType === "credit" ? "IN" : "OUT"}
+					<div className="grid grid-cols-1 gap-4 pt-2">
+						{Object.keys(groupedTransactions).length > 0 ? (
+							Object.keys(groupedTransactions).map((item) => (
+								<div key={item}>
+									<p className="font-bold text-gray-500 text-xs mb-2">{item}</p>
+									{groupedTransactions[item].map((item) => (
+										<TransactionCard transaction={item} key={item.uuid} />
+									))}
 								</div>
-								<div className="flex-1 text-xs">
-									<p className="text-primary font-semibold">
-										NGN {formatNumber(item.amount)}
-									</p>
-									<div className="flex justify-between items-center">
-										<p>{item.type}</p>
-										<p className=""> {formatDate(item.createdAt)}</p>
-									</div>
-								</div>
-							</div>
-						))
-					) : (
-						<NoInfo message="No Information Available" />
-					)}
+							))
+						) : (
+							<NoInfo message="No Information Available!" />
+						)}
+					</div>
 				</div>
 			)}
 		</div>

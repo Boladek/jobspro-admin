@@ -1,15 +1,31 @@
-import React from "react";
 import { SideWrapper } from "../../../component/side-wrapper";
 import { UseModal } from "../../../context/modal-context";
 import escrowlock from "../../../assets/escrow-lock.svg";
 import { FilterIcon } from "../../../assets/filter-icon";
 import { SearchComponent } from "../../../component/search-component";
 import { ProgressBar } from "../../../component/admin/progress-bar";
-import { generateArray } from "../../../helpers/function";
-import circle from "../../../assets/cycle.svg";
+import { useQuery } from "@tanstack/react-query";
+import profileAxios from "../../../helpers/profileAxios";
+import { NoInfo } from "../../../component/no-info";
+import { EscrowTransaction } from "./escrow-transaction";
 
 export function Escrow() {
 	const { openEscrow, handleCloseEscrow } = UseModal();
+
+	const { data: transactions = [], isLoading } = useQuery({
+		queryKey: ["escrow-transactions"],
+		queryFn: () => profileAxios.get("/transactions/escrow-transaction"),
+		select: (data) => data.data.data,
+		staleTime: Infinity,
+	});
+
+	const { data: recentTransactions = [], isLoading: gettingRecent } = useQuery({
+		queryKey: ["escrow-transactions-recent"],
+		queryFn: () => profileAxios.get("/transactions/recent-escrow-transactions"),
+		select: (data) => data.data.data,
+		staleTime: Infinity,
+	});
+
 	return (
 		<SideWrapper
 			handleClose={handleCloseEscrow}
@@ -38,23 +54,17 @@ export function Escrow() {
 					</div>
 				</div>
 				<div className="grid grid-cols-1 py-2">
-					{generateArray(3).map((_, index) => (
-						<div
-							key={Math.random()}
-							className="w-full border-b-gray-200 gap-4 py-2 border-b flex justify-between items-center"
-						>
-							<div className="p-2 rounded-full bg-primary w-fit">
-								<img src={circle} alt="Circle" className="h-5" />
-							</div>
-							<div className="flex-1">Description</div>
-							<div className="text-xs">
-								<p>NGN 20,000</p>
-								<div className="py-1 px-3 rounded-full border bg-gray-100 w-fit">
-									Status
-								</div>
-							</div>
-						</div>
-					))}
+					{gettingRecent && <div className="progress"></div>}
+					{recentTransactions.length > 0 ? (
+						recentTransactions.map((transaction) => (
+							<EscrowTransaction
+								transaction={transaction}
+								key={transaction.uuid}
+							/>
+						))
+					) : (
+						<p>No recent Transactions</p>
+					)}
 				</div>
 			</div>
 			<div className="mb">
@@ -65,23 +75,17 @@ export function Escrow() {
 					</div>
 				</div>
 				<div className="grid grid-cols-1 py-2">
-					{generateArray(9).map((_, index) => (
-						<div
-							key={Math.random()}
-							className="w-full border-b-gray-200 py-2 gap-4 border-b flex justify-between items-center"
-						>
-							<div className="p-2 rounded-full bg-primary w-fit">
-								<img src={circle} alt="Circle" className="h-5" />
-							</div>
-							<div className="flex-1">Description</div>
-							<div className="text-xs">
-								<p>NGN 20,000</p>
-								<div className="py-1 px-3 rounded-full border bg-gray-100 w-fit">
-									Status
-								</div>
-							</div>
-						</div>
-					))}
+					{isLoading && <div className="progress"></div>}
+					{transactions.length > 0 ? (
+						transactions.map((transaction) => (
+							<EscrowTransaction
+								transaction={transaction}
+								key={transaction.uuid}
+							/>
+						))
+					) : (
+						<NoInfo message="You currently have no escrow transactions." />
+					)}
 				</div>
 			</div>
 		</SideWrapper>
