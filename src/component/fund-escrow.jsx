@@ -27,6 +27,7 @@ export function FundEscrow({ open, handleClose, amount, id }) {
 				toast.success(res.message);
 				refetch();
 				handleClose();
+				navigate(`/gigs/${user.userType}`);
 			})
 			.catch((err) => toast.error(err.response.data.message))
 			.finally(() => setLoading(false));

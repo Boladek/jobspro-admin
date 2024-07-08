@@ -3,7 +3,6 @@ import avatar from "../assets/profile-avatar.png";
 import tickIcon from "../assets/tick-circle.png";
 import available from "../assets/available.png";
 import referral from "../assets/referral.png";
-import settings from "../assets/settings-icon.png";
 import logoutIcon from "../assets/logout.png";
 import { BaseButton } from "./button";
 import { Switch } from "./switch";
@@ -13,16 +12,13 @@ import { UseAuth } from "../context/auth-context";
 import profileAxios from "../helpers/profileAxios";
 import { toast } from "react-toastify";
 import { Overlay } from "./overlay-component";
-import { useNavigate } from "react-router-dom";
 
 export function AvatarSection() {
-	const navigate = useNavigate();
 	const [loading, setLoading] = useState(false);
 	const { user: details, refetch } = UseAuth();
 	const dispatch = useDispatch();
 	const { user } = useSelector((state) => state.auth);
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-	const [availableCheck, setAvailableCheck] = useState(false);
 	const dropdownRef = useRef(null);
 
 	// Function to toggle dropdown visibility
@@ -188,7 +184,7 @@ export function AvatarSection() {
 								</span>
 							</div>
 						</div>
-						<div className="p-1">
+						{/* <div className="p-1">
 							<div
 								className="flex gap-2 items-center cursor-pointer"
 								// onClick={() => navigate("/settings/profile")}
@@ -198,7 +194,7 @@ export function AvatarSection() {
 									Settings
 								</span>
 							</div>
-						</div>
+						</div> */}
 						<div className="p-1">
 							<div
 								className="flex gap-2 items-center cursor-pointer"

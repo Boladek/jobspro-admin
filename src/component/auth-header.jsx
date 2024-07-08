@@ -11,7 +11,8 @@ import { useSelector } from "react-redux";
 import { DocIcon } from "../assets/doc-icon";
 import { PersonIcon } from "../assets/person-icon";
 import { HomeIcon } from "../assets/home-icon";
-import { ChatBubbleIcon } from "../assets/chat-bubble-icon";
+import { Notifications } from "./notifications";
+// import { ChatBubbleIcon } from "../assets/chat-bubble-icon";
 
 // import { UseAuth } from "../context/auth-context";
 // import { useSelector } from "react-redux";
@@ -53,24 +54,14 @@ export function AuthHeader() {
 					<LinkElement key={link.title + index} link={link} />
 				))}
 			</div>
-			<div className="hidden md:flex justify-end items-center gap-2">
-				{/* <div>
-					<SearchComponent />
-				</div> */}
-				{/* <img src={settings} className="h-5" />
-				<img src={notification} className="h-5" /> */}
+			<div className="flex justify-end items-center gap-4">
+				<Notifications />
 
 				<AvatarSection />
 			</div>
-			<span
-				className="relative cursor-pointer rounded-sm block md:hidden"
-				onClick={toggleSidebar}
-			>
-				<img src={menu} className="h-8" />
-				<div className="absolute inset-0 opacity-50 rounded-md hover:bg-gray-300 z-20"></div>
-			</span>
+	
 
-			<div
+			{/* <div
 				className={`fixed inset-y-0 right-0 z-50 w-64 bg-white shadow-lg transition-transform transform ${
 					isOpen ? "translate-x-0" : "translate-x-full"
 				}`}
@@ -99,7 +90,7 @@ export function AuthHeader() {
 						))}
 					</div>
 				</div>
-			</div>
+			</div> */}
 		</div>
 	);
 }

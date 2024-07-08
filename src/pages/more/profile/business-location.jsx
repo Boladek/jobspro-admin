@@ -6,34 +6,46 @@ import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import profileAxios from "../../../helpers/profileAxios";
 import { BaseSelect } from "../../../component/select";
-import { useState, useCallback, useRef } from "react";
-import { usePlacesWidget } from "react-google-autocomplete";
+import { useState, useRef } from "react";
 import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
-// import { LoadScript } from "@react-google-maps/api";
 import { Overlay } from "../../../component/overlay-component";
 import { toast } from "react-toastify";
 import { UseAuth } from "../../../context/auth-context";
 
-// const libraries = ["places"];
+const extractAddressComponents = (addressComponents) => {
+	let city = "";
+	let state = "";
+	let country = "";
+	let postalCode = "";
 
+	addressComponents.forEach((component) => {
+		const types = component.types;
+		if (types.includes("locality")) {
+			city = component.long_name;
+		} else if (types.includes("administrative_area_level_1")) {
+			state = component.long_name;
+		} else if (types.includes("country")) {
+			country = component.long_name;
+		} else if (types.includes("postal_code")) {
+			postalCode = component.long_name;
+		}
+	});
+
+	return { city, state, country, postalCode };
+};
 export function BusinessLocation({ open, handleClose }) {
 	const inputRef = useRef();
-	const { refresh } = UseAuth();
+	const { refetch } = UseAuth();
 	const [loading, setLoading] = useState(false);
-	const [selectedPlace, setSelectedPlace] = useState({ lat: null, lng: null });
-	const [data, setData] = useState({});
+	const [details, setDetails] = useState({});
 	const {
 		register,
 		formState: { errors },
 		handleSubmit,
 		watch,
 		reset,
+		setValue,
 	} = useForm();
-	const handleChange = (e) => {
-		e.preventDefault();
-		const { name, value } = e.target;
-		setData((prevState) => ({ ...prevState, [name]: value }));
-	};
 
 	const watchCountry = watch("country", "");
 	const watchState = watch("state", "");
@@ -42,6 +54,7 @@ export function BusinessLocation({ open, handleClose }) {
 		queryKey: ["countries"],
 		queryFn: () => profileAxios.get("/location/countries"),
 		select: (data) => data.data,
+		staleTime: Infinity,
 	});
 
 	const { data: states = [] } = useQuery({
@@ -49,6 +62,7 @@ export function BusinessLocation({ open, handleClose }) {
 		queryFn: () => profileAxios.get(`/location/states/${watchCountry}`),
 		select: (data) => data.data,
 		enabled: !!watchCountry,
+		staleTime: Infinity,
 	});
 
 	const { data: cities = [] } = useQuery({
@@ -56,15 +70,16 @@ export function BusinessLocation({ open, handleClose }) {
 		queryFn: () => profileAxios.get(`/location/cities/${watchState}`),
 		select: (data) => data.data,
 		enabled: !!watchState,
+		staleTime: Infinity,
 	});
 
 	const onSubmit = (data) => {
 		setLoading(true);
 		profileAxios
 			.patch("/profile/location", {
-				longitude: selectedPlace.long,
-				latitude: selectedPlace.lat,
-				address: data.address,
+				longitude: details.lng,
+				latitude: details.lat,
+				address: details.address,
 				postalCode: data.postalCode,
 				stateId: Number(data.state),
 				cityId: Number(data.city),
@@ -73,35 +88,19 @@ export function BusinessLocation({ open, handleClose }) {
 			.then((res) => {
 				toast.success(res.message);
 				reset();
-				refresh();
+				refetch();
 				handleClose();
 			})
 			.catch((err) => console.log(err))
 			.finally(() => setLoading(false));
 	};
 
-	const { ref } = usePlacesWidget({
-		apiKey: "AIzaSyBW5n6FBHUtMCABUGs4I-93IV8uceI8Y48",
-		options: {
-			types: ["streets"],
-			componentRestrictions: { country: "ng" },
-		},
-		defaultValue: "Lagos",
-		onPlaceSelected: (place) => {
-			// console.log({ place });
-			// console.log("Place selected: ", place);
-			const lat = place.geometry.location.lat();
-			const lng = place.geometry.location.lng();
-			setSelectedPlace({ lat, lng });
-			// console.log("Place selected: ", place);
-			// console.log("Latitude: ", lat, "Longitude: ", lng);
-		},
-	});
-
 	const { isLoaded } = useJsApiLoader({
 		googleMapsApiKey: "AIzaSyBW5n6FBHUtMCABUGs4I-93IV8uceI8Y48",
 		libraries: ["places"],
 	});
+
+	console.log({ details });
 
 	return (
 		<>
@@ -115,58 +114,41 @@ export function BusinessLocation({ open, handleClose }) {
 					<br />
 					<div className="mb-2">
 						<label className="block text-gray-600 text-sm mb-1">
-							Enter Popular Location
+							Enter Street Name
 						</label>
 
-						{isLoaded ? (
+						{isLoaded && (
 							<Autocomplete
 								onLoad={(autocomplete) => {
 									inputRef.current = autocomplete;
 								}}
 								onPlaceChanged={() => {
 									const place = inputRef.current.getPlace();
+									const lat = place.geometry.location.lat();
+									const lng = place.geometry.location.lng();
 									const destination = place.formatted_address;
-									setData((prevState) => ({ ...prevState, destination }));
+									const { city, state, country, postalCode } =
+										extractAddressComponents(place.address_components);
+
+									setValue("postalCode", postalCode);
+									setDetails({
+										lat,
+										lng,
+										address: destination,
+										city,
+										state,
+										country,
+										postalCode,
+									});
 								}}
 							>
-								{/* <input
-									name="destination"
-									type="text"
-									// value={data?.destination}
-									onChange={handleChange}
-									className="request-edit-input_destination"
-								/> */}
 								<input
 									ref={inputRef}
 									className="bg-gray-100 disabled:opacity-75 disabled:text-gray-600 w-full px-3 py-3 border text-sm rounded-lg focus:outline-none focus:border-primary"
 									required
 								/>
 							</Autocomplete>
-						) : (
-							<input
-								name="destination"
-								type="text"
-								// value={data?.destination}
-								// onChange={handleChange}
-								className="request-edit-input_destination"
-							/>
 						)}
-						{/* <LoadScript
-							googleMapsApiKey="AIzaSyBW5n6FBHUtMCABUGs4I-93IV8uceI8Y48"
-							libraries={libraries}
-						>
-							<Autocomplete
-								onLoad={onLoad}
-								onPlaceSelected={(p) => {
-									console.log(p);
-								}}
-								className="p-3 w-full bg-gray-100 rounded-lg"
-								options={{
-									types: ["address"],
-									componentRestrictions: { country: "ng" },
-								}}
-							/>
-						</LoadScript> */}
 					</div>
 					<div className="mb-2">
 						<BaseSelect
@@ -227,16 +209,6 @@ export function BusinessLocation({ open, handleClose }) {
 							})}
 							error={errors.postalCode}
 							errorText={errors.postalCode && errors.postalCode.message}
-						/>
-					</div>
-					<div className="mb-4">
-						<BaseInput
-							label="Street Address"
-							{...register("address", {
-								required: "This field is required",
-							})}
-							error={errors.address}
-							errorText={errors.address && errors.address.message}
 						/>
 					</div>
 

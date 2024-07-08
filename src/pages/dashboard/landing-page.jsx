@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { BusinessDashBoard } from "./business";
 import { ProDashBoard } from "./pro";
+import { GigProvider } from "../../context/gig-context";
 
 function LandingPage() {
 	const navigate = useNavigate();
@@ -18,7 +19,7 @@ function LandingPage() {
 	};
 
 	return (
-		<>
+		<GigProvider>
 			{user.userType === "pro" ? <ProDashBoard /> : <BusinessDashBoard />}
 			{open && (
 				<Modal open={open} handleClose={() => setOpen(false)}>
@@ -52,7 +53,7 @@ function LandingPage() {
 					</div>
 				</Modal>
 			)}
-		</>
+		</GigProvider>
 	);
 }
 

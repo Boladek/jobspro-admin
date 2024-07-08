@@ -1,22 +1,39 @@
 import { useQuery } from "@tanstack/react-query";
 import profileAxios from "../../../helpers/profileAxios";
 import { GigCard } from "../../../component/gig-card";
+import { UseGig } from "../../../context/gig-context";
+import { useMemo } from "react";
+import { NoInfo } from "../../../component/no-info";
 
 export function PostedGigs() {
 	const {
-		data: gigs = [],
-		isLoading,
+		searchText,
+		postedGigs: gigs,
+		gettingGigs: isLoading,
 		refetch,
-	} = useQuery({
-		queryKey: ["fetch-gig-business"],
-		queryFn: () => profileAxios.get("/gigs/all?page=1&limit=100"),
-		select: (data) => data.data.items,
-		// staleTime: Infinity,
-		refetchOnWindowFocus: true, //
-	});
+	} = UseGig();
+
+	const gigFilter = useMemo(() => {
+		if (gigs.length > 0) {
+			return gigs.filter((item) => {
+				const titleMatch = item?.gigInfos[0]?.title
+					.toLowerCase()
+					.includes(searchText);
+				const descriptionMatch = item?.gigInfos[0]?.description
+					.toLowerCase()
+					.includes(searchText);
+				const addressMatch = item?.gigAddresses[0]?.address
+					.toLowerCase()
+					.includes(searchText);
+
+				return titleMatch || descriptionMatch || addressMatch;
+			});
+		}
+		return [];
+	}, [searchText, gigs]);
 
 	return (
-		<div className="p-4">
+		<div className="px-4 md:p-4">
 			<p className="text-sm font-bold">Recent Posts</p>
 			<div
 				className="flex flex-col gap-4 mt-2 overflow-y-auto h-full"
@@ -46,14 +63,12 @@ export function PostedGigs() {
 					</div>
 				) : (
 					<>
-						{gigs.length > 0 ? (
-							gigs.map((gig) => (
+						{gigFilter.length > 0 ? (
+							gigFilter.map((gig) => (
 								<GigCard key={gig.uuid} refetch={refetch} gig={gig} />
 							))
 						) : (
-							<p className="text-center">
-								No gig match this criteria at the moment.
-							</p>
+							<NoInfo message="No gigs match this criteria" />
 						)}
 					</>
 				)}

@@ -6,10 +6,24 @@ import {
 	getDifferenceInHours,
 	getAmPm,
 } from "../helpers/function";
+import { useNavigate } from "react-router-dom";
+import { UseAuth } from "../context/auth-context";
 
 export function GigCard({ gig }) {
+	const navigate = useNavigate();
+	const { user } = UseAuth();
+
 	return (
-		<div className="bg-[#F8FAFF] border border-adminPrimary p-4 rounded-lg">
+		<div
+			className="bg-[#F8FAFF] border border-adminPrimary p-4 rounded-lg"
+			onClick={() =>
+				navigate(`/gigs/${user.userType}/details/${gig.uuid}`, {
+					state: {
+						gigData: gig,
+					},
+				})
+			}
+		>
 			<div className="w-fit p-3 py-1 border rounded-full text-xs bg-white">
 				{gig.gigInfos[0].isExperienced ? "Experienced" : "Beginner"}
 			</div>

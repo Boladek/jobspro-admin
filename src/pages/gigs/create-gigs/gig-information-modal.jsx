@@ -51,9 +51,13 @@ export function GigInformationModal({
 
 	return (
 		<Modal open={open} handleClose={handleClose} maxWidth={750}>
-			<form className="w-full p-2" onSubmit={handleSubmit(onSubmit)}>
+			<form
+				className="w-full p-2"
+				onSubmit={handleSubmit(onSubmit)}
+				style={{ maxHeight: "90vh" }}
+			>
 				<div className="block gap-4 mb-4 ">
-					<div className="w-full flex gap-4">
+					<div className="w-full md:flex gap-4">
 						<div className="mb-2 flex-1">
 							<BaseTextArea
 								label="Gig Title"
@@ -83,7 +87,7 @@ export function GigInformationModal({
 						</div>
 					</div>
 					{/* <div className="w-full"></div> */}
-					<div className="w-full flex gap-4">
+					<div className="w-full md:flex gap-4">
 						<div className="mb-2 flex-1">
 							<BaseTextArea
 								placeholder="write here"
