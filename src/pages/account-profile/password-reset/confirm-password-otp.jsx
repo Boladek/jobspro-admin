@@ -5,20 +5,36 @@ import OtpInput from "react-otp-input";
 import PropTypes from "prop-types";
 import { TimerHook } from "../../../hooks/timer-hooks";
 import { SuccessInfo } from "../../../component/success-info";
+import profileAxios from "../../../helpers/profileAxios";
+import { toast } from "react-toastify";
 
-export function ConfirmPassworOtp({ open, handleClose }) {
+export function ConfirmPassworOtp({ open, handleClose, data }) {
+	const [loading, setLoading] = useState(false);
 	const [step, setStep] = useState(1);
 	const [otp, setOtp] = useState("");
 	const { timer } = TimerHook({ time: 60 });
 
+	const submit = (e) => {
+		e.preventDefault();
+		setLoading(true);
+		profileAxios
+			.put("/auth/change-password", {
+				oldPassword: data.prevPassword,
+				newPassword: data.newPassword,
+			})
+			.then(() => setStep(2))
+			.catch((err) => toast.error(err.response.data.message))
+			.finally(() => setLoading(false));
+	};
+
 	return (
 		<Modal open={open} handleClose={handleClose}>
 			{step === 1 && (
-				<form className="w-full p-2">
+				<form className="w-full p-2" onSubmit={submit}>
 					<p className="font-bold text-primary">Enter OTP</p>
 					<p className="mb-8 text-xs">
-						A code was sent to your phone number, code expires in{" "}
-						<span className="text-[#42BE65] font-bold">in {timer}s</span>
+						A code was sent to your registered email address, code expires in{" "}
+						<span className="text-[#42BE65] font-bold">{timer}s</span>
 					</p>
 					<div className="mb-8">
 						<OtpInput
@@ -32,7 +48,9 @@ export function ConfirmPassworOtp({ open, handleClose }) {
 						/>
 					</div>
 					<div className="mb-4">
-						<SquareButton>Confirm OTP</SquareButton>
+						<SquareButton onClick={submit} loading={loading}>
+							Confirm OTP
+						</SquareButton>
 					</div>
 				</form>
 			)}
@@ -48,4 +66,5 @@ export function ConfirmPassworOtp({ open, handleClose }) {
 ConfirmPassworOtp.propTypes = {
 	open: PropTypes.bool,
 	handleClose: PropTypes.func,
+	data: PropTypes.object,
 };

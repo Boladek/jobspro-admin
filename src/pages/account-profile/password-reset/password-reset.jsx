@@ -4,8 +4,11 @@ import { SquareButton } from "../../../component/square-button";
 import { useState } from "react";
 import { ConfirmPassworOtp } from "./confirm-password-otp";
 import { toast } from "react-toastify";
+import customAxios from "../../../helpers/customAxios";
+import { UseAuth } from "../../../context/auth-context";
 
 export function PasswordReset() {
+	const { user } = UseAuth();
 	const {
 		register,
 		formState: { errors },
@@ -15,6 +18,9 @@ export function PasswordReset() {
 
 	const watchNewPassword = watch("newPassword", "");
 	const watchConfirmPassword = watch("confirmPassword");
+	const [formData, setFormData] = useState(null);
+
+	console.log({ user });
 
 	const [open, setOpen] = useState(false);
 
@@ -39,20 +45,15 @@ export function PasswordReset() {
 			toast.error("Passwords do not match");
 			return;
 		}
-		setOpen(true);
-		// setLoading(true);
-		// kycAxios
-		// 	.post("/kyc/verify-bvn", {
-		// 		bvn: data.bvn,
-		// 	})
-		// 	.then((res) => {
-		// 		// console.log(res);
-		// 		toast.success(res.message);
-		// 		handleBVN(data.bvn);
-		// 		gotoNextPage();
-		// 	})
-		// 	.catch((err) => toast.error(err.response.data.message))
-		// 	.finally(() => setLoading(false));
+		setFormData(data);
+		customAxios
+			.post("/auth/send-email-otp", {
+				email: user.email,
+			})
+			.then((res) => {
+				toast.success(res.message);
+				setOpen(true);
+			});
 	};
 
 	return (
@@ -133,7 +134,11 @@ export function PasswordReset() {
 				<SquareButton type="submit">Update Password</SquareButton>
 			</div>
 			{open && (
-				<ConfirmPassworOtp open={open} handleClose={() => setOpen(false)} />
+				<ConfirmPassworOtp
+					open={open}
+					handleClose={() => setOpen(false)}
+					data={formData}
+				/>
 			)}
 		</form>
 	);
