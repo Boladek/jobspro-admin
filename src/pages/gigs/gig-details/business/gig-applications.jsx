@@ -17,34 +17,40 @@ export function GigApplications({ gig, refetch }) {
 		retry: 2,
 	});
 
-	console.log({ proApplications });
-
 	return (
 		<div>
-			{proApplications &&
-			proApplications.gigApplies &&
-			proApplications?.gigApplies.length > 0 ? (
-				proApplications.gigApplies.map((item, index) => (
-					<div key={index}>
-						{/* <div className="flex gap-2 items-center">
-							<span>
-								<MdArrowBackIos />
-							</span>
-							<p className="font-bold text-2xl">Prospective pros</p>
-						</div>
-						<div className="max-w-md p-4 mt-2">
-						</div> */}
-						<PropComponent pro={item} gig={proApplications} refetch={refetch} />
-					</div>
-				))
-			) : (
-				<NoInfo message="No Applicants" />
-			)}
+			<table className="w-full">
+				<thead className="bg-[#F7F9FF] shadow-sm">
+					<tr>
+						<th className="py-4 px-2 text-sm text-left">Pro</th>
+						<th className="py-4 px-2 text-sm text-left">Tier</th>
+						<th className="py-4 px-2 text-sm text-left">Years of Experience</th>
+						{/* <th className="py-4 px-2 text-sm text-left">Gigs completed</th> */}
+						<th className="py-4 px-2 text-sm text-left">Rating</th>
+					</tr>
+				</thead>
+				<tbody className="rounded-xl">
+					{proApplications &&
+					proApplications.gigApplies &&
+					proApplications?.gigApplies.length > 0 ? (
+						proApplications?.gigApplies.map((item) => (
+							<PropComponent
+								key={item.uuid}
+								pro={item}
+								gig={proApplications}
+								refetch={refetch}
+							/>
+						))
+					) : (
+						<NoInfo message="No Applicants" />
+					)}
+				</tbody>
+			</table>
 		</div>
 	);
 }
 
 GigApplications.propTypes = {
 	gig: object,
-    refetch: func
+	refetch: func,
 };

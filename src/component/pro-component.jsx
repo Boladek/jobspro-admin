@@ -3,7 +3,7 @@ import { useState } from "react";
 import { BaseButton } from "./button";
 import { getDifferenceInHours } from "../helpers/function";
 import { Modal } from "./modal";
-import { StarIcon } from "../assets/admin/star-icon";
+// import { StarIcon } from "../assets/admin/star-icon";
 import avatar from "../assets/profile-avatar.png";
 import profileAxios from "../helpers/profileAxios";
 import { useParams } from "react-router-dom";
@@ -35,12 +35,12 @@ export function PropComponent({ pro, gig, refetch }) {
 	return (
 		<>
 			{loading && <Overlay message="Hiring Pro" />}
-			<div
-				className="bg-white p-3 rounded-xl border cursor-pointer"
+			<tr
+				className="cursor-pointer hover:bg-gray-100"
 				onClick={() => setOpen(true)}
 			>
-				<div className="flex justify-between items-center">
-					<div className="py-3 text-xs text-gray-600 flex gap-1 items-center">
+				<td className="py-4 px-2 text-xs text-left">
+					<div className="text-xs text-gray-600 flex gap-1 items-center">
 						<div className="p-2 font-2xl h-12 w-12 flex items-center text-primary font-bold text-xl bg-light justify-center rounded-full">
 							{pro.user.firstName[0]}
 							{pro.user.lastName[0]}
@@ -49,42 +49,20 @@ export function PropComponent({ pro, gig, refetch }) {
 							<p className="font-bold">
 								{pro.user.firstName} {pro.user.lastName}
 							</p>
-							<KycTag text={pro.user.completedTier} />
-							{/* <div className="capitalize">{pro.user.completedTier}</div> */}
 						</div>
 					</div>
-					<div className="flex">
-						<div className="px-2 py-1 rounded-full border flex items-center text-xs gap-2 text-gray-500">
-							<span>
-								<StarIcon filled size={0.75} />
-							</span>
-							<span>
-								{pro.user.rating ?? 0}({pro.user.numberOfRatings})
-							</span>
-						</div>
-					</div>
-				</div>
-				<hr />
-				<div className="pt-2">
-					<p className="mb-2 text-xs text-gray-500">
-						Has{" "}
-						<span className="text-black font-bold">
-							{pro.user.userSkillSets.length} relevant
-						</span>{" "}
-						skills relating to your job
-					</p>
-					<div className="flex gap-2 flex-wrap">
-						{pro.user.userSkillSets.map((item) => (
-							<span
-								key={item.uuid}
-								className="text-xs p-2 border rounded-full bg-light"
-							>
-								{item.skill}
-							</span>
-						))}
-					</div>
-				</div>
-			</div>
+				</td>
+				<td className="py-4 px-2 text-xs text-left">
+					<KycTag text={pro.user.completedTier} />
+				</td>
+				<td className="py-4 px-2 text-xs text-left">
+					{pro.user?.yearsOfExperience}
+				</td>
+
+				<td className="py-4 px-2 text-xs text-left">
+					{pro.user.rating ?? 0}({pro.user.numberOfRatings})
+				</td>
+			</tr>
 			{open && (
 				<div
 					className="fixed top-0 left-0 w-screen h-screen bg-gray-400/30 flex justify-end"
@@ -126,21 +104,6 @@ export function PropComponent({ pro, gig, refetch }) {
 										{pro.additionalComment || "N/A"}
 									</p>
 								</div>
-
-								{/* <div className="p-4 rounded-lg border mb-4">
-									<p className="font-bold mb-2">Work Pics</p>
-									<div className="flex gap-2 overflow-x-auto">
-										{generateArray(4).map(() => (
-											<img
-												key={Math.random()}
-												src={avatar}
-												alt="Work Pic"
-												className="h-20 rounded-lg"
-											/>
-										))}
-									</div>
-								</div> */}
-
 								<div className="p-4 rounded-lg border mb-4">
 									<p className="font-bold mb-2">Skills</p>
 									<div className="pt-2">
