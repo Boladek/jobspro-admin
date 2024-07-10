@@ -8,8 +8,10 @@ import { Overlay } from "./overlay-component";
 import { BaseInput } from "./input";
 import { toast } from "react-toastify";
 import { UseAuth } from "../context/auth-context";
+import { NotificationsHook } from "../hooks/notifications-hook";
 
 export function FundWallet({ open, handleClose }) {
+	const { refetchNotifications } = NotificationsHook();
 	const { refetch, name } = UseAuth();
 	const [loading, setLoading] = useState(false);
 
@@ -28,6 +30,7 @@ export function FundWallet({ open, handleClose }) {
 			.then((res) => {
 				toast.success(res.message);
 				refetch();
+				refetchNotifications();
 				setTimeout(() => {
 					handleClose();
 				}, 3000);

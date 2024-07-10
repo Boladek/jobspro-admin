@@ -3,10 +3,12 @@ import { BsFillBellFill } from "react-icons/bs";
 import { ProgressBar } from "./admin/progress-bar";
 import { Notification } from "./notification";
 import { generateArray } from "../helpers/function";
+import { NotificationsHook } from "../hooks/notifications-hook";
 
 const tabs = ["All", "Gigs", "Wallet", "Profile", "Others"];
 
 export function Notifications() {
+	const { notifications } = NotificationsHook();
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const [activeTab, setActiveTab] = useState(tabs[0]);
 	const dropdownRef = useRef(null);
@@ -38,9 +40,11 @@ export function Notifications() {
 	return (
 		<>
 			<div className="relative">
-				<div className="p-1 rounded-full absolute -right-2 -top-3 text-tiny bg-adminPrimary text-white w-fit">
-					<span>20</span>
-				</div>
+				{notifications && notifications.length > 0 && (
+					<div className="p-1 rounded-full absolute -right-2 -top-3 text-tiny bg-adminPrimary text-white w-fit">
+						<span>{notifications.length}</span>
+					</div>
+				)}
 				<BsFillBellFill
 					className="text-2xl hover:text-gray-500 cursor-pointer"
 					// ref={buttonRef}

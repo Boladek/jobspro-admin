@@ -29,6 +29,8 @@ export function GigSummaryPro() {
 		enabled: !!role && !!id,
 	});
 
+	console.log({ data });
+
 	return (
 		<DashBoardWrapper>
 			<div className="flex flex-wrap gap-4 items-center p-2">
@@ -43,7 +45,7 @@ export function GigSummaryPro() {
 						Back
 					</span>
 				</div>
-				<div className="flex bg-adminPrimary p-2 text-sm text-white w-full justify-evenly rounded-lg mb-0 md:mb-4 max-w-md">
+				<div className="flex bg-adminPrimary p-2 text-sm text-white w-full justify-evenly rounded-lg mb-0 md:mb-4 max-w-md gap-4">
 					<div
 						className={`${
 							activeTab === "details" ? "border-b-yellow-300 border-b-4" : ""
@@ -62,14 +64,16 @@ export function GigSummaryPro() {
 							Timeline
 						</div>
 					)}
-					<div
-						className={`${
-							activeTab === "dispute" ? "border-b-yellow-300 border-b-4" : ""
-						} p-0.5 cursor-pointer`}
-						onClick={() => setActiveTab("dispute")}
-					>
-						Dispute
-					</div>
+					{data.statusType === "dispute" && (
+						<div
+							className={`${
+								activeTab === "dispute" ? "border-b-yellow-300 border-b-4" : ""
+							} p-0.5 cursor-pointer`}
+							onClick={() => setActiveTab("dispute")}
+						>
+							Dispute
+						</div>
+					)}
 				</div>
 			</div>
 			<div className="md:border px-2 md:p-8 rounded-md">

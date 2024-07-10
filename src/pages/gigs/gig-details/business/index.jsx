@@ -78,7 +78,7 @@ export function GigSummaryBusiness() {
 					</div>
 				</div>
 			</div>
-			<div className="border p-2 md:p-8 rounded-md">
+			<div>
 				{isLoading ? (
 					<p>Please wait...</p>
 				) : (
