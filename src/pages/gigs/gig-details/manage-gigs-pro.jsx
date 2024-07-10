@@ -72,22 +72,21 @@ export function ManageGigsPro() {
 
 	return (
 		<div className="bg-white h-full p-4">
-			<div className="flex justify-center">
-				{/* <p className="text-2xl font-bold mb-2">Manage Gigs</p> */}
-				<div className="flex bg-adminPrimary p-2 text-sm text-white w-full justify-evenly rounded-lg max-w-md mb-4">
-					{proTabs.map((tab) => (
-						<div
-							className={`${
-								activeTab === tab ? "border-b-yellow-300 border-b-4" : ""
-							} p-0.5 cursor-pointer`}
-							key={tab}
-							onClick={() => setActiveTab(tab)}
-						>
-							{tab}
-						</div>
-					))}
-				</div>
+			<div className="text-tiny flex bg-adminPrimary p-2 sm:text-sm text-white w-full justify-evenly rounded-lg max-w-md mb-4 overflow-x-auto gap-4 mx-auto">
+				{proTabs.map((tab) => (
+					<div
+						className={`${
+							activeTab === tab ? "border-b-yellow-300 border-b-4" : ""
+						} p-0.5 cursor-pointer`}
+						key={tab}
+						onClick={() => setActiveTab(tab)}
+					>
+						{tab}
+					</div>
+				))}
 			</div>
+			{/* <div className="flex justify-center">
+			</div> */}
 
 			{isLoading ? (
 				<div

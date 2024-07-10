@@ -1,5 +1,6 @@
 import { CopyIcon } from "../../../assets/copy-icon";
 import pattern from "../../../assets/escrow-pattern.png";
+import { UseAuth } from "../../../context/auth-context";
 import { UseDashboard } from "../../../context/dashboard-context";
 import { UseModal } from "../../../context/modal-context";
 import { formatNumber } from "../../../helpers/function";
@@ -7,6 +8,7 @@ import { formatNumber } from "../../../helpers/function";
 export function EscrowCard() {
 	const { handleOpenEscrow } = UseModal();
 	const { dashboardStats } = UseDashboard();
+	const { user } = UseAuth();
 
 	return (
 		<div
@@ -35,7 +37,7 @@ export function EscrowCard() {
 					<div className="text-white font-extralight">
 						{dashboardStats.balanceEscrowCurrency}{" "}
 						<span className="font-semibold">
-							{formatNumber(dashboardStats?.gigEscrowTotalAmount)}
+							{formatNumber(user?.escrowBalance)}
 						</span>
 					</div>
 				</div>

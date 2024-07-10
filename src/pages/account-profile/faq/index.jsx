@@ -14,7 +14,7 @@ export function FAQSection() {
 		refetch,
 	} = useQuery({
 		queryKey: ["faqs"],
-		queryFn: () => profileAxios.get("/help"),
+		queryFn: () => profileAxios.get("/help/faq"),
 		select: (data) => data,
 		staleTime: Infinity,
 	});

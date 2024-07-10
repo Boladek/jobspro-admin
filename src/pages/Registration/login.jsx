@@ -37,6 +37,7 @@ function LoginPage() {
 			.post("/auth/login", {
 				username: data.username.trim(),
 				password: data.password.trim(),
+				platformId: 5,
 			})
 			.then((res) => {
 				StorageService.setToken(res.token);

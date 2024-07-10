@@ -6,9 +6,9 @@ import {
 	getDifferenceInHours,
 	getAmPm,
 } from "../../../helpers/function";
-import { useLocation, useParams } from "react-router-dom";
-import profileAxios from "../../../helpers/profileAxios";
-import { useQuery } from "@tanstack/react-query";
+// import { useLocation, useParams } from "react-router-dom";
+// import profileAxios from "../../../helpers/profileAxios";
+// import { useQuery } from "@tanstack/react-query";
 import { FundWalletIcon } from "../../../assets/fund-wallet-icon";
 import { LocationIcon } from "../../../assets/admin/location-icon";
 import { DateIcon } from "../../../assets/date-icon";
@@ -17,12 +17,12 @@ import { WalletIcon } from "../../../assets/wallet-icon";
 import { TimeIcon } from "../../../assets/time-icon";
 
 export function GigDetails({ gig }) {
-	const location = useLocation();
-	const { id } = useParams();
-	const gigData = location?.state?.gigData;
+	// const location = useLocation();
+	// const { id } = useParams();
+	// const gigData = location?.state?.gigData;
 
 	return (
-		<div>
+		<div className="border p-2 md:p-8 rounded-md">
 			<div className="flex gap-4 flex-wrap justify-between items-center mb-4">
 				<p className="text-[#0072BB] font-bold">{gig?.gigInfos[0]?.title}</p>
 				<div className="px-3 py-1.5 border border-[#0072BB] text-xs rounded-full bg-[#FFF7B2]">
