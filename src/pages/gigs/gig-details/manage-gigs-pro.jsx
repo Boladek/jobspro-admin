@@ -141,13 +141,13 @@ export function ManageGigsPro() {
 										<tr
 											key={gig.uuid}
 											onClick={() => {
-												if (gig.statusType !== "in-progress") {
-													navigate(`/gigs/${role}/details/${gig.uuid}`, {
-														state: {
-															gigData: { gig, ...rest, gigStatusType },
-														},
-													});
-												}
+												navigate(`/gigs/${role}/details/${gig.uuid}`, {
+													state: {
+														gigData: { gig, ...rest, gigStatusType },
+													},
+												});
+												// if (gig.statusType !== "in-progress") {
+												// }
 											}}
 											className="cursor-pointer hover:bg-gray-100"
 										>

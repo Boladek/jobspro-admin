@@ -6,8 +6,12 @@ import { SquareButton } from "../../../../component/square-button";
 import { Overlay } from "../../../../component/overlay-component";
 import { TimerHook } from "../../../../hooks/timer-hooks";
 import { SuccessInfo } from "../../../../component/success-info";
+import { toast } from "react-toastify";
+import profileAxios from "../../../../helpers/profileAxios";
+import { NotificationsHook } from "../../../../hooks/notifications-hook";
 
-export function PaymentOtp({ open, handleClose, gig }) {
+export function PaymentOtp({ open, handleClose, gig, openReview }) {
+	const { refetchNotifications } = NotificationsHook();
 	const [loading, setLoading] = useState(false);
 	const [step, setStep] = useState(1);
 	const [otp, setOtp] = useState("");
@@ -16,13 +20,21 @@ export function PaymentOtp({ open, handleClose, gig }) {
 	const submit = (e) => {
 		e.preventDefault();
 		setLoading(true);
-		setTimeout(() => {
-			setStep(2);
-			setLoading(false);
-			setTimeout(() => {
-				handleClose();
-			}, 3000);
-		}, 3000);
+		profileAxios
+			.post(`/gigs/mark-completed/${gig?.gigAccepted[0]?.uuid}`)
+			.then((res) => {
+				toast.success(res.message);
+				openReview();
+				refetchNotifications();
+				setStep(2);
+				setTimeout(() => {
+					handleClose();
+				}, 3000);
+			})
+			.catch((err) => {
+				toast.error(err.response.data.message);
+			})
+			.finally(() => setLoading(false));
 	};
 
 	return (
@@ -64,4 +76,5 @@ PaymentOtp.propTypes = {
 	open: bool.isRequired,
 	handleClose: func.isRequired, // Proper usage of PropTypes
 	gig: object,
+	openReview: func,
 };

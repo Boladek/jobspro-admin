@@ -4,7 +4,10 @@ import { configKeys } from "./config";
 import StorageService from "./storage";
 
 const profileAxios = axios.create({
-	baseURL: "http://35.162.211.96:3000" || configKeys.baseURL,
+	baseURL:
+		"https://api.demo.jobspro.ai" ||
+		"https://4cb5-102-89-33-5.ngrok-free.app" ||
+		configKeys.baseURL,
 	timeout: 50000,
 });
 
@@ -14,6 +17,7 @@ const requestHandler = (request) => {
 	if (StorageService.getToken()) {
 		request.headers.Authorization = `Bearer ${StorageService.getToken()}`;
 	}
+	request.headers["ngrok-skip-browser-warning"] = "69420";
 
 	return request;
 };

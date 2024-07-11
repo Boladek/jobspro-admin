@@ -9,8 +9,10 @@ import { UseAuth } from "../context/auth-context";
 import profileAxios from "../helpers/profileAxios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { NotificationsHook } from "../hooks/notifications-hook";
 
 export function FundEscrow({ open, handleClose, amount, id }) {
+	const { refetchNotifications } = NotificationsHook();
 	const navigate = useNavigate();
 	const { user, refetch } = UseAuth();
 	const [loading, setLoading] = useState(false);
@@ -28,6 +30,7 @@ export function FundEscrow({ open, handleClose, amount, id }) {
 				refetch();
 				handleClose();
 				navigate(`/gigs/${user.userType}`);
+				refetchNotifications();
 			})
 			.catch((err) => toast.error(err.response.data.message))
 			.finally(() => setLoading(false));

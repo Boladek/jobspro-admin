@@ -19,15 +19,6 @@ export const ChatProvider = ({ children }) => {
 	const IMSDK = getSDK();
 
 	const handleLogin = ({ userID }) => {
-		const config = {
-			userID: userID || "11111113", // IM user userID
-			token:
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIxMTExMTExMyIsIlBsYXRmb3JtSUQiOjUsImV4cCI6MTcyODIzNDYyOCwibmJmIjoxNzIwNDU4MzI4LCJpYXQiOjE3MjA0NTg2Mjh9.3Ijgz1H7x5XOnGT55EuywXCWxb95tcpKtcJM2NUkeBg", // Your token here
-			platformID: 5, // Current login platform number
-			apiAddr: "http://127.0.0.1:10002", // IM API address
-			wsAddr: "ws://127.0.0.1:10001", // IM WS address
-		};
-
 		// IMSDK.getLoginStatus()
 		// 	.then(({ data }) => {
 		// 		if (data === 1 || data === 2) {
@@ -45,6 +36,15 @@ export const ChatProvider = ({ children }) => {
 		// 	.catch((err) => {
 		// Call failed
 		// console.log("Error checking status", err);
+
+		const config = {
+			userID: userID, // IM user userID
+			token:
+				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIxMTExMTExMyIsIlBsYXRmb3JtSUQiOjUsImV4cCI6MTcyODIzNDYyOCwibmJmIjoxNzIwNDU4MzI4LCJpYXQiOjE3MjA0NTg2Mjh9.3Ijgz1H7x5XOnGT55EuywXCWxb95tcpKtcJM2NUkeBg", // Your token here
+			platformID: 5, // Current login platform number
+			apiAddr: "http://54.191.23.207:10002", // IM API address
+			wsAddr: "ws://54.191.23.207:10001", // IM WS address
+		};
 
 		IMSDK.login(config)
 			.then((res) => {

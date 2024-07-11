@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import profileAxios from "../helpers/profileAxios";
 import { toast } from "react-toastify";
@@ -12,7 +12,7 @@ export function NotificationsHook() {
 	} = useQuery({
 		queryKey: ["get-notifications"],
 		queryFn: () => profileAxios.get("/app-notification"),
-		select: (data) => data,
+		select: (data) => data.data,
 		staleTime: Infinity,
 		retry: 2,
 	});
@@ -28,10 +28,18 @@ export function NotificationsHook() {
 			});
 	}
 
+	const unReadNotifications = useMemo(() => {
+		if (data.length > 0) {
+			return data.filter((item) => !item.isRead).length;
+		}
+		return 0;
+	}, [data]);
+
 	return {
 		markAsRead: markNofication,
 		loading: loading || isLoading,
 		notifications: data,
 		refetchNotifications: refetch,
+		unReadNotifications: unReadNotifications
 	};
 }

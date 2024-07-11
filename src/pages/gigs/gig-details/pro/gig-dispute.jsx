@@ -11,12 +11,12 @@ export function GigDispute() {
 	const [open, setOpen] = useState(false);
 	return (
 		<div
-			className="p-2 max-w-xl mx-auto flex flex-col h-full"
-			style={{ height: "70vh" }}
+			className="p-2 px-4 md:px-8 max-w-xl mx-auto flex flex-col border"
+			style={{ height: "80vh" }}
 		>
 			<div className="p-2 rounded-md bg-adminPrimary/20 flex gap-2 items-center">
 				<TbPinFilled className="text-xl" />
-				<div className="flex-1 md:flex justify-between text-xs">
+				<div className="flex-1 md:flex justify-between text-tiny">
 					<div className="flex gap-1">
 						<span>Dispute Cause -</span>
 						<span className="font-bold">No payment</span>
@@ -41,7 +41,7 @@ export function GigDispute() {
 						<div
 							className={`${
 								index % 2 === 0 ? "flex-row-reverse" : ""
-							} flex w-full gap-2 items-center text-xs mb-1`}
+							} flex w-full gap-2 items-center text-tiny mb-1`}
 						>
 							<div>time</div>
 							<div className="bg-gray-300 flex-1" style={{ height: "1px" }} />
@@ -54,7 +54,7 @@ export function GigDispute() {
 								index % 2 === 0
 									? "bg-[#004D7A] text-white"
 									: "bg-adminPrimary/5 border"
-							} w-fit text-xs p-4 rounded-2xl text-wrap`}
+							} w-fit text-tiny p-4 rounded-2xl text-wrap`}
 						>
 							I sent everything Lorem ipsum dolor sit, amet consectetur
 							adipisicing elit. Consequuntur maiores architecto deserunt,

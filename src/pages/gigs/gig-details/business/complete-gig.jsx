@@ -7,6 +7,7 @@ import { Overlay } from "../../../../component/overlay-component";
 import profileAxios from "../../../../helpers/profileAxios";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
+import { NotificationsHook } from "../../../../hooks/notifications-hook";
 
 export function CompleteGig({
 	open,
@@ -15,6 +16,7 @@ export function CompleteGig({
 	openTip,
 	openReview,
 }) {
+	const { refetchNotifications } = NotificationsHook();
 	const location = useLocation();
 	const { gigData } = location.state;
 	const { handleSubmit } = useForm();
@@ -27,6 +29,7 @@ export function CompleteGig({
 			.then((res) => {
 				toast.success(res.message);
 				openReview();
+				refetchNotifications();
 				handleClose();
 			})
 			.catch((err) => {

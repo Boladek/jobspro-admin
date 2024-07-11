@@ -15,10 +15,12 @@ import StorageService from "../../helpers/storage";
 import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "../../store/slices/authSlice";
 import profileAxios from "../../helpers/profileAxios";
+import { UseChat } from "../../context/chat-context";
 
 function LoginPage() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const { chatLogin } = UseChat();
 	const { isAuthenticated } = useSelector((state) => state.auth);
 	const [finLogin, setFinLogin] = useState(true);
 	const [loading, setLoading] = useState(false);
@@ -30,8 +32,6 @@ function LoginPage() {
 	const [password, setPassword] = useState(true);
 	// const [remember, setRemember] = useState(false);
 	const onSubmit = (data) => {
-		// console.log({ data });
-		// return;
 		setLoading(true);
 		profileAxios
 			.post("/auth/login", {
@@ -43,17 +43,13 @@ function LoginPage() {
 				StorageService.setToken(res.token);
 				dispatch(loginSuccess(res.user));
 				navigate("/dashboard");
+				chatLogin({ userID: res.user.openIMUserID });
 			})
 			.catch((err) => {
 				console.log({ err });
 				toast.error(err.response.data.message);
 			})
 			.finally(() => setLoading(false));
-		// setTimeout(() => {
-		// 	setLoading(false);
-		// 	navigate("/dashboard");
-		// }, 3000);
-		// console.log({ data });
 	};
 
 	useEffect(() => {

@@ -507,7 +507,7 @@ export function BusinessGigTimeLine({ gig }) {
 						</div>
 					)}
 
-					{data?.step4?.isShown && !data?.step5?.isShown && (
+					{data?.step4?.isShown && !data?.step6?.isShown && (
 						<div className="max-w-sm">
 							<div className="mb-4">
 								<SquareButton
@@ -541,6 +541,7 @@ export function BusinessGigTimeLine({ gig }) {
 					open={openPaymentOtp}
 					handleClose={() => setOpenPaymentOtp(false)}
 					gig={gigData}
+					openReview={() => setOpenReview(true)}
 				/>
 			)}
 

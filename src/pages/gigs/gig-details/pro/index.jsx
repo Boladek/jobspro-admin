@@ -76,7 +76,7 @@ export function GigSummaryPro() {
 					)}
 				</div>
 			</div>
-			<div className="md:border px-2 md:p-8 rounded-md">
+			<div>
 				{isLoading ? (
 					<p>Fetching details</p>
 				) : (
