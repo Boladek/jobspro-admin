@@ -11,8 +11,8 @@ export function GigDispute() {
 	const [open, setOpen] = useState(false);
 	return (
 		<div
-			className="p-2 max-w-xl mx-auto flex flex-col h-full"
-			style={{ height: "70vh" }}
+			className="p-2 px-4 md:px-8 max-w-xl mx-auto flex flex-col border"
+			style={{ height: "80vh" }}
 		>
 			<div className="p-2 rounded-md bg-adminPrimary/20 flex gap-2 items-center">
 				<TbPinFilled className="text-xl" />

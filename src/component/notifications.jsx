@@ -8,7 +8,8 @@ import { NotificationsHook } from "../hooks/notifications-hook";
 const tabs = ["All", "Gigs", "Wallet", "Profile", "Others"];
 
 export function Notifications() {
-	const { notifications } = NotificationsHook();
+	const { notifications, markAsRead, unReadNotifications } =
+		NotificationsHook();
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const [activeTab, setActiveTab] = useState(tabs[0]);
 	const dropdownRef = useRef(null);
@@ -40,9 +41,9 @@ export function Notifications() {
 	return (
 		<>
 			<div className="relative">
-				{notifications && notifications.length > 0 && (
-					<div className="p-1 rounded-full absolute -right-2 -top-3 text-tiny bg-adminPrimary text-white w-fit">
-						<span>{notifications.length}</span>
+				{unReadNotifications > 0 && (
+					<div className="p-1 rounded-full h-5 w-5 absolute -right-2 -top-3 text-tiny bg-adminPrimary text-white flex items-center justify-center">
+						<span>{unReadNotifications}</span>
 					</div>
 				)}
 				<BsFillBellFill
@@ -77,8 +78,12 @@ export function Notifications() {
 							</div>
 						</div>
 						<div className="max-h-[70vh] overflow-y-auto">
-							{generateArray(25).map(() => (
-								<Notification key={Math.random()} />
+							{notifications.map((notification) => (
+								<Notification
+									key={notification.uuid}
+									notification={notification}
+									markAsRead={markAsRead}
+								/>
 							))}
 						</div>
 					</div>

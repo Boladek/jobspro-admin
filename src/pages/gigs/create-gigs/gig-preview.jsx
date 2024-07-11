@@ -8,8 +8,10 @@ import { Overlay } from "../../../component/overlay-component";
 import { toast } from "react-toastify";
 import { GigSuccessModal } from "./gig-success-modal";
 import { FundEscrow } from "../../../component/fund-escrow";
+import { NotificationsHook } from "../../../hooks/notifications-hook";
 
 export function GigPreview({ steps, handleStep, form }) {
+	const { refetchNotifications } = NotificationsHook();
 	const [loading, setLoading] = useState(false);
 	const [open, setOpen] = useState(false);
 	const [openEscrow, setOpenEscrow] = useState(false);
@@ -45,6 +47,7 @@ export function GigPreview({ steps, handleStep, form }) {
 				toast.success(res.message);
 				setId(res.data.uuid);
 				setOpen(true);
+				refetchNotifications();
 			})
 			.catch((e) => {
 				console.log(e);
