@@ -11,6 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import profileAxios from "../../../../helpers/profileAxios";
 import { ProGigTimeLine } from "./gig-timeline";
 import { GigDispute } from "./gig-dispute";
+import { GigChat } from "../business/gig-chat";
 
 export function GigSummaryPro() {
 	const navigate = useNavigate();
@@ -55,24 +56,40 @@ export function GigSummaryPro() {
 						Details
 					</div>
 					{data && data.gigApplies && data.gigApplies.length > 0 && (
-						<div
-							className={`${
-								activeTab === "timeline" ? "border-b-yellow-300 border-b-4" : ""
-							} p-0.5 cursor-pointer`}
-							onClick={() => setActiveTab("timeline")}
-						>
-							Timeline
-						</div>
-					)}
-					{data.statusType === "dispute" && (
-						<div
-							className={`${
-								activeTab === "dispute" ? "border-b-yellow-300 border-b-4" : ""
-							} p-0.5 cursor-pointer`}
-							onClick={() => setActiveTab("dispute")}
-						>
-							Dispute
-						</div>
+						<>
+							<div
+								className={`${
+									activeTab === "timeline"
+										? "border-b-yellow-300 border-b-4"
+										: ""
+								} p-0.5 cursor-pointer`}
+								onClick={() => setActiveTab("timeline")}
+							>
+								Timeline
+							</div>
+							<div
+								className={`${
+									activeTab === "dispute"
+										? "border-b-yellow-300 border-b-4"
+										: ""
+								} p-0.5 cursor-pointer`}
+								onClick={() => setActiveTab("chat")}
+							>
+								Chat
+							</div>
+							{data.statusType === "dispute" && (
+								<div
+									className={`${
+										activeTab === "dispute"
+											? "border-b-yellow-300 border-b-4"
+											: ""
+									} p-0.5 cursor-pointer`}
+									onClick={() => setActiveTab("dispute")}
+								>
+									Dispute
+								</div>
+							)}
+						</>
 					)}
 				</div>
 			</div>
@@ -84,6 +101,7 @@ export function GigSummaryPro() {
 						{activeTab === "details" && <GigDetails gig={data} />}
 						{activeTab === "timeline" && <ProGigTimeLine gig={data} />}
 						{activeTab === "dispute" && <GigDispute gig={data} />}
+						{activeTab === "chat" && <GigChat gig={data} />}
 					</>
 				)}
 			</div>

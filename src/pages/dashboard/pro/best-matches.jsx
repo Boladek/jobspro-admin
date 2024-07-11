@@ -19,6 +19,8 @@ export function BestMatches() {
 		experience,
 	} = UseGig();
 
+	console.log({ experience });
+
 	function getWeekBounds(date) {
 		const startOfWeek = new Date(date);
 		const endOfWeek = new Date(date);
@@ -39,86 +41,91 @@ export function BestMatches() {
 
 	const filteredGigs = useMemo(() => {
 		if (bestMatches.length > 0) {
-			return bestMatches
-				.filter((gig) => {
-					if (activeTab === tabs[0]) {
-						return gig;
-					}
-					if (activeTab === tabs[1]) {
-						return !gig.isPhysical;
-					}
-					if (activeTab === tabs[2]) {
-						return gig.isPhysical;
-					}
-				})
-				.filter((gig) => {
-					const today = new Date();
-					today.setHours(0, 0, 0, 0); // Set to start of day
+			return (
+				bestMatches
+					.filter((gig) => {
+						if (activeTab === tabs[0]) {
+							return gig;
+						}
+						if (activeTab === tabs[1]) {
+							return !gig.isPhysical;
+						}
+						if (activeTab === tabs[2]) {
+							return gig.isPhysical;
+						}
+					})
+					.filter((gig) => {
+						const today = new Date();
+						today.setHours(0, 0, 0, 0); // Set to start of day
 
-					const tomorrow = new Date(today);
-					tomorrow.setDate(today.getDate() + 1);
+						const tomorrow = new Date(today);
+						tomorrow.setDate(today.getDate() + 1);
 
-					const endOfWeek = new Date(today);
-					const dayOfWeek = today.getDay();
-					const daysToEndOfWeek = 6 - dayOfWeek;
-					endOfWeek.setDate(today.getDate() + daysToEndOfWeek);
+						const endOfWeek = new Date(today);
+						const dayOfWeek = today.getDay();
+						const daysToEndOfWeek = 6 - dayOfWeek;
+						endOfWeek.setDate(today.getDate() + daysToEndOfWeek);
 
-					const isSameDay = (date1, date2) => {
-						return (
-							date1.getFullYear() === date2.getFullYear() &&
-							date1.getMonth() === date2.getMonth() &&
-							date1.getDate() === date2.getDate()
-						);
-					};
+						const isSameDay = (date1, date2) => {
+							return (
+								date1.getFullYear() === date2.getFullYear() &&
+								date1.getMonth() === date2.getMonth() &&
+								date1.getDate() === date2.getDate()
+							);
+						};
 
-					const gigDate = new Date(gig.gigDate);
+						const gigDate = new Date(gig.gigDate);
 
-					if (time === "all") {
-						return gig;
-					}
-					if (time === "today") {
-						return isSameDay(gigDate, today);
-					}
-					if (time === "tomorrow") {
-						return isSameDay(gigDate, tomorrow);
-					}
-					if (time === "week") {
-						return (
-							getWeekBounds(new Date()).startOfWeek <= gigDate &&
-							getWeekBounds(new Date()).endOfWeek >= gigDate
-						);
-					}
-				})
-				.filter((gig) => {
-					return experience === "exp"
-						? gig.gigInfos[0].isExperienced
-						: !gig.gigInfos[0].isExperienced;
-				})
-				.filter((gig) => {
-					const titleMatch = gig?.gigInfos[0]?.title
-						?.toLowerCase()
-						?.includes(searchText.toLowerCase());
-					const detailedDescriptionMatch = gig?.gigInfos[0]?.description
-						?.toLowerCase()
-						?.includes(searchText.toLowerCase());
+						if (time === "all") {
+							return gig;
+						}
+						if (time === "today") {
+							return isSameDay(gigDate, today);
+						}
+						if (time === "tomorrow") {
+							return isSameDay(gigDate, tomorrow);
+						}
+						if (time === "week") {
+							return (
+								getWeekBounds(new Date()).startOfWeek <= gigDate &&
+								getWeekBounds(new Date()).endOfWeek >= gigDate
+							);
+						}
+					})
+					// .filter((gig) => {
+					// 	if (experience) {
+					// 		return experience === "exp"
+					// 			? gig.gigInfos[0].isExperienced
+					// 			: !gig.gigInfos[0].isExperienced;
+					// 	}
+					// 	return gig;
+					// })
+					.filter((gig) => {
+						const titleMatch = gig?.gigInfos[0]?.title
+							?.toLowerCase()
+							?.includes(searchText.toLowerCase());
+						const detailedDescriptionMatch = gig?.gigInfos[0]?.description
+							?.toLowerCase()
+							?.includes(searchText.toLowerCase());
 
-					return titleMatch || detailedDescriptionMatch;
-				})
-				.filter((gig) =>
-					gig?.subCategory?.name
-						?.toLowerCase()
-						?.includes(category.toLowerCase())
-				)
-				.filter((gig) => {
-					const minMatch = Number(min)
-						? Number(gig?.budget) >= Number(min)
-						: true;
-					const maxMatch = Number(max)
-						? Number(gig?.budget) <= Number(max)
-						: true;
+						return titleMatch || detailedDescriptionMatch;
+					})
+					.filter((gig) =>
+						gig?.subCategory?.name
+							?.toLowerCase()
+							?.includes(category.toLowerCase())
+					)
+					.filter((gig) => {
+						const minMatch = Number(min)
+							? Number(gig?.budget) >= Number(min)
+							: true;
+						const maxMatch = Number(max)
+							? Number(gig?.budget) <= Number(max)
+							: true;
 
-					return minMatch && maxMatch;
-				});
+						return minMatch && maxMatch;
+					})
+			);
 		}
 		return [];
 	}, [
@@ -131,6 +138,8 @@ export function BestMatches() {
 		time,
 		experience,
 	]);
+
+	console.log({ filteredGigs });
 
 	return (
 		<div className="p-4">

@@ -4,10 +4,7 @@ import { configKeys } from "./config";
 import StorageService from "./storage";
 
 const profileAxios = axios.create({
-	baseURL:
-		"https://api.demo.jobspro.ai" ||
-		"https://4cb5-102-89-33-5.ngrok-free.app" ||
-		configKeys.baseURL,
+	baseURL: "https://api.demo.jobspro.ai" || configKeys.baseURL,
 	timeout: 50000,
 });
 

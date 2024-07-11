@@ -20,7 +20,7 @@ export const GigProvider = ({ children }) => {
 	const [min, setMin] = useState(0);
 	const [max, setMax] = useState(100000000);
 	const [time, setTime] = useState("all");
-	const [experience, setExperience] = useState("exp");
+	const [experience, setExperience] = useState("");
 
 	const {
 		data: gigs = [],
@@ -30,7 +30,9 @@ export const GigProvider = ({ children }) => {
 		queryKey: ["fetch-gigs" + user.userType, user.userType],
 		queryFn: () => {
 			if (user.userType === "pro") {
-				return profileAxios.get("/pro-gigs/best-matches?page=1&limit=100");
+				return profileAxios.get(
+					`/pro-gigs/best-matches?page=1&limit=100&sort={"createdAt":"DESC"}`
+				);
 			} else {
 				return profileAxios.get("/gigs/all?page=1&limit=100");
 			}
@@ -41,7 +43,6 @@ export const GigProvider = ({ children }) => {
 		enabled: !!user.userType,
 		// refetchOnWindowFocus: true, //
 	});
-	
 
 	const allCategories = useMemo(() => {
 		if (gigs.length > 0 && user.userType === "pro") {
@@ -57,7 +58,7 @@ export const GigProvider = ({ children }) => {
 		setCategory("");
 		setMin(0);
 		setTime("all");
-        setExperience("exp")
+		setExperience("exp");
 	};
 
 	const value = {

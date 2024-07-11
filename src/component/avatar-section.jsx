@@ -12,9 +12,11 @@ import { UseAuth } from "../context/auth-context";
 import profileAxios from "../helpers/profileAxios";
 import { toast } from "react-toastify";
 import { Overlay } from "./overlay-component";
+import { UseChat } from "../context/chat-context";
 
 export function AvatarSection() {
 	const [loading, setLoading] = useState(false);
+	const { chatLogout } = UseChat();
 	const { user: details, refetch } = UseAuth();
 	const dispatch = useDispatch();
 	const { user } = useSelector((state) => state.auth);
@@ -47,6 +49,7 @@ export function AvatarSection() {
 
 	function handleLogout() {
 		dispatch(logout());
+		chatLogout();
 	}
 
 	useEffect(() => {

@@ -21,7 +21,8 @@ function GigsPage() {
 		isRefetching,
 	} = useQuery({
 		queryKey: ["fetch-gig-pros"],
-		queryFn: () => profileAxios.get("/pro-gigs/best-matches?page=1&limit=100"),
+		queryFn: () =>
+			profileAxios.get("/pro-gigs/best-matches?page=1&limit=100&sort=DESC"),
 		select: (data) => data.data.data,
 		staleTime: Infinity,
 	});
@@ -66,9 +67,9 @@ function GigsPage() {
 	const reset = () => {
 		refetch();
 		setMax(100000000);
-		setSearchText("")
-		setCategory("")
-		setMin(0)
+		setSearchText("");
+		setCategory("");
+		setMin(0);
 	};
 
 	return (
