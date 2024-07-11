@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { getSDK } from "open-im-sdk-wasm";
-
-const OpenIM = getSDK();
+import { getSDK, CbEvents } from "open-im-sdk-wasm";
+import { configKeys } from "../helpers/config";
+import { isEmpty } from "../helpers/function";
 
 // Create ChatContext
 const ChatContext = createContext();
@@ -15,35 +15,19 @@ export const UseChat = () => {
 
 // Create ChatProvider component
 export const ChatProvider = ({ children }) => {
-	const { user } = useSelector((state) => state.auth);
 	const IMSDK = getSDK();
+	
+	const [messages, setMessages] = useState([]);
+	const { user } = useSelector((state) => state.auth);
+	// console.log({ user });
 
-	const handleLogin = ({ userID }) => {
-		// IMSDK.getLoginStatus()
-		// 	.then(({ data }) => {
-		// 		if (data === 1 || data === 2) {
-		// 			console.log({ data });
-		// 			IMSDK.login(config)
-		// 				.then((res) => {
-		// 					console.log("Login successful 1", res);
-		// 				})
-		// 				.catch((err) => {
-		// 					console.error("Login failed", err);
-		// 					console.error("Error details:", err.stack || err.message);
-		// 				});
-		// 		}
-		// 	})
-		// 	.catch((err) => {
-		// Call failed
-		// console.log("Error checking status", err);
-
+	const handleLogin = ({ userID, token }) => {
 		const config = {
 			userID: userID, // IM user userID
-			token:
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIxMTExMTExMyIsIlBsYXRmb3JtSUQiOjUsImV4cCI6MTcyODIzNDYyOCwibmJmIjoxNzIwNDU4MzI4LCJpYXQiOjE3MjA0NTg2Mjh9.3Ijgz1H7x5XOnGT55EuywXCWxb95tcpKtcJM2NUkeBg", // Your token here
+			token: token, // Your token here
 			platformID: 5, // Current login platform number
-			apiAddr: "http://54.191.23.207:10002", // IM API address
-			wsAddr: "ws://54.191.23.207:10001", // IM WS address
+			apiAddr: configKeys.apiAddress, // IM API address
+			wsAddr: configKeys.wsAddress, // IM WS address
 		};
 
 		IMSDK.login(config)
@@ -54,26 +38,22 @@ export const ChatProvider = ({ children }) => {
 				console.error("Login failed", err);
 				console.error("Error details:", err.stack || err.message);
 			});
-		// });
 	};
 
-	const handleSendMessage = ({ message }) => {
+	const handleSendMessage = ({ message, recvID, groupID }) => {
 		IMSDK.createTextMessage(message)
 			.then((data) => {
-				console.log({ message: "Message created!", data });
-				IMSDK.sendMessage({
-					recvID: "11111112",
-					groupID: "",
+				// console.log(data, "created message");
+				return IMSDK.sendMessage({
+					recvID: recvID ?? "",
+					groupID: groupID ?? "",
 					message: data.data,
-				})
-					.then(({ data }) => {
-						// Successful call
-						console.log("Message sent now!", data);
-					})
-					.catch((err) => {
-						// Failed call
-						console.log("message not sent", err);
-					});
+				});
+			})
+			.then(({ data }) => {
+				// console.log(data, "send Message");
+				// Successful call
+				getPersonalConversion({ recvID });
 			})
 			.catch((err) => console.log(err));
 	};
@@ -103,11 +83,87 @@ export const ChatProvider = ({ children }) => {
 		await IMSDK.logout();
 	};
 
+	const getPersonalConversion = ({ recvID }) => {
+		IMSDK.getOneConversation({
+			sourceID: recvID,
+			sessionType: 1,
+		})
+			.then(({ data }) => {
+				// Success
+				console.log({ data });
+				console.log(
+					"************************************************************************************************"
+				);
+				// return data;
+			})
+			.catch(({ errCode, errMsg }) => {
+				// Error
+				console.log({ errMsg });
+			});
+	};
+
+	const fetchChatHistory = async ({ recvID }) => {
+		try {
+			const history = await IMSDK.getHistoryMessageList({
+				userID: recvID, // or groupID if fetching group chat history
+				count: 50, // Number of messages to fetch
+				startMsgID: "", // Optional: starting point for pagination
+			});
+
+			setMessages(history);
+		} catch (err) {
+			console.error("Error fetching chat history", err);
+		}
+	};
+
+	useEffect(() => {
+		const handleConnecting = () => {
+			console.log("Connecting...");
+		};
+
+		const handleConnectSuccess = () => {
+			console.log("Connected successfully");
+		};
+
+		const handleConnectFailed = (err) => {
+			console.error("Connection failed", err);
+		};
+
+		IMSDK.on(CbEvents.OnConnecting, handleConnecting);
+		IMSDK.on(CbEvents.OnConnectSuccess, handleConnectSuccess);
+		IMSDK.on(CbEvents.OnConnectFailed, handleConnectFailed);
+
+		const wsAddr = configKeys.wsAddress;
+		const apiAddr = configKeys.apiAddress;
+
+		const initIM = async () => {
+			try {
+				await IMSDK.init({ platformID: 5, wsAddr, apiAddr });
+				await IMSDK.login({
+					userID: user.openIMUserID,
+					token: user.openIMToken,
+				});
+			} catch (err) {
+				console.error("Initialization error", err);
+			}
+		};
+		if (!isEmpty(user)) {
+			initIM();
+		}
+
+		return () => {
+			IMSDK.off(CbEvents.OnConnecting, handleConnecting);
+			IMSDK.off(CbEvents.OnConnectSuccess, handleConnectSuccess);
+			IMSDK.off(CbEvents.OnConnectFailed, handleConnectFailed);
+		};
+	}, [IMSDK, user]);
+
 	const value = {
 		sendMessage: handleSendMessage,
 		sendFile: handleSendFile,
 		chatLogout: handleChatLogout,
 		chatLogin: handleLogin,
+		getConvo: fetchChatHistory,
 	};
 
 	return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;

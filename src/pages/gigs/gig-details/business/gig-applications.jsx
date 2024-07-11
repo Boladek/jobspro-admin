@@ -31,8 +31,8 @@ export function GigApplications({ gig, refetch }) {
 				</thead>
 				<tbody className="rounded-xl">
 					{proApplications &&
-					proApplications.gigApplies &&
-					proApplications?.gigApplies.length > 0 ? (
+						proApplications.gigApplies &&
+						proApplications?.gigApplies.length > 0 &&
 						proApplications?.gigApplies.map((item) => (
 							<PropComponent
 								key={item.uuid}
@@ -40,12 +40,17 @@ export function GigApplications({ gig, refetch }) {
 								gig={proApplications}
 								refetch={refetch}
 							/>
-						))
-					) : (
-						<NoInfo message="No Applicants" />
-					)}
+						))}
 				</tbody>
 			</table>
+
+			{proApplications &&
+				proApplications.gigApplies &&
+				proApplications?.gigApplies.length === 0 && (
+					<div className="w-full flex justify-center">
+						<NoInfo message="No Applicants at this moment" />
+					</div>
+				)}
 		</div>
 	);
 }

@@ -7,6 +7,7 @@ import profileAxios from "../../../../helpers/profileAxios";
 import { BusinessGigTimeLine } from "./gig-timeline";
 import { GigDispute } from "./gig-dispute";
 import { GigApplications } from "./gig-applications";
+import { GigChat } from "./gig-chat";
 
 export function GigSummaryBusiness() {
 	const navigate = useNavigate();
@@ -27,7 +28,7 @@ export function GigSummaryBusiness() {
 
 	return (
 		<DashBoardWrapper>
-			<div className="flex flex-wrap gap-4 items-center p-2">
+			<div className="flex flex-wrap gap-4 items-center p-2 w-full">
 				<div className="flex gap-2 justify-between items-center text-xs w-full md:w-36 capitalize">
 					<span className="bg-[#FFDE16] py-1 px-2 rounded-lg font-bold text-[#025949]">
 						Gig {activeTab}
@@ -39,7 +40,7 @@ export function GigSummaryBusiness() {
 						Back
 					</span>
 				</div>
-				<div className="flex bg-adminPrimary p-2 text-sm text-white w-full justify-evenly rounded-lg mb-4 max-w-md">
+				<div className="flex-1 flex bg-adminPrimary p-2 text-sm text-white justify-evenly rounded-lg mb-4">
 					<div
 						className={`${
 							activeTab === "details" ? "border-b-yellow-300 border-b-4" : ""
@@ -59,23 +60,41 @@ export function GigSummaryBusiness() {
 						Applications
 					</div>
 					{data?.gigApplies?.length > 0 && data.statusType !== "new" && (
-						<div
-							className={`${
-								activeTab === "timeline" ? "border-b-yellow-300 border-b-4" : ""
-							} p-0.5 cursor-pointer`}
-							onClick={() => setActiveTab("timeline")}
-						>
-							Timeline
-						</div>
+						<>
+							<div
+								className={`${
+									activeTab === "timeline"
+										? "border-b-yellow-300 border-b-4"
+										: ""
+								} p-0.5 cursor-pointer`}
+								onClick={() => setActiveTab("timeline")}
+							>
+								Timeline
+							</div>
+							<div
+								className={`${
+									activeTab === "dispute"
+										? "border-b-yellow-300 border-b-4"
+										: ""
+								} p-0.5 cursor-pointer`}
+								onClick={() => setActiveTab("chat")}
+							>
+								Chat
+							</div>
+							{data.statusType === "dispute" && (
+								<div
+									className={`${
+										activeTab === "dispute"
+											? "border-b-yellow-300 border-b-4"
+											: ""
+									} p-0.5 cursor-pointer`}
+									onClick={() => setActiveTab("dispute")}
+								>
+									Dispute
+								</div>
+							)}
+						</>
 					)}
-					<div
-						className={`${
-							activeTab === "dispute" ? "border-b-yellow-300 border-b-4" : ""
-						} p-0.5 cursor-pointer`}
-						onClick={() => setActiveTab("dispute")}
-					>
-						Dispute
-					</div>
 				</div>
 			</div>
 			<div>
@@ -86,7 +105,10 @@ export function GigSummaryBusiness() {
 						{activeTab === "details" && <GigDetails gig={data} />}
 						{activeTab === "timeline" && <BusinessGigTimeLine gig={data} />}
 						{activeTab === "dispute" && <GigDispute gig={data} />}
-						{activeTab === "applications" && <GigApplications gig={data} refetch={refetch} />}
+						{activeTab === "chat" && <GigChat gig={data} />}
+						{activeTab === "applications" && (
+							<GigApplications gig={data} refetch={refetch} />
+						)}
 					</>
 				)}
 			</div>

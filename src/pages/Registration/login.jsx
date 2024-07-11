@@ -9,7 +9,7 @@ import eye from "../../assets/eye.png";
 import eyeSlash from "../../assets/eye-slash.png";
 import login from "../../assets/login.png";
 import finclusionIcon from "../../assets/finclusion.png";
-import customAxios from "../../helpers/customAxios";
+// import customAxios from "../../helpers/customAxios";
 import { toast } from "react-toastify";
 import StorageService from "../../helpers/storage";
 import { useDispatch, useSelector } from "react-redux";
@@ -43,7 +43,10 @@ function LoginPage() {
 				StorageService.setToken(res.token);
 				dispatch(loginSuccess(res.user));
 				navigate("/dashboard");
-				chatLogin({ userID: res.user.openIMUserID });
+				// chatLogin({
+				// 	userID: res.user.openIMUserID,
+				// 	token: res.user.openIMToken,
+				// });
 			})
 			.catch((err) => {
 				console.log({ err });

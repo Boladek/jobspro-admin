@@ -7,6 +7,7 @@ import avatar from "../../../assets/profile-avatar.png";
 import { ProgressBar } from "../../../component/admin/progress-bar";
 import { CgUnavailable } from "react-icons/cg";
 import { GigApplicationComponent } from "./pro/gig-application-component";
+import { Paginate } from "../../../component/paginate";
 
 const proTabs = ["Applications", "Hired", "On-going", "Completed", "Cancelled"];
 
@@ -14,7 +15,7 @@ export function ManageGigsPro() {
 	const navigate = useNavigate();
 	const { role } = useParams();
 	const [itemsPerPage, setItemsPerPage] = useState(8);
-	const [currentPage, setCurrentPage] = useState(1);
+	const [currentPage, setCurrentPage] = useState(0);
 	const [activeTab, setActiveTab] = useState(proTabs[0]);
 
 	const { data: gigs = [], isLoading } = useQuery({
@@ -137,63 +138,68 @@ export function ManageGigsPro() {
 									</tr>
 								</thead>
 								<tbody className="rounded-xl font-semibold">
-									{filteredGigData.map(({ gig, gigStatusType, ...rest }) => (
-										<tr
-											key={gig.uuid}
-											onClick={() => {
-												navigate(`/gigs/${role}/details/${gig.uuid}`, {
-													state: {
-														gigData: { gig, ...rest, gigStatusType },
-													},
-												});
-												// if (gig.statusType !== "in-progress") {
-												// }
-											}}
-											className="cursor-pointer hover:bg-gray-100"
-										>
-											<td className="py-4 px-2 text-xs text-left">
-												<div className="flex gap-1 items-center">
-													<img
-														src={gig?.user.profilePicture ?? avatar}
-														alt="User Avatar"
-														className="h-10 w-10 rounded-full"
-													/>
-													<div>
-														<p className="font-bold text-adminPrimary">
-															{gig?.user.companyName
-																? gig?.user.companyName
-																: `${gig?.user.firstName} ${gig?.user.lastName}`}
-														</p>
-														<p style={{ fontSize: ".5rem" }}>
-															{gig?.user.finclusionId}
-														</p>
+									{filteredGigData
+										.slice(
+											currentPage * itemsPerPage,
+											currentPage * itemsPerPage + itemsPerPage
+										)
+										.map(({ gig, gigStatusType, ...rest }) => (
+											<tr
+												key={gig.uuid}
+												onClick={() => {
+													navigate(`/gigs/${role}/details/${gig.uuid}`, {
+														state: {
+															gigData: { gig, ...rest, gigStatusType },
+														},
+													});
+													// if (gig.statusType !== "in-progress") {
+													// }
+												}}
+												className="cursor-pointer hover:bg-gray-100"
+											>
+												<td className="py-2 px-2 text-xs text-left">
+													<div className="flex gap-1 items-center">
+														<img
+															src={gig?.user.profilePicture ?? avatar}
+															alt="User Avatar"
+															className="h-10 w-10 rounded-full"
+														/>
+														<div>
+															<p className="font-bold text-adminPrimary">
+																{gig?.user.companyName
+																	? gig?.user.companyName
+																	: `${gig?.user.firstName} ${gig?.user.lastName}`}
+															</p>
+															<p style={{ fontSize: ".5rem" }}>
+																{gig?.user.finclusionId}
+															</p>
+														</div>
 													</div>
-												</div>
-											</td>
-											<td className="py-4 px-2 text-xs text-left">
-												{gig?.gigInfos[0]?.title}
-											</td>
-											<td className="py-4 px-2 text-xs text-left">
-												{formatDate(gig.gigDate)}
-											</td>
-											{/* <td className="py-4 px-2 text-xs text-left">
+												</td>
+												<td className="py-2 px-2 text-xs text-left">
+													{gig?.gigInfos[0]?.title}
+												</td>
+												<td className="py-2 px-2 text-xs text-left">
+													{formatDate(gig.gigDate)}
+												</td>
+												{/* <td className="py-2 px-2 text-xs text-left">
 												{getDifferenceInHours(gig.startTime, gig.endTime)}hrs
 											</td> */}
-											<td className="py-4 px-2 text-xs text-left">
-												{gig?.gigAddresses[0].address}
-											</td>
-											{/* <td className="py-4 px-2 text-xs text-left">
+												<td className="py-2 px-2 text-xs text-left">
+													{gig?.gigAddresses[0].address}
+												</td>
+												{/* <td className="py-2 px-2 text-xs text-left">
 												N{formatNumber(gig.budget)}
 											</td> */}
-											<td className="py-4 px-2 text-xs text-left capitalize">
-												{gig.statusType}
-												<ProgressBar
-													color={handleProgressColor(gig.statusType)}
-													thickness={1.2}
-												/>
-											</td>
-										</tr>
-									))}
+												<td className="py-2 px-2 text-xs text-left capitalize">
+													{gig.statusType}
+													<ProgressBar
+														color={handleProgressColor(gig.statusType)}
+														thickness={1.2}
+													/>
+												</td>
+											</tr>
+										))}
 								</tbody>
 							</table>
 							<div
@@ -204,7 +210,7 @@ export function ManageGigsPro() {
 									<GigApplicationComponent key={gig.uuid} gig={gig} />
 								))}
 							</div>
-							{/* <div>
+							<div>
 								<Paginate
 									total={filteredGigData.length}
 									pageCount={pageCount}
@@ -214,7 +220,7 @@ export function ManageGigsPro() {
 									perPage={itemsPerPage}
 									currentPage={currentPage}
 								/>
-							</div> */}
+							</div>
 						</>
 					) : (
 						<div className="flex flex-col items-center p-4">

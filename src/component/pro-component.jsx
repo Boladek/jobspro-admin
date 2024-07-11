@@ -10,8 +10,10 @@ import { useParams } from "react-router-dom";
 import { Overlay } from "./overlay-component";
 import { toast } from "react-toastify";
 import { KycTag } from "./kyc-tag";
+import { NotificationsHook } from "../hooks/notifications-hook";
 
 export function PropComponent({ pro, gig, refetch }) {
+	const { refetchNotifications } = NotificationsHook();
 	const { id } = useParams();
 	const [loading, setLoading] = useState(false);
 	const [open, setOpen] = useState(false);
@@ -27,6 +29,7 @@ export function PropComponent({ pro, gig, refetch }) {
 			.then((res) => {
 				toast.success(res.message);
 				refetch();
+				refetchNotifications();
 			})
 			.catch((err) => toast.error(err.response.data.message))
 			.finally(() => setLoading(false));

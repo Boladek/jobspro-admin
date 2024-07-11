@@ -10,18 +10,18 @@ export function Paginate({
 	currentPage,
 }) {
 	const totalPages = Math.ceil(total / perPage);
-	const handleClick = (val) => {
-		if (
-			currentPage === 1 &&
-			val > 1 &&
-			currentPage === totalPages &&
-			val < totalPages &&
-			currentPage > 1 &&
-			currentPage < totalPages
-		) {
-			handlePageClick(val);
+
+	const gotoNext = (value) => {
+		if (value >= totalPages) {
+			return;
 		}
-		return;
+		handlePageClick(value);
+	};
+	const gotoPrev = (value) => {
+		if (value < 0) {
+			return;
+		}
+		handlePageClick(value);
 	};
 
 	return (
@@ -40,19 +40,19 @@ export function Paginate({
 				</select>
 			</div>
 			<div>
-				{currentPage}- {totalPages} of {total}
+				{currentPage + 1}- {totalPages} of {total}
 			</div>
 			<div className="flex gap-3 items-center text-base">
 				<span>
 					<MdKeyboardArrowLeft
 						className="hover:bg-gray-200 cursor-pointer"
-						onClick={() => handleClick(currentPage - 1)}
+						onClick={() => gotoPrev(currentPage - 1)}
 					/>
 				</span>
 				<span>
 					<MdKeyboardArrowRight
 						className="hover:bg-gray-200 cursor-pointer"
-						onClick={() => handleClick(currentPage + 1)}
+						onClick={() => gotoNext(currentPage + 1)}
 					/>
 				</span>
 			</div>
