@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { GrAttachment } from "react-icons/gr";
 import { IoSendSharp } from "react-icons/io5";
 import { TbPinFilled } from "react-icons/tb";
@@ -11,21 +11,37 @@ import { UseChat } from "../../../../context/chat-context";
 import { GigChatComponent } from "../../../../component/gig-chat-component";
 
 export function GigChat({ gig }) {
+	console.log({ gig });
+	const chatEndRef = useRef(null);
+
+	// Function to scroll to the bottom
+	const scrollToBottom = () => {
+		chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+	};
+
+	// Scroll to the bottom whenever messages change
+
 	const { name, user } = UseAuth();
 	const { sendMessage, messages } = UseChat();
 	const [open, setOpen] = useState(false);
 	const [text, setText] = useState("");
 
 	const handleSend = () => {
-		const receivedId = gig.gigAccepted?.[0]?.user?.openIMUserID;
+		const receivedId = gig?.user?.openIMUserID;
 		sendMessage({ message: text, recvID: receivedId });
 		setText("");
 	};
+
+	console.log({ messages });
 
 	const handleChange = (e) => {
 		const { value } = e.target;
 		setText(value);
 	};
+
+	useEffect(() => {
+		scrollToBottom();
+	}, [messages]);
 
 	return (
 		<div
@@ -46,17 +62,16 @@ export function GigChat({ gig }) {
 				</div>
 			</div>
 
-			<div className="py-2 flex-1 overflow-y-auto">
-				<div className="py-2 flex-1 overflow-y-auto">
-					{messages.map((message) => (
-						<GigChatComponent
-							key={message.clientMsgID}
-							message={message}
-							isUser={user.openIMUserID === message.sendID}
-							userName={name}
-						/>
-					))}
-				</div>
+			<div className="p-2 flex-1 overflow-y-auto">
+				{messages.map((message) => (
+					<GigChatComponent
+						key={message.clientMsgID}
+						message={message}
+						isUser={user.openIMUserID === message.sendID}
+						userName={name}
+					/>
+				))}
+				<div ref={chatEndRef} />
 			</div>
 			<div className="p-2 border rounded-md flex items-center gap-1">
 				<span onClick={() => setOpen(true)}>

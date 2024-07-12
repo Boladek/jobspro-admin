@@ -16,34 +16,13 @@ export const UseChat = () => {
 // Create ChatProvider component
 export const ChatProvider = ({ children }) => {
 	const IMSDK = getSDK();
-	
 	const [messages, setMessages] = useState([]);
 	const { user } = useSelector((state) => state.auth);
-	// console.log({ user });
 
-	const handleLogin = ({ userID, token }) => {
-		const config = {
-			userID: userID, // IM user userID
-			token: token, // Your token here
-			platformID: 5, // Current login platform number
-			apiAddr: configKeys.apiAddress, // IM API address
-			wsAddr: configKeys.wsAddress, // IM WS address
-		};
-
-		IMSDK.login(config)
-			.then((res) => {
-				console.log("Login successful", res);
-			})
-			.catch((err) => {
-				console.error("Login failed", err);
-				console.error("Error details:", err.stack || err.message);
-			});
-	};
-
+	// Function to handle sending a message
 	const handleSendMessage = ({ message, recvID, groupID }) => {
 		IMSDK.createTextMessage(message)
 			.then((data) => {
-				// console.log(data, "created message");
 				return IMSDK.sendMessage({
 					recvID: recvID ?? "",
 					groupID: groupID ?? "",
@@ -51,68 +30,53 @@ export const ChatProvider = ({ children }) => {
 				});
 			})
 			.then(({ data }) => {
-				// console.log(data, "send Message");
-				// Successful call
-				getPersonalConversion({ recvID });
-			})
-			.catch((err) => console.log(err));
-	};
-
-	const handleSendFile = ({ message }) => {
-		IMSDK.createTextMessage(message)
-			.then((data) => {
-				console.log({ message: "Message created!", data });
-				IMSDK.sendMessage({
-					recvID: "11111112",
-					groupID: "",
-					message: data.data,
-				})
-					.then(({ data }) => {
-						// Successful call
-						console.log("Message sent now!", data);
-					})
-					.catch((err) => {
-						// Failed call
-						console.log("message not sent", err);
-					});
-			})
-			.catch((err) => console.log(err));
-	};
-
-	const handleChatLogout = async () => {
-		await IMSDK.logout();
-	};
-
-	const getPersonalConversion = ({ recvID }) => {
-		IMSDK.getOneConversation({
-			sourceID: recvID,
-			sessionType: 1,
-		})
-			.then(({ data }) => {
-				// Success
+				// Update the state with the new message
+				setMessages((prevMessages) => [...prevMessages, data]);
 				console.log({ data });
-				console.log(
-					"************************************************************************************************"
-				);
-				// return data;
 			})
-			.catch(({ errCode, errMsg }) => {
-				// Error
-				console.log({ errMsg });
-			});
+			.catch((err) => console.log(err));
 	};
 
-	const fetchChatHistory = async ({ recvID }) => {
-		try {
-			const history = await IMSDK.getHistoryMessageList({
-				userID: recvID, // or groupID if fetching group chat history
-				count: 50, // Number of messages to fetch
-				startMsgID: "", // Optional: starting point for pagination
-			});
+	// const getPersonalConversion = ({ recvID }) => {
+	// 	IMSDK.getOneConversation({
+	// 		sourceID: recvID,
+	// 		sessionType: 1,
+	// 	})
+	// 		.then(({ data }) => {
+	// 			console.log({ data });
+	// 		})
+	// 		.catch(({ errCode, errMsg }) => {
+	// 			console.log({ errMsg });
+	// 		});
+	// };
 
-			setMessages(history);
+	// Save messages to local storage
+	useEffect(() => {
+		localStorage.setItem("chatMessages", JSON.stringify(messages));
+	}, [messages]);
+
+	// Load messages from local storage
+	useEffect(() => {
+		const storedMessages = localStorage.getItem("chatMessages");
+		if (storedMessages) {
+			setMessages(JSON.parse(storedMessages));
+		}
+	}, []);
+
+	const login = async ({ userID, token }) => {
+		console.log({ configKeys });
+		try {
+			// await initIM();
+			const loginResponse = await IMSDK.login({
+				userID,
+				token,
+				platformID: 5,
+				wsAddr: configKeys.wsAddress,
+				apiAddr: configKeys.apiAddress,
+			});
+			console.log("Login successful", loginResponse);
 		} catch (err) {
-			console.error("Error fetching chat history", err);
+			console.error("Login error", err);
 		}
 	};
 
@@ -129,24 +93,35 @@ export const ChatProvider = ({ children }) => {
 			console.error("Connection failed", err);
 		};
 
+		const handleNewMessages = ({ data }) => {
+			data.forEach((item) => {
+				setMessages((prevMessages) => [...prevMessages, item]);
+			});
+			// Update the state with the new incoming message
+
+			console.log("New message received", data);
+		};
+
 		IMSDK.on(CbEvents.OnConnecting, handleConnecting);
 		IMSDK.on(CbEvents.OnConnectSuccess, handleConnectSuccess);
 		IMSDK.on(CbEvents.OnConnectFailed, handleConnectFailed);
-
-		const wsAddr = configKeys.wsAddress;
-		const apiAddr = configKeys.apiAddress;
+		IMSDK.on(CbEvents.OnRecvNewMessages, handleNewMessages);
 
 		const initIM = async () => {
 			try {
-				await IMSDK.init({ platformID: 5, wsAddr, apiAddr });
+				console.log({ user });
 				await IMSDK.login({
 					userID: user.openIMUserID,
 					token: user.openIMToken,
+					platformID: 5,
+					wsAddr: configKeys.wsAddress,
+					apiAddr: configKeys.apiAddress,
 				});
 			} catch (err) {
 				console.error("Initialization error", err);
 			}
 		};
+
 		if (!isEmpty(user)) {
 			initIM();
 		}
@@ -155,15 +130,29 @@ export const ChatProvider = ({ children }) => {
 			IMSDK.off(CbEvents.OnConnecting, handleConnecting);
 			IMSDK.off(CbEvents.OnConnectSuccess, handleConnectSuccess);
 			IMSDK.off(CbEvents.OnConnectFailed, handleConnectFailed);
+			IMSDK.off(CbEvents.OnRecvNewMessages, handleNewMessages);
 		};
 	}, [IMSDK, user]);
 
 	const value = {
+		chatLogin: login,
 		sendMessage: handleSendMessage,
-		sendFile: handleSendFile,
-		chatLogout: handleChatLogout,
-		chatLogin: handleLogin,
-		getConvo: fetchChatHistory,
+		chatLogout: async () => {
+			await IMSDK.logout();
+		},
+		getConvo: async ({ recvID }) => {
+			try {
+				const history = await IMSDK.getHistoryMessageList({
+					userID: recvID,
+					count: 50,
+					startMsgID: "",
+				});
+				setMessages(history);
+			} catch (err) {
+				console.error("Error fetching chat history", err);
+			}
+		},
+		messages: messages,
 	};
 
 	return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;

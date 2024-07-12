@@ -5,8 +5,10 @@ import { TbPinFilled } from "react-icons/tb";
 import { formatDate, generateArray } from "../../../../helpers/function";
 import { UploadFile } from "./upload-file";
 import { UseAuth } from "../../../../context/auth-context";
+import { UseChat } from "../../../../context/chat-context";
 
 export function GigDispute() {
+	UseChat()
 	const { name } = UseAuth();
 	const [open, setOpen] = useState(false);
 	return (
@@ -32,7 +34,7 @@ export function GigDispute() {
 				</div>
 			</div>
 			<div className="py-2 flex-1 overflow-y-auto">
-				{generateArray(20).map((_, index) => (
+				{/* {generateArray(20).map((_, index) => (
 					<div
 						key={index}
 						className={`${index % 2 === 0 ? "mr-auto" : "ml-auto"} w-fit py-2`}
@@ -60,7 +62,7 @@ export function GigDispute() {
 							adipisicing elit. Consequuntur maiores architecto deserunt,
 						</div>
 					</div>
-				))}
+				))} */}
 			</div>
 			<div className="p-2 border rounded-md flex items-center gap-1">
 				<span onClick={() => setOpen(true)}>

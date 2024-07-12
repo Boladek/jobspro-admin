@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { DashBoardWrapper } from "../../../../component/dashboard-wrapper";
 import {
-	redirect,
-	useLocation,
+	// redirect,
+	// useLocation,
 	useNavigate,
 	useParams,
 } from "react-router-dom";
@@ -11,7 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import profileAxios from "../../../../helpers/profileAxios";
 import { ProGigTimeLine } from "./gig-timeline";
 import { GigDispute } from "./gig-dispute";
-import { GigChat } from "../business/gig-chat";
+import { GigChat } from "./gig-chat";
 
 export function GigSummaryPro() {
 	const navigate = useNavigate();
@@ -29,8 +29,6 @@ export function GigSummaryPro() {
 		staleTime: Infinity,
 		enabled: !!role && !!id,
 	});
-
-	console.log({ data });
 
 	return (
 		<DashBoardWrapper>
@@ -69,7 +67,7 @@ export function GigSummaryPro() {
 							</div>
 							<div
 								className={`${
-									activeTab === "dispute"
+									activeTab === "chat"
 										? "border-b-yellow-300 border-b-4"
 										: ""
 								} p-0.5 cursor-pointer`}
