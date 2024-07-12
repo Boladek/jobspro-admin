@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { DashBoardWrapper } from "../../../../component/dashboard-wrapper";
 import { useNavigate, useParams } from "react-router-dom";
 import { GigDetails } from "../gig-details";

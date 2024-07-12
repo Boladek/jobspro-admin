@@ -7,7 +7,7 @@ export const configKeys = {
 	facebookSecret: import.meta.env.VITE_FB_SECRET,
 	microsoftID: import.meta.env.VITE_MS_ID,
 	microsoftSecret: import.meta.env.VITE_MS_SECRET,
-	wsAddress: import.meta.env.VITE_WS_ADDRESS || "http://54.191.23.207:10002",
-	apiAddress: import.meta.env.VITE_API_ADDRESS || "ws://54.191.23.207:10001",
+	wsAddress: import.meta.env.VITE_WS_ADDRESS || "ws://54.191.23.207:10001",
+	apiAddress: import.meta.env.VITE_API_ADDRESS || "http://54.191.23.207:10002",
 	placesApiID: import.meta.env.VITE_PLACES_ID,
 };

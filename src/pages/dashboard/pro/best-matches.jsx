@@ -19,8 +19,6 @@ export function BestMatches() {
 		experience,
 	} = UseGig();
 
-	console.log({ experience });
-
 	function getWeekBounds(date) {
 		const startOfWeek = new Date(date);
 		const endOfWeek = new Date(date);
@@ -136,10 +134,8 @@ export function BestMatches() {
 		min,
 		max,
 		time,
-		experience,
+		// experience,
 	]);
-
-	console.log({ filteredGigs });
 
 	return (
 		<div className="p-4">
