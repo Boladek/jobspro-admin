@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { GrAttachment } from "react-icons/gr";
 import { IoSendSharp } from "react-icons/io5";
 import { TbPinFilled } from "react-icons/tb";
-import { formatDate, generateArray } from "../../../../helpers/function";
+import { formatDate } from "../../../../helpers/function";
 import { UploadFile } from "../pro/upload-file";
 import { UseAuth } from "../../../../context/auth-context";
 
