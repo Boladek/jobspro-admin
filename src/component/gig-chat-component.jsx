@@ -63,7 +63,7 @@ function formatTime(timestamp) {
 	const formattedMinutes = minutes < 10 ? "0" + minutes : minutes;
 
 	// Construct the final time string
-	const timeString = hours + ":" + formattedMinutes + ampm;
+	const timeString = hours + ":" + formattedMinutes + " " + ampm;
 
 	return timeString;
 }

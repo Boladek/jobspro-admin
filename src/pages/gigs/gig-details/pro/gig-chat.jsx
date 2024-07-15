@@ -11,7 +11,6 @@ import { UseChat } from "../../../../context/chat-context";
 import { GigChatComponent } from "../../../../component/gig-chat-component";
 
 export function GigChat({ gig }) {
-	console.log({ gig });
 	const chatEndRef = useRef(null);
 
 	// Function to scroll to the bottom
@@ -31,8 +30,6 @@ export function GigChat({ gig }) {
 		sendMessage({ message: text, recvID: receivedId });
 		setText("");
 	};
-
-	console.log({ messages });
 
 	const handleChange = (e) => {
 		const { value } = e.target;

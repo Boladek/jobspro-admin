@@ -19,7 +19,6 @@ export const ChatProvider = ({ children }) => {
 	const [messages, setMessages] = useState([]);
 	const { user } = useSelector((state) => state.auth);
 
-	// Function to handle sending a message
 	const handleSendMessage = ({ message, recvID, groupID }) => {
 		IMSDK.createTextMessage(message)
 			.then((data) => {
@@ -30,38 +29,22 @@ export const ChatProvider = ({ children }) => {
 				});
 			})
 			.then(({ data }) => {
-				// Update the state with the new message
 				setMessages((prevMessages) => [...prevMessages, data]);
 				console.log({ data });
 			})
 			.catch((err) => console.log(err));
 	};
 
-	// const getPersonalConversion = ({ recvID }) => {
-	// 	IMSDK.getOneConversation({
-	// 		sourceID: recvID,
-	// 		sessionType: 1,
-	// 	})
-	// 		.then(({ data }) => {
-	// 			console.log({ data });
-	// 		})
-	// 		.catch(({ errCode, errMsg }) => {
-	// 			console.log({ errMsg });
-	// 		});
-	// };
+	// useEffect(() => {
+	// 	localStorage.setItem("chatMessages", JSON.stringify(messages));
+	// }, [messages]);
 
-	// Save messages to local storage
-	useEffect(() => {
-		localStorage.setItem("chatMessages", JSON.stringify(messages));
-	}, [messages]);
-
-	// Load messages from local storage
-	useEffect(() => {
-		const storedMessages = localStorage.getItem("chatMessages");
-		if (storedMessages) {
-			setMessages(JSON.parse(storedMessages));
-		}
-	}, []);
+	// useEffect(() => {
+	// 	const storedMessages = localStorage.getItem("chatMessages");
+	// 	if (storedMessages) {
+	// 		setMessages(JSON.parse(storedMessages));
+	// 	}
+	// }, []);
 
 	const login = async ({ userID, token }) => {
 		console.log({ configKeys });
@@ -109,7 +92,7 @@ export const ChatProvider = ({ children }) => {
 
 		const initIM = async () => {
 			try {
-				console.log({ user });
+				// console.log({ user });
 				await IMSDK.login({
 					userID: user.openIMUserID,
 					token: user.openIMToken,

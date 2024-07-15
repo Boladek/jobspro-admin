@@ -6,8 +6,10 @@ import profileAxios from "../../../helpers/profileAxios";
 import { useState } from "react";
 import { Overlay } from "../../../component/overlay-component";
 import { toast } from "react-toastify";
+import { UseAuth } from "../../../context/auth-context";
 
 export function AboutUs({ open, handleClose }) {
+	const { refetch } = UseAuth();
 	const [loading, setLoading] = useState(false);
 	const [about, setAbout] = useState("");
 
@@ -20,6 +22,10 @@ export function AboutUs({ open, handleClose }) {
 			})
 			.then((res) => {
 				toast.success(res.message);
+				refetch();
+				setTimeout(() => {
+					handleClose();
+				}, 3000);
 			})
 			.catch((err) => {
 				toast.error(err.response.data.message);
@@ -33,7 +39,7 @@ export function AboutUs({ open, handleClose }) {
 			{loading && <Overlay message="Uploading Info" />}
 			<Modal open={open} handleClose={handleClose} maxWidth={400}>
 				<form className="w-full p-2" onSubmit={submit}>
-					<p className="font-bold text-primary text-2xl">About us</p>
+					<p className="font-bold text-primary text-2xl">About</p>
 					<p className="text-xs text-gray-400">
 						More information should be placed here
 					</p>
