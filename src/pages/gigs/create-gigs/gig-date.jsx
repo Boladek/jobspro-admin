@@ -90,7 +90,7 @@ export function GigDate({ handleForm, gotoNextStep, goBack }) {
 						</span>
 					</div>
 				</div>
-				<div className="grid grid-cols-7 gap-2 pt-4">
+				<div className="grid grid-cols-7 gap-2 pt-4 text-xs">
 					{WEEKDAYS.map((day) => {
 						return (
 							<div key={day} className="text-center text-primary">
@@ -102,17 +102,35 @@ export function GigDate({ handleForm, gotoNextStep, goBack }) {
 						return <div key={`empty-${index}`} />;
 					})}
 					{daysInMonth.map((day, index) => {
+						const today = new Date().getDate();
+						const currentDay = new Date(day).getDate();
+
+						function handleDateStyle() {
+							if (currentDay >= today) {
+								if (isToday(day)) {
+									return "bg-primary text-white cursor-pointer";
+								} else {
+									if (selected && day.getTime() === selected.getTime()) {
+										return "bg-dark text-white";
+									} else {
+										return "text-primary cursor-pointer";
+									}
+								}
+							}
+							return "bg-gray-300 text-black cursor-not-allowed";
+						}
+
+						function handleClick(day) {
+							if (currentDay >= today) {
+								setSelected(day);
+							}
+						}
+
 						return (
 							<div
 								key={`${index}-days`}
-								onClick={() => setSelected(day)}
-								className={`${
-									isToday(day)
-										? "bg-primary text-white"
-										: selected && day.getTime() === selected.getTime()
-										? "bg-dark text-white"
-										: "text-primary"
-								} text-center h-8 w-8 rounded-full mx-auto cursor-pointer flex justify-center items-center`}
+								onClick={() => handleClick(day)}
+								className={`${handleDateStyle()} text-center h-8 w-8 rounded-full mx-auto flex justify-center items-center`}
 							>
 								{format(day, "d")}
 							</div>
@@ -123,7 +141,7 @@ export function GigDate({ handleForm, gotoNextStep, goBack }) {
 			{selected && (
 				<div className="max-w-sm mx-auto py-4">
 					<div className="p-3 border rounded-lg">
-						<p className="text-xs">Date</p>
+						<p className="text-xs">Selected Date</p>
 						<p>{format(selected, "PPP")}</p>
 					</div>
 					<div className="my-2">
