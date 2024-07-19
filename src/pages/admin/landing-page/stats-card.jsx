@@ -13,7 +13,7 @@ export function StatsCard({
 }) {
 	return (
 		<div
-			className="bg-cover bg-center h-[150px] p-4 rounded-xl text-white min-w-56"
+			className="bg-cover bg-center h-[120px] p-4 rounded-xl text-white min-w-56"
 			style={{ backgroundImage: `url(${bg})`, backgroundColor: bgColor }}
 		>
 			<div className="flex items-center h-1/2 justify-between">

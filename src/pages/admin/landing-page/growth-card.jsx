@@ -5,19 +5,19 @@ import { formatDate, formatNumber } from "../../../helpers/function";
 export function GrowthCard() {
 	return (
 		<div
-			className="bg-cover bg-center h-[150px] rounded-xl flex flex-col min-w-48"
+			className="bg-cover bg-center h-[120px] rounded-xl flex flex-col min-w-48"
 			style={{
 				border: "0.5px solid #1C4486",
 			}}
 		>
 			<div
-				className="p-3 flex justify-between items-center text-xs"
+				className="p-3 flex justify-between items-center text-tiny"
 				style={{
 					borderBottom: "0.5px solid #1C4486",
 				}}
 			>
 				<span className="font-extralight">Growth Check</span>
-				<span className="px-3 py-1 bg-[#E5EEFF] rounded-full text-[#1A68FF] font-semibold">
+				<span className="p-2 bg-[#E5EEFF] rounded-full text-[#1A68FF] font-semibold">
 					Globally
 				</span>
 			</div>

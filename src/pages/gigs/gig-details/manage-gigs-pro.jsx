@@ -239,5 +239,8 @@ export function ManageGigsPro() {
 function handleProgressColor(stat) {
 	if (stat === "cancelled") return "red";
 	if (stat === "completed") return "green";
-	return "orange";
+	if (stat === "dispute") return "orange";
+	if (stat === "hired") return "blue";
+	if (stat === "new") return "gray";
+	return "yellow";
 }

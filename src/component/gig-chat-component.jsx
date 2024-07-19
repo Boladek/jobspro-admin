@@ -4,12 +4,12 @@ import { UseAuth } from "../context/auth-context";
 
 export function GigChatComponent({
 	isUser,
-	text,
+	// text,
 	userName,
-	partyName,
+	// partyName,
 	message,
 }) {
-	console.log({ message });
+	// console.log({ message });
 
 	return (
 		<div
@@ -25,13 +25,23 @@ export function GigChatComponent({
 				<div className="bg-gray-300 flex-1" style={{ height: "1px" }} />
 				<span className="font-bold">{!isUser ? "Other Party" : userName}</span>
 			</div>
-			<div
-				className={`${
-					!isUser ? "bg-[#004D7A] text-white" : "bg-adminPrimary/5 border"
-				} w-full text-tiny p-4 rounded-2xl text-wrap`}
-			>
-				{message.textElem.content}
-			</div>
+			{message.contentType === 101 ? (
+				<div
+					className={`${
+						!isUser ? "bg-[#004D7A] text-white" : "bg-adminPrimary/5 border"
+					} w-full text-tiny p-4 rounded-2xl text-wrap`}
+				>
+					{message.textElem.content}
+				</div>
+			) : (
+				<div
+					className={`${
+						!isUser ? "bg-[#004D7A] text-white" : "bg-adminPrimary/5 border"
+					} w-full text-tiny p-4 rounded-2xl text-wrap`}
+				>
+					Sent a file
+				</div>
+			)}
 		</div>
 	);
 }

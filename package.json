@@ -12,6 +12,7 @@
   "dependencies": {
     "@azure/msal-browser": "^3.14.0",
     "@azure/msal-react": "^2.0.16",
+    "@nivo/bar": "^0.87.0",
     "@nivo/pie": "^0.87.0",
     "@react-google-maps/api": "^2.19.3",
     "@react-oauth/google": "^0.12.1",
@@ -21,8 +22,7 @@
     "date-fns": "^3.6.0",
     "flowbite": "^2.3.0",
     "flowbite-react": "^0.9.0",
-    "open-im-sdk": "^3.5.2",
-    "open-im-sdk-wasm": "^3.5.3-alpha.7",
+    "open-im-sdk-wasm": "^3.8.0-rc.2",
     "react": "^18.2.0",
     "react-circular-progressbar": "^2.1.0",
     "react-dom": "^18.2.0",

@@ -25,11 +25,11 @@ export const links = [
 		url: "/admin/messages",
 		icon: TextingIcon,
 	},
-	{
-		title: "Disputes",
-		url: "/admin/disputes",
-		icon: RingingBellIcon,
-	},
+	// {
+	// 	title: "Disputes",
+	// 	url: "/admin/disputes",
+	// 	icon: RingingBellIcon,
+	// },
 	{
 		title: "Push Notifications",
 		url: "/admin/push-notifications",

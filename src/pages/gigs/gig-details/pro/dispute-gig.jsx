@@ -45,12 +45,17 @@ export function DisputeGig({ open, handleClose }) {
 			>
 				{loading && <Overlay message="Disputing Gig" />}
 				<div>
-					<p className={`text-primary text-3xl font-bold mb-4`}>
-						Dispute Gig
-					</p>
+					<p className={`text-primary text-3xl font-bold mb-4`}>Dispute Gig</p>
 					<p className="text-sm text-gray-500 mb-6 px-2">
 						Are you sure you want to raise a dispute?
 					</p>
+				</div>
+				<div>
+					<BaseTextArea
+						value={reason}
+						onChange={(e) => setReason(e.target.value)}
+						required
+					/>
 				</div>
 				<div className="flex gap-2 items-center">
 					<div className="flex-1">

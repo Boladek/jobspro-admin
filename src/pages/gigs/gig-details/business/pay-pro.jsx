@@ -70,7 +70,7 @@ export function PayPro({ open, handleClose, gig, openOtp }) {
 							<div className="flex gap-2 text-sm text-primary">
 								<div className="w-2/5 font-bold">Total</div>
 								<div className="flex-1 font-bold">
-									NGN {formatNumber(gig.payoutFee, 2)}
+									NGN {formatNumber(gig.totalBudget, 2)}
 								</div>
 							</div>
 						</div>

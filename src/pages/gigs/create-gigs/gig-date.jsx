@@ -21,7 +21,9 @@ export function GigDate({ handleForm, gotoNextStep, goBack }) {
 		register,
 		formState: { errors },
 		handleSubmit,
+		watch,
 	} = useForm();
+	const watchStarTime = watch("startTime");
 
 	const [currentMonth, setCurrentMonth] = useState(new Date());
 	const firstDayOfMonth = startOfMonth(currentMonth);
@@ -142,6 +144,7 @@ export function GigDate({ handleForm, gotoNextStep, goBack }) {
 							{...register("endTime", {
 								required: "This field is required",
 							})}
+							min={watchStarTime}
 							error={errors.endTime}
 							errorText={errors.endTime && errors.endTime.message}
 						/>

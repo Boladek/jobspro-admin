@@ -36,6 +36,8 @@ export function GigChat({ gig }) {
 		scrollToBottom();
 	}, [messages]);
 
+	console.log({ messages });
+
 	return (
 		<div
 			className="p-2 px-4 md:px-8 max-w-xl mx-auto flex flex-col border"

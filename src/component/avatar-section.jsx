@@ -105,16 +105,23 @@ export function AvatarSection() {
 
 	return (
 		<div className="relative">
-			<img
-				src={details.profilePicture ?? avatar}
-				className="h-9 w-9 rounded-full cursor-pointer hover:opacity-80"
-				id="menu-button"
+			<div
+				className="flex gap-2 items-center cursor-pointer"
+				ref={dropdownRef}
 				aria-haspopup="true"
 				onClick={toggleDropdown}
-				alt="Avatar"
-				title="Click to see more information"
-				ref={dropdownRef}
-			/>
+			>
+				<div className="px-6 py-1 rounded-full text-xs border bg-gray-200 text-[#66857F] font-semibold capitalize border-black/20">
+					{user.userType}
+				</div>
+				<img
+					src={details.profilePicture ?? avatar}
+					className="h-9 w-9 rounded-full hover:opacity-80"
+					id="menu-button"
+					alt="Avatar"
+					title="Click to see more information"
+				/>
+			</div>
 
 			{isDropdownOpen && (
 				<div
