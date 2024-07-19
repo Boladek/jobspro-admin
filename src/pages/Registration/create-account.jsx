@@ -1,13 +1,6 @@
 import { toast } from "react-toastify";
 import { useGoogleLogin } from "@react-oauth/google";
-// import FacebookLogin from "react-facebook-login";
 import axios from "axios";
-// import {
-// 	MsalProvider,
-// 	AuthenticatedTemplate,
-// 	UnauthenticatedTemplate,
-// } from "@azure/msal-react";
-// import { PublicClientApplication } from "@azure/msal-browser";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -17,75 +10,12 @@ import { BaseSelect } from "../../component/select";
 import eye from "../../assets/eye.png";
 import eyeSlash from "../../assets/eye-slash.png";
 import google from "../../assets/google.png";
-// import microsoft from "../../assets/microsoft-icon.png";
-// import facebook from "../../assets/facebook.png";
 import { countriesCode } from "../../helpers/countries";
-import customAxios from "../../helpers/customAxios";
 import { Overlay } from "../../component/overlay-component";
 import { colors } from "../../helpers/theme";
 import profileAxios from "../../helpers/profileAxios";
-// import { configKeys } from "../../helpers/config";
-// import {
-// 	LoginSocialGoogle,
-// 	LoginSocialAmazon,
-// 	LoginSocialFacebook,
-// 	LoginSocialGithub,
-// 	LoginSocialInstagram,
-// 	LoginSocialLinkedin,
-// 	LoginSocialMicrosoft,
-// 	LoginSocialPinterest,
-// 	LoginSocialTwitter,
-// 	LoginSocialApple,
-// 	// IResolveParams,
-// } from "reactjs-social-login";
-// import {
-// 	FacebookLoginButton,
-// 	GoogleLoginButton,
-// 	GithubLoginButton,
-// 	AmazonLoginButton,
-// 	InstagramLoginButton,
-// 	LinkedInLoginButton,
-// 	MicrosoftLoginButton,
-// 	TwitterLoginButton,
-// 	AppleLoginButton,
-// } from "react-social-login-buttons";
-
-// const REDIRECT_URI = window.location.href;
-
-/*
-	 
-
-        <LoginSocialGoogle
-          client_id={process.env.REACT_APP_GG_APP_ID || ''}
-          onLoginStart={onLoginStart}
-          redirect_uri={REDIRECT_URI}
-          scope="openid profile email"
-          discoveryDocs="claims_supported"
-          access_type="offline"
-          onResolve={({ provider, data }: IResolveParams) => {
-            setProvider(provider);
-            setProfile(data);
-          }}
-          onReject={err => {
-            console.log(err);
-          }}
-        >
-          <GoogleLoginButton />
-        </LoginSocialGoogle>
-
-        
-
-*/
 
 function CreateAccountPage() {
-	// const msalConfig = {
-	// 	auth: {
-	// 		clientId: configKeys.microsoftID,
-	// 		redirectUri: "http://localhost:5173",
-	// 	},
-	// };
-	// const msalInstance = new PublicClientApplication(msalConfig);
-
 	const navigate = useNavigate();
 	const { role } = useParams();
 	const {
@@ -107,7 +37,6 @@ function CreateAccountPage() {
 	const [numberCharCheck, setNumberCharCheck] = useState(false);
 	const [capitalCheck, setCapitalCheck] = useState(false);
 	const isUpperCase = (string) => /[A-Z]/.test(string);
-	// const [googleCode, setGoogleCode] = useState("");
 
 	const onSubmit = (data) => {
 		if (data.confirmPassword !== data.password) {
@@ -256,45 +185,6 @@ function CreateAccountPage() {
 						>
 							<img src={google} className="h-5" alt="Google login" />{" "}
 							<span className="cursor-pointer">Google</span>
-							{/* <LoginSocialGoogle
-								client_id="568708133732-3uivs8429tig4nel8hgtq3q9m9b39hd3.apps.googleusercontent.com"
-								onLoginStart={onLoginStart}
-								redirect_uri={REDIRECT_URI}
-								scope="openid profile email"
-								discoveryDocs="claims_supported"
-								access_type="offline"
-								onResolve={({ provider, data }) => {
-									// setProvider(provider);
-									// setProfile(data);
-									// console.log({ provider, data });
-									// setGoogleCode(data.code);
-
-									axios
-										.get(
-											`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${data.code}`,
-											{
-												headers: {
-													Authorization: `Bearer ${data.code}`,
-													Accept: "application/json",
-												},
-											}
-										)
-										.then((res) => {
-											// setProfile(res.data);
-											console.log({ res });
-											setValue("lastName", res.data.family_name);
-											setValue("firstName", res.data.given_name);
-											setValue("email", res.data.email);
-											// setValue("companyName", res.data.name);
-										})
-										.catch((err) => console.log(err));
-								}}
-								onReject={(err) => {
-									console.log(err);
-								}}
-							>
-								<GoogleLoginButton />
-							</LoginSocialGoogle> */}
 						</div>
 					</div>
 					<div className="flex items-center mb-4 text-xs text-gray-400 gap-2">
@@ -321,6 +211,11 @@ function CreateAccountPage() {
 						label="Company Name"
 						{...register("companyName", {
 							required: "This field is required",
+							minLength: {
+								value: 2,
+								message: "Atleast minimum of 2 characters is required",
+							},
+							setValueAs: (v) => v.trim(),
 						})}
 						error={errors.companyName}
 						errorText={errors.companyName && errors.companyName.message}
@@ -333,6 +228,11 @@ function CreateAccountPage() {
 							label="First Name"
 							{...register("firstName", {
 								required: "This field is required",
+								minLength: {
+									value: 2,
+									message: "Atleast minimum of 2 characters is required",
+								},
+								setValueAs: (v) => v.trim(),
 							})}
 							error={errors.firstName}
 							errorText={errors.firstName && errors.firstName.message}
@@ -343,6 +243,11 @@ function CreateAccountPage() {
 							label="Last Name"
 							{...register("lastName", {
 								required: "This field is required",
+								minLength: {
+									value: 2,
+									message: "Atleast minimum of 2 characters is required",
+								},
+								setValueAs: (v) => v.trim(),
 							})}
 							error={errors.lastName}
 							errorText={errors.lastName && errors.lastName.message}
@@ -356,6 +261,11 @@ function CreateAccountPage() {
 					label="Email"
 					{...register("email", {
 						required: "This field is required",
+						pattern: {
+							value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+							message: "invalid email address",
+						},
+						setValueAs: (value) => value.trim(),
 					})}
 					error={errors.email}
 					errorText={errors.email && errors.email.message}
@@ -386,6 +296,7 @@ function CreateAccountPage() {
 							label="Phone Number"
 							{...register("phoneNumber", {
 								required: "This field is required",
+								setValueAs: (v) => v.trim(),
 							})}
 							error={errors.phoneNumber}
 							errorText={errors.phoneNumber && errors.phoneNumber.message}

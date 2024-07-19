@@ -68,6 +68,9 @@ export function UploadFile({ open, handleClose, picture, handlePicture }) {
 		const formData = new FormData();
 		formData.append("file", file);
 
+		handlePicture(file);
+		setFile(null);
+		handleClose();
 		// profileAxios
 		// 	.post("profile/upload-image", formData, {
 		// 		headers: {

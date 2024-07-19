@@ -34,6 +34,8 @@ import GigDetailsSummary from "../pages/gigs/gig-details";
 import CreateGigPage from "../pages/gigs/create-gigs";
 import EscrowPage from "../pages/more/earnings/escrow-page";
 import AccountProfilePage from "../pages/account-profile";
+import { DashboardMainPage } from "../pages/admin/landing-page/main-page";
+import { DashboardLogsPage } from "../pages/admin/landing-page/logs-page";
 
 const router = createBrowserRouter([
 	{
@@ -164,6 +166,17 @@ const router = createBrowserRouter([
 			{
 				path: "dashboard",
 				element: <AdminLandingPage />,
+				children: [
+					{
+						index: true,
+						element: <DashboardMainPage />,
+					},
+					{
+						path: "logs",
+						element: <DashboardLogsPage />,
+					},
+
+				],
 			},
 			{
 				path: "users",

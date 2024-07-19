@@ -5,6 +5,7 @@ import { UseKyc } from "../../../../context/kyc-context";
 import { FaceCapturePage } from "./face-capture-page";
 import { UseAuth } from "../../../../context/auth-context";
 import { BusinessVerification } from "./business-verification";
+import { BvnOTP } from "./bvn-otp";
 
 export function Tier1() {
 	const { user } = UseAuth();
@@ -32,7 +33,7 @@ export function Tier1() {
 							</div>
 							<div
 								className="p-4 border rounded-md border-adminPrimary flex gap-4 items-center"
-								onClick={() => setStep(3)}
+								onClick={() => setStep(4)}
 							>
 								<div className="p-2 rounded-full bg-primary/30 w-fit">
 									<RequirementsIcon />
@@ -82,8 +83,15 @@ export function Tier1() {
 							goBack={() => setStep(1)}
 						/>
 					)}
-
 					{step === 3 && (
+						<BvnOTP
+							gotoNextPage={() => setStep(4)}
+							bvn={bvn}
+							goBack={() => setStep(2)}
+						/>
+					)}
+
+					{step === 4 && (
 						<FaceCapturePage
 							gotoNextPage={() => {
 								setStep(4);

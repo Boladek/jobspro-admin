@@ -2,7 +2,6 @@ import { useRef, useState, useEffect } from "react";
 import { GrAttachment } from "react-icons/gr";
 import { IoSendSharp } from "react-icons/io5";
 import { TbPinFilled } from "react-icons/tb";
-import { generateArray } from "../../../../helpers/function";
 import { UploadFile } from "../pro/upload-file";
 import { UseAuth } from "../../../../context/auth-context";
 import PropTypes from "prop-types";
@@ -11,7 +10,6 @@ import { UseChat } from "../../../../context/chat-context";
 import { GigChatComponent } from "../../../../component/gig-chat-component";
 
 export function GigChat({ gig }) {
-	console.log({ gig });
 	const chatEndRef = useRef(null);
 
 	// Function to scroll to the bottom
@@ -22,7 +20,8 @@ export function GigChat({ gig }) {
 	// Scroll to the bottom whenever messages change
 
 	const { name, user } = UseAuth();
-	const { sendMessage, messages } = UseChat();
+	const { sendMessage, messages, handleSendFile } = UseChat();
+	console.log({ messages });
 	const [open, setOpen] = useState(false);
 	const [text, setText] = useState("");
 
@@ -32,16 +31,21 @@ export function GigChat({ gig }) {
 		setText("");
 	};
 
-	console.log({ messages });
-
 	const handleChange = (e) => {
 		const { value } = e.target;
 		setText(value);
 	};
 
+	const sendFile = (file) => {
+		const receivedId = gig?.user?.openIMUserID;
+		handleSendFile({ file, recvID: receivedId });
+	};
+
 	useEffect(() => {
 		scrollToBottom();
 	}, [messages]);
+
+	console.log({ messages });
 
 	return (
 		<div
@@ -92,7 +96,7 @@ export function GigChat({ gig }) {
 				<UploadFile
 					open={open}
 					handleClose={() => setOpen(false)}
-					handlePicture={() => null}
+					handlePicture={(file) => sendFile(file)}
 				/>
 			)}
 		</div>

@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { GrAttachment } from "react-icons/gr";
 import { IoSendSharp } from "react-icons/io5";
 import { TbPinFilled } from "react-icons/tb";
-import { generateArray } from "../../../../helpers/function";
 import { UploadFile } from "../pro/upload-file";
 import { UseAuth } from "../../../../context/auth-context";
 import PropTypes from "prop-types";
@@ -11,6 +10,12 @@ import { UseChat } from "../../../../context/chat-context";
 import { GigChatComponent } from "../../../../component/gig-chat-component";
 
 export function GigChat({ gig }) {
+	const chatEndRef = useRef(null);
+
+	// Function to scroll to the bottom
+	const scrollToBottom = () => {
+		chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+	};
 	const { name, user } = UseAuth();
 	const { sendMessage, messages } = UseChat();
 	const [open, setOpen] = useState(false);
@@ -26,6 +31,12 @@ export function GigChat({ gig }) {
 		const { value } = e.target;
 		setText(value);
 	};
+
+	useEffect(() => {
+		scrollToBottom();
+	}, [messages]);
+
+	console.log({ messages });
 
 	return (
 		<div
@@ -46,8 +57,8 @@ export function GigChat({ gig }) {
 				</div>
 			</div>
 
-			<div className="py-2 flex-1 overflow-y-auto">
-				<div className="py-2 flex-1 overflow-y-auto">
+			<div className="p-2 flex-1 overflow-y-auto">
+				<div className="p-2 flex-1 overflow-y-auto">
 					{messages.map((message) => (
 						<GigChatComponent
 							key={message.clientMsgID}
@@ -56,6 +67,7 @@ export function GigChat({ gig }) {
 							userName={name}
 						/>
 					))}
+					<div ref={chatEndRef} />
 				</div>
 			</div>
 			<div className="p-2 border rounded-md flex items-center gap-1">

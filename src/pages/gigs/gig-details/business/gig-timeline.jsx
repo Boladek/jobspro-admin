@@ -608,6 +608,7 @@ export function BusinessGigTimeLine({ gig }) {
 						setOpenDispute(false);
 						refetch();
 					}}
+					refetch={refetch}
 				/>
 			)}
 		</div>

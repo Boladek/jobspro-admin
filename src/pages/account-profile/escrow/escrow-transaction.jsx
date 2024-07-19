@@ -9,7 +9,7 @@ export function EscrowTransaction({ transaction }) {
 				<img src={circle} alt="Circle" className="h-5" />
 			</div>
 			<div className="flex-1">
-				<p className="text-sm">{transaction.remarks || "N/A"}</p>
+				<p className="text-sm">{transaction.remarks || "No remarks"}</p>
 				<p className="text-tiny">{formatDate(transaction.createdAt)}</p>
 			</div>
 			<div className="text-xs">

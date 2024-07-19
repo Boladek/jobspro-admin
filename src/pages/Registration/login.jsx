@@ -43,10 +43,10 @@ function LoginPage() {
 				StorageService.setToken(res.token);
 				dispatch(loginSuccess(res.user));
 				navigate("/dashboard");
-				// chatLogin({
-				// 	userID: res.user.openIMUserID,
-				// 	token: res.user.openIMToken,
-				// });
+				chatLogin({
+					userID: res.user.openIMUserID,
+					token: res.user.openIMToken,
+				});
 			})
 			.catch((err) => {
 				console.log({ err });

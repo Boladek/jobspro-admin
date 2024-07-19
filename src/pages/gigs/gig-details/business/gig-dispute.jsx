@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { GrAttachment } from "react-icons/gr";
 import { IoSendSharp } from "react-icons/io5";
 import { TbPinFilled } from "react-icons/tb";
-import { formatDate, generateArray } from "../../../../helpers/function";
+import { formatDate } from "../../../../helpers/function";
 import { UploadFile } from "../pro/upload-file";
 import { UseAuth } from "../../../../context/auth-context";
 
@@ -35,37 +35,7 @@ export function GigDispute() {
 				<div className="">Dispute ID</div>
 			</div>
 
-			<div className="py-2 flex-1 overflow-y-auto">
-				{generateArray(20).map((_, index) => (
-					<div
-						key={index}
-						className={`${index % 2 === 0 ? "mr-auto" : "ml-auto"} w-fit py-2`}
-						style={{ maxWidth: "80%" }}
-					>
-						<div
-							className={`${
-								index % 2 === 0 ? "flex-row-reverse" : ""
-							} flex w-full gap-2 items-center text-tiny mb-1`}
-						>
-							<div>time</div>
-							<div className="bg-gray-300 flex-1" style={{ height: "1px" }} />
-							<span className="font-bold">
-								{index % 2 === 0 ? "Other Party" : name}
-							</span>
-						</div>
-						<div
-							className={`${
-								index % 2 === 0
-									? "bg-[#004D7A] text-white"
-									: "bg-adminPrimary/5 border"
-							} w-fit text-tiny p-4 rounded-2xl text-wrap`}
-						>
-							I sent everything Lorem ipsum dolor sit, amet consectetur
-							adipisicing elit. Consequuntur maiores architecto deserunt,
-						</div>
-					</div>
-				))}
-			</div>
+			<div className="py-2 flex-1 overflow-y-auto"></div>
 			<div className="p-2 border rounded-md flex items-center gap-1">
 				<span onClick={() => setOpen(true)}>
 					<GrAttachment className="text-2xl" />

@@ -1,10 +1,10 @@
 import logo from "../assets/logo.png";
-import menu from "../assets/menu-icon.png";
-import notification from "../assets/notification.png";
-import settings from "../assets/setting.png";
+// import menu from "../assets/menu-icon.png";
+// import notification from "../assets/notification.png";
+// import settings from "../assets/setting.png";
 import { LinkElement } from "./link";
 import { useState } from "react";
-import { SearchComponent } from "./search-component";
+// import { SearchComponent } from "./search-component";
 import { useNavigate } from "react-router-dom";
 import { AvatarSection } from "./avatar-section";
 import { useSelector } from "react-redux";

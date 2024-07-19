@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Calendar } from "./calendar";
 import { JobPostedCard } from "./job-posted-card";
-import { formatNumber } from "../../../helpers/function";
+import { formatNumber, generateArray } from "../../../helpers/function";
 
 export function JobsPosted() {
 	const today = new Date();
@@ -26,7 +26,7 @@ export function JobsPosted() {
 				</div>
 			</div>
 			<div className="mb-4 flex justify-between text-xs items-center">
-				<span className="p-2 bg-[#ECFFE7] rounded-lg">
+				<span className="p-2 bg-[#ECFFE7] rounded-lg text-xs font-bold">
 					{formatNumber(12345)} posted today
 				</span>
 				<span className="hover:underline cursor-pointer text-gray-500">
@@ -34,7 +34,7 @@ export function JobsPosted() {
 				</span>
 			</div>
 			<div className="flex flex-col gap-2">
-				{new Array(3).fill(0).map(() => (
+				{generateArray(3).map(() => (
 					<JobPostedCard key={Math.random()} />
 				))}
 			</div>

@@ -18,12 +18,12 @@ export function Calendar({
 	const [open, setOpen] = useState(false);
 	return (
 		<div
-			className="border px-2 py-2 rounded-full flex items-center gap-1 text-xs max-w-fit"
+			className="border px-3 py-1 rounded-full flex items-center gap-1 text-xs max-w-fit"
 			onClick={() => setOpen(true)}
 		>
-			<span>{formatDate(startDate)}</span>
+			<span className="text-tiny">{formatDate(startDate)}</span>
 			<span>-</span>
-			<span>{formatDate(endDate)}</span>
+			<span className="text-tiny">{formatDate(endDate)}</span>
 			<img src={calender} alt="Calendar" className="h-5 ml-1" />
 			{open && (
 				<Modal open={open} handleClose={() => setOpen(false)} maxWidth={400}>

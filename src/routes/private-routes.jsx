@@ -5,16 +5,19 @@ import { AuthProvider } from "../context/auth-context";
 import { KycProvider } from "../context/kyc-context";
 import { ModalProvider } from "../context/modal-context";
 import { DashboardProvider } from "../context/dashboard-context";
+import { ChatProvider } from "../context/chat-context";
 export function PrivateRoutes({ children }) {
 	return (
 		<AuthProvider>
-			<KycProvider>
-				<DashboardProvider>
-					<ModalProvider>
-						<div>{auth() ? children : <Navigate to="/" />}</div>
-					</ModalProvider>
-				</DashboardProvider>
-			</KycProvider>
+				<KycProvider>
+					<DashboardProvider>
+						<ModalProvider>
+							<div>{auth() ? children : <Navigate to="/" />}</div>
+						</ModalProvider>
+					</DashboardProvider>
+				</KycProvider>
+			{/* <ChatProvider>
+			</ChatProvider> */}
 		</AuthProvider>
 	);
 }

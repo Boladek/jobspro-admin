@@ -40,7 +40,7 @@ export function Paginate({
 				</select>
 			</div>
 			<div>
-				{currentPage + 1}- {totalPages} of {total}
+				Page {currentPage + 1}- {totalPages} of {total}
 			</div>
 			<div className="flex gap-3 items-center text-base">
 				<span>

@@ -73,7 +73,7 @@ export function GigSummaryBusiness() {
 							</div>
 							<div
 								className={`${
-									activeTab === "dispute"
+									activeTab === "chat"
 										? "border-b-yellow-300 border-b-4"
 										: ""
 								} p-0.5 cursor-pointer`}

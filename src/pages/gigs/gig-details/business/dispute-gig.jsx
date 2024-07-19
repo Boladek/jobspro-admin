@@ -8,8 +8,10 @@ import { BaseTextArea } from "../../../../component/text-area";
 import profileAxios from "../../../../helpers/profileAxios";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
+import { NotificationsHook } from "../../../../hooks/notifications-hook";
 
-export function DisputeGig({ open, handleClose }) {
+export function DisputeGig({ open, handleClose, refetch }) {
+	const { refetchNotifications } = NotificationsHook();
 	const location = useLocation();
 	const { gigData } = location.state;
 	const {
@@ -30,6 +32,8 @@ export function DisputeGig({ open, handleClose }) {
 			})
 			.then((res) => {
 				toast.success(res.message);
+				refetchNotifications();
+				refetch();
 				handleClose();
 			})
 			.catch((err) => toast.error(err.response.data.message))
@@ -82,4 +86,5 @@ export function DisputeGig({ open, handleClose }) {
 DisputeGig.propTypes = {
 	open: PropTypes.bool.isRequired,
 	handleClose: PropTypes.func.isRequired, // Proper usage of PropTypes
+	refetch: PropTypes.func,
 };
