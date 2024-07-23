@@ -3,6 +3,8 @@ import {
 	differenceInHours,
 	addHours,
 	startOfDay,
+	differenceInSeconds,
+	differenceInMinutes,
 } from "date-fns";
 
 export function appendZero(num) {
@@ -68,14 +70,20 @@ export const timeAgo = (date) => {
 	const now = new Date();
 	const diffDays = differenceInDays(now, date);
 	const diffHours = differenceInHours(now, date);
+	const diffMinutes = differenceInMinutes(now, date);
+	const diffSeconds = differenceInSeconds(now, date);
 
 	if (diffDays >= 7) {
 		const weeks = Math.floor(diffDays / 7);
 		return weeks === 1 ? "1 week ago" : `${weeks} weeks ago`;
 	} else if (diffDays > 0) {
 		return diffDays === 1 ? "1 day ago" : `${diffDays} days ago`;
-	} else {
+	} else if (diffHours > 0) {
 		return diffHours === 1 ? "1 hour ago" : `${diffHours} hours ago`;
+	} else if (diffMinutes > 0) {
+		return diffMinutes === 1 ? "1 minute ago" : `${diffMinutes} minutes ago`;
+	} else {
+		return diffSeconds === 1 ? "1 second ago" : `${diffSeconds} seconds ago`;
 	}
 };
 

@@ -51,8 +51,6 @@ export function BusinessGigTimeLine({ gig }) {
 		refetchOnWindowFocus: true,
 	});
 
-	console.log({ data });
-
 	return (
 		<div className="p-4 max-w-2xl mx-auto">
 			{isLoading ? (
@@ -81,12 +79,6 @@ export function BusinessGigTimeLine({ gig }) {
 										/>
 									</svg>
 								</span>
-								{/* <div className="p-2 rounded-lg border">
-									<p className="font-bold">{data.step1.title}</p>
-									<p className="font-small text-sm">
-										{data.step1.hoursAgo} hours ago
-									</p>
-								</div> */}
 								<TiimeLineBox title={data.step1.title}>
 									<p className="font-small text-sm">
 										{data.step1.hoursAgo} hours ago

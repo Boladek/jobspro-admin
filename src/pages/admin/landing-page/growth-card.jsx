@@ -11,27 +11,27 @@ export function GrowthCard() {
 			}}
 		>
 			<div
-				className="p-3 flex justify-between items-center text-tiny"
+				className="p-2 flex justify-between items-center text-tiny"
 				style={{
 					borderBottom: "0.5px solid #1C4486",
 				}}
 			>
 				<span className="font-extralight">Growth Check</span>
-				<span className="p-2 bg-[#E5EEFF] rounded-full text-[#1A68FF] font-semibold">
+				<span className="py-1 px-2 bg-[#E5EEFF] rounded-full text-[#1A68FF] font-semibold">
 					Globally
 				</span>
 			</div>
-			<div className="flex-1 p-3">
+			<div className="flex-1 p-2">
 				<div className="flex items-center justify-between">
 					<div className="flex gap-2 items-center">
 						<div>
 							<img src={chart} alt="Chart" className="h-10" />{" "}
 						</div>
 						<div>
-							<div className="text-xl text-[#1C4486] font-semibold">
+							<div className="text-lg text-[#1C4486] font-semibold">
 								{formatNumber(1000)}
 							</div>
-							<div className="text-xs text-[#667085]">Users added</div>
+							<div className="text-tiny text-[#667085]">Users added</div>
 						</div>
 					</div>
 					<div className="flex flex-col justify-center items-center gap-1">
@@ -39,7 +39,7 @@ export function GrowthCard() {
 						<span className="text-xs text-[#00DE74]">1.8%</span>
 					</div>
 				</div>
-				<div className="text-[#667085] font-extralight text-xs py-2">
+				<div className="text-[#667085] font-light text-tiny py-2">
 					{formatDate(new Date())}
 				</div>
 			</div>
