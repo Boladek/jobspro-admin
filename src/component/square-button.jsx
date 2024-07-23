@@ -4,9 +4,9 @@ import { Spinner } from "./spinner";
 
 export const SquareButton = ({
 	children,
-	loading,
+	// loading,
 	variant = "solid",
-	size = "normal",
+	// size = "normal",
 	...rest
 }) => {
 	return (

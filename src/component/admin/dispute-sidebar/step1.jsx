@@ -1,11 +1,16 @@
-import { SideWrapper } from "../side-wrapper";
+import { SideWrapper } from "../../side-wrapper";
 import PropTypes from "prop-types";
-import { ProgressBar } from "./progress-bar";
-import { DisputeTimeline } from "./dispute-timeline";
+import { ProgressBar } from "../progress-bar";
+import { DisputeTimeline } from "../dispute-timeline";
+import { BaseTextArea } from "../../text-area";
+import { IoSendSharp } from "react-icons/io5";
+import { MdOutlineCancel, MdOutlineClose } from "react-icons/md";
+import { useState } from "react";
 
-export function DisputeSideBar({ open, handleClose }) {
+export function Step1({ gotoNextStep }) {
+	const [showComment, setShowComment] = useState(false);
 	return (
-		<SideWrapper open={open} handleClose={handleClose}>
+		<>
 			<div className="w-[550px]">
 				<div className="flex gap-4 mb-4">
 					<div className="w-3/5 flex gap-2 items-center">
@@ -145,24 +150,47 @@ export function DisputeSideBar({ open, handleClose }) {
 				</ol>
 			</div>
 			<div className="px-8 pt-4 flex items-center">
-				<div className="text-xs font-bold">Action</div>
-				<div className="flex-1 flex justify-center gap-4">
-					<div className="border p-2 text-xs font-bold text-[#3514FF] bg-[#E9E5FF] rounded-md cursor-pointer">
-						Disburse Payment
+				{showComment && (
+					<div className="w-full relative">
+						<span
+							className="absolute right-0 top-2 z-10 border p-1 rounded-full bg-gray-100"
+							onClick={() => setShowComment(false)}
+						>
+							<MdOutlineClose className="text-xl hover:opacity-60" />
+						</span>
+						<BaseTextArea label="Finclusion Comment" />
+						<span className="absolute right-2 bottom-4 border z-10">
+							<IoSendSharp className="text-2xl hover:opacity-60" />
+						</span>
 					</div>
-					<div className="border p-2 text-xs font-bold text-[#1C4486] rounded-md cursor-pointer">
-						Make a comment
-					</div>
-					<div className="border p-2 text-xs font-bold text-[#1C4486] rounded-md cursor-pointer">
-						Close Dispute
-					</div>
-				</div>
+				)}
+				{!showComment && (
+					<>
+						<div className="text-xs font-bold">Action</div>
+						<div className="flex-1 flex justify-center gap-4">
+							<div
+								className="border p-2 text-xs font-bold text-[#3514FF] bg-[#E9E5FF] rounded-md cursor-pointer"
+								onClick={gotoNextStep}
+							>
+								Disburse Payment
+							</div>
+							<div
+								className="border p-2 text-xs font-bold text-[#1C4486] rounded-md cursor-pointer"
+								onClick={() => setShowComment(true)}
+							>
+								Make a comment
+							</div>
+							<div className="border p-2 text-xs font-bold text-[#1C4486] rounded-md cursor-pointer">
+								Close Dispute
+							</div>
+						</div>
+					</>
+				)}
 			</div>
-		</SideWrapper>
+		</>
 	);
 }
 
-DisputeSideBar.propTypes = {
-	open: PropTypes.bool,
-	handleClose: PropTypes.func,
+Step1.propTypes = {
+	gotoNextStep: PropTypes.func,
 };
