@@ -10,7 +10,7 @@ export function SideWrapper({ handleClose, children, title }) {
 			onClick={handleClose}
 		>
 			<div
-				className="bg-white p-2 md:px-8 md:py-4 w-full max-w-lg flex flex-col"
+				className="bg-white p-2 md:px-8 md:py-4 w-fit max-w-2xl flex flex-col"
 				onClick={(e) => e.stopPropagation()}
 			>
 				<div className="flex justify-between p-2 items-center">

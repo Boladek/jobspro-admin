@@ -20,7 +20,7 @@ import AdminMessagesPage from "../pages/admin/admin-messages-page";
 import AdminPushNotificationsPage from "../pages/admin/admin-push-notifications-page";
 import AdminJobsPage from "../pages/admin/admin-jobs-page";
 import AdminDisputesPage from "../pages/admin/admin-disputes-page";
-import AdminUsersPage from "../pages/admin/users/index";
+import AdminUsersPage from "../pages/admin/admin-users-page";
 import AdminUserDetailsPage from "../pages/admin/users/admin-user-details-page";
 import { PrivateRoutes } from "./private-routes";
 import LandingPage from "../pages/dashboard/landing-page";
@@ -36,6 +36,8 @@ import EscrowPage from "../pages/more/earnings/escrow-page";
 import AccountProfilePage from "../pages/account-profile";
 import { DashboardMainPage } from "../pages/admin/landing-page/main-page";
 import { DashboardLogsPage } from "../pages/admin/landing-page/logs-page";
+import { AdminUsersListPage } from "../pages/admin/users";
+import { AdminUsersProvider } from "../context/admin-users-context";
 
 const router = createBrowserRouter([
 	{
@@ -175,14 +177,17 @@ const router = createBrowserRouter([
 						path: "logs",
 						element: <DashboardLogsPage />,
 					},
-
 				],
 			},
 			{
 				path: "users",
-				element: <Outlet />,
+				element: (
+					<AdminUsersProvider>
+						<AdminUsersPage />
+					</AdminUsersProvider>
+				),
 				children: [
-					{ index: true, element: <AdminUsersPage /> },
+					{ index: true, element: <AdminUsersListPage /> },
 					{ path: ":userId", element: <AdminUserDetailsPage /> },
 				],
 			},

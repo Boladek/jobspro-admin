@@ -8,7 +8,7 @@ export function Modal({ children, handleClose, title, maxWidth = 400 }) {
 			onClick={(e) => e.stopPropagation()}
 		>
 			<div
-				className="bg-white p-4 rounded-xl relative inline-block"
+				className="bg-white p-4 rounded-xl relative inline-block max-h-screen"
 				style={{ width: "100%", maxWidth }}
 			>
 				<div className="flex justify-end">
@@ -17,7 +17,7 @@ export function Modal({ children, handleClose, title, maxWidth = 400 }) {
 						&#x2716;
 					</div>
 				</div>
-				<div className="overflow-y-auto">{children}</div>
+				<div className="overflow-y-auto max-h-[95vh]">{children}</div>
 			</div>
 		</div>
 	);
