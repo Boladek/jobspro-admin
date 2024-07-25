@@ -17,7 +17,7 @@ export function FeedBack({ goBack }) {
 		profileAxios
 			.post("/profile/feedback", {
 				feedback,
-				title: "Feedback",
+				title: "",
 			})
 			.then((res) => {
 				toast.success(res.message);
