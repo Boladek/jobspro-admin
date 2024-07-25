@@ -6,9 +6,11 @@ import { ConfirmPassworOtp } from "./confirm-password-otp";
 import { toast } from "react-toastify";
 import customAxios from "../../../helpers/customAxios";
 import { UseAuth } from "../../../context/auth-context";
+import { Overlay } from "../../../component/overlay-component";
 
 export function PasswordReset() {
 	const { user } = UseAuth();
+	const [loading, setLoading] = useState(false);
 	const {
 		register,
 		formState: { errors },
@@ -19,8 +21,6 @@ export function PasswordReset() {
 	const watchNewPassword = watch("newPassword", "");
 	const watchConfirmPassword = watch("confirmPassword");
 	const [formData, setFormData] = useState(null);
-
-	console.log({ user });
 
 	const [open, setOpen] = useState(false);
 
@@ -46,14 +46,18 @@ export function PasswordReset() {
 			return;
 		}
 		setFormData(data);
+		setLoading(true);
 		customAxios
-			.post("/auth/send-email-otp", {
-				email: user.email,
+			.post("/auth/initiate-change-password", {
+				oldPassword: data.prevPassword,
+				newPassword: data.newPassword,
 			})
 			.then((res) => {
 				toast.success(res.message);
 				setOpen(true);
-			});
+			})
+			.catch((err) => toast.error(err.response.data.message))
+			.finally(() => setLoading(false));
 	};
 
 	return (
@@ -61,6 +65,7 @@ export function PasswordReset() {
 			className="grid grid-cols-1 gap-4 py-8"
 			onSubmit={handleSubmit(onSubmit)}
 		>
+			{loading && <Overlay message="Initiating Password Reset" />}
 			<div>
 				<BaseInput
 					label="Previous Password"

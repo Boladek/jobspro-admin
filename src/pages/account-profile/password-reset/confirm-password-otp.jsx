@@ -21,6 +21,7 @@ export function ConfirmPassworOtp({ open, handleClose, data }) {
 			.put("/auth/change-password", {
 				oldPassword: data.prevPassword,
 				newPassword: data.newPassword,
+				code: otp,
 			})
 			.then(() => setStep(2))
 			.catch((err) => toast.error(err.response.data.message))

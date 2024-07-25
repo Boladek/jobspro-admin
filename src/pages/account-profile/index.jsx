@@ -12,6 +12,7 @@ import { ProfileSection } from "./profile-section";
 import { FAQSection } from "./faq";
 import { PasswordResetSection } from "./password-reset";
 import { useEffect } from "react";
+import { AccountSection } from "./account-section";
 
 function AccountProfilePage() {
 	// const { name, user } = UseAuth();
@@ -22,6 +23,7 @@ function AccountProfilePage() {
 		openProfile,
 		openFaq,
 		openPassword,
+		openAccount,
 	} = UseModal();
 
 	useEffect(() => {
@@ -61,6 +63,7 @@ function AccountProfilePage() {
 			{openProfile && <ProfileSection />}
 			{openFaq && <FAQSection />}
 			{openPassword && <PasswordResetSection />}
+			{openAccount && <AccountSection />}
 		</div>
 	);
 }

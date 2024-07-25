@@ -26,6 +26,8 @@ export function GigSummaryBusiness() {
 		enabled: !!role && !!id,
 	});
 
+	console.log({ data });
+
 	return (
 		<DashBoardWrapper>
 			<div className="flex flex-wrap gap-4 items-center p-2 w-full">
@@ -73,9 +75,7 @@ export function GigSummaryBusiness() {
 							</div>
 							<div
 								className={`${
-									activeTab === "chat"
-										? "border-b-yellow-300 border-b-4"
-										: ""
+									activeTab === "chat" ? "border-b-yellow-300 border-b-4" : ""
 								} p-0.5 cursor-pointer`}
 								onClick={() => setActiveTab("chat")}
 							>

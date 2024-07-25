@@ -10,9 +10,22 @@ export function ManageProfile() {
 		handleOpenProfile,
 		handleOpenFaq,
 		handleOpenPassword,
+		handleOpenAccount,
 	} = UseModal();
 	return (
 		<div className="flex gap-4 flex-wrap">
+			<div className="max-w-sm w-full" onClick={handleOpenProfile}>
+				<SectionCard
+					title="Profile"
+					text="Update your bio, location, skills e.t.c"
+				/>
+			</div>
+			<div className="max-w-sm w-full" onClick={handleOpenAccount}>
+				<SectionCard
+					title="Account"
+					text="Perform unique activities within your account like blocking, deletion, e.t.c"
+				/>
+			</div>
 			<div className="max-w-sm w-full" onClick={handleOpenKyc}>
 				<SectionCard
 					isReversed={false}
@@ -32,12 +45,6 @@ export function ManageProfile() {
 			</div>
 			<div className="max-w-sm w-full" onClick={handleOpenPassword}>
 				<SectionCard title="Password" text="Update your password" />
-			</div>
-			<div className="max-w-sm w-full" onClick={handleOpenProfile}>
-				<SectionCard
-					title="Account"
-					text="Update your bio, bank information, e.t.c"
-				/>
 			</div>
 			<div className="max-w-sm w-full" onClick={handleOpenFaq}>
 				<SectionCard title="FAQ" text="Most of your questions answered here" />
