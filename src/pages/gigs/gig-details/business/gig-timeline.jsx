@@ -22,7 +22,6 @@ import time from "../../../../assets/timer.png";
 import PropTypes from "prop-types";
 
 export function BusinessGigTimeLine({ gig }) {
-	const { id } = useParams();
 	const location = useLocation();
 	const { gigData } = location.state;
 	const [openCancel, setOpenCancel] = useState(false);
@@ -40,7 +39,7 @@ export function BusinessGigTimeLine({ gig }) {
 		isLoading,
 		refetch,
 	} = useQuery({
-		queryKey: ["fetch-gig-timeline" + id],
+		queryKey: ["fetch-gig-timeline" + gigData?.gigAccepted[0]?.uuid],
 		queryFn: () =>
 			profileAxios.get(
 				`/gigs/timeline/business/${gigData?.gigAccepted[0]?.uuid}`

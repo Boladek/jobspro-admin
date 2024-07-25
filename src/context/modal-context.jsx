@@ -17,6 +17,7 @@ export const ModalProvider = ({ children }) => {
 	const [openProfile, setOpenProfile] = useState(false);
 	const [openFaq, setOpenFaq] = useState(false);
 	const [openPassword, setOpenPassword] = useState(false);
+	const [openAccount, setOpenAccount] = useState(false);
 
 	const value = {
 		openWallet,
@@ -37,6 +38,9 @@ export const ModalProvider = ({ children }) => {
 		openPassword,
 		handleOpenPassword: () => setOpenPassword(true),
 		handleClosePassword: () => setOpenPassword(false),
+		openAccount,
+		handleOpenAccount: () => setOpenAccount(true),
+		handleCloseAccount: () => setOpenAccount(false),
 	};
 
 	return (

@@ -27,7 +27,7 @@ export function ProGigTimeLine({ gig }) {
 		isLoading,
 		refetch,
 	} = useQuery({
-		queryKey: ["fetch-pro-gig-timeline"],
+		queryKey: ["fetch-pro-gig-timeline" + gig?.gigAccepted[0]?.uuid],
 		queryFn: () =>
 			profileAxios.get(`/pro-gigs/timeline/${gig?.gigAccepted[0]?.uuid}`),
 		select: (data) => data.data,

@@ -1,19 +1,9 @@
 import { useState } from "react";
-// import { Modal } from "./modal";
-// import { BaseButton } from "./button";
 import { useForm } from "react-hook-form";
-// import { BaseInput } from "./input";
-// import { BaseTextArea } from "./text-area";
 import PropTypes from "prop-types";
-// import { useQuery } from "@tanstack/react-query";
-// import profileAxios from "../helpers/profileAxios";
-// import { BaseSelect } from "./select";
-// import { Overlay } from "../../../component/overlay-component";
-// import { BaseSelect } from "../../../component/select";
 import { Modal } from "../../../component/modal";
 import { BaseButton } from "../../../component/button";
 import { BaseTextArea } from "../../../component/text-area";
-// import { Overlay } from "./overlay-component";
 
 const tabs = ["yes", "no"];
 
