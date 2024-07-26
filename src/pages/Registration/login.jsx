@@ -20,7 +20,7 @@ import { UseChat } from "../../context/chat-context";
 function LoginPage() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const { chatLogin } = UseChat();
+	// const { chatLogin } = UseChat();
 	const { isAuthenticated } = useSelector((state) => state.auth);
 	const [finLogin, setFinLogin] = useState(true);
 	const [loading, setLoading] = useState(false);
@@ -43,10 +43,10 @@ function LoginPage() {
 				StorageService.setToken(res.token);
 				dispatch(loginSuccess(res.user));
 				navigate("/dashboard");
-				chatLogin({
-					userID: res.user.openIMUserID,
-					token: res.user.openIMToken,
-				});
+				// chatLogin({
+				// 	userID: res.user.openIMUserID,
+				// 	token: res.user.openIMToken,
+				// });
 			})
 			.catch((err) => {
 				console.log({ err });

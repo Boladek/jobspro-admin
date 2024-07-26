@@ -14,11 +14,12 @@ export function LinkElement({ link }) {
 	return (
 		<div
 			onClick={handleLink}
-			className={`cursor-pointer rounded-md capitalize px-2 py-2 text-base md:text-xs flex gap-1 items-center ${
-				isSelected ? "bg-adminPrimary/20 text-adminPrimary font-semibold" : ""
+			className={`cursor-pointer rounded-lg capitalize px-6 py-2 text-base md:text-xs flex gap-1 items-center ${
+				isSelected ? "bg-[#E5EEFF] text-adminPrimary font-semibold" : ""
 			} hover:bg-adminPrimary/5 hover:text-adminPrimary transition-all ease-linear duration-300`}
 		>
-			<link.icon fill={isSelected ? "#1A68FF" : "#667085"} /> {link.title}
+			<link.icon filled={isSelected} />
+			{link.title}
 		</div>
 	);
 }

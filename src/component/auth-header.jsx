@@ -12,12 +12,9 @@ import { DocIcon } from "../assets/doc-icon";
 import { PersonIcon } from "../assets/person-icon";
 import { HomeIcon } from "../assets/home-icon";
 import { Notifications } from "./notifications";
-// import { ChatBubbleIcon } from "../assets/chat-bubble-icon";
-
-// import { UseAuth } from "../context/auth-context";
-// import { useSelector } from "react-redux";
-
-// const links = ["dashboard", "tasks", "messages", "wallets", "settings"];
+import { DocIconFilled } from "../assets/doc-icon-filled";
+import { HomeIconFilled } from "../assets/home-icon-filled";
+import { ProfileIconFilled } from "../assets/profile-icon-filled";
 
 export function AuthHeader() {
 	const {
@@ -31,11 +28,26 @@ export function AuthHeader() {
 	};
 
 	const links = [
-		{ title: "dashboard", url: "/dashboard", icon: HomeIcon },
-		{ title: "gigs", url: `/gigs/${userType}`, icon: DocIcon },
+		{
+			title: "dashboard",
+			url: "/dashboard",
+			icon: HomeIcon,
+			// active: HomeIcon,
+		},
+		{
+			title: "gigs",
+			url: `/gigs/${userType}`,
+			icon: DocIcon,
+			// active: DocIcon,
+		},
 		// { title: "chats", url: "/messages", icon: ChatBubbleIcon },
 		// { title: "wallets", url: "/wallets" },
-		{ title: "profile", url: "/profile", icon: PersonIcon },
+		{
+			title: "profile",
+			url: "/profile",
+			icon: PersonIcon,
+			// active: PersonIcon,
+		},
 	];
 
 	return (
@@ -59,7 +71,6 @@ export function AuthHeader() {
 
 				<AvatarSection />
 			</div>
-	
 
 			{/* <div
 				className={`fixed inset-y-0 right-0 z-50 w-64 bg-white shadow-lg transition-transform transform ${
