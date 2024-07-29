@@ -30,12 +30,12 @@ if (auth()) {
 export default function App() {
 	return (
 		<QueryClientProvider client={queryClient}>
-			<ChatProvider>
-				<GoogleOAuthProvider clientId={configKeys.googleId}>
-					<ToastContainer />
-					<BaseRoutes />
-				</GoogleOAuthProvider>
-			</ChatProvider>
+			<GoogleOAuthProvider clientId={configKeys.googleId}>
+				<ToastContainer />
+				<BaseRoutes />
+			</GoogleOAuthProvider>
+			{/* <ChatProvider>
+			</ChatProvider> */}
 			{/* <MsalProvider instance={pca}>
 			</MsalProvider> */}
 		</QueryClientProvider>

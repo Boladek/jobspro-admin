@@ -65,7 +65,7 @@ export function GigSummaryPro() {
 							>
 								Timeline
 							</div>
-							<div
+							{/* <div
 								className={`${
 									activeTab === "chat"
 										? "border-b-yellow-300 border-b-4"
@@ -74,7 +74,7 @@ export function GigSummaryPro() {
 								onClick={() => setActiveTab("chat")}
 							>
 								Chat
-							</div>
+							</div> */}
 							{data.statusType === "dispute" && (
 								<div
 									className={`${

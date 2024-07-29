@@ -21,7 +21,6 @@ export function GigChat({ gig }) {
 
 	const { name, user } = UseAuth();
 	const { sendMessage, messages, handleSendFile } = UseChat();
-	console.log({ messages });
 	const [open, setOpen] = useState(false);
 	const [text, setText] = useState("");
 
