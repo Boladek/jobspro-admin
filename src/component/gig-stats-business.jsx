@@ -30,7 +30,7 @@ export function GigStatsBusiness() {
 					</div>
 				)}
 				<div
-					className={`bg-adminPrimary px-4 py-8 border rounded-xl text-center border-[#025949] cursor-pointer hover:shadow-lg transition-all ease-linear 300s`}
+					className={`bg-adminPrimary px-4 py-8 border rounded-xl text-white text-center border-[#025949] cursor-pointer hover:shadow-lg transition-all ease-linear 300s`}
 				>
 					<p className="mb-2">{formatNumber(gigStats?.completedGigs || 0)}</p>
 					<div className="mb-2 w-1/2 mx-auto">
