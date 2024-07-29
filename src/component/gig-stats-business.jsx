@@ -36,7 +36,9 @@ export function GigStatsBusiness() {
 					<div className="mb-2 w-1/2 mx-auto">
 						<ProgressBar percent={100} color="#14FF9C" thickness={2} />
 					</div>
-					<p className="text-xs font-semibold mb-2 text-white">Gigs Completed</p>
+					<p className="text-xs font-semibold mb-2 text-white">
+						Gigs Completed
+					</p>
 					<div>
 						<span className="cursor-pointer h-8 w-8 bg-[#FEDF00] rounded-full flex items-center justify-center mx-auto transform -rotate-45">
 							&rarr;

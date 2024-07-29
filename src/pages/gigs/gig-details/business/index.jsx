@@ -73,14 +73,14 @@ export function GigSummaryBusiness() {
 							>
 								Timeline
 							</div>
-							<div
+							{/* <div
 								className={`${
 									activeTab === "chat" ? "border-b-yellow-300 border-b-4" : ""
 								} p-0.5 cursor-pointer`}
 								onClick={() => setActiveTab("chat")}
 							>
 								Chat
-							</div>
+							</div> */}
 							{data.statusType === "dispute" && (
 								<div
 									className={`${
