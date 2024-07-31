@@ -20,11 +20,11 @@ export function DeleteAccount({ goBack }) {
 			.delete("/profile/delete-accout", {
 				reason,
 			})
-			.then((res) => {
-				toast.success(res.message);
+			.then(() => {
+				toast.success("Account Deleted Successfully!");
 				setTimeout(() => {
 					dispatch(logout());
-				}, 3000);
+				}, 1500);
 			})
 			.catch((err) => toast.error(err.response.data.message))
 			.finally(() => setLoading(false));

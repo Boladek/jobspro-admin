@@ -11,8 +11,8 @@ export function Modal({ children, handleClose, title, maxWidth = 400 }) {
 				className="bg-white p-4 rounded-xl relative inline-block max-h-screen"
 				style={{ width: "100%", maxWidth }}
 			>
-				<div className="flex justify-end">
-					<div className="flex-1 text-center">{title}</div>
+				<div className="flex justify-end items-center">
+					<div className="flex-1 px-4">{title}</div>
 					<div onClick={handleClose} className="cursor-pointer text-2xl">
 						&#x2716;
 					</div>
@@ -27,6 +27,6 @@ Modal.propTypes = {
 	maxWidth: PropTypes.number,
 	handleClose: PropTypes.func,
 	value: PropTypes.any,
-	title: PropTypes.string,
+	title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
 	children: PropTypes.any,
 };
