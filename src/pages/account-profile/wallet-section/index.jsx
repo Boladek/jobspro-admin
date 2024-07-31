@@ -57,7 +57,7 @@ export function WalletSection() {
 					className="mb-4 p-4 bg-primary rounded-lg text-white text-xs flex justify-between items-center"
 					onClick={() => setOpen(true)}
 				>
-					{accounts && accounts.statusCode === 200 && (
+					{accounts && accounts.data && (
 						<>
 							<div>
 								<p className="font-extralight">Bank</p>

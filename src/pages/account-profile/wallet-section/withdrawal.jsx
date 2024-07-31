@@ -37,7 +37,7 @@ export function Withdrawal() {
 	});
 
 	const onSubmit = (data) => {
-		setLoading(true);
+		// setLoading(true);
 		setForm(data);
 		setStep(2);
 		// console.log({ data });
@@ -85,7 +85,7 @@ export function Withdrawal() {
 		<>
 			{loading && <Overlay message="" />}
 			{step === 1 && (
-				<form onSubmit={handleSubmit(onSubmit)}>
+				<form onSubmit={handleSubmit(onSubmit)} className="max-w-[400px]">
 					<div className="mb-4">
 						<label
 							htmlFor="amount"
@@ -192,13 +192,13 @@ export function Withdrawal() {
 				</form>
 			)}
 			{step === 2 && (
-				<form onSubmit={submitOtp}>
+				<form onSubmit={submitOtp} className="max-w-[400px]">
 					{/* <p className={`text-primary font-bold`}>Enter OTP</p> */}
 					{/* <p className="text-sm text-gray-500 mb-4">
 						A code was sent to your phone number, code expires{" "}
 						<span className="text-[#42BE65]">in {timer}s</span>
 					</p> */}
-					<div className="mb-4">
+					<div className="mb-16">
 						<BaseInput
 							label="Enter Password"
 							value={password}
