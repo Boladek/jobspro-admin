@@ -10,15 +10,33 @@ export const UseFinancialContext = () => {
 };
 
 const tabs = ["monthly", "quarterly", "bi annually", "yearly"];
+const months = [
+	"Jan",
+	"Feb",
+	"Mar",
+	"Apr",
+	"May",
+	"Jun",
+	"Jul",
+	"Aug",
+	"Sep",
+	"Oct",
+	"Nov",
+	"Dec",
+];
 
 // Create FinancialStatementProvider component
 export const FinancialStatementProvider = ({ children }) => {
 	const [activeTab, setActiveTab] = useState(tabs[0]);
+	const [currentMonth, setActiveMonth] = useState(months[0]);
 
 	const value = {
 		activeTab,
+		currentMonth,
 		handleTab: (val) => setActiveTab(val),
+		handleMonth: (val) => setActiveMonth(val),
 		tabs,
+		months,
 	};
 
 	return (

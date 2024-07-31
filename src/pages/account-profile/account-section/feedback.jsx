@@ -19,8 +19,8 @@ export function FeedBack({ goBack }) {
 				feedback,
 				title: "",
 			})
-			.then((res) => {
-				toast.success(res.message);
+			.then(() => {
+				toast.success("Thank you for your feedback. We appreciate your input!");
 				setTimeout(() => {
 					goBack();
 				}, 3000);

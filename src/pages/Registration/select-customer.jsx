@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 function SelectCustomerTypePage() {
 	const navigate = useNavigate();
 	const { role } = useParams();
-	const tabs = ["individual", "business"];
+	const tabs = ["individual-business", "business"];
 
 	const handleNavigate = (acct) => {
 		navigate(`/sign-up/${acct}/create-account`);
