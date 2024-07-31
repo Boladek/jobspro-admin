@@ -53,10 +53,7 @@ export function WalletSection() {
 						below or clicking fund wallet
 					</p>
 				</div>
-				<div
-					className="mb-4 p-4 bg-primary rounded-lg text-white text-xs flex justify-between items-center"
-					onClick={() => setOpen(true)}
-				>
+				<div className="mb-4 p-4 bg-primary rounded-lg text-white text-xs flex justify-between items-center">
 					{accounts && accounts.data && (
 						<>
 							<div>
