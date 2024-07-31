@@ -68,7 +68,7 @@ export function Withdrawal() {
 				accountNumber: form.accountNumber,
 				bankCode: form.bank,
 				amount: form.amount,
-				remark: form.remark,
+				remark: form.remark || "remark",
 				transferType: "inter",
 				password: password,
 			})
