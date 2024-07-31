@@ -44,7 +44,10 @@ export function GenerateVirtualAccounts({ open, handleClose, refetch }) {
 			})
 			.catch((err) => {
 				console.log(err);
-				if (err.response.status === 400) {
+				if (err.code === "ECONNABORTED") {
+					// Handle timeout error
+					toast.error("The request timed out. Please try again.");
+				} else if (err.response.status === 400) {
 					toast.error("Account Already Exists!");
 				} else {
 					toast.error(err.response.data.message);
