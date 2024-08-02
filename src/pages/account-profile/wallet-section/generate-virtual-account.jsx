@@ -14,17 +14,17 @@ import { SuccessInfo } from "../../../component/success-info";
 export function GenerateVirtualAccounts({ open, handleClose, refetch }) {
 	const [generating, setGenerating] = useState(false);
 	const [step, setStep] = useState(1);
-	const [redirectOpen, setRedirectOpen] = useState(false);
+	// const [redirectOpen, setRedirectOpen] = useState(false);
 	const [response, setResponse] = useState(null);
-	const [startTime] = useState(Date.now());
-	const [timeout] = useState(Date.now() + 60);
+	// const [startTime] = useState(Date.now());
+	// const [timeout] = useState(Date.now() + 60);
 	const {
 		register,
 		formState: { errors },
 		handleSubmit,
 	} = useForm();
 
-	console.log({ response });
+	// console.log({ response });
 
 	const onSubmit = (data) => {
 		// console.log({ data });
@@ -38,7 +38,7 @@ export function GenerateVirtualAccounts({ open, handleClose, refetch }) {
 				phoneNumber: data.phone,
 			})
 			.then((res) => {
-				console.log(res);
+				// console.log(res);
 				setStep(2);
 				setResponse(res);
 			})
@@ -57,20 +57,20 @@ export function GenerateVirtualAccounts({ open, handleClose, refetch }) {
 	};
 
 	const handleRedirect = () => {
-		setRedirectOpen(true);
+		// setRedirectOpen(true);
 		window.open(response?.data?.consentUrl);
 		setStep(3);
 	};
 
-	useEffect(() => {
-		const checkTimeout = () => {
-			if (Date.now() - startTime >= timeout) {
-				setRedirectOpen(false);
-			}
-		};
-		const timerId = setInterval(checkTimeout, 5000);
-		return () => clearInterval(timerId);
-	}, [startTime, timeout]);
+	// useEffect(() => {
+	// 	const checkTimeout = () => {
+	// 		if (Date.now() - startTime >= timeout) {
+	// 			setRedirectOpen(false);
+	// 		}
+	// 	};
+	// 	const timerId = setInterval(checkTimeout, 5000);
+	// 	return () => clearInterval(timerId);
+	// }, [startTime, timeout]);
 
 	return (
 		<Modal open={open} handleClose={handleClose} maxWidth={400}>

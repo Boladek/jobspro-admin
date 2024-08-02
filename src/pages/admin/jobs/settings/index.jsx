@@ -4,6 +4,7 @@ import { ProgressBar } from "../../../../component/admin/progress-bar";
 import { FaArrowCircleRight } from "react-icons/fa";
 import { UseCommission } from "../../../../context/commission-context";
 import { CreateCommission } from "./create-commission";
+import { PaymentModule } from "./payment-module";
 
 export function JobsSettings({ handleClose }) {
 	const { step, handleStep } = UseCommission();
@@ -66,7 +67,7 @@ export function JobsSettings({ handleClose }) {
 
 				{step === 2 && <div>Step 2</div>}
 				{step === 3 && <CreateCommission />}
-				{step === 4 && <div>Step 4</div>}
+				{step === 4 && <PaymentModule />}
 			</div>
 		</SideWrapper>
 	);

@@ -35,7 +35,7 @@ export function PieChart({
 	// colors,
 	isInteractive,
 }) {
-	console.log({ data });
+	// console.log({ data });
 	// const colorMap = data.reduce((acc, item, index) => {
 	// 	acc[item.id] = colors[index];
 	// 	return acc;

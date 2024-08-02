@@ -22,6 +22,18 @@ export const AuthProvider = ({ children }) => {
 		staleTime: Infinity,
 	});
 
+	const {
+		data: accounts = {},
+		refetch: refetchWalletBalance,
+		isLoading: gettingWalletDetails,
+	} = useQuery({
+		queryKey: ["fetch-wallet-balance"],
+		queryFn: () => profileAxios.get("/transactions/get-virtual-accounts"),
+		staleTime: Infinity,
+		retry: 2,
+		select: (data) => data,
+	});
+
 	const value = {
 		user: data ?? {},
 		loading: isLoading,
@@ -30,6 +42,9 @@ export const AuthProvider = ({ children }) => {
 			user?.userType !== "business"
 				? `${user?.firstName} ${user?.lastName}`
 				: user?.companyName,
+		accounts,
+		refetchWalletBalance,
+		gettingWalletDetails,
 	};
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

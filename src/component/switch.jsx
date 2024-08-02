@@ -7,8 +7,8 @@ export function Switch({ checked, handleChecked, color = "#206DB0" }) {
 				className={`rounded-full border-2 w-8 cursor-pointer transition-all ease-linear`}
 				onClick={handleChecked}
 				style={{
-					backgroundColor: !checked ? "#fff" : color,
-					borderColor: color,
+					backgroundColor: !checked ? "#F2F4F7" : color,
+					borderColor: !checked ? "#F2F4F7" : color,
 				}}
 			>
 				<div
@@ -16,7 +16,7 @@ export function Switch({ checked, handleChecked, color = "#206DB0" }) {
 						checked ? "ml-auto " : "mr-auto"
 					}`}
 					style={{
-						backgroundColor: checked ? "#fff" : color,
+						backgroundColor: "#fff",
 					}}
 				/>
 			</div>

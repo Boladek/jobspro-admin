@@ -1,4 +1,4 @@
-import logo from "../assets/logo.png";
+import logo from "../assets/logo.svg";
 // import menu from "../assets/menu-icon.png";
 // import notification from "../assets/notification.png";
 // import settings from "../assets/setting.png";
@@ -12,9 +12,9 @@ import { DocIcon } from "../assets/doc-icon";
 import { PersonIcon } from "../assets/person-icon";
 import { HomeIcon } from "../assets/home-icon";
 import { Notifications } from "./notifications";
-import { DocIconFilled } from "../assets/doc-icon-filled";
-import { HomeIconFilled } from "../assets/home-icon-filled";
-import { ProfileIconFilled } from "../assets/profile-icon-filled";
+// import { DocIconFilled } from "../assets/doc-icon-filled";
+// import { HomeIconFilled } from "../assets/home-icon-filled";
+// import { ProfileIconFilled } from "../assets/profile-icon-filled";
 
 export function AuthHeader() {
 	const {
