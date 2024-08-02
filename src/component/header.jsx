@@ -1,4 +1,4 @@
-import logo from "../assets/logo.png";
+import logo from "../assets/logo.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export function Header() {

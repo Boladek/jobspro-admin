@@ -8,11 +8,9 @@ import { Transactions } from "./transactions";
 import { Funding } from "./funding";
 import { Withdrawal } from "./withdrawal";
 import { SideWrapper } from "../../../component/side-wrapper";
-import { useQuery } from "@tanstack/react-query";
-import profileAxios from "../../../helpers/profileAxios";
 import { GenerateVirtualAccounts } from "./generate-virtual-account";
 import { GoPlusCircle } from "react-icons/go";
-// import { Analytics } from "./Analytics";
+import { UseAuth } from "../../../context/auth-context";
 
 const tabs = [
 	{ title: "Transactions", icon: AnalyticsIcon },
@@ -25,23 +23,7 @@ export function WalletSection() {
 	const [open, setOpen] = useState(false);
 	const [activeTab, setActiveTab] = useState(tabs[0].title);
 	const { handleCloseWallet } = UseModal();
-
-	const {
-		data: accounts = {},
-		isLoading,
-		error,
-		refetch,
-	} = useQuery({
-		queryKey: ["fetch-gigs"],
-		queryFn: () => profileAxios.get("/transactions/get-virtual-accounts"),
-		staleTime: Infinity,
-		retry: 2,
-		select: (data) => data,
-		// enabled: !!user.userType,
-		// refetchOnWindowFocus: true, //
-	});
-
-	console.log({ accounts, error });
+	const { accounts, refetchWalletBalance, gettingWalletDetails } = UseAuth();
 
 	return (
 		<SideWrapper handleClose={handleCloseWallet} title="Wallet">
@@ -54,31 +36,37 @@ export function WalletSection() {
 					</p>
 				</div>
 				<div className="mb-4 p-4 bg-primary rounded-lg text-white text-xs flex justify-between items-center">
-					{accounts && accounts.data && (
+					{gettingWalletDetails ? (
+						<div className="text-center w-full font-bold py-2">Please wait...</div>
+					) : (
 						<>
-							<div>
-								<p className="font-extralight">Bank</p>
-								<p className="font-bold">VFD Bank</p>
-							</div>
-							<div>
-								<p className="font-extralight">Account No</p>
-								<p className="font-bold">
-									{accounts?.data?.user?.finclusionAccountNumber}
-								</p>
-							</div>
-							<IoIosCopy className="text-xl" />
+							{accounts && accounts.data && (
+								<>
+									<div>
+										<p className="font-extralight">Bank</p>
+										<p className="font-bold">VFD Bank</p>
+									</div>
+									<div>
+										<p className="font-extralight">Account No</p>
+										<p className="font-bold">
+											{accounts?.data?.user?.finclusionAccountNumber}
+										</p>
+									</div>
+									<IoIosCopy className="text-xl" />
+								</>
+							)}
+							{accounts && accounts.data === null && (
+								<div
+									onClick={() => setOpen(true)}
+									className="text-center w-full cursor-pointer"
+								>
+									<p className="text-sm">Click here to create account</p>
+									<div className="flex justify-center">
+										<GoPlusCircle className="text-3xl" />
+									</div>
+								</div>
+							)}
 						</>
-					)}
-					{accounts && accounts.data === null && (
-						<div
-							onClick={() => setOpen(true)}
-							className="text-center w-full cursor-pointer"
-						>
-							<p className="text-sm">Click here to create account</p>
-							<div className="flex justify-center">
-								<GoPlusCircle className="text-3xl" />
-							</div>
-						</div>
 					)}
 				</div>
 
@@ -138,7 +126,7 @@ export function WalletSection() {
 				<GenerateVirtualAccounts
 					open={open}
 					handleClose={() => setOpen(false)}
-					refetch={refetch}
+					refetch={refetchWalletBalance}
 				/>
 			)}
 		</SideWrapper>
