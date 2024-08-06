@@ -1,9 +1,9 @@
 // import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { GigComponent } from "../../component/gig-component";
-import { BaseInput } from "../../component/input";
-import { SearchComponent } from "../../component/search-component";
-import { BaseSelect } from "../../component/select";
+// import { BaseInput } from "../../component/input";
+// import { SearchComponent } from "../../component/search-component";
+// import { BaseSelect } from "../../component/select";
 import profileAxios from "../../helpers/profileAxios";
 import { useMemo, useState } from "react";
 import { GigFilter } from "./gig-details/gig-filter";

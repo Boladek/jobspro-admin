@@ -5,6 +5,7 @@ import { FaArrowCircleRight } from "react-icons/fa";
 import { UseCommission } from "../../../../context/commission-context";
 import { CreateCommission } from "./create-commission";
 import { PaymentModule } from "./payment-module";
+import { UpdateCommission } from "./update-commission";
 
 export function JobsSettings({ handleClose }) {
 	const { step, handleStep } = UseCommission();
@@ -18,14 +19,13 @@ export function JobsSettings({ handleClose }) {
 							onClick={() => handleStep(2)}
 						>
 							<div className="w-1/3">
-								<p className="text-xs font-bold">Commissions</p>
+								<p className="text-xs font-bold">Create Commisions</p>
 								<div className="w-12">
 									<ProgressBar color="#FF7A00" />
 								</div>
 							</div>
-							<div className="flex-1 text-tiny">
-								Update Commissions for business
-							</div>
+							
+							<div className="flex-1 text-tiny">Create New Commissions</div>
 							<div className="w-1/12">
 								<FaArrowCircleRight className="text-[#1C4486] text-xl" />
 							</div>
@@ -36,12 +36,14 @@ export function JobsSettings({ handleClose }) {
 							onClick={() => handleStep(3)}
 						>
 							<div className="w-1/3">
-								<p className="text-xs font-bold">Create Commisions</p>
+								<p className="text-xs font-bold">Commissions</p>
 								<div className="w-12">
 									<ProgressBar color="#FF7A00" />
 								</div>
 							</div>
-							<div className="flex-1 text-tiny">Create New Commissions</div>
+							<div className="flex-1 text-tiny">
+								Update Commissions for business
+							</div>
 							<div className="w-1/12">
 								<FaArrowCircleRight className="text-[#1C4486] text-xl" />
 							</div>
@@ -65,8 +67,8 @@ export function JobsSettings({ handleClose }) {
 					</div>
 				)}
 
-				{step === 2 && <div>Step 2</div>}
-				{step === 3 && <CreateCommission />}
+				{step === 3 && <UpdateCommission />}
+				{step === 2 && <CreateCommission />}
 				{step === 4 && <PaymentModule />}
 			</div>
 		</SideWrapper>
