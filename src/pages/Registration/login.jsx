@@ -30,13 +30,13 @@ function LoginPage() {
 		handleSubmit,
 	} = useForm();
 	const [password, setPassword] = useState(true);
-	// const [remember, setRemember] = useState(false);
+
 	const onSubmit = (data) => {
 		setLoading(true);
 		profileAxios
 			.post("/auth/login", {
-				username: data.username.trim(),
-				password: data.password.trim(),
+				username: data.username || data.finclusionID,
+				password: data.password,
 				platformId: 5,
 			})
 			.then((res) => {
@@ -68,57 +68,36 @@ function LoginPage() {
 	return (
 		<form
 			style={{ maxWidth: 400, width: "100%" }}
-			className="py-6 px-4"
+			className="py-6 px-4 grid grid-cols-1 gap-4"
 			onSubmit={handleSubmit(onSubmit)}
 		>
 			{loading && <Overlay />}
-			<p className={"text-primary text-3xl font-bold"}>Welcome Back</p>
-			<p className="text-sm text-gray-500">
-				Continue with your email or Phone Number
-			</p>
-			<br />
+			<div>
+				<p className={"text-primary text-3xl font-bold"}>Welcome Back</p>
+				<p className="text-sm text-gray-500">
+					Continue with your email or Phone Number
+				</p>
+			</div>
 
 			{finLogin ? (
-				<>
-					<div className="mb-4">
-						<BaseInput
-							label="Email or Phone Number"
-							{...register("username", {
-								required: "This field is required",
-							})}
-							error={errors.username}
-							errorText={errors.username && errors.username.message}
-						/>
-					</div>
-					<div className="relative mb-4">
-						<BaseInput
-							label="Password"
-							type={password ? "password" : "text"}
-							{...register("password", {
-								required: "The field is required",
-							})}
-							error={errors.password}
-							errorText={errors.password && errors.password.message}
-						/>
-						<img
-							src={password ? eye : eyeSlash}
-							onClick={() => setPassword(!password)}
-							className={`absolute cursor-pointer ${
-								password ? "h-5" : "h-7"
-							} transition-all ease-linear duration-300`}
-							style={{
-								top: password ? "2.5rem" : "2.25rem",
-								right: "1rem",
-							}}
-						/>
-					</div>
-				</>
+				<div>
+					<BaseInput
+						label="Email or Phone Number"
+						{...register("username", {
+							required: "This field is required",
+							setValueAs: (v) => v.trim(),
+						})}
+						error={errors.username}
+						errorText={errors.username && errors.username.message}
+					/>
+				</div>
 			) : (
-				<div className="mb-4">
+				<div>
 					<BaseInput
 						label="Finclusion ID"
 						{...register("finclusionID", {
 							required: "This field is required",
+							setValueAs: (v) => v.trim(),
 						})}
 						placeholder="Enter Finclusion ID"
 						error={errors.finclusionID}
@@ -126,7 +105,30 @@ function LoginPage() {
 					/>
 				</div>
 			)}
-			<div className="flex items-center justify-between mb-8">
+			<div className="relative">
+				<BaseInput
+					label="Password"
+					type={password ? "password" : "text"}
+					{...register("password", {
+						required: "The field is required",
+						setValueAs: (v) => v.trim(),
+					})}
+					error={errors.password}
+					errorText={errors.password && errors.password.message}
+				/>
+				<img
+					src={password ? eye : eyeSlash}
+					onClick={() => setPassword(!password)}
+					className={`absolute cursor-pointer ${
+						password ? "h-5" : "h-7"
+					} transition-all ease-linear duration-300`}
+					style={{
+						top: password ? "2.5rem" : "2.25rem",
+						right: "1rem",
+					}}
+				/>
+			</div>
+			<div className="flex items-center justify-between mb-4">
 				<div>
 					{/* <Checkbox
 						textPosition="right"
@@ -142,10 +144,10 @@ function LoginPage() {
 					forgot password
 				</div>
 			</div>
-			<div className="mb-4">
+			<div>
 				<BaseButton type="submit">Login</BaseButton>
 			</div>
-			<div className="flex items-center mb-4 text-xs text-gray-400 gap-2">
+			<div className="flex items-center text-xs text-gray-400 gap-2">
 				<div
 					className="flex-1 bg-gray-200 rounded-full"
 					style={{

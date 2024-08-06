@@ -12,7 +12,7 @@ import { UseAuth } from "../../../context/auth-context";
 import { Overlay } from "../../../component/overlay-component";
 
 export function Withdrawal() {
-	const { refetch } = UseAuth();
+	const { refetch, refetchWalletBalance } = UseAuth();
 	const [loading, setLoading] = useState(false);
 	const [step, setStep] = useState(1);
 	// const [otp, setOtp] = useState("");
@@ -24,11 +24,11 @@ export function Withdrawal() {
 		register,
 		formState: { errors },
 		handleSubmit,
-		setValue,
+		// setValue,
 		reset,
 	} = useForm();
 
-	const { data: banks = [], isLoading } = useQuery({
+	const { data: banks = [] } = useQuery({
 		queryKey: ["fetch-banks-list"],
 		queryFn: () => profileAxios.get("/transactions/get-bank-list"),
 		select: (data) => data.data.data.bank,
@@ -75,6 +75,7 @@ export function Withdrawal() {
 			.then((res) => {
 				toast.success(res.message);
 				refetch();
+				refetchWalletBalance();
 				reset();
 			})
 			.catch((err) => toast.error(err.response.data.message))

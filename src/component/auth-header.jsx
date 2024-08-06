@@ -57,8 +57,11 @@ export function AuthHeader() {
 					className="relative cursor-pointer"
 					onClick={() => navigate("/dashboard")}
 				>
-					<img src={logo} alt="Favicon" className="cursor-pointer h-8" />
-					<div className="absolute inset-0 opacity-50 hover:bg-gray-50 z-10"></div>
+					<img
+						src={logo}
+						alt="Favicon"
+						className="cursor-pointer h-8 hover:opacity-85"
+					/>
 				</div>
 			</div>
 			<div className="hidden md:flex gap-2">

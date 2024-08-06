@@ -38,6 +38,7 @@ export function FundWallet({ open, handleClose }) {
 			.catch((err) => toast.error(err.response.data.message))
 			.finally(() => setLoading(false));
 	};
+
 	return (
 		<Modal open={open} handleClose={handleClose} maxWidth={400}>
 			<form

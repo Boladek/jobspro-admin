@@ -9,11 +9,13 @@ import { UseKyc } from "../../context/kyc-context";
 // import { useQuery } from "@tanstack/react-query";
 import profileAxios from "../../helpers/profileAxios";
 import { toast } from "react-toastify";
+import { CopyTextHook } from "../../hooks/copy-hook";
 
 export function HeadSection() {
 	const { name, user, refetch } = UseAuth();
 	const { tier } = UseKyc();
 	const [open, setOpen] = useState(false);
+	const { copyToClipboard } = CopyTextHook();
 
 	const toggleAviability = () => {
 		profileAxios
@@ -44,9 +46,14 @@ export function HeadSection() {
 					</div>
 					<div>
 						<p className="text-sm font-semibold mb-1">{name}</p>
-						<div className="text-xs flex items-center gap-1">
+						<div
+							className="text-xs flex items-center gap-1 cursor-pointer"
+							onClick={() => copyToClipboard(user.finclusionId)}
+						>
 							<span className="font-extralight">Finclusion ID:</span>
-							<span className="font-semibold">{user.finclusionId}</span>
+							<span className="font-semibold hover:underline">
+								{user.finclusionId}
+							</span>
 							<IoIosCopy className="text-base" />
 						</div>
 					</div>

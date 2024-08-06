@@ -36,7 +36,7 @@ function AccountProfilePage() {
 				<div className="w-full">
 					<HeadSection />
 				</div>
-				<div className="px-2 py-4 md:p-8 bg-light flex-1 relative">
+				<div className="px-2 py-4 md:p-8 bg-light flex-1 relative overflow-auto">
 					<div className="mb-4">
 						<AccountSwitch />
 					</div>
