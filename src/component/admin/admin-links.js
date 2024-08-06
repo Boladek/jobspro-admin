@@ -1,8 +1,8 @@
 import { DashboardIcon } from "../../assets/admin/dashboard-icon";
+import { DocIcon } from "../../assets/admin/doc-icon";
 import { UsersIcon } from "../../assets/admin/users-icon";
 import { RingingBellIcon } from "../../assets/admin/ringing-bell-icon";
 import { TextingIcon } from "../../assets/admin/texting-icon";
-import { DocIcon } from "../../assets/admin/doc-icon";
 
 export const links = [
 	{

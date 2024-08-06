@@ -13,7 +13,7 @@ function AdminJobsPage() {
 			<div className="w-64 flex flex-col h-full overflow-auto p-4 pr-4">
 				<div className="mb-4">
 					<div
-						className="p-3 bg-[#E9EFF2] rounded-md flex gap-4 items-center mb-8 w-fit text-sm pr-8"
+						className="p-3 bg-[#E9EFF2] rounded-md flex gap-4 items-center mb-8 w-fit text-sm pr-8 cursor-pointer hover:opacity-80"
 						onClick={() => setOpen(true)}
 					>
 						<IoSettingsSharp className="text-xl" /> Settings
