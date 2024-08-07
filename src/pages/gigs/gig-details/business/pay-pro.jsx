@@ -4,7 +4,7 @@ import { formatNumber } from "../../../../helpers/function";
 import { useState } from "react";
 import { SquareButton } from "../../../../component/square-button";
 
-export function PayPro({ open, handleClose, gig, openOtp }) {
+export function PayPro({ open, handleClose, gig, openOtp, openTip }) {
 	const [openBreakDown, setOpenBreakDown] = useState(false);
 	const [accepted, setAccepted] = useState(false);
 
@@ -31,7 +31,7 @@ export function PayPro({ open, handleClose, gig, openOtp }) {
 						I accept the work done is <strong>satisfactory</strong>
 					</label>
 				</div>
-				<div className="p-4 border rounded-md text-xs mb-4">
+				<div className="p-4 border rounded-md text-xs">
 					<p className="mb-4">
 						The sum of NGN{" "}
 						<span className="font-semibold">
@@ -76,6 +76,18 @@ export function PayPro({ open, handleClose, gig, openOtp }) {
 						</div>
 					)}
 				</div>
+				<div className="py-4">
+					<p className="text-xs">Thrilled with the service rendered?</p>
+					<div
+						onClick={openTip}
+						className="text-accent font-bold text-sm w-fit cursor-pointer hover:opacity-80 hover:underline"
+					>
+						Click here to Adjust Tip &rarr;
+					</div>
+				</div>
+				{/* <button type="button" onClick={openTip}>
+					Adjust Tip
+				</button> */}
 				<div>
 					<SquareButton type="submit">Confirm Payment</SquareButton>
 				</div>
@@ -89,4 +101,5 @@ PayPro.propTypes = {
 	handleClose: func.isRequired, // Proper usage of PropTypes
 	gig: object,
 	openOtp: func,
+	openTip: func,
 };

@@ -13,8 +13,6 @@ export function DisputeGig({ open, handleClose }) {
 	const location = useLocation();
 	const { gigData } = location.state;
 	const {
-		register,
-		formState: { errors },
 		handleSubmit,
 	} = useForm();
 	const [reason, setReason] = useState("");

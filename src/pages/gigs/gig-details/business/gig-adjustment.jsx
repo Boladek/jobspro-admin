@@ -6,17 +6,10 @@ import { BaseButton } from "../../../../component/button";
 import { Overlay } from "../../../../component/overlay-component";
 import { BaseTextArea } from "../../../../component/text-area";
 import profileAxios from "../../../../helpers/profileAxios";
-import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 
-export function GigAdjustment({ open, handleClose }) {
-	const location = useLocation();
-	const { gigData } = location.state;
-	const {
-		register,
-		formState: { errors },
-		handleSubmit,
-	} = useForm();
+export function GigAdjustment({ open, handleClose, gigData }) {
+	const { handleSubmit } = useForm();
 	const [reason, setReason] = useState("");
 	const [loading, setLoading] = useState(false);
 
@@ -48,7 +41,9 @@ export function GigAdjustment({ open, handleClose }) {
 			>
 				{loading && <Overlay message="Requesting Adjustment" />}
 				<div>
-					<p className={`text-primary text-3xl font-bold`}>Request Adjustment</p>
+					<p className={`text-primary text-3xl font-bold`}>
+						Request Adjustment
+					</p>
 					<p className="text-sm text-gray-500 mb-2">
 						Please Input reason for requesting adjustment.
 					</p>
@@ -73,4 +68,5 @@ export function GigAdjustment({ open, handleClose }) {
 GigAdjustment.propTypes = {
 	open: PropTypes.bool.isRequired,
 	handleClose: PropTypes.func.isRequired, // Proper usage of PropTypes
+	gigData: PropTypes.object,
 };
