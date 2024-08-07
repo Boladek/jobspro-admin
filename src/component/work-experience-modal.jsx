@@ -13,13 +13,11 @@ import profileAxios from "../helpers/profileAxios";
 import { BaseSelect } from "./select";
 import { toast } from "react-toastify";
 import { Overlay } from "./overlay-component";
-// import { MdWorkHistory } from "react-icons/md";
 import { isEmpty } from "../helpers/function";
 import { UseAuth } from "../context/auth-context";
 
 export function WorkExperienceModal({ open, handleClose, form = {} }) {
 	const { refetch } = UseAuth();
-	const [remember, setRemember] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [files, setFiles] = useState([]);
 	const [previews, setPreviews] = useState([]);
@@ -30,8 +28,9 @@ export function WorkExperienceModal({ open, handleClose, form = {} }) {
 		handleSubmit,
 		watch,
 	} = useForm();
-	const watchCountry = watch("country", "");
+	const watchCountry = watch("country", form?.country?.id);
 	const watchState = watch("state", "");
+	const watchWorking = watch("stillWorking", form?.isStillWorkingHere || false);
 
 	const handleFile = (e) => {
 		// if (!checkFile(e)) return;
@@ -82,6 +81,7 @@ export function WorkExperienceModal({ open, handleClose, form = {} }) {
 		fd.append("startDate", data.startDate);
 		fd.append("endDate", data.endDate);
 		fd.append("workplace", data.location);
+		fd.append("isStillWorkingHere", data.stillWorking);
 		files.forEach((item) => {
 			fd.append("files", item);
 		});
@@ -162,7 +162,7 @@ export function WorkExperienceModal({ open, handleClose, form = {} }) {
 							error={errors.country}
 							errorText={errors.country && errors.country.message}
 						>
-							<option></option>
+							<option value={form?.country?.id}>{form?.country?.name}</option>
 							{countries.map((item) => (
 								<option key={item.uuid} value={item.id}>
 									{item.name}
@@ -196,7 +196,7 @@ export function WorkExperienceModal({ open, handleClose, form = {} }) {
 							error={errors.city}
 							errorText={errors.city && errors.city.message}
 						>
-							<option></option>
+							<option value={form?.city?.id}>{form?.city?.name}</option>
 							{cities.map((item) => (
 								<option key={item.uuid} value={item.id}>
 									{item.name}
@@ -207,10 +207,10 @@ export function WorkExperienceModal({ open, handleClose, form = {} }) {
 					<div className="col-span-1 sm:col-span-2">
 						<div className="flex gap-2">
 							<input
-								value={remember}
-								onChange={(e) => setRemember(e.target.checked)}
 								type="checkbox"
+								defaultChecked={form?.isStillWorkingHere}
 								className="form-checkbox h-4 w-4 text-indigo-600 border-indigo-600 rounded"
+								{...register("stillWorking")}
 							/>
 							<label className="text-xs">
 								I’m currently working in this position
@@ -232,10 +232,10 @@ export function WorkExperienceModal({ open, handleClose, form = {} }) {
 					<div>
 						<BaseInput
 							label="End Date"
-							disabled={remember}
+							disabled={watchWorking}
 							type="date"
 							{...register("endDate", {
-								required: !remember && "This field is required",
+								required: !watchWorking && "This field is required",
 							})}
 							defaultValue={form?.endDate}
 							error={errors.endDate}
@@ -270,7 +270,7 @@ export function WorkExperienceModal({ open, handleClose, form = {} }) {
 						</label>
 						{previews.map((item, index) => (
 							<div
-								className="relative h-20 w-1/4 overflow-hidden border rounded-xl bg-gray-900"
+								className="relative h-20 w-20 overflow-hidden border rounded-xl bg-gray-900"
 								key={item}
 								style={{
 									backgroundImage: `url(${item})`,
@@ -280,7 +280,6 @@ export function WorkExperienceModal({ open, handleClose, form = {} }) {
 							>
 								<span
 									className="material-symbols-outlined text-white absolute transform -translate-x-1/2 -translate-y-1/2 z-10 top-1/2 left-1/2 cursor-pointer"
-									// onClick={() => setFile(null)}
 									onClick={() => filterPreviews(item, index)}
 								>
 									cancel

@@ -11,6 +11,7 @@ import { Overlay } from "../../../component/overlay-component";
 import { IoIosAddCircle } from "react-icons/io";
 
 function formatExperience(date) {
+	if (!date) return "Present";
 	const newDate = new Date(date);
 	const formatter = new Intl.DateTimeFormat("en-US", {
 		year: "numeric",
