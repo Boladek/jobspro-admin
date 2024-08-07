@@ -8,8 +8,11 @@ export function WorkRate() {
 	const { user } = UseAuth();
 	const [open, setOpen] = useState();
 	return (
-		<>
-			<p className="text-xs font-bold mt-4">Working Rate</p>
+		<div>
+			{/* <p className="text-xs font-bold">Working Rate</p> */}
+			<div className="py-1 px-6 rounded-full border bg-gray-50 w-fit  text-adminPrimary border-adminPrimary mb-2">
+				Working Rate
+			</div>
 			<div className="p-3 rounded-lg bg-gray-100 text-sm flex gap-1">
 				<div className="flex-1">
 					NGN <strong>{formatNumber(user?.workingRateAmount ?? 0)}</strong>{" "}
@@ -21,6 +24,6 @@ export function WorkRate() {
 			</div>
 
 			{open && <WorkingRate open={open} handleClose={() => setOpen(false)} />}
-		</>
+		</div>
 	);
 }

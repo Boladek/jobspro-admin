@@ -14,16 +14,16 @@ export function AccountBio() {
 
 	return (
 		<div>
-			<div className="py-1 px-6 rounded-full border bg-gray-50 w-fit mb-4 text-adminPrimary border-adminPrimary">
+			<div className="py-1 px-6 rounded-full border bg-gray-50 w-fit mb-2 text-adminPrimary border-adminPrimary">
 				Bio
 			</div>
-			<form className="grid grid-cols-1 gap-4 mb-4">
+			<form className="grid grid-cols-1 gap-4 mb-8">
 				{user.userType === "business" ? (
 					<div className="flex-1">
 						<p className="text-xs mb-1">Company Name</p>
 						<div className="rounded-md border-adminPrimary border p-2 items-center flex">
 							<span>
-								<PersonIcon fill="#4440FF" />
+								<PersonIcon filled={true} />
 							</span>
 							<div className="flex-1 text-center text-[#667085]">{name}</div>
 						</div>
@@ -104,7 +104,11 @@ export function AccountBio() {
 					</div>
 				</div>
 			</form>
-			<p className="text-xs font-bold">About</p>
+			{/* <p className="text-xs font-bold">About</p> */}
+
+			<div className="py-1 px-6 rounded-full border bg-gray-50 w-fit mb-2 text-adminPrimary border-adminPrimary">
+				About
+			</div>
 			<div className="p-3 rounded-lg bg-gray-100 text-xs flex gap-1">
 				<div className="flex-1">{user?.profileDescription || "N/A"}</div>
 				<span onClick={() => setOpenAbout(true)}>

@@ -19,11 +19,10 @@ export function Specialization({ open, handleClose }) {
 	} = useForm();
 	const [loading, setLoading] = useState(false);
 	const [allIndustries, setAllIndustries] = useState([]);
-	const [allSubIndustries, setAllSubIndustries] = useState([]);
 	const [allSubCategories, setAllSubCategories] = useState([]);
 
 	const { data: industries = [], isLoading: gettingIndustries } = useQuery({
-		queryKey: ["indutries"],
+		queryKey: ["industries"],
 		queryFn: () => profileAxios.get("/industry/category"),
 		select: (data) => data.data,
 		staleTime: Infinity,
@@ -42,7 +41,7 @@ export function Specialization({ open, handleClose }) {
 		setLoading(true);
 		profileAxios
 			.patch("/profile/industry", {
-				subcategoryIds: allIndustries.map((sub) => String(sub.id)),
+				subcategoryIds: allSubCategories.map((sub) => String(sub.id)),
 			})
 			.then(() => {
 				handleClose();
@@ -50,27 +49,21 @@ export function Specialization({ open, handleClose }) {
 			})
 			.catch((err) => toast.error(err.response.data.message))
 			.finally(() => setLoading(false));
-		// gotoNextStep(true);
 	};
 
 	const handleChange = (e) => {
 		const { value } = e.target;
 		if (!value) return;
 		const industry = industries.find((item) => item.id === Number(value));
-		setAllIndustries((prev) => {
-			if (prev.length > 0) {
-				const checkIfExists = prev.find((item) => item.id === Number(value));
-				if (checkIfExists) return;
-			}
-			return [...prev, industry];
-		});
+		const newIndustries = [...allIndustries, industry];
+		setAllIndustries([...new Set(newIndustries)]);
 	};
 
 	const handleIndustry = (id) => {
 		setAllIndustries((prev) => prev.filter((item) => item.id !== id));
 
 		setAllSubCategories((prev) =>
-			prev.filter((item) => item.industryId !== Number(id))
+			prev.filter((item) => item.subIndustryId !== Number(id))
 		);
 	};
 
@@ -80,49 +73,39 @@ export function Specialization({ open, handleClose }) {
 
 	const subIndustries = useMemo(() => {
 		if (allIndustries && allIndustries.length > 0) {
-			return allIndustries.map((item) => item.subCategories);
+			const mappedIndustries = allIndustries.map((item) => item.subCategories);
+			return mappedIndustries.flat(Infinity);
 		}
 		return [];
 	}, [allIndustries]);
 
-	useEffect(() => {
-		if (subIndustries.length > 0) {
-			setAllSubIndustries(subIndustries.flat());
-		}
-	}, [subIndustries]);
-
 	const handleSubChange = (e) => {
 		const { value } = e.target;
 		if (!value) return;
-		const category = allSubIndustries.find((item) => item.id === Number(value));
-		setAllSubCategories((prev) => {
-			if (prev.length > 0) {
-				const checkIfExists = prev.find((item) => item.id === Number(value));
-				if (checkIfExists) return;
-			}
-			return [...prev, category];
-		});
+		const category = subIndustries.find((item) => item.id === Number(value));
+		const newSubCategories = [...allSubCategories, category];
+		setAllSubCategories([...new Set(newSubCategories)]);
 	};
 
 	return (
 		<Modal open={open} handleClose={handleClose} maxWidth={400}>
 			<form
-				className="py-4 h-full flex flex-col"
+				className="pb-6 px-4 grid grid-cols-1 gap-4"
 				style={{ maxWidth: 500, width: "100%" }}
 				onSubmit={handleSubmit(onSubmit)}
 			>
 				{loading && <Overlay message="Updating Industry" />}
-				<div className="flex-1 md:flex md:justify-center md:items-center">
+				<div className="grid grid-cols-1 gap-4">
 					<div>
-						<p className={`text-primary text-3xl font-bold`}>
+						<p className={`text-primary text-xl font-bold`}>
 							What your Industry of specialisation?
 						</p>
-						<p className="text-sm text-gray-500 mb-4">
+						<p className="text-xs text-gray-500 mb-4">
 							More information should be placed here
 						</p>
 						<div
 							style={{ maxWidth: 500, width: "100%" }}
-							className="border rounded-md p-6 mb-4"
+							className="border rounded-md p-4"
 						>
 							<div className="mb-2">
 								<BaseSelect
@@ -144,14 +127,14 @@ export function Specialization({ open, handleClose }) {
 								{gettingIndustries && <div className="progress"></div>}
 							</div>
 							<div className="flex gap-2 flex-wrap">
-								{allIndustries?.map((text) => (
+								{allIndustries?.map((ind) => (
 									<div
-										key={text.id}
+										key={ind.id}
 										className={`flex gap-2 py-1 px-2 border-2 border-primary text-primary text-xs rounded-full items-center font-bold`}
 									>
-										<span>{text.name}</span>
+										<span>{ind.name}</span>
 										<span
-											onClick={() => handleIndustry(text.id)}
+											onClick={() => handleIndustry(ind.id)}
 											className="material-symbols-outlined cursor-pointer"
 										>
 											&#x2716;
@@ -160,57 +143,55 @@ export function Specialization({ open, handleClose }) {
 								))}
 							</div>
 						</div>
-						{allIndustries.length > 0 && (
-							<>
-								<p className={`text-primary text-3xl font-bold`}>
-									Sub category
-								</p>
-								<p className="text-sm text-gray-500 mb-4">
-									Pick one service that best represents your work, so our
-									algorithm can match you with the right clients.
-								</p>
-								<div
-									style={{ maxWidth: 500, width: "100%" }}
-									className="border rounded-md p-6 mb-4"
-								>
-									<div className="mb-2">
-										<BaseSelect
-											label="Services"
-											{...register("services", {
-												required: "This field is required",
-											})}
-											onChange={handleSubChange}
-											error={errors.services}
-											errorText={errors.services && errors.services.message}
-										>
-											<option></option>
-											{allSubIndustries?.map((item) => (
-												<option key={item.id} value={item.id}>
-													{item.name}
-												</option>
-											))}
-										</BaseSelect>
-									</div>
-									<div className="flex gap-2 flex-wrap">
-										{allSubCategories.map((text) => (
-											<div
-												key={text.id}
-												className={`flex gap-2 py-1 px-2 border-2 border-primary text-primary text-xs rounded-full items-center font-bold`}
-											>
-												<span>{text.name}</span>
-												<span
-													onClick={() => handleSubCategory(text.id)}
-													className="material-symbols-outlined cursor-pointer"
-												>
-													&#x2716;
-												</span>
-											</div>
-										))}
-									</div>
-								</div>
-							</>
-						)}
 					</div>
+					{allIndustries.length > 0 && (
+						<div>
+							<p className={`text-primary text-xl font-bold`}>Sub category</p>
+							<p className="text-xs text-gray-500 mb-4">
+								Pick one service that best represents your work, so our
+								algorithm can match you with the right clients.
+							</p>
+							<div
+								style={{ maxWidth: 500, width: "100%" }}
+								className="border rounded-md p-4"
+							>
+								<div className="mb-2">
+									<BaseSelect
+										label="Services"
+										{...register("services", {
+											required: "This field is required",
+										})}
+										onChange={handleSubChange}
+										error={errors.services}
+										errorText={errors.services && errors.services.message}
+									>
+										<option></option>
+										{subIndustries?.map((item) => (
+											<option key={item.id} value={item.id}>
+												{item.name}
+											</option>
+										))}
+									</BaseSelect>
+								</div>
+								<div className="flex gap-2 flex-wrap">
+									{allSubCategories?.map((sub) => (
+										<div
+											key={sub.id}
+											className={`flex gap-2 py-1 px-2 border-2 border-primary text-primary text-xs rounded-full items-center font-bold`}
+										>
+											<span>{sub.name}</span>
+											<span
+												onClick={() => handleSubCategory(sub.id)}
+												className="material-symbols-outlined cursor-pointer"
+											>
+												&#x2716;
+											</span>
+										</div>
+									))}
+								</div>
+							</div>
+						</div>
+					)}
 				</div>
 				<div className="flex justify-end gap-2">
 					<div className="w-1/2">

@@ -9,16 +9,16 @@ export const BaseInput = React.forwardRef(
 					{label}
 				</label>
 				<input
-					className="bg-gray-100 disabled:opacity-75 disabled:text-gray-600 w-full px-3 py-3 border text-sm rounded-lg focus:outline-none focus:border-primary"
+					className="bg-gray-100 disabled:opacity-75 disabled:text-gray-600 w-full px-3 py-3 border border-black/50 text-sm rounded-lg focus:outline-none focus:border-primary"
 					ref={ref}
 					id={id}
 					value={value}
 					onChange={handleChange}
 					{...rest}
 				/>
-				{error && errorText ? (
+				{error && errorText && (
 					<p className="text-xs text-red-600 mt-1">{errorText}</p>
-				) : null}
+				)}
 			</div>
 		);
 	}

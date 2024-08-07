@@ -3,7 +3,7 @@ import logo from "../assets/logo.svg";
 // import notification from "../assets/notification.png";
 // import settings from "../assets/setting.png";
 import { LinkElement } from "./link";
-import { useState } from "react";
+// import { useState } from "react";
 // import { SearchComponent } from "./search-component";
 import { useNavigate } from "react-router-dom";
 import { AvatarSection } from "./avatar-section";
@@ -21,11 +21,11 @@ export function AuthHeader() {
 		user: { userType },
 	} = useSelector((state) => state.auth);
 	const navigate = useNavigate();
-	const [isOpen, setIsOpen] = useState(false);
+	// const [isOpen, setIsOpen] = useState(false);
 
-	const toggleSidebar = () => {
-		setIsOpen(!isOpen);
-	};
+	// const toggleSidebar = () => {
+	// 	setIsOpen(!isOpen);
+	// };
 
 	const links = [
 		{

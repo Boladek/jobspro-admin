@@ -130,7 +130,6 @@ export function Funding() {
 							label="Enter Amount"
 							id="amount"
 							placeholder="1,0000,000"
-							className="text-sm py-3 px-3 rounded-md w-full"
 							{...register("amount", {
 								required: "Amount is required",
 							})}
@@ -155,7 +154,6 @@ export function Funding() {
 							label="Enter Card Number"
 							id="cardNo"
 							placeholder="0000 0000 0000"
-							className="text-sm py-3 px-3 rounded-md w-full"
 							{...register("cardNo", {
 								required: "Card No is required",
 							})}
@@ -169,7 +167,6 @@ export function Funding() {
 								label="Expiry Date"
 								id="expiryDate"
 								placeholder="MM/YY"
-								className="text-sm py-3 px-3 rounded-md w-full"
 								{...register("expiryDate", {
 									required: "Expirty Date is required",
 									validate: {
@@ -210,7 +207,6 @@ export function Funding() {
 							<BaseInput
 								label="CVV"
 								id="cvv"
-								className="text-sm py-3 px-3 rounded-md w-full"
 								placeholder="123"
 								{...register("cvv", {
 									required: "Expirty Date is required",
