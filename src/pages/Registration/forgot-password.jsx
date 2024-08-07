@@ -42,12 +42,12 @@ function ForgotPasswordPage() {
 			{loading && <Overlay />}
 			<p className={`text-primary text-3xl font-bold`}>Forgot Password</p>
 			<p className="text-sm text-gray-500">
-				Insert your registered email or phone number
+				Insert your registered email
 			</p>
 			<br />
 			<div className="mb-8">
 				<BaseInput
-					label="Email or Phone Number"
+					label="Email"
 					onChange={(e) => setInfo(e.target.value)}
 					value={info}
 					required

@@ -1,4 +1,4 @@
-// import { useState } from "react";
+import profileAxios from "../helpers/profileAxios";
 import { Modal } from "./modal";
 import { BaseButton } from "./button";
 import education from "../assets/education-experience.png";
@@ -7,7 +7,6 @@ import { BaseTextArea } from "./text-area";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { useQuery } from "@tanstack/react-query";
-import profileAxios from "../helpers/profileAxios";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import { BaseSelect } from "./select";
