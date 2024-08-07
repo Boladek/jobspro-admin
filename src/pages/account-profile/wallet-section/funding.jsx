@@ -10,10 +10,12 @@ import { UseModal } from "../../../context/modal-context";
 import { SuccessInfo } from "../../../component/success-info";
 import { SquareButton } from "../../../component/square-button";
 import { BaseSelect } from "../../../component/select";
+import { NotificationsHook } from "../../../hooks/notifications-hook";
 
 const amounts = [20000, 10000, 5000, 1000];
 
 export function Funding() {
+	const { refetchNotifications } = NotificationsHook();
 	const [step, setStep] = useState(1);
 	const [loading, setLoading] = useState(false);
 	const { refetch } = UseAuth();
@@ -62,6 +64,7 @@ export function Funding() {
 				refetch();
 				reset();
 				setStep(2);
+				refetchNotifications();
 				setTimeout(() => {
 					handleCloseWallet();
 				}, 5000);

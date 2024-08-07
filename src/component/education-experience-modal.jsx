@@ -1,4 +1,4 @@
-// import { useState } from "react";
+import profileAxios from "../helpers/profileAxios";
 import { Modal } from "./modal";
 import { BaseButton } from "./button";
 import education from "../assets/education-experience.png";
@@ -7,7 +7,6 @@ import { BaseTextArea } from "./text-area";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { useQuery } from "@tanstack/react-query";
-import profileAxios from "../helpers/profileAxios";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import { BaseSelect } from "./select";
@@ -18,12 +17,17 @@ import { isEmpty } from "../helpers/function";
 export function EducationExperienceModal({ open, handleClose, form = {} }) {
 	const { refetch } = UseAuth();
 	const [loading, setLoading] = useState(false);
-	const [remember, setRemember] = useState(false);
 	const {
 		register,
 		formState: { errors },
 		handleSubmit,
+		watch,
 	} = useForm();
+
+	const watchStudying = watch(
+		"isStillStudying",
+		form?.isStillStudying || false
+	);
 
 	const { data: countries = [] } = useQuery({
 		queryKey: ["countries"],
@@ -42,9 +46,9 @@ export function EducationExperienceModal({ open, handleClose, form = {} }) {
 					higherInstitution: data.institution,
 					countryId: Number(data.country),
 					startDate: data.startDate,
-					endDate: data.endDate,
+					endDate: data.endDate || null,
 					discipline: data.discipline,
-					isStillStudying: remember,
+					isStillStudying: data.isStillStudying,
 				})
 				.then((res) => {
 					toast.success(res.message);
@@ -61,9 +65,9 @@ export function EducationExperienceModal({ open, handleClose, form = {} }) {
 					higherInstitution: data.institution,
 					countryId: Number(data.country),
 					startDate: data.startDate,
-					endDate: data.endDate,
+					endDate: data.endDate || null,
 					discipline: data.discipline,
-					isStillStudying: false,
+					isStillStudying: data.isStillStudying,
 				})
 				.then((res) => {
 					toast.success(res.message);
@@ -142,9 +146,8 @@ export function EducationExperienceModal({ open, handleClose, form = {} }) {
 					<div className="sm:col-span-2">
 						<div className="flex gap-2">
 							<input
-								value={remember}
-								onChange={(e) => setRemember(e.target.checked)}
 								defaultChecked={form?.isStillStudying}
+								{...register("isStillStudying")}
 								type="checkbox"
 								className="form-checkbox h-4 w-4 text-indigo-600 border-indigo-600 rounded"
 							/>
@@ -166,10 +169,10 @@ export function EducationExperienceModal({ open, handleClose, form = {} }) {
 					<div className="">
 						<BaseInput
 							label="End Date"
-							disabled={remember}
+							disabled={watchStudying}
 							type="date"
 							{...register("endDate", {
-								required: !remember && "This field is required",
+								required: !watchStudying && "This field is required",
 							})}
 							defaultValue={form?.endDate}
 							error={errors.endDate}
