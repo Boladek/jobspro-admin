@@ -6,19 +6,12 @@ import { BaseButton } from "../../../../component/button";
 import { Overlay } from "../../../../component/overlay-component";
 import { BaseTextArea } from "../../../../component/text-area";
 import profileAxios from "../../../../helpers/profileAxios";
-import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { NotificationsHook } from "../../../../hooks/notifications-hook";
 
-export function DisputeGig({ open, handleClose, refetch }) {
+export function DisputeGig({ open, handleClose, refetch, gigData }) {
 	const { refetchNotifications } = NotificationsHook();
-	const location = useLocation();
-	const { gigData } = location.state;
-	const {
-		register,
-		formState: { errors },
-		handleSubmit,
-	} = useForm();
+	const { handleSubmit } = useForm();
 	const [reason, setReason] = useState("");
 	const [loading, setLoading] = useState(false);
 
@@ -87,4 +80,5 @@ DisputeGig.propTypes = {
 	open: PropTypes.bool.isRequired,
 	handleClose: PropTypes.func.isRequired, // Proper usage of PropTypes
 	refetch: PropTypes.func,
+	gigData: PropTypes.object,
 };

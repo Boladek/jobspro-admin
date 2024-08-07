@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BaseButton } from "../../../../component/button";
+// import { BaseButton } from "../../../../component/button";
 // import { useTimer } from "../timer-hook";
 import { CancelGig } from "./cancel-gig";
 import { CompleteGig } from "./complete-gig";
@@ -519,6 +519,10 @@ export function BusinessGigTimeLine({ gig }) {
 					handleClose={() => setOpenPayPro(false)}
 					gig={gig}
 					openOtp={() => setOpenPaymentOtp(true)}
+					openTip={() => {
+						setOpenAdjustTip(true);
+						setOpenPayPro(false);
+					}}
 				/>
 			)}
 
@@ -559,6 +563,7 @@ export function BusinessGigTimeLine({ gig }) {
 						setOpenComplete(false);
 					}}
 					openReview={() => setOpenReview(true)}
+					gigData={gig}
 				/>
 			)}
 
@@ -569,6 +574,7 @@ export function BusinessGigTimeLine({ gig }) {
 						setOpenAdjustment(false);
 						refetch();
 					}}
+					gigData={gig}
 				/>
 			)}
 
@@ -579,12 +585,17 @@ export function BusinessGigTimeLine({ gig }) {
 						setOpenAdjustTip(false);
 						refetch();
 					}}
-					openReview={() => setOpenComplete(true)}
+					openPay={() => setOpenPayPro(true)}
+					gigData={gig}
 				/>
 			)}
 
 			{openReview && (
-				<GigReview open={openReview} handleClose={() => setOpenReview(false)} />
+				<GigReview
+					open={openReview}
+					handleClose={() => setOpenReview(false)}
+					gigData={gig}
+				/>
 			)}
 
 			{openDispute && (
@@ -595,6 +606,7 @@ export function BusinessGigTimeLine({ gig }) {
 						refetch();
 					}}
 					refetch={refetch}
+					gigData={gig}
 				/>
 			)}
 		</div>

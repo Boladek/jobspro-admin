@@ -5,7 +5,6 @@ import { Modal } from "../../../../component/modal";
 import { BaseButton } from "../../../../component/button";
 import { Overlay } from "../../../../component/overlay-component";
 import profileAxios from "../../../../helpers/profileAxios";
-import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { NotificationsHook } from "../../../../hooks/notifications-hook";
 
@@ -15,10 +14,9 @@ export function CompleteGig({
 	openDispute,
 	openTip,
 	openReview,
+	gigData,
 }) {
 	const { refetchNotifications } = NotificationsHook();
-	const location = useLocation();
-	const { gigData } = location.state;
 	const { handleSubmit } = useForm();
 	const [loading, setLoading] = useState(false);
 
@@ -89,4 +87,5 @@ CompleteGig.propTypes = {
 	openDispute: PropTypes.func,
 	openTip: PropTypes.func,
 	openReview: PropTypes.func,
+	gigData: PropTypes.object,
 };

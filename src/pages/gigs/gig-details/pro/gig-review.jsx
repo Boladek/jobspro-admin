@@ -8,7 +8,7 @@ import { BaseTextArea } from "../../../../component/text-area";
 import { StarRating } from "../../../../component/star-rating";
 import { formatNumber } from "../../../../helpers/function";
 import profileAxios from "../../../../helpers/profileAxios";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export function GigReview({ open, handleClose }) {

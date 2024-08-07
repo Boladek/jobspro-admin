@@ -490,6 +490,7 @@ export function ProGigTimeLine({ gig }) {
 						setOpenReview(false);
 						refetch();
 					}}
+					gigId={gig.gigAccepted[0].uuid}
 				/>
 			)}
 

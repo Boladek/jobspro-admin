@@ -7,7 +7,7 @@ import { EditIcon } from "../../../assets/edit-icon";
 import { useQuery } from "@tanstack/react-query";
 import profileAxios from "../../../helpers/profileAxios";
 import { IoLocationSharp } from "react-icons/io5";
-import { FaRegEdit } from "react-icons/fa";
+// import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { MdEditLocationAlt } from "react-icons/md";
 // import { LocationIcon } from "../../../assets/admin/location-icon";
@@ -24,14 +24,14 @@ export function GigAddress({ handleForm, gotoNextStep, form }) {
 		setSelected(acct);
 	}
 
-	// const { data, isLoading, refetch } = useQuery({
-	// 	queryKey: ["gig-address"],
-	// 	queryFn: () => profileAxios.get(`/gigs/saved-address`),
-	// 	select: (data) => data,
-	// 	staleTime: Infinity,
-	// });
+	const { data, isLoading, refetch } = useQuery({
+		queryKey: ["gig-address"],
+		queryFn: () => profileAxios.get(`/gigs/saved-address`),
+		select: (data) => data,
+		staleTime: Infinity,
+	});
 
-	// console.log({ data });
+	console.log({ data });
 
 	const handleClick = () => {
 		const formData = {

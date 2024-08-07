@@ -1,11 +1,11 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 import { BsFillBellFill } from "react-icons/bs";
 import { ProgressBar } from "./admin/progress-bar";
 import { Notification } from "./notification";
-import { generateArray } from "../helpers/function";
+// import { generateArray } from "../helpers/function";
 import { NotificationsHook } from "../hooks/notifications-hook";
 
-const tabs = ["All", "Gigs", "Wallet", "Profile", "Others"];
+const tabs = ["All", "Gigs", "Wallet"];
 
 export function Notifications() {
 	const { notifications, markAsRead, unReadNotifications } =
@@ -37,6 +37,21 @@ export function Notifications() {
 			document.removeEventListener("mousedown", handleClickOutside);
 		};
 	}, []);
+
+	const filter = useMemo(() => {
+		if (notifications.length > 0) {
+			return notifications.filter((item) => {
+				if (activeTab === tabs[0]) return item;
+				if (activeTab === tabs[1])
+					return item.subject.toLowerCase().includes("gig");
+				if (activeTab === tabs[2])
+					return item.subject.toLowerCase().includes("wallet");
+				// if (activeTab === tabs[3]) return item;
+				// if (activeTab === tabs[4]) return item;
+			});
+		}
+		return [];
+	}, [notifications, activeTab]);
 
 	return (
 		<>
@@ -78,7 +93,7 @@ export function Notifications() {
 							</div>
 						</div>
 						<div className="max-h-[70vh] overflow-y-auto">
-							{notifications.map((notification) => (
+							{filter.map((notification) => (
 								<Notification
 									key={notification.uuid}
 									notification={notification}

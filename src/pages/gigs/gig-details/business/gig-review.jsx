@@ -9,11 +9,11 @@ import { StarRating } from "../../../../component/star-rating";
 import { formatNumber } from "../../../../helpers/function";
 import profileAxios from "../../../../helpers/profileAxios";
 import { toast } from "react-toastify";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 
-export function GigReview({ open, handleClose }) {
-	const location = useLocation();
-	const { gigData } = location.state;
+export function GigReview({ open, handleClose, gigData }) {
+	// const location = useLocation();
+	// const { gigData } = location.state;
 	const { handleSubmit } = useForm();
 	const [loading, setLoading] = useState(false);
 	const [rating, setRating] = useState(0);
@@ -127,4 +127,5 @@ export function GigReview({ open, handleClose }) {
 GigReview.propTypes = {
 	open: PropTypes.bool.isRequired,
 	handleClose: PropTypes.func.isRequired, // Proper usage of PropTypes
+	gigData: PropTypes.object,
 };
