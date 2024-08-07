@@ -55,12 +55,12 @@ export function ManageProfile() {
 					text="Reach out to us via this line 01-203456"
 				/>
 			</div>
-			<div className="max-w-sm w-full">
+			<a className="block max-w-sm w-full" href="mailto:info@jobspro.com" target="blank">
 				<SectionCard
 					title="Email"
 					text="Reach out to us via this mail info@jobspro.com"
 				/>
-			</div>
+			</a>
 		</div>
 	);
 }

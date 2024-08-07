@@ -18,8 +18,11 @@ export function SkillsSection() {
 	}
 
 	return (
-		<div className="mt-4 pr-2">
-			<p className="text-xs font-bold mb-1">Skills</p>
+		<div className="pr-2">
+			<div className="py-1 px-6 rounded-full border bg-gray-50 w-fit  text-adminPrimary border-adminPrimary mb-2">
+				Skills
+			</div>
+			{/* <p className="text-xs font-bold mb-1">Skills</p> */}
 			<div className="flex justify-between gap-2">
 				<div>
 					{user && user?.userSkillSets.length > 0 ? (
@@ -40,7 +43,9 @@ export function SkillsSection() {
 							))}
 						</div>
 					) : (
-						<p>Click here to update skills</p>
+						<p onClick={() => setOpen(true)}>
+							No Skills Added yet. Please click here to update skills
+						</p>
 					)}
 				</div>
 				<div onClick={() => setOpen(true)} className="w-15">

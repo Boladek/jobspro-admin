@@ -13,10 +13,12 @@ import { useState } from "react";
 import { BaseSelect } from "./select";
 import { Overlay } from "./overlay-component";
 import { UseAuth } from "../context/auth-context";
+import { isEmpty } from "../helpers/function";
 
 export function EducationExperienceModal({ open, handleClose, form = {} }) {
 	const { refetch } = UseAuth();
 	const [loading, setLoading] = useState(false);
+	const [remember, setRemember] = useState(false);
 	const {
 		register,
 		formState: { errors },
@@ -32,123 +34,163 @@ export function EducationExperienceModal({ open, handleClose, form = {} }) {
 
 	const onSubmit = (data) => {
 		setLoading(true);
-		profileAxios
-			.post("/profile/education-history", {
-				degree: data.degree,
-				description: data.description,
-				higherInstitution: data.institution,
-				countryId: Number(data.country),
-				startDate: data.startDate,
-				endDate: data.endDate,
-				discipline: data.discipline,
-				isStillStudying: false,
-			})
-			.then((res) => {
-				toast.success(res.message);
-				refetch();
-				handleClose();
-			})
-			.catch((err) => toast.error(err.response.data.message))
-			.finally(() => setLoading(false));
+		if (!isEmpty(form)) {
+			profileAxios
+				.patch(`/profile/education-history/${form.id}`, {
+					degree: data.degree,
+					description: data.description,
+					higherInstitution: data.institution,
+					countryId: Number(data.country),
+					startDate: data.startDate,
+					endDate: data.endDate,
+					discipline: data.discipline,
+					isStillStudying: remember,
+				})
+				.then((res) => {
+					toast.success(res.message);
+					refetch();
+					handleClose();
+				})
+				.catch((err) => toast.error(err.response.data.message))
+				.finally(() => setLoading(false));
+		} else {
+			profileAxios
+				.post("/profile/education-history", {
+					degree: data.degree,
+					description: data.description,
+					higherInstitution: data.institution,
+					countryId: Number(data.country),
+					startDate: data.startDate,
+					endDate: data.endDate,
+					discipline: data.discipline,
+					isStillStudying: false,
+				})
+				.then((res) => {
+					toast.success(res.message);
+					refetch();
+					handleClose();
+				})
+				.catch((err) => toast.error(err.response.data.message))
+				.finally(() => setLoading(false));
+		}
 	};
 
 	return (
-		<Modal open={open} handleClose={handleClose} maxWidth={750}>
+		<Modal open={open} handleClose={handleClose} maxWidth={600}>
 			{loading && <Overlay message="Updating Educational History" />}
-			<form className="w-full p-2" onSubmit={handleSubmit(onSubmit)}>
-				<div className="flex flex-col items-center gap-2 mb-4 w-2/3 my-0 mx-auto">
-					<div className="hidden md:block">
-						<img
-							src={education}
-							alt="Illustration"
-							height="50"
-							className="h-24"
-						/>
-					</div>
-					<p className={`font-bold text-primary text-2xl`}>
+			<form
+				className="w-full p-4 grid grid-cols-1 gap-4"
+				onSubmit={handleSubmit(onSubmit)}
+			>
+				<div className="flex flex-col items-center justify-center">
+					<img src={education} alt="Illustration" className="h-20" />
+					<p className={`font-bold text-primary text-xl`}>
 						Add Education Experience
 					</p>
 				</div>
-				<div className="block gap-4 mb-4 md:flex">
-					<div className="w-full md:w-1/2">
-						<div className="mb-2">
-							<BaseInput
-								label="Institution"
-								{...register("institution", {
-									required: "This field is required",
-								})}
-								error={errors.institution}
-								errorText={errors.institution && errors.institution.message}
-								defaultValue={form.higherInstitution}
+				<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+					<div className="">
+						<BaseInput
+							label="Institution"
+							{...register("institution", {
+								required: "This field is required",
+							})}
+							error={errors.institution}
+							errorText={errors.institution && errors.institution.message}
+							defaultValue={form.higherInstitution}
+						/>
+					</div>
+					<div className="">
+						<BaseInput
+							label="Degree"
+							{...register("degree", {
+								required: "This field is required",
+							})}
+							error={errors.degree}
+							errorText={errors.degree && errors.degree.message}
+							defaultValue={form.degree}
+						/>
+					</div>
+					<div className="">
+						<BaseInput
+							label="Discipline"
+							{...register("discipline", {
+								required: "This field is required",
+							})}
+							error={errors.discipline}
+							errorText={errors.discipline && errors.discipline.message}
+							defaultValue={form.discipline}
+						/>
+					</div>
+					<div className="">
+						<BaseSelect
+							label="Country"
+							{...register("country", {
+								required: "This field is required",
+							})}
+							error={errors.country}
+							errorText={errors.country && errors.country.message}
+						>
+							<option></option>
+							{countries.map((item) => (
+								<option key={item.uuid} value={item.id}>
+									{item.name}
+								</option>
+							))}
+						</BaseSelect>
+					</div>
+					<div className="sm:col-span-2">
+						<div className="flex gap-2">
+							<input
+								value={remember}
+								onChange={(e) => setRemember(e.target.checked)}
+								defaultChecked={form?.isStillStudying}
+								type="checkbox"
+								className="form-checkbox h-4 w-4 text-indigo-600 border-indigo-600 rounded"
 							/>
-						</div>
-						<div className="mb-2">
-							<BaseInput
-								label="Degree"
-								{...register("degree", {
-									required: "This field is required",
-								})}
-								error={errors.degree}
-								errorText={errors.degree && errors.degree.message}
-								defaultValue={form.degree}
-							/>
-						</div>
-
-						<div className="mb-2">
-							<BaseInput
-								label="Discipline"
-								{...register("discipline", {
-									required: "This field is required",
-								})}
-								error={errors.discipline}
-								errorText={errors.discipline && errors.discipline.message}
-								defaultValue={form.discipline}
-							/>
-						</div>
-						<div className="mb-2">
-							<BaseSelect
-								label="Country"
-								{...register("country", {
-									required: "This field is required",
-								})}
-								error={errors.country}
-								errorText={errors.country && errors.country.message}
-							>
-								<option></option>
-								{countries.map((item) => (
-									<option key={item.uuid} value={item.id}>
-										{item.name}
-									</option>
-								))}
-							</BaseSelect>
+							<label className="text-sm">I’m still studying</label>
 						</div>
 					</div>
-					<div className="w-full md:w-1/2">
-						<div className="flex gap-2">
-							<div className="mb-2">
-								<BaseInput
-									label="Start Date"
-									defaultValue={form.startDate}
-									type="date"
-								/>
-							</div>
-							<div className="mb-2">
-								<BaseInput label="End Date" type="date" />
-							</div>
-						</div>
-						<div className="mb-2">
-							<BaseTextArea label="Description" />
-						</div>
+					<div className="">
+						<BaseInput
+							label="Start Date"
+							defaultValue={form.startDate}
+							type="date"
+							{...register("startDate", {
+								required: "This field is required",
+							})}
+							error={errors.startDate}
+							errorText={errors.startDate && errors.startDate.message}
+						/>
+					</div>
+					<div className="">
+						<BaseInput
+							label="End Date"
+							disabled={remember}
+							type="date"
+							{...register("endDate", {
+								required: !remember && "This field is required",
+							})}
+							defaultValue={form?.endDate}
+							error={errors.endDate}
+							errorText={errors.endDate && errors.endDate.message}
+						/>
+					</div>
+					<div className="sm:col-span-2">
+						<BaseTextArea
+							label="Description"
+							{...register("description")}
+							defaultValue={form?.description}
+						/>
 					</div>
 				</div>
-				<hr />
-				<div className="flex justify-center gap-2 mt-4">
-					<div className="w-1/4">
+				<div className="flex justify-center gap-2">
+					<div className="w-1/2">
 						<BaseButton variant="sec" type="button" onClick={handleClose}>
 							Cancel
 						</BaseButton>
 					</div>
-					<div className="w-1/4">
+					<div className="w-1/2">
 						<BaseButton type="submit">Save</BaseButton>
 					</div>
 				</div>

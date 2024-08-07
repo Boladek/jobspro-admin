@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { BaseInput } from "../../../component/input";
 import { formatNumber } from "../../../helpers/function";
 import { useForm } from "react-hook-form";
@@ -9,6 +9,7 @@ import { Overlay } from "../../../component/overlay-component";
 import { UseModal } from "../../../context/modal-context";
 import { SuccessInfo } from "../../../component/success-info";
 import { SquareButton } from "../../../component/square-button";
+import { BaseSelect } from "../../../component/select";
 
 const amounts = [20000, 10000, 5000, 1000];
 
@@ -23,9 +24,34 @@ export function Funding() {
 		handleSubmit,
 		setValue,
 		reset,
+		watch,
 	} = useForm();
+	const watchCard = watch("cardNo", "");
+	const watchExp = watch("expiryDate", "");
+
+	function parseDate(v) {
+		const [month, year] = v.split("/").map((item) => parseInt(item, 10));
+		// Adding 1 to the month because JavaScript months are zero-indexed
+		const expiryDate = new Date(year + 2000, month);
+		// const newDate = new Date(expiryDate);
+		const formatter = new Intl.DateTimeFormat("en-US", {
+			year: "numeric",
+			month: "numeric",
+			day: "numeric",
+		});
+		const parts = formatter.formatToParts(expiryDate);
+		const monthFormat = parts
+			.find((part) => part.type === "month")
+			.value.padStart(2, "0");
+		const day = parts
+			.find((part) => part.type === "day")
+			.value.padStart(2, "0");
+		const yearFormat = parts.find((part) => part.type === "year").value;
+		return `${yearFormat}-${monthFormat}-${day}`;
+	}
 
 	const onSubmit = (data) => {
+		data.expiryDate = parseDate(data.expiryDate);
 		setLoading(true);
 		profileAxios
 			.post("/gigs/fund-wallet", {
@@ -44,12 +70,51 @@ export function Funding() {
 			.finally(() => setLoading(false));
 	};
 
+	useEffect(() => {
+		const formatCardNumber = (value) => {
+			return value
+				.replace(/\D/g, "")
+				.replace(/(.{4})/g, "$1 ")
+				.trim();
+		};
+
+		if (watchCard) {
+			const newValue = formatCardNumber(watchCard);
+			setValue("cardNo", newValue);
+		}
+	}, [watchCard, setValue]);
+
+	useEffect(() => {
+		const formatExpiryDate = (value) => {
+			// Remove non-numeric characters
+			const numericValue = value.replace(/\D/g, "");
+
+			// Limit to four numeric characters
+			const formattedValue = numericValue.slice(0, 4);
+
+			// Add the '/' separator after the first two characters
+			if (formattedValue.length > 2) {
+				return formattedValue.slice(0, 2) + " / " + formattedValue.slice(2);
+			} else {
+				return formattedValue;
+			}
+		};
+
+		if (watchExp) {
+			const newValue = formatExpiryDate(watchExp);
+			setValue("expiryDate", newValue);
+		}
+	}, [watchExp, setValue]);
+
 	return (
-		<form className="p-2" onSubmit={handleSubmit(onSubmit)}>
+		<form
+			className="p-2 grid grid-cols-1 gap-4 pr-4"
+			onSubmit={handleSubmit(onSubmit)}
+		>
 			{loading && <Overlay message="funding Wallet" />}
 			{step === 1 && (
 				<>
-					<div className="flex gap-1 mb-4">
+					<div className="flex gap-1">
 						{amounts.map((val) => (
 							<div
 								key={val}
@@ -60,112 +125,104 @@ export function Funding() {
 							</div>
 						))}
 					</div>
-					<div className="mb-4">
-						<label
-							htmlFor="amount"
-							className="block text-xs font-bold mb-1 text-gray-500"
-						>
-							Enter Amount
-						</label>
-						<input
-							type="text"
+					<div>
+						<BaseInput
+							label="Enter Amount"
 							id="amount"
-							className="text-sm py-3 px-3 rounded-md w-full"
+							placeholder="1,0000,000"
 							{...register("amount", {
 								required: "Amount is required",
 							})}
+							error={errors.amount}
+							errorText={errors.amount && errors.amount.message}
 						/>
-						{errors.amount && (
-							<span className="text-red-500 text-xs">
-								{errors.amount.message}
-							</span>
-						)}
 					</div>
-					<div className="mb-4">
-						<label
-							htmlFor="bank"
-							className="block text-xs font-bold mb-1 text-gray-500"
-						>
-							Select Bank
-						</label>
-						<select
+					<div>
+						<BaseSelect
+							label="Select Bank"
 							{...register("bank", {
 								required: "Bank is required",
 							})}
-							id="bank"
-							className="text-sm py-3 px-3 rounded-md w-full"
+							error={errors.bank}
+							errorText={errors.bank && errors.bank.message}
 						>
 							<option>Zenith</option>
-						</select>
-						{errors.bank && (
-							<span className="text-red-500 text-xs">
-								{errors.bank.message}
-							</span>
-						)}
+						</BaseSelect>
 					</div>
-					<div className="mb-4">
-						<label
-							htmlFor="cardNo"
-							className="block text-xs font-bold mb-1 text-gray-500"
-						>
-							Enter Card Number
-						</label>
-						<input
-							type="number"
+					<div>
+						<BaseInput
+							label="Enter Card Number"
 							id="cardNo"
-							className="text-sm py-3 px-3 rounded-md w-full"
+							placeholder="0000 0000 0000"
 							{...register("cardNo", {
-								required: "Card Number is required",
+								required: "Card No is required",
 							})}
+							error={errors.cardNo}
+							errorText={errors.cardNo && errors.cardNo.message}
 						/>
-						{errors.cardNo && (
-							<span className="text-red-500 text-xs">
-								{errors.cardNo.message}
-							</span>
-						)}
 					</div>
-					<div className="flex gap-4 mb-4">
+					<div className="flex gap-4">
 						<div className="flex-1">
-							<label
-								htmlFor="expiryDate"
-								className="block text-xs font-bold mb-1 text-gray-500"
-							>
-								Expiry Date
-							</label>
-							<input
-								type="date"
+							<BaseInput
+								label="Expiry Date"
 								id="expiryDate"
-								className="text-sm py-3 px-3 rounded-md w-full"
-								{...register("expDate", {
-									required: "This is required",
+								placeholder="MM/YY"
+								{...register("expiryDate", {
+									required: "Expirty Date is required",
+									validate: {
+										isValidFormat: (v) => {
+											const [month, year] = v
+												.split("/")
+												.map((item) => parseInt(item, 10));
+											if (
+												!month ||
+												!year ||
+												month < 1 ||
+												month > 12 ||
+												year < 0 ||
+												year > 99
+											) {
+												return "Invalid date format";
+											}
+											return true;
+										},
+										isNotExpired: (v) => {
+											const [month, year] = v
+												.split("/")
+												.map((item) => parseInt(item, 10));
+											const currentDate = new Date();
+											const expiryDate = new Date(year + 2000, month, 0); // last day of the month
+											if (expiryDate < currentDate) {
+												return "The expiry date is in the past";
+											}
+											return true;
+										},
+									},
 								})}
+								error={errors.expiryDate}
+								errorText={errors.expiryDate && errors.expiryDate.message}
 							/>
-							{errors.expDate && (
-								<span className="text-red-500 text-xs">
-									{errors.expDate.message}
-								</span>
-							)}
 						</div>
 						<div className="flex-1">
-							<label
-								htmlFor="cvv"
-								className="block text-xs font-bold mb-1 text-gray-500"
-							>
-								CVV
-							</label>
-							<input
-								type="number"
-								id="amount"
-								className="text-sm py-3 px-3 rounded-md w-full"
+							<BaseInput
+								label="CVV"
+								id="cvv"
+								placeholder="123"
 								{...register("cvv", {
-									required: "This is required",
+									required: "Expirty Date is required",
+									minLength: {
+										value: 3,
+										message: "CVV must be 3 characters long",
+									},
+									maxLength: {
+										value: 3,
+										message: "CVV must be 3 characters long",
+									},
 								})}
+								maxLength="3"
+								error={errors.cvv}
+								errorText={errors.cvv && errors.cvv.message}
 							/>
-							{errors.cvv && (
-								<span className="text-red-500 text-xs">
-									{errors.cvv.message}
-								</span>
-							)}
 						</div>
 					</div>
 					<div className="mb-4 flex gap-2 items-center">
@@ -180,10 +237,6 @@ export function Funding() {
 						</label>
 					</div>
 					<div>
-						{/* <button className="p-3 text-white rounded-md bg-primary w-full flex justify-between text-xs font-bold items-center hover:opacity-70">
-							<span className="font-bold">Next</span>
-							<span>&rarr;</span>
-						</button> */}
 						<SquareButton>Next</SquareButton>
 					</div>
 				</>

@@ -11,6 +11,7 @@ import { SideWrapper } from "../../../component/side-wrapper";
 import { GenerateVirtualAccounts } from "./generate-virtual-account";
 import { GoPlusCircle } from "react-icons/go";
 import { UseAuth } from "../../../context/auth-context";
+import { CopyTextHook } from "../../../hooks/copy-hook";
 
 const tabs = [
 	{ title: "Transactions", icon: AnalyticsIcon },
@@ -20,6 +21,7 @@ const tabs = [
 ];
 
 export function WalletSection() {
+	const { copyToClipboard } = CopyTextHook();
 	const [open, setOpen] = useState(false);
 	const [activeTab, setActiveTab] = useState(tabs[0].title);
 	const { handleCloseWallet } = UseModal();
@@ -37,7 +39,9 @@ export function WalletSection() {
 				</div>
 				<div className="mb-4 p-4 bg-primary rounded-lg text-white text-xs flex justify-between items-center">
 					{gettingWalletDetails ? (
-						<div className="text-center w-full font-bold py-2">Please wait...</div>
+						<div className="text-center w-full font-bold py-2">
+							Please wait...
+						</div>
 					) : (
 						<>
 							{accounts && accounts.data && (
@@ -52,7 +56,14 @@ export function WalletSection() {
 											{accounts?.data?.user?.finclusionAccountNumber}
 										</p>
 									</div>
-									<IoIosCopy className="text-xl" />
+									<IoIosCopy
+										className="text-xl cursor-pointer"
+										onClick={() =>
+											copyToClipboard(
+												accounts?.data?.user?.finclusionAccountNumber
+											)
+										}
+									/>
 								</>
 							)}
 							{accounts && accounts.data === null && (
