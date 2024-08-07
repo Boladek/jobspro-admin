@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import profileAxios from "../../../../helpers/profileAxios";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
@@ -6,7 +6,7 @@ import { object, func } from "prop-types";
 import { PropComponent } from "../../../../component/pro-component";
 import { NoInfo } from "../../../../component/no-info";
 
-export function GigApplications({ gig, refetch }) {
+export function GigApplications({ refetch }) {
 	const { id } = useParams();
 	const { data: proApplications = [] } = useQuery({
 		queryKey: ["fetch-pro-applicants-details" + id, id],

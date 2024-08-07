@@ -317,7 +317,7 @@ export function GigComponent({ gig, refetch }) {
 													N{formatNumber(gig.totalBudget)}
 												</div>
 											</div>
-											<div className="flex justify-between items-center mb-2">
+											{/* <div className="flex justify-between items-center mb-2">
 												<div className="text-sm text-gray-400">JobsPro Fee</div>
 												<div className="text-gray-500 text-sm font-bold">
 													N{formatNumber(gig.jobProFee || 0)}
@@ -328,7 +328,7 @@ export function GigComponent({ gig, refetch }) {
 												<div className="text-gray-500 text-sm font-bold">
 													N{formatNumber(gig.escrowFee || 0)}
 												</div>
-											</div>
+											</div> */}
 											<div className="flex justify-between items-center mb-2">
 												<div className="text-sm text-gray-400">
 													Estimated Total

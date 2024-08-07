@@ -26,8 +26,6 @@ export function GigSummaryBusiness() {
 		enabled: !!role && !!id,
 	});
 
-	console.log({ data });
-
 	return (
 		<DashBoardWrapper>
 			<div className="flex flex-wrap gap-4 items-center p-2 w-full">

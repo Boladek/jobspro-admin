@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import { useState } from "react";
 import { BaseButton } from "../../../component/button";
-import { GigLocation } from "./gig-location";
+// import { GigLocation } from "./gig-location";
 import { GigInformationModal } from "./gig-information-modal";
 import { EditIcon } from "../../../assets/edit-icon";
 
@@ -24,18 +24,18 @@ export function GigInformation({ handleForm, gotoNextStep, goBack }) {
 				</div>
 			)}
 			<div>
-				<div className="py-4">
+				<div className="py-4 max-w-sm mx-auto">
 					<div
 						onClick={() => setOpen(true)}
-						className="p-3  border rounded-full w-fit text-sm hover:text-secondary text-primary font-bold cursor-pointer hover:bg-gray-100 mx-auto"
+						className="p-3 border border-dashed border-primary rounded-full w-full text-center text-sm hover:text-secondary text-primary font-bold cursor-pointer hover:bg-gray-100 mx-auto"
 					>
 						Add New Information &#43;
 					</div>
 				</div>
 			</div>
 
-			<div className="flex justify-center gap-2 mt-4">
-				<div className="w-1/4">
+			<div className="flex max-w-sm mx-auto justify-center gap-2 mt-4">
+				<div className="w-1/2">
 					<BaseButton
 						type="button"
 						variant="sec"
@@ -45,7 +45,7 @@ export function GigInformation({ handleForm, gotoNextStep, goBack }) {
 						Back
 					</BaseButton>
 				</div>
-				<div className="w-1/4">
+				<div className="w-1/2">
 					<BaseButton
 						type="button"
 						onClick={handleClick}

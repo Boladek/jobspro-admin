@@ -10,7 +10,6 @@ import { AdjustTip } from "./adjust-tip";
 import { GigReview } from "./gig-review";
 import { useQuery } from "@tanstack/react-query";
 import profileAxios from "../../../../helpers/profileAxios";
-import { useLocation, useParams } from "react-router-dom";
 import { DisputeGig } from "./dispute-gig";
 import { SquareButton } from "../../../../component/square-button";
 import { PayPro } from "./pay-pro";
@@ -22,8 +21,6 @@ import time from "../../../../assets/timer.png";
 import PropTypes from "prop-types";
 
 export function BusinessGigTimeLine({ gig }) {
-	const location = useLocation();
-	const { gigData } = location.state;
 	const [openCancel, setOpenCancel] = useState(false);
 	const [openComplete, setOpenComplete] = useState(false);
 	const [openAdjustment, setOpenAdjustment] = useState(false);
@@ -39,11 +36,9 @@ export function BusinessGigTimeLine({ gig }) {
 		isLoading,
 		refetch,
 	} = useQuery({
-		queryKey: ["fetch-gig-timeline" + gigData?.gigAccepted[0]?.uuid],
+		queryKey: ["fetch-gig-timeline" + gig?.gigAccepted[0]?.uuid],
 		queryFn: () =>
-			profileAxios.get(
-				`/gigs/timeline/business/${gigData?.gigAccepted[0]?.uuid}`
-			),
+			profileAxios.get(`/gigs/timeline/business/${gig?.gigAccepted[0]?.uuid}`),
 		select: (data) => data.data,
 		// staleTime: Infinity,
 		retry: 2,
@@ -522,7 +517,7 @@ export function BusinessGigTimeLine({ gig }) {
 				<PayPro
 					open={openPayPro}
 					handleClose={() => setOpenPayPro(false)}
-					gig={gigData}
+					gig={gig}
 					openOtp={() => setOpenPaymentOtp(true)}
 				/>
 			)}
@@ -531,7 +526,7 @@ export function BusinessGigTimeLine({ gig }) {
 				<PaymentOtp
 					open={openPaymentOtp}
 					handleClose={() => setOpenPaymentOtp(false)}
-					gig={gigData}
+					gig={gig}
 					openReview={() => setOpenReview(true)}
 				/>
 			)}
