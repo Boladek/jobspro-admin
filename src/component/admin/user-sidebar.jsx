@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { UseAdminUsersContext } from "../../context/admin-users-context";
 import { generateArray } from "../../helpers/function";
 import { GrowthCard } from "../../pages/admin/landing-page/growth-card";
 import avatar from "../../assets/profile-avatar.png";
 import { useNavigate } from "react-router-dom";
-import { StarRating } from "../star-rating";
 import { FaStar } from "react-icons/fa";
 import { ProgressBar } from "./progress-bar";
 import { IncreaseIcon } from "../../assets/admin/increase-icon";

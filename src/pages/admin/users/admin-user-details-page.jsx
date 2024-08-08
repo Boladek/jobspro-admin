@@ -2,6 +2,7 @@ import { useState } from "react";
 import { UserDetailsSection } from "./user-details-section";
 import { UserActions } from "./actions";
 import { JobsSection } from "./jobs";
+import { Transactions } from "./transactions";
 
 const tabs = ["Jobs", "Transactions", "Actions"];
 
@@ -12,7 +13,7 @@ function AdminUserDetailsPage() {
 			<div className="w-2/5 h-full overflow-auto">
 				<UserDetailsSection />
 			</div>
-			<div className="w-3/5 p-4 h-full overflow-auto">
+			<div className="w-3/5 p-4 h-full flex flex-col">
 				<div className="flex justify-between items-center">
 					<div className="flex gap-4">
 						{tabs.map((tab) => (
@@ -74,7 +75,8 @@ function AdminUserDetailsPage() {
 						</div>
 					)}
 				</div>
-				<div>
+				<div className="flex-1 overflow-auto">
+					{activeTab === tabs[1] && <Transactions />}
 					{activeTab === tabs[2] && <UserActions />}
 					{activeTab === tabs[0] && <JobsSection />}
 				</div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { StatsSummary } from "./stats-summary";
 import { JobsPosted } from "./jobs-posted";
 import { PieChart } from "../../../component/pie-chart";
