@@ -1,5 +1,3 @@
-// import { FinancialStatementProvider } from "../../../../context/financial-statement-context";
-// import { FinancialStatement } from "./financial-statement";
 import { generateArray } from "../../../../helpers/function";
 import { Divisions } from "./divisions";
 import avatar from "../../../../assets/profile-avatar.png";

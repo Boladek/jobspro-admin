@@ -5,7 +5,6 @@ import { DocIcon } from "../../../assets/admin/doc-icon";
 import { BaseInput } from "../../../component/input";
 import { UsersTable } from "./users-table";
 import { AddUserModal } from "./add-user-modal";
-import { SearchComponent } from "../../../component/search-component";
 
 const links = [
 	{ title: "active", icon: DashboardIcon },
