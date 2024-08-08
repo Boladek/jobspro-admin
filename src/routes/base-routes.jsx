@@ -38,6 +38,8 @@ import { DashboardMainPage } from "../pages/admin/landing-page/main-page";
 import { DashboardLogsPage } from "../pages/admin/landing-page/logs-page";
 import { AdminUsersListPage } from "../pages/admin/users";
 import { AdminUsersProvider } from "../context/admin-users-context";
+import { FinancialStatementProvider } from "../context/financial-statement-context";
+import { FinancialStatement } from "../pages/admin/users/staff/financial-statement";
 
 const router = createBrowserRouter([
 	{
