@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { StatsSummary } from "./stats-summary";
 import { JobsPosted } from "./jobs-posted";
 import { PieChart } from "../../../component/pie-chart";
@@ -6,9 +6,10 @@ import { Calendar } from "./calendar";
 import { ProgressBar } from "../../../component/admin/progress-bar";
 import { WalletIcon } from "../../../assets/admin/wallet-icon";
 import { BarChart } from "../../../component/bar-chart";
-import { generateArray } from "../../../helpers/function";
+import { UseAdminDashboardContext } from "../../../context/admin-dashboard-context";
 
 export function DashboardMainPage() {
+	const { jobsChart } = UseAdminDashboardContext();
 	const today = new Date();
 	today.setMonth(today.getMonth() + 1);
 	today.setDate(0);
@@ -16,6 +17,19 @@ export function DashboardMainPage() {
 		new Date(today.getFullYear(), today.getMonth(), 1)
 	);
 	const [endDate, setEndDate] = useState(new Date(today));
+
+	const barChart = useMemo(() => {
+		if (jobsChart.length > 0) {
+			return jobsChart.map((job) => ({
+				day: job.shortDay,
+				posted: job.totalGigs,
+				postedColor: "#F7FFD7",
+				match: job.matchedGigs,
+				matchColor: "#0FFF9A",
+			}));
+		}
+		return [];
+	}, [jobsChart]);
 
 	return (
 		<div>
@@ -144,7 +158,6 @@ export function DashboardMainPage() {
 									))}
 								</div>
 								<div className="flex gap-2 items-center text-xs">
-									{/* <label htmlFor="filter">Filter By:</label> */}
 									<select
 										id="filter"
 										className="rounded-sm py-1 px-2 text-xs border-gray-300"
@@ -155,27 +168,56 @@ export function DashboardMainPage() {
 								</div>
 							</div>
 							<div>
-								<BarChart height={250} width="100%" />
+								<BarChart
+									keys={["posted", "match"]}
+									data={barChart}
+									height={250}
+									width="100%"
+									indexBy="day"
+									handleColors={({ id, data }) => {
+										if (id === "posted") return data["postedColor"];
+										if (id === "match") return data["matchColor"];
+									}}
+								/>
 							</div>
 						</div>
 						<div className="w-1/3 grid grid-cols-1 gap-4">
-							{generateArray(3).map(() => (
-								<div
-									key={Math.random()}
-									className="p-4 rounded-lg border border-[#8851FF] flex gap-4 items-center"
-								>
-									<div className="bg-[#8851FF] text-white p-2 text-xs rounded-md">
-										BUS
-									</div>
-									<div>
-										<p className="text-xs">Available Wallet Balance</p>
-										<div className="flex gap-1 items-end">
-											<span className="text-tiny">NGN</span>
-											<span className="text-sm font-bold">400,000</span>
-										</div>
+							<div className="p-4 rounded-lg border border-[#8851FF] flex gap-4 items-center">
+								<div className="bg-[#8851FF] text-white p-2 text-xs rounded-md">
+									BUS
+								</div>
+								<div>
+									<p className="text-xs">Payouts</p>
+									<div className="flex gap-1 items-end">
+										<span className="text-tiny">NGN</span>
+										<span className="text-sm font-bold">400,000</span>
 									</div>
 								</div>
-							))}
+							</div>
+							<div className="p-4 rounded-lg border border-[#8851FF] flex gap-4 items-center">
+								<div className="bg-[#8851FF] text-white p-2 text-xs rounded-md">
+									BUS
+								</div>
+								<div>
+									<p className="text-xs">Withdrawals</p>
+									<div className="flex gap-1 items-end">
+										<span className="text-tiny">NGN</span>
+										<span className="text-sm font-bold">400,000</span>
+									</div>
+								</div>
+							</div>
+							<div className="p-4 rounded-lg border border-[#8851FF] flex gap-4 items-center">
+								<div className="bg-[#8851FF] text-white p-2 text-xs rounded-md">
+									BUS
+								</div>
+								<div>
+									<p className="text-xs">Available Wallet Balance</p>
+									<div className="flex gap-1 items-end">
+										<span className="text-tiny">NGN</span>
+										<span className="text-sm font-bold">400,000</span>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

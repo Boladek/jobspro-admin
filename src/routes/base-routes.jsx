@@ -38,6 +38,8 @@ import { DashboardMainPage } from "../pages/admin/landing-page/main-page";
 import { DashboardLogsPage } from "../pages/admin/landing-page/logs-page";
 import { AdminUsersListPage } from "../pages/admin/users";
 import { AdminUsersProvider } from "../context/admin-users-context";
+import AdminLoginPage from "../pages/Registration/admin-login";
+import { PrivateAdminRoutes } from "./private-admin-routes";
 
 const router = createBrowserRouter([
 	{
@@ -47,6 +49,10 @@ const router = createBrowserRouter([
 			{
 				index: true,
 				element: <LoginPage />,
+			},
+			{
+				path: "admin",
+				element: <AdminLoginPage />,
 			},
 			{
 				path: "forgot-password",
@@ -163,7 +169,11 @@ const router = createBrowserRouter([
 	},
 	{
 		path: "admin",
-		element: <AdminLayout />,
+		element: (
+			<PrivateAdminRoutes>
+				<AdminLayout />
+			</PrivateAdminRoutes>
+		),
 		children: [
 			{
 				path: "dashboard",

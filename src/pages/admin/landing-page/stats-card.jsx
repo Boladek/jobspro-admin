@@ -22,7 +22,7 @@ export function StatsCard({
 					<p className="font-extralight text-sm">{subTitle}</p>
 				</div>
 				<div className="flex items-center gap-1">
-					<IncreaseIcon />
+					{value > 0 && <IncreaseIcon />}
 					<p className="text-2xl font-bold">{formatNumber(value)}</p>
 				</div>
 			</div>

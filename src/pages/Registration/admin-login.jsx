@@ -14,10 +14,10 @@ import { toast } from "react-toastify";
 import StorageService from "../../helpers/storage";
 import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "../../store/slices/authSlice";
-import profileAxios from "../../helpers/profileAxios";
+import adminAxios from "../../helpers/adminAxios";
 // import { UseChat } from "../../context/chat-context";
 
-function LoginPage() {
+function AdminLoginPage() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	// const { chatLogin } = UseChat();
@@ -33,7 +33,7 @@ function LoginPage() {
 
 	const onSubmit = (data) => {
 		setLoading(true);
-		profileAxios
+		adminAxios
 			.post("/auth/login", {
 				username: data.username || data.finclusionID,
 				password: data.password,
@@ -42,11 +42,7 @@ function LoginPage() {
 			.then((res) => {
 				StorageService.setToken(res.token);
 				dispatch(loginSuccess(res.user));
-				navigate("/dashboard");
-				// chatLogin({
-				// 	userID: res.user.openIMUserID,
-				// 	token: res.user.openIMToken,
-				// });
+				navigate("/admin/dashboard");
 			})
 			.catch((err) => {
 				console.log({ err });
@@ -56,12 +52,12 @@ function LoginPage() {
 	};
 
 	useEffect(() => {
-		document.title = "Jobs Pro | Login";
+		document.title = "Jobs Pro | Admin Login";
 	}, []);
 
 	useEffect(() => {
 		if (isAuthenticated) {
-			navigate("/dashboard");
+			navigate("/admin/dashboard");
 		}
 	}, [isAuthenticated, navigate]);
 
@@ -183,4 +179,4 @@ function LoginPage() {
 	);
 }
 
-export default LoginPage;
+export default AdminLoginPage;

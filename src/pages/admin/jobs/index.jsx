@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Calendar } from "../landing-page/calendar";
-import { formatNumber, generateArray } from "../../../helpers/function";
-import { BaseInput } from "../../../component/input";
+import { formatNumber } from "../../../helpers/function";
+// import { BaseInput } from "../../../component/input";
 import { JobPostedCard } from "../landing-page/job-posted-card";
+import adminAxios from "../../../helpers/adminAxios";
+import { useQuery } from "@tanstack/react-query";
 
 export function JobsPage() {
 	const today = new Date();
@@ -12,6 +14,17 @@ export function JobsPage() {
 		new Date(today.getFullYear(), today.getMonth(), 1)
 	);
 	const [endDate, setEndDate] = useState(new Date(today));
+
+	const {
+		data: jobs = [],
+		// refetch,
+		// isLoading,
+	} = useQuery({
+		queryKey: ["all-recent-jobs"],
+		queryFn: () => adminAxios.get("/dashboard/recent?limit=100"),
+		staleTime: Infinity,
+		select: (data) => data.data.data,
+	});
 
 	return (
 		<div className="flex flex-col h-full">
@@ -37,9 +50,9 @@ export function JobsPage() {
 				{formatNumber(12345)} posted today
 			</div>
 			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 flex-1 overflow-auto">
-				{generateArray(20).map(() => (
+				{jobs.map((gig) => (
 					<div key={Math.random()}>
-						<JobPostedCard />
+						<JobPostedCard gig={gig} />
 					</div>
 				))}
 			</div>

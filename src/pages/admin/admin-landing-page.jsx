@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-// import { StatsSummary } from "./landing-page/stats-summary";
-// import { JobsPosted } from "./landing-page/jobs-posted";
 import { Switch } from "../../component/switch";
 import { WalletCard } from "../../component/admin/wallet-card";
 import { Outlet, useNavigate } from "react-router-dom";
 import { ProgressBar } from "../../component/admin/progress-bar";
+import { UseAdminDashboardContext } from "../../context/admin-dashboard-context";
 
 function AdminLandingPage() {
+	const { walletStats } = UseAdminDashboardContext();
 	const navigate = useNavigate();
 	const [disableWallets, setDisableWallets] = useState(false);
 	const [muteNotifications, setMuteNotifications] = useState(false);
@@ -21,22 +21,22 @@ function AdminLandingPage() {
 				<div className="pr-4 flex-1">
 					<div className="flex flex-col gap-4">
 						<WalletCard
-							title="Active Wallet"
-							value={1020}
+							title="Active Wallets"
+							value={walletStats?.activeWallets}
 							bg="#E4F7FF"
 							fill="#15A3CF"
 							cardBg="#CDF0FF"
 						/>
 						<WalletCard
-							title="Wallet Balance"
-							value={16020}
+							title="Total Wallet Balance"
+							value={walletStats?.totalWalletBalance}
 							bg="#E5FFE4"
 							fill="#00DE74"
 							cardBg="#CFFFCE"
 						/>
 						<WalletCard
-							title="Deactivated Wallet"
-							value={15000}
+							title="Deactivated Wallets"
+							value={walletStats?.deactivatedWallets}
 							bg="#FFEDE7"
 							fill="#FF424D"
 							cardBg="#FFD6D8"

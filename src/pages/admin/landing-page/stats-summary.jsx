@@ -3,15 +3,18 @@ import jobsBg from "../../../assets/admin/jobs-stats-bg.png";
 import businessStats from "../../../assets/admin/business-stats-bg.png";
 import proStats from "../../../assets/admin/pro-stats-bg.png";
 import { GrowthCard } from "./growth-card";
+import { UseAdminDashboardContext } from "../../../context/admin-dashboard-context";
 
 export function StatsSummary() {
+	const { dashboardStats } = UseAdminDashboardContext();
+
 	return (
 		<div className="flex gap-3 min-w-md overflow-x-auto">
 			<div className="flex-1">
 				<StatsCard
 					bg={jobsBg}
-					percent={40}
-					value={400}
+					percent={dashboardStats?.percentageGigsToday}
+					value={dashboardStats?.totalGigs}
 					title="Jobs"
 					subTitle="Posted"
 				/>
@@ -20,8 +23,8 @@ export function StatsSummary() {
 				<StatsCard
 					bg={businessStats}
 					bgColor="#0030DC"
-					percent={60}
-					value={500}
+					percent={dashboardStats?.percentageProsToday}
+					value={dashboardStats?.prosJoinedToday}
 					title="Pro"
 					subTitle="Users"
 				/>
@@ -30,8 +33,8 @@ export function StatsSummary() {
 				<StatsCard
 					bg={proStats}
 					bgColor="#1A68FF"
-					percent={90}
-					value={1000}
+					percent={dashboardStats?.percentageBusinessesToday}
+					value={dashboardStats?.businessesJoinedToday}
 					title="Businesses"
 					subTitle="Onboarded"
 				/>

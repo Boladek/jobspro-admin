@@ -3,8 +3,8 @@ import { toast } from "react-toastify";
 import { configKeys } from "./config";
 import StorageService from "./storage";
 
-const profileAxios = axios.create({
-	baseURL: "https://api.demo.jobspro.ai" || configKeys.baseURL,
+const adminAxios = axios.create({
+	baseURL: "http://34.220.10.161:3000/" || configKeys.baseURL,
 	timeout: 50000,
 });
 
@@ -40,15 +40,15 @@ const errorHandler = (error) => {
 	return Promise.reject(error);
 };
 
-profileAxios.interceptors.request.use(
+adminAxios.interceptors.request.use(
 	(request) => requestHandler(request),
 	(error) => errorHandler(error)
 );
 
-profileAxios.interceptors.response.use(
+adminAxios.interceptors.response.use(
 	(response) => responseHandler(response),
 	(error) => errorHandler(error)
 );
 
 // Step-4: Export the newly created Axios instance to be used in different locations.
-export default profileAxios;
+export default adminAxios;

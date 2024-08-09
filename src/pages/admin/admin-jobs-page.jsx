@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { useState } from "react";
 import { WalletCard } from "../../component/admin/wallet-card";
 import { IoSettingsSharp } from "react-icons/io5";
 import { JobsPage } from "./jobs";
@@ -37,7 +36,6 @@ function AdminJobsPage() {
 				</div>
 			</div>
 			<div className="flex-1 overflow-auto">
-				{/* <Outlet /> */}
 				<JobsPage />
 			</div>
 
