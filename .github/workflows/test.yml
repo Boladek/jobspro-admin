@@ -101,5 +101,5 @@ jobs:
           echo "VITE_MS_SECRET=${{ secrets.VITE_MS_SECRET }}" >> /home/${{ env.EC2_USER }}/.env
           
           sudo echo '{"log-driver": "awslogs", "log-opts": {"awslogs-region": "${{ secrets.AWS_REGION }}"}}' | sudo tee /etc/docker/daemon.json
-          docker run -d --name jobspro --log-driver=awslogs --log-opt awslogs-group=test-jobspro-webapp-logs --log-opt awslogs-create-group=true --env-file /home/${{ env.EC2_USER }}/.env -p 80:8000 ${{ env.REPOSITORY_URI }}:latest
+          docker run -d --name jobspro --log-driver=awslogs --log-opt awslogs-group=test-jobspro-webapp-logs --log-opt awslogs-create-group=true --env-file /home/${{ env.EC2_USER }}/.env -p 80:80 ${{ env.REPOSITORY_URI }}:latest
         EOF
