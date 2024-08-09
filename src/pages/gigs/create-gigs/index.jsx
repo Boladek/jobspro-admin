@@ -17,7 +17,7 @@ const steps = [
 
 function CreateGigPage() {
 	const navigate = useNavigate();
-	const [step, setStep] = useState(steps[2]);
+	const [step, setStep] = useState(steps[0]);
 	const [form, setForm] = useState({});
 
 	// function setStep(arg) {

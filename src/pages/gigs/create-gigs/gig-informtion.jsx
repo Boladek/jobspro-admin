@@ -38,7 +38,7 @@ export function GigInformation({ handleForm, gotoNextStep, goBack }) {
 						onClick={() => setOpen(true)}
 						className="p-3 border border-dashed border-primary rounded-full w-full text-center text-sm hover:text-secondary text-primary font-bold cursor-pointer hover:bg-gray-100 mx-auto"
 					>
-						Add New Information &#43;
+						Tell us more about the gig &#43;
 					</div>
 				</div>
 			</div>
