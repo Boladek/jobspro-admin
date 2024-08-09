@@ -1,0 +1,105 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - test
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Log in to Amazon ECR
+      id: ecr-login
+      run: |
+        aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+
+    - name: Build and push Docker image
+      run: |
+        REPOSITORY_URI=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.TEST_ECR_REPOSITORY }}
+        docker build -t $REPOSITORY_URI:latest .
+        docker push $REPOSITORY_URI:latest
+
+    - name: Install SSH Client
+      run: sudo apt-get install openssh-client
+
+    - name: Decode SSH Key
+      run: |
+        echo "${{ secrets.SSH_KEY }}" | base64 --decode > /tmp/ssh_key
+        chmod 600 /tmp/ssh_key
+      shell: bash
+
+    - name: Deploy to EC2
+      env:
+        EC2_HOST: ${{ secrets.TEST_EC2_HOST }}
+        EC2_USER: ${{ secrets.EC2_USER }}
+        SSH_KEY_PATH: /tmp/ssh_key
+        REPOSITORY_URI: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.TEST_ECR_REPOSITORY }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: ${{ secrets.AWS_REGION }}
+      run: |
+        # scp -o StrictHostKeyChecking=no -i $SSH_KEY_PATH .env ${{ env.EC2_USER }}@$EC2_HOST:/home/$EC2_USER/.env
+        ssh -o StrictHostKeyChecking=no -i $SSH_KEY_PATH ${{ env.EC2_USER }}@${{ env.EC2_HOST }} << 'EOF'
+          if ! command -v docker &> /dev/null
+          then
+              echo "Docker not found. Installing Docker..."
+              sudo apt-get update
+              sudo apt-get install -y docker.io
+              sudo systemctl start docker
+              sudo systemctl enable docker
+              sudo groupadd docker
+              sudo usermod -aG docker $USER
+              sudo systemctl restart docker    
+          else
+              echo "Docker is already installed"
+          fi
+          if ! command -v aws &> /dev/null
+          then
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            sudo apt install unzip -y
+            unzip awscliv2.zip
+            sudo ./aws/install
+            aws configure set aws_access_key_id ${{ env.AWS_ACCESS_KEY_ID }}
+            aws configure set aws_secret_access_key ${{ env.AWS_SECRET_ACCESS_KEY }}
+            aws configure set region ${{ env.AWS_REGION }}
+          else
+              echo "AWS CLI is Installed Already"
+              aws configure set aws_access_key_id ${{ env.AWS_ACCESS_KEY_ID }}
+              aws configure set aws_secret_access_key ${{ env.AWS_SECRET_ACCESS_KEY }}
+              aws configure set region ${{ env.AWS_REGION }}
+          fi
+          docker image prune -f
+          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | sudo docker login --username AWS --password-stdin ${{ env.REPOSITORY_URI }}
+          echo ${{ env.REPOSITORY_URI }}:latest
+          docker container prune -f
+          sudo docker pull ${{ env.REPOSITORY_URI }}:latest
+          docker stop jobspro || true
+          docker rm jobspro || true
+          sudo rm /home/${{ env.EC2_USER }}/.env
+          echo "PORT=3000" >> /home/${{ env.EC2_USER }}/.env
+          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> /home/${{ env.EC2_USER }}/.env
+          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> /home/${{ env.EC2_USER }}/.env
+          echo "AWS_REGION=${{ secrets.AWS_REGION }}" >> /home/${{ env.EC2_USER }}/.env
+          echo "VITE_ENVIRONMENT=${{ secrets.SSO_URL }}" >> /home/${{ env.EC2_USER }}/.env
+          echo "VITE_BASE_URL=${{ secrets.VITE_BASE_URL }}" >> /home/${{ env.EC2_USER }}/.env
+          echo "VITE_GOOGLE_ID=${{ secrets.VITE_GOOGLE_ID }}" >> /home/${{ env.EC2_USER }}/.env
+          echo "VITE_FB_ID=${{ secrets.VITE_FB_ID }}" >> /home/${{ env.EC2_USER }}/.env
+          echo "VITE_FB_SECRET=${{ secrets.VITE_FB_SECRET }}" >> /home/${{ env.EC2_USER }}/.env
+          echo "VITE_MS_ID=${{ secrets.VITE_MS_ID }}" >> /home/${{ env.EC2_USER }}/.env
+          echo "VITE_MS_SECRET=${{ secrets.VITE_MS_SECRET }}" >> /home/${{ env.EC2_USER }}/.env
+          
+          sudo echo '{"log-driver": "awslogs", "log-opts": {"awslogs-region": "${{ secrets.AWS_REGION }}"}}' | sudo tee /etc/docker/daemon.json
+          docker run -d --name jobspro --log-driver=awslogs --log-opt awslogs-group=test-jobspro-webapp-logs --log-opt awslogs-create-group=true --env-file /home/${{ env.EC2_USER }}/.env -p 80:8000 ${{ env.REPOSITORY_URI }}:latest
+        EOF

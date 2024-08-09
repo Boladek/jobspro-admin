@@ -1,35 +1,64 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { colors } from "../../helpers/theme";
 import { BaseInput } from "../../component/input";
 import { BaseButton } from "../../component/button";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Modal } from "../../component/modal";
 import tick from "../../assets/tick.png";
 import eye from "../../assets/eye.png";
 import eyeSlash from "../../assets/eye-slash.png";
+import { Overlay } from "../../component/overlay-component";
+import customAxios from "../../helpers/customAxios";
+import { toast } from "react-toastify";
+import OtpInput from "react-otp-input";
 
 function ResetPasswordPage() {
 	const navigate = useNavigate();
+	const location = useLocation();
+	const email = location.state.info || "";
+	const [loading, setLoading] = useState(false);
 	const [open, setOpen] = useState(false);
 	const [password, setPassword] = useState(true);
 	const [confirmPassword, setConfirmPassword] = useState(true);
 	const [passwordText, setPasswordText] = useState("");
 	const [confirmPasswordText, setConfirmPasswordText] = useState("");
+	const [otp, setOtp] = useState("");
 
 	const [specialCharCheck, setSpecialCharCheck] = useState(false);
 	const [numberCharCheck, setNumberCharCheck] = useState(false);
-	// const [passwordCheck, setPasswordCheck] = useState(false);
 	const [capitalCheck, setCapitalCheck] = useState(false);
 	const isUpperCase = (string) => /[A-Z]/.test(string);
 
 	const onSubmit = (e) => {
 		e.preventDefault();
-		setOpen(true);
-		// navigate("/verify-email", {
-		// 	state: {
-		// 		info,
-		// 	},
-		// });
+		if (
+			!specialCharCheck ||
+			!numberCharCheck ||
+			!isUpperCase(passwordText) ||
+			!capitalCheck
+		) {
+			toast.error(
+				"Please ensure that the password passes the valid character criteria"
+			);
+			return;
+		}
+		if (passwordText !== confirmPasswordText) {
+			toast.error("Please ensure that the password and confirm password match");
+			return;
+		}
+		setLoading(true);
+		customAxios
+			.post("/auth/verifyForgetPassword", {
+				email: email,
+				otp: otp,
+				password: passwordText,
+			})
+			.then((res) => {
+				toast.success(res.message);
+				navigate("/");
+			})
+			.catch((err) => toast.error(err.response.data.message))
+			.finally(() => setLoading(false));
 	};
 
 	const handleChange = (e) => {
@@ -37,7 +66,6 @@ function ResetPasswordPage() {
 		setSpecialCharCheck(checkForSpecialChar(value));
 		setNumberCharCheck(checkForNumber(value));
 		setCapitalCheck(isUpperCase(value));
-		// setPasswordCheck(value.length >= 6);
 		setPasswordText(value);
 	};
 
@@ -46,9 +74,12 @@ function ResetPasswordPage() {
 		setSpecialCharCheck(checkForSpecialChar(value));
 		setNumberCharCheck(checkForNumber(value));
 		setCapitalCheck(isUpperCase(value));
-		// setPasswordCheck(value.length >= 6);
 		setConfirmPasswordText(value);
 	};
+
+	useEffect(() => {
+		document.title = "Jobs Pro | Reset Password";
+	}, []);
 
 	return (
 		<form
@@ -56,26 +87,54 @@ function ResetPasswordPage() {
 			className="py-6 px-4"
 			onSubmit={onSubmit}
 		>
-			<p className={`text-[${colors.primary}] text-3xl font-bold`}>
-				Reset Password
-			</p>
+			{loading && <Overlay />}
+			<p className={`text-primary text-3xl font-bold`}>Reset Password</p>
 			<p className="text-sm text-gray-500">
 				Insert your registered email or phone number
 			</p>
 			<br />
+			<div className="mb-4">
+				<OtpInput
+					value={otp}
+					onChange={setOtp}
+					numInputs={6}
+					containerStyle="otp-container"
+					inputStyle="otp-input"
+					required
+					renderInput={(props) => <input {...props} />}
+				/>
+			</div>
+			<div className="relative mb-4">
+				<BaseInput
+					label="Email Address"
+					value={email}
+					minLength="6"
+					maxLength="6"
+					required
+				/>
+			</div>
+			{/* <div className="relative mb-4">
+				<BaseInput
+					label="OTP"
+					value={otp}
+					onChange={(e) => setOtp(e.target.value)}
+				/>
+			</div> */}
+
 			<div className="relative mb-4">
 				<BaseInput
 					label="New Password"
 					onChange={handleChange}
 					value={passwordText}
 					type={password ? "password" : "text"}
+					required
 				/>
 				<img
 					src={password ? eye : eyeSlash}
 					onClick={() => setPassword(!password)}
 					className={`absolute cursor-pointer ${
 						password ? "h-5" : "h-7"
-					} transition-all duration-300`}
+					} transition-all ease-linear duration-300`}
 					style={{
 						top: password ? "2.5rem" : "2.25rem",
 						right: "1rem",
@@ -88,13 +147,14 @@ function ResetPasswordPage() {
 					onChange={handleConfirmPasswordChange}
 					value={confirmPasswordText}
 					type={confirmPassword ? "password" : "text"}
+					required
 				/>
 				<img
 					src={confirmPassword ? eye : eyeSlash}
 					onClick={() => setConfirmPassword(!confirmPassword)}
 					className={`absolute cursor-pointer ${
 						confirmPassword ? "h-5" : "h-7"
-					} transition-all duration-300`}
+					} transition-all ease-linear duration-300`}
 					style={{
 						top: confirmPassword ? "2.5rem" : "2.25rem",
 						right: "1rem",
@@ -147,9 +207,7 @@ function ResetPasswordPage() {
 							<div>
 								<img src={tick} alt="success" />
 							</div>
-							<p className={`text-[${colors.primary}] text-3xl font-bold`}>
-								Congrats
-							</p>
+							<p className={`text-primary text-3xl font-bold`}>Congrats</p>
 							<p className="text-xs text-gray-500">E don complete</p>
 						</div>
 						<div className="mb-4">
@@ -164,7 +222,7 @@ function ResetPasswordPage() {
 
 export default ResetPasswordPage;
 
-export function checkForSpecialChar(string) {
+function checkForSpecialChar(string) {
 	const specialChars = "<>@!#$%^&*()_+[]{}?:;|'\"\\,./~`-=";
 	for (let i = 0; i < specialChars.length; i++) {
 		if (string.indexOf(specialChars[i]) > -1) {
@@ -174,7 +232,7 @@ export function checkForSpecialChar(string) {
 	return false;
 }
 
-export function checkForNumber(string) {
+function checkForNumber(string) {
 	for (let i = 0; i < string.length; i++) {
 		if (!isNaN(Number(string[i]))) return true;
 	}

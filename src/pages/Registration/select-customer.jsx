@@ -1,5 +1,3 @@
-import React from "react";
-import { colors } from "../../helpers/theme";
 import { useNavigate, useParams } from "react-router-dom";
 
 function SelectCustomerTypePage() {
@@ -8,16 +6,12 @@ function SelectCustomerTypePage() {
 	const tabs = ["individual", "business"];
 
 	const handleNavigate = (acct) => {
-		navigate(`/sign-up/${role}/create-account`, {
-			state: {
-				accountType: acct,
-			},
-		});
+		navigate(`/sign-up/${acct}/create-account`);
 	};
 
 	return (
 		<div style={{ maxWidth: 400, width: "100%" }} className="py-6 px-4">
-			<p className={`text-[${colors.primary}] text-3xl font-bold mb-2`}>
+			<p className={`text-primary text-3xl font-bold mb-2`}>
 				Are you Individual or Registered Business?
 			</p>
 			<p className="text-sm text-gray-500 mb-6">
@@ -28,7 +22,7 @@ function SelectCustomerTypePage() {
 					<div
 						key={item}
 						onClick={() => handleNavigate(item)}
-						className={`capitalize p-4 flex-1 border-2 border-[#206DB0] text-[${colors.primary}] rounded-xl text-center hover:bg-[#206DB0] hover:text-white cursor-pointer font-bold`}
+						className={`capitalize p-4 flex-1 border-2 border-[#206DB0] text-primary rounded-xl text-center hover:bg-[#206DB0] hover:text-white cursor-pointer font-bold`}
 					>
 						{item}
 					</div>

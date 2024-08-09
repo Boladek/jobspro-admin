@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
+import PropTypes from "prop-types";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { colors } from "../../../helpers/theme";
@@ -8,7 +9,7 @@ import { BaseSelect } from "../../../component/select";
 
 const texts = ["hello", "world", "city", "country", "state"];
 
-export function Industry() {
+export function Industry({ gotoNextStep }) {
 	const {
 		register,
 		formState: { errors },
@@ -16,11 +17,13 @@ export function Industry() {
 	} = useForm();
 	const [allTexts, setAllTexts] = useState(texts);
 	const [selectedText, setSelectedText] = useState([]);
-	const [open, setOpen] = useState(false);
-	const [openSuccess, setOpenSuccess] = useState(false);
+	// const [open, setOpen] = useState(false);
+	// const [openSuccess, setOpenSuccess] = useState(false);
+	// console.log("I'm here");
 
 	const onSubmit = (data) => {
 		console.log({ data });
+		gotoNextStep(true);
 	};
 
 	const handleChange = (e) => {
@@ -35,13 +38,14 @@ export function Industry() {
 	};
 
 	return (
-		<div
+		<form
 			className="p-4 h-full flex flex-col"
 			style={{ maxWidth: 500, width: "100%" }}
+			onSubmit={handleSubmit(onSubmit)}
 		>
 			<div className="flex-1 md:flex md:justify-center md:items-center">
 				<div>
-					<p className={`text-[${colors.primary}] text-3xl font-bold`}>
+					<p className={`text-primary text-3xl font-bold`}>
 						What your Industry of specialisation?
 					</p>
 					<p className="text-sm text-gray-500 mb-4">
@@ -72,7 +76,7 @@ export function Industry() {
 							{selectedText.map((text) => (
 								<div
 									key={text}
-									className={`flex gap-2 py-1 px-2 border-2 border-[${colors.primary}] text-[${colors.primary}] text-xs rounded-full items-center font-bold`}
+									className={`flex gap-2 py-1 px-2 border-2 border-primary text-primary text-xs rounded-full items-center font-bold`}
 								>
 									<span>{text}</span>
 									<span
@@ -85,9 +89,7 @@ export function Industry() {
 							))}
 						</div>
 					</div>
-					<p className={`text-[${colors.primary}] text-3xl font-bold`}>
-						Sub category
-					</p>
+					<p className={`text-primary text-3xl font-bold`}>Sub category</p>
 					<p className="text-sm text-gray-500 mb-4">
 						Pick one service that best represents your work, so our algorithm
 						can match you with the right clients.
@@ -117,7 +119,7 @@ export function Industry() {
 							{selectedText.map((text) => (
 								<div
 									key={text}
-									className={`flex gap-2 py-1 px-2 border-2 border-[${colors.primary}] text-[${colors.primary}] text-xs rounded-full items-center font-bold`}
+									className={`flex gap-2 py-1 px-2 border-2 border-primary text-primary text-xs rounded-full items-center font-bold`}
 								>
 									<span>{text}</span>
 									<span
@@ -139,11 +141,15 @@ export function Industry() {
 					</BaseButton>
 				</div>
 				<div className="w-1/2 md:w-1/4">
-					<BaseButton type="button" loading={false}>
+					<BaseButton type="submit" loading={false}>
 						Next
 					</BaseButton>
 				</div>
 			</div>
-		</div>
+		</form>
 	);
 }
+
+Industry.propTypes = {
+	gotoNextStep: PropTypes.func,
+};

@@ -9,7 +9,7 @@ export const BaseInput = React.forwardRef(
 					{label}
 				</label>
 				<input
-					className="bg-gray-100 disabled:opacity-75 disabled:text-gray-600 w-full px-3 py-3 border text-sm rounded-lg focus:outline-none focus:border-[#004B88]"
+					className="bg-gray-100 disabled:opacity-75 disabled:text-gray-600 w-full px-3 py-3 border text-sm rounded-lg focus:outline-none focus:border-primary"
 					ref={ref}
 					id={id}
 					value={value}

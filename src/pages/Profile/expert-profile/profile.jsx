@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { colors } from "../../../helpers/theme";
 import { BaseButton } from "../../../component/button";
 import { BaseInput } from "../../../component/input";
 import avatar from "../../../assets/profile-avatar.png";
@@ -38,9 +37,7 @@ export function Profile() {
 			className="p-4"
 			onSubmit={handleSubmit(onSubmit)}
 		>
-			<p className={`text-[${colors.primary}] text-3xl font-bold`}>
-				Profile Details
-			</p>
+			<p className={`text-primary text-3xl font-bold`}>Profile Details</p>
 			<p className="text-sm text-gray-500 mb-4">
 				More information should be placed here
 			</p>
