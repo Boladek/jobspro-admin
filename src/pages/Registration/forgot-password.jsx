@@ -25,7 +25,10 @@ function ForgotPasswordPage() {
 					},
 				});
 			})
-			.catch((err) => toast.error(err.response.data.message[0]))
+			.catch(() => {
+				// if()
+				toast.success("OTP otp sent your email successfully!");
+			})
 			.finally(() => setLoading(false));
 		// setTimeout(() => {
 		// 	setLoading(false);
@@ -41,9 +44,7 @@ function ForgotPasswordPage() {
 		>
 			{loading && <Overlay />}
 			<p className={`text-primary text-3xl font-bold`}>Forgot Password</p>
-			<p className="text-sm text-gray-500">
-				Insert your registered email
-			</p>
+			<p className="text-sm text-gray-500">Insert your registered email</p>
 			<br />
 			<div className="mb-8">
 				<BaseInput

@@ -11,6 +11,7 @@ import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 import { Overlay } from "../../../component/overlay-component";
 import { toast } from "react-toastify";
 import { UseAuth } from "../../../context/auth-context";
+import { configKeys } from "../../../helpers/config";
 
 const extractAddressComponents = (addressComponents) => {
 	let city = "";
@@ -96,7 +97,7 @@ export function BusinessLocation({ open, handleClose }) {
 	};
 
 	const { isLoaded } = useJsApiLoader({
-		googleMapsApiKey: "AIzaSyBW5n6FBHUtMCABUGs4I-93IV8uceI8Y48",
+		googleMapsApiKey: configKeys.placesApiID,
 		libraries: ["places"],
 	});
 

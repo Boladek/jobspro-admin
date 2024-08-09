@@ -4,7 +4,7 @@ import { configKeys } from "./config";
 import StorageService from "./storage";
 
 const customAxios = axios.create({
-	baseURL: configKeys.baseURL,
+	baseURL: configKeys.SSOURL,
 	timeout: 50000,
 });
 

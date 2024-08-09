@@ -1,13 +1,9 @@
 import PropTypes from "prop-types";
 import { Modal } from "../../../component/modal";
 import { BaseButton } from "../../../component/button";
-// import profileAxios from "../../../helpers/profileAxios";
 import { useRef, useState } from "react";
-// import { toast } from "react-toastify";
-// import { Overlay } from "../../../component/overlay-component";
-// import { UseAuth } from "../../../context/auth-context";
-// import { BaseInput } from "../../../component/input";
 import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
+import { configKeys } from "../../../helpers/config";
 
 const extractAddressComponents = (addressComponents) => {
 	let city = "";
@@ -39,7 +35,7 @@ export function GigLocation({ open, handleClose, handleAddress }) {
 	};
 
 	const { isLoaded } = useJsApiLoader({
-		googleMapsApiKey: "AIzaSyBW5n6FBHUtMCABUGs4I-93IV8uceI8Y48",
+		googleMapsApiKey: configKeys.placesApiID,
 		libraries: ["places"],
 	});
 
