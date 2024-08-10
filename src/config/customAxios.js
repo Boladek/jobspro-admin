@@ -1,8 +1,6 @@
 import axios from "axios";
 import { configKeys } from "../helpers/config";
 
-console.log({ configKeys });
-
 const customAxios = axios.create({
 	baseURL: configKeys.SSOURL,
 	timeout: 50000,

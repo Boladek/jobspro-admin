@@ -36,7 +36,7 @@ export function GigChat({ gig }) {
 		scrollToBottom();
 	}, [messages]);
 
-	console.log({ messages });
+	// console.log({ messages });
 
 	return (
 		<div

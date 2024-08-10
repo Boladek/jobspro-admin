@@ -15,7 +15,7 @@ export function GigCard({ gig }) {
 
 	return (
 		<div
-			className="bg-[#F8FAFF] border border-adminPrimary p-4 rounded-lg"
+			className="bg-[#F8FAFF] border border-adminPrimary p-4 rounded-lg max-w-xl"
 			onClick={() =>
 				navigate(`/gigs/${user.userType}/details/${gig.uuid}`, {
 					state: {
