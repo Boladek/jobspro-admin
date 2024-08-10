@@ -9,6 +9,8 @@ import { auth } from "./helpers/auth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "react-toastify/dist/ReactToastify.css";
 
+console.log({ configKeys });
+
 const queryClient = new QueryClient();
 
 if (auth()) {
