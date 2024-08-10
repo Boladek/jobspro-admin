@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-import profileAxios from "../../../helpers/profileAxios";
+// import { useQuery } from "@tanstack/react-query";
+// import profileAxios from "../../../helpers/profileAxios";
 import { GigCard } from "../../../component/gig-card";
 import { UseGig } from "../../../context/gig-context";
 import { useMemo } from "react";

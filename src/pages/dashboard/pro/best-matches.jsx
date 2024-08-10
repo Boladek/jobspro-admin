@@ -16,7 +16,7 @@ export function BestMatches() {
 		min,
 		max,
 		time,
-		experience,
+		// experience,
 	} = UseGig();
 
 	function getWeekBounds(date) {
