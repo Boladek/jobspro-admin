@@ -4,19 +4,19 @@ import { BaseButton } from "../../../component/button";
 // import { GigLocation } from "./gig-location";
 import { GigInformationModal } from "./gig-information-modal";
 import { EditIcon } from "../../../assets/edit-icon";
-import { useQuery } from "@tanstack/react-query";
-import profileAxios from "../../../helpers/profileAxios";
+// import profileAxios from "../../../helpers/profileAxios";
+// import { useQuery } from "@tanstack/react-query";
 
 export function GigInformation({ handleForm, gotoNextStep, goBack }) {
 	const [open, setOpen] = useState(false);
 	const [gigTemplate, setGigTemplate] = useState({});
 
-	const { data, isLoading, refetch } = useQuery({
-		queryKey: ["gig-templates"],
-		queryFn: () => profileAxios.get(`/gigs/saved-template`),
-		select: (data) => data,
-		staleTime: Infinity,
-	});
+	// const { data, isLoading, refetch } = useQuery({
+	// 	queryKey: ["gig-templates"],
+	// 	queryFn: () => profileAxios.get(`/gigs/saved-template`),
+	// 	select: (data) => data,
+	// 	staleTime: Infinity,
+	// });
 
 	const handleClick = () => {
 		gotoNextStep();
