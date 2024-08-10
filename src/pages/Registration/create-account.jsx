@@ -66,13 +66,6 @@ function CreateAccountPage() {
 			.finally(() => setLoading(false));
 	};
 
-	// const responseFacebook = (res) => {
-	// 	// console.log(res);
-	// 	setValue("lastName", res.data.first_name);
-	// 	setValue("firstName", res.data.last_name);
-	// 	setValue("email", res.data.email);
-	// };
-
 	const googeLogin = useGoogleLogin({
 		onSuccess: (codeResponse) => {
 			axios
@@ -86,45 +79,14 @@ function CreateAccountPage() {
 					}
 				)
 				.then((res) => {
-					// setProfile(res.data);
-					// console.log({ res });
 					setValue("lastName", res.data.family_name);
 					setValue("firstName", res.data.given_name);
 					setValue("email", res.data.email);
-					// setValue("companyName", res.data.name);
 				})
 				.catch((err) => console.log(err));
 		},
 		onError: (error) => console.log("Login Failed:", error),
 	});
-
-	// const mirosoftLogin = async () => {
-	// 	const loginRequest = {
-	// 		scopes: ["openid", "profile", "User.Read"],
-	// 	};
-	// 	try {
-	// 		const loginResponse = await msalInstance.loginPopup(loginRequest);
-	// 		console.log("loginResponse", loginResponse);
-	// 	} catch (error) {
-	// 		console.log("loginError", error);
-	// 	}
-	// };
-
-	// useEffect(() => {
-	// 	async function initializeMsal() {
-	// 		try {
-	// 			console.log("Initializing MSAL...");
-	// 			await msalInstance.handleRedirectPromise();
-	// 			console.log("MSAL initialized successfully.");
-	// 		} catch (error) {
-	// 			console.error("MSAL initialization error:", error);
-	// 		}
-	// 	}
-
-	// 	if (!msalInstance.isInitialized()) {
-	// 		initializeMsal();
-	// 	}
-	// }, [msalInstance]);
 
 	useEffect(() => {
 		const handleChange = (value) => {
@@ -148,18 +110,6 @@ function CreateAccountPage() {
 	useEffect(() => {
 		document.title = "Jobs Pro | Signup";
 	}, []);
-
-	// const onLoginStart = useCallback(() => {
-	// 	alert("login start");
-	// }, []);
-
-	// const onLogoutSuccess = useCallback(() => {
-	// 	// setProfile(null);
-	// 	// setProvider("");
-	// 	// alert("logout success");
-	// }, []);
-
-	// const onLogout = useCallback(() => {}, []);
 
 	return (
 		<form
@@ -440,67 +390,3 @@ function checkForNumber(string) {
 	}
 	return false;
 }
-
-/*
-
-<div
-							className="flex-1 flex gap-1 items-center bg-gray-200 p-2 text-xs rounded-full justify-center hover:bg-gray-100 hover:outline hover:outline-1"
-							// onClick={googeLogin}
-						>
-							{/* <img src={facebook} className="h-5" alt="Facebook login" />{" "}
-							<FacebookLogin
-								appId="608413574262901"
-								autoLoad={true}
-								fields="name,email,picture"
-								cssClass="text-xs cursor-pointer hover:underline"
-								// onClick={componentClicked}
-								callback={responseFacebook}
-								textButton="Facebook"
-							/> 
-						
-							<LoginSocialFacebook
-								appId="608413574262901"
-								fieldsProfile={
-									"id,first_name,last_name,middle_name,name,name_format,picture,short_name,email,gender"
-								}
-								onLoginStart={onLoginStart}
-								onLogoutSuccess={onLogoutSuccess}
-								redirect_uri={REDIRECT_URI}
-								onResolve={({ provider, data }) => {
-									// setProvider(provider);
-									// setProfile(data);
-									console.log({ provider, data });
-								}}
-								onReject={(err) => {
-									console.log(err);
-								}}
-							>
-								<FacebookLoginButton />
-							</LoginSocialFacebook>
-						</div>
-
-							{/*
-						<div
-							className="flex-1 flex gap-1 items-center bg-gray-200 p-2 text-xs rounded-full justify-center hover:bg-gray-100 hover:outline hover:outline-1 cursor-pointer"
-							onClick={mirosoftLogin}
-						>
-							
-							<LoginSocialMicrosoft
-								client_id="833ec980-62e1-40a3-ac75-a082e2edd517"
-								redirect_uri={REDIRECT_URI}
-								onLoginStart={onLoginStart}
-								onResolve={({ provider, data }) => {
-									// setProvider(provider);
-									// setProfile(data);
-									console.log({ data, provider });
-								}}
-								onReject={(err) => {
-									console.log(err);
-								}}
-							>
-								<MicrosoftLoginButton />
-							</LoginSocialMicrosoft> 
-							{/* <img src={microsoft} className="h-5" alt="Google login" />{" "}
-							<span className="cursor-pointer">Microsoft</span> 
-						{/* </div> 
-*/
