@@ -12,6 +12,7 @@ import { auth } from "./helpers/auth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 // import { ChatProvider } from "./context/chat-context";
 console.log(import.meta.env);
+console.log({ configKeys });
 
 const queryClient = new QueryClient();
 
