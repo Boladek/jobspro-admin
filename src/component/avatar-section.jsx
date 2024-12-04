@@ -12,7 +12,6 @@ import { UseAuth } from "../context/auth-context";
 import profileAxios from "../helpers/profileAxios";
 import { toast } from "react-toastify";
 import { Overlay } from "./overlay-component";
-import { UseChat } from "../context/chat-context";
 
 export function AvatarSection() {
 	const [loading, setLoading] = useState(false);

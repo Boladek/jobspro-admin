@@ -10,8 +10,10 @@ import profileAxios from "../../../helpers/profileAxios";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
 import { SuccessInfo } from "../../../component/success-info";
+import { UseAuth } from "../../../context/auth-context";
 
 export function GenerateVirtualAccounts({ open, handleClose, refetch }) {
+	const { user } = UseAuth();
 	const [generating, setGenerating] = useState(false);
 	const [step, setStep] = useState(1);
 	// const [redirectOpen, setRedirectOpen] = useState(false);
@@ -88,7 +90,9 @@ export function GenerateVirtualAccounts({ open, handleClose, refetch }) {
 					>
 						<div>
 							<BaseInput
-								label="Enter BVN"
+								label={`Enter ${
+									user.userType === "pro" ? "" : "Director's"
+								} BVN`}
 								{...register("bvn", {
 									required: "This field is required",
 								})}
@@ -99,7 +103,9 @@ export function GenerateVirtualAccounts({ open, handleClose, refetch }) {
 						</div>
 						<div>
 							<BaseInput
-								label="Date of Birth"
+								label={`Enter ${
+									user.userType === "pro" ? "" : "Director's"
+								} Date of Birth`}
 								{...register("dob", {
 									required: "This field is required",
 								})}
@@ -111,7 +117,9 @@ export function GenerateVirtualAccounts({ open, handleClose, refetch }) {
 						</div>
 						<div>
 							<BaseInput
-								label="Address"
+								label={`Enter ${
+									user.userType === "pro" ? "" : "Director's"
+								} Address`}
 								{...register("address", {
 									required: "This field is required",
 								})}
@@ -121,7 +129,9 @@ export function GenerateVirtualAccounts({ open, handleClose, refetch }) {
 						</div>
 						<div>
 							<BaseInput
-								label="Phone Number"
+								label={`Enter ${
+									user.userType === "pro" ? "" : "Director's"
+								} Phone Number`}
 								{...register("phone", {
 									required: "This field is required",
 								})}
@@ -131,7 +141,9 @@ export function GenerateVirtualAccounts({ open, handleClose, refetch }) {
 						</div>
 						<div>
 							<BaseSelect
-								label="Gender"
+								label={`Enter ${
+									user.userType === "pro" ? "" : "Director's"
+								} Gender`}
 								{...register("gender", {
 									required: "This field is required",
 								})}

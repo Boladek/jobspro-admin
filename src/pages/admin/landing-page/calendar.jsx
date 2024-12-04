@@ -53,7 +53,7 @@ export function Calendar({
 }
 
 Calendar.propTypes = {
-	endDate: PropTypes.any,
+	endDate: PropTypes.string,
 	startDate: PropTypes.string,
 	handleStartDate: PropTypes.func,
 	handleEndDate: PropTypes.func,

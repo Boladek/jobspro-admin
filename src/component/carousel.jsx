@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import leftIcon from "../assets/left-icon.png";
-import rightIcon from "../assets/right-icon.png";
+// import leftIcon from "../assets/left-icon.png";
+// import rightIcon from "../assets/right-icon.png";
 
 export function Carousel() {
 	const data = [
@@ -87,7 +87,7 @@ export function Carousel() {
 				))}
 			</div>
 			<div className="flex justify-end gap-2">
-				<img
+				{/* <img
 					src={leftIcon}
 					onClick={gotoPrevious}
 					className="h-8 cursor-pointer transition-transform transform hover:scale-105"
@@ -96,7 +96,7 @@ export function Carousel() {
 					src={rightIcon}
 					onClick={gotoNext}
 					className="h-8 cursor-pointer transition-transform transform hover:scale-105"
-				/>
+				/> */}
 			</div>
 		</div>
 	);

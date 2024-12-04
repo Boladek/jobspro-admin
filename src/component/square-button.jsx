@@ -12,7 +12,7 @@ export const SquareButton = ({
 	return (
 		<button
 			{...rest}
-			className={`p-3 rounded-md border bg-primary w-full flex justify-between text-sm font-bold items-center ${handleVariant(
+			className={`p-3 rounded-md border bg-primary w-full flex justify-between text-xs font-bold items-center ${handleVariant(
 				variant
 			)}`}
 		>

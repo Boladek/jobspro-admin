@@ -17,7 +17,7 @@ export const BaseSelect = React.forwardRef(
 	) => {
 		return (
 			<div className="w-full">
-				<label className="inline-block text-gray-600 text-sm mb-1" htmlFor={id}>
+				<label className="inline-block text-gray-600 text-xs mb-1" htmlFor={id}>
 					{label}
 				</label>
 				<select
@@ -26,7 +26,7 @@ export const BaseSelect = React.forwardRef(
 					onChange={handleChange}
 					ref={ref}
 					{...rest}
-					className="bg-gray-100 w-full px-3 py-3 border text-sm rounded-lg focus:outline-none focus:border-primary"
+					className="bg-gray-white w-full p-3 border text-xs rounded-md focus:outline-none focus:border-primary"
 				>
 					{children}
 				</select>

@@ -1,14 +1,14 @@
 import axios from "axios";
 import { configKeys } from "../helpers/config";
+import storage from "../helpers/storage";
 
 const customAxios = axios.create({
-	baseURL: configKeys.SSOURL,
+	baseURL: configKeys.baseURL,
 	timeout: 50000,
 });
 
 const requestHandler = (request) => {
-	request.headers.Authorization = localStorage.getItem("token");
-
+	request.headers.Authorization = `Bearer ${storage.getToken()}`;
 	return request;
 };
 
@@ -17,14 +17,14 @@ const responseHandler = (response) => {
 		localStorage.clear();
 		window.location = "/";
 	}
-	return response;
+	return response.data;
 };
 
 const errorHandler = (error) => {
-	if (error.response.status === 403 || error.response.status === 401) {
-		localStorage.clear();
-		window.location = "/";
-	}
+	// if (error.response.status === 403 || error.response.status === 401) {
+	// 	localStorage.clear();
+	// 	window.location = "/";
+	// }
 	return Promise.reject(error);
 };
 

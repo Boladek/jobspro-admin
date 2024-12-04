@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { UpdateArrowIcon } from "../../../../assets/update-arrow-icon";
+// import { UpdateArrowIcon } from "../../../../assets/update-arrow-icon";
 
 export function UpdateTier() {
 	const [isExpanded, setIsExpanded] = useState(false);
@@ -11,7 +11,7 @@ export function UpdateTier() {
 					You can either upgrade or downgrade a user tier
 				</p>
 				<span>
-					<UpdateArrowIcon />
+					{/* <UpdateArrowIcon /> */}
 				</span>
 			</div>
 
