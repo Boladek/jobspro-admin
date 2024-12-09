@@ -1,3 +1,5 @@
+import { FinancialsLayout } from "./components/layout";
+
 export function FinancialsPage() {
-  return <div>FinancialsPage</div>;
+  return <FinancialsLayout />;
 }

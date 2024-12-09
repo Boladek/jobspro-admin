@@ -16,6 +16,7 @@ import { AdminUsersProvider } from "../context/admin-users-context";
 import AdminLoginPage from "../pages/Registration/admin-login";
 import { PrivateAdminRoutes } from "./private-admin-routes";
 import { FinancialsPage } from "../pages/financials";
+import { financialsRoutes } from "../pages/financials/routes";
 
 const router = createBrowserRouter([
   {
@@ -86,6 +87,7 @@ const router = createBrowserRouter([
       {
         path: "financials",
         element: <FinancialsPage />,
+        children: financialsRoutes,
       },
     ],
   },

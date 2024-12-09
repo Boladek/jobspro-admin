@@ -8,7 +8,7 @@ export function AdminLayout() {
 			<div>
 				<AdminHeader />
 			</div>
-			<div className="p-2 overflow-y-auto flex-1">
+			<div className="overflow-y-auto flex-1">
 				<Outlet />
 			</div>
 		</div>
