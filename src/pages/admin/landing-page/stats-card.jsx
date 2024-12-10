@@ -4,6 +4,7 @@ import { ProgressBar } from "../../../component/admin/progress-bar.jsx";
 import { formatNumber } from "../../../helpers/function.js";
 import { Spinner } from "../../../component/spinner.jsx";
 
+
 export function StatsCard({
   bg,
   bgColor = "#4A02E3",
@@ -12,6 +13,7 @@ export function StatsCard({
   value,
   percent,
   loading,
+  showIncrease = true,
 }) {
   return (
     <div
@@ -27,7 +29,7 @@ export function StatsCard({
           <Spinner />
         ) : (
           <div className="flex items-center gap-1">
-            {value > 0 && <IncreaseIcon />}
+            {showIncrease > 0 && <IncreaseIcon />}
             <p className="text-2xl font-bold">{formatNumber(value || 0)}</p>
           </div>
         )}
@@ -55,4 +57,5 @@ StatsCard.propTypes = {
   value: PropTypes.number,
   percent: PropTypes.number,
   loading: PropTypes.bool,
+  showIncrease: PropTypes.bool,
 };

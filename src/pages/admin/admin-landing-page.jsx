@@ -20,7 +20,7 @@ function AdminLandingPage() {
   }, []);
 
   return (
-    <div className="h-full flex">
+    <div className="h-full flex p-4">
       <div className="w-64 flex flex-col h-full">
         <div className="pr-4 flex-1">
           <div className="flex flex-col gap-4">

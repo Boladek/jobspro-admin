@@ -1,6 +1,7 @@
 import { FinancialStatementProvider } from "../../context/financial-statement-context";
 import { FinancialStatement } from "../admin/users/staff/financial-statement";
 import { FeesAndCommissionsPage } from "./fees-and-commissions";
+import { TransactionsPage } from "./transactions";
 
 export const financialsRoutes = [
   {
@@ -14,7 +15,7 @@ export const financialsRoutes = [
   },
   {
     path: "transactions",
-    element: <div>Fess and commissions</div>,
+    element: <TransactionsPage />,
   },
   {
     path: "reports",

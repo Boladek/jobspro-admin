@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 // fill={isSelected ? "#1A68FF" : "#667085"}
 export function AdminLink({ link, isSelected }) {
   const navigate = useNavigate();
-  const Icon = link.icon;
   return (
     <div
       className={`px-3 py-2 rounded-lg flex gap-2 items-center text-[14px] cursor-pointer hover:bg-[#E5EEFF] transition-all ease-linear 300s ${

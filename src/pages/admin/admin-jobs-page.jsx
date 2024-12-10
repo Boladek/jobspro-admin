@@ -8,8 +8,8 @@ import { CommissionProvider } from "../../context/commission-context";
 function AdminJobsPage() {
 	const [open, setOpen] = useState(false);
 	return (
-		<div className="flex gap-4 h-full">
-			<div className="w-64 flex flex-col h-full overflow-auto p-4 pr-4">
+		<div className="flex gap-4 h-full p-4">
+			<div className="w-64 flex flex-col h-full overflow-autopr-4">
 				<div className="mb-4">
 					<div
 						className="p-3 bg-[#E9EFF2] rounded-md flex gap-4 items-center mb-8 w-fit text-sm pr-8 cursor-pointer hover:opacity-80"
