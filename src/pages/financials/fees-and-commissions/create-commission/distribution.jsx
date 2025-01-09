@@ -101,9 +101,9 @@ export function Distribution({ handleForm, form, goBack }) {
           </tr>
         </thead>
         <tbody>
-          {generateArray(8).map(() => (
-            <tr key={Math.random()}>
-              <td className="p-2">City</td>
+          {generateArray(8).map((_, index) => (
+            <tr key={Math.random()} className="text-xs">
+              <td className="p-2">City {index + 1} </td>
               <td className="p-2">
                 <input
                   type="number"

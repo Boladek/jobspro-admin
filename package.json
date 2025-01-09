@@ -17,6 +17,7 @@
     "@react-google-maps/api": "^2.19.3",
     "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^2.2.5",
+    "@sendbird/chat": "^4.16.1",
     "@tanstack/react-query": "^5.39.0",
     "axios": "^1.6.8",
     "date-fns": "^3.6.0",

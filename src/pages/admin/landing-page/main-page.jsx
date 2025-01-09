@@ -2,15 +2,15 @@ import { useMemo } from "react";
 import { StatsSummary } from "./stats-summary";
 import { JobsPosted } from "./jobs-posted";
 import { PieChart } from "../../../component/pie-chart";
-import { Calendar } from "./calendar";
+// import { Calendar } from "./calendar";
 import { ProgressBar } from "../../../component/admin/progress-bar";
 import { WalletIcon } from "../../../assets/admin/wallet-icon";
 import { BarChart } from "../../../component/bar-chart";
 import { JobsHook } from "../../../hooks/jobs-hook";
-import { DateHook } from "../../../hooks/date-hook";
+// import { DateHook } from "../../../hooks/date-hook";
 
 export function DashboardMainPage() {
-  const { startDate, endDate, setEndDate, setStartDate } = DateHook();
+  // const { startDate, endDate, setEndDate, setStartDate } = DateHook();
   const { jobsStats } = JobsHook();
 
   const barChart = useMemo(() => {
@@ -50,14 +50,14 @@ export function DashboardMainPage() {
                 <option>State</option>
               </select>
             </div>
-            <div className="">
+            {/* <div className="">
               <Calendar
                 startDate={startDate}
                 endDate={endDate}
                 handleStartDate={(val) => setStartDate(val)}
                 handleEndDate={(val) => setEndDate(val)}
               />
-            </div>
+            </div> */}
           </div>
           <div className="w-full flex gap-2 justify-between mb-4">
             <div>

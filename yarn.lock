@@ -1087,6 +1087,11 @@
   resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.14.0.tgz#0bb7ac3cd1c3292db1f39afdabfd03ccea3a3d34"
   integrity sha512-aGg7iToJjdklmxlUlJh/PaPNa4PmqHfyRMLunbL3eaMO0gp656+q1zOKkpJ/CVe9CryJv6tAN1HDoR8cNGzkag==
 
+"@sendbird/chat@^4.16.1":
+  version "4.16.1"
+  resolved "https://registry.yarnpkg.com/@sendbird/chat/-/chat-4.16.1.tgz#83bd2f8e29c1bf38b31eb22b08bba99036fffe93"
+  integrity sha512-PK1vl7gznGvYHb98Pg1nnxmuoNc7y+j1YQvLtXvGUIFN9oDFJtTbzlHveNseCpx89gSTybskbBnm13l1taH0JQ==
+
 "@svgr/babel-plugin-add-jsx-attribute@8.0.0":
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/@svgr/babel-plugin-add-jsx-attribute/-/babel-plugin-add-jsx-attribute-8.0.0.tgz#4001f5d5dd87fa13303e36ee106e3ff3a7eb8b22"

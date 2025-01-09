@@ -10,4 +10,5 @@ export const configKeys = {
 	wsAddress: import.meta.env.VITE_WS_ADDRESS,
 	apiAddress: import.meta.env.VITE_API_ADDRESS,
 	placesApiID: import.meta.env.VITE_PLACES_ID,
+	sendBirdAppID: import.meta.env.VITE_SENDBIRD_ID,
 };

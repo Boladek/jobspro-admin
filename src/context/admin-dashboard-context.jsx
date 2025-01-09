@@ -1,8 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import PropTypes from "prop-types";
 import { createContext, useContext } from "react";
-// import profileAxios from "../helpers/profileAxios";
-// import { useSelector } from "react-redux";
 import customAxios from "../config/customAxios";
 
 // Create AdminDashBoardContext
@@ -15,8 +13,6 @@ export const UseAdminDashboardContext = () => {
 
 // Create AdminDashboardProvider component
 export const AdminDashboardProvider = ({ children }) => {
-  // const { user } = useSelector((state) => state.auth);
-
   const {
     data: walletStats = {},
     refetch: refetchWalletStats,
@@ -28,18 +24,6 @@ export const AdminDashboardProvider = ({ children }) => {
     retry: 2,
     select: (data) => data,
   });
-
-  // const {
-  // 	data: accounts = {},
-  // 	refetch: refetchWalletBalance,
-  // 	isLoading: gettingWalletDetails,
-  // } = useQuery({
-  // 	queryKey: ["fetch-wallet-balance"],
-  // 	queryFn: () => customAxios.get("/transactions/get-virtual-accounts"),
-  // 	staleTime: Infinity,
-  // 	retry: 2,
-  // 	select: (data) => data,
-  // });
 
   const value = {
     walletStats,

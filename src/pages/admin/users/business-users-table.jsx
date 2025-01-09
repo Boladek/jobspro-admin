@@ -4,8 +4,9 @@ import { StarIcon } from "../../../assets/admin/star-icon";
 import avatar from "../../../assets/profile-avatar.png";
 import { formatNumber } from "../../../helpers/function";
 
-export function UsersTable({ users }) {
+export function BusinessUsersTable({ users }) {
     const navigate = useNavigate();
+    console.log(users);
     return (
         <div className="overflow-x-auto max-h-[600px] min-h-[200px]">
             <table className="min-w-full table-auto text-sm relative">
@@ -15,14 +16,8 @@ export function UsersTable({ users }) {
                             className="px-2 py-4 text-[12px] font-[600]"
                             align="left"
                         >
-                            Name
+                            Company Name
                         </th>
-                        {/* <th className="px-2 py-4 text-[12px]" align="left">
-              Profession
-            </th>
-            <th className="px-2 py-4 text-[12px]" align="left">
-              Country
-            </th> */}
                         <th
                             className="px-2 py-4 text-[12px] font-[600]"
                             align="left"
@@ -56,12 +51,12 @@ export function UsersTable({ users }) {
                             <td className="p-2 flex items-center gap-2 text-[12px]">
                                 <img
                                     src={item.profilePicture ?? avatar}
-                                    alt={item.firstName}
+                                    alt={item.companyName}
                                     className="h-10 w-10 rounded-full"
                                 />
                                 <div className="capitalize text-[12px]">
                                     <p className="font-bold text-adminPrimary">
-                                        {item.firstName} {item.lastName}
+                                        {item.companyName}
                                     </p>
                                     <p className="font-extralight text-xs">
                                         {item.finclusionId}
@@ -69,7 +64,7 @@ export function UsersTable({ users }) {
                                 </div>
                             </td>
                             <td className="p-2 text-[12px]">
-                                {item.completedGigsCount}
+                                {formatNumber(item.completedGigsCount)}
                             </td>
                             <td className="p-2 text-[12px]">
                                 <div className="flex gap-2 text-[12px]">
@@ -88,6 +83,6 @@ export function UsersTable({ users }) {
     );
 }
 
-UsersTable.propTypes = {
+BusinessUsersTable.propTypes = {
     users: PropTypes.array,
 };

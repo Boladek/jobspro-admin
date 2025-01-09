@@ -1,17 +1,21 @@
-import { CgUnavailable } from "react-icons/cg";
-import { string } from "prop-types";
+import PropTypes from "prop-types";
+import { LuSearch } from "react-icons/lu";
 
-export function NoInfo({ message = "" }) {
-	return (
-		<div className="text-center">
-			<div className="flex justify-center">
-				<CgUnavailable className="text-9xl text-rose-500" />
-			</div>
-			<p className="text-sm font-semibold text-gray-500">{message}</p>
-		</div>
-	);
+export function NoInfo({ className, message }) {
+  return (
+    <div
+      className={`flex flex-col items-center gap-2 justify-center ${
+        className || ""
+      }`}
+    >
+      <LuSearch className="text-[44px] text-[#808080]" />
+      <p className="text-[12px] font-[500] text-[#808080]">{message}</p>
+    </div>
+  );
 }
 
 NoInfo.propTypes = {
-	message: string,
+  height: PropTypes.string,
+  className: PropTypes.string,
+  message: PropTypes.string,
 };

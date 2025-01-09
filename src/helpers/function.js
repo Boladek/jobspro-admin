@@ -112,3 +112,30 @@ export const getAmPm = (timeStr) => {
 
 	return `${adjustedTimeStr} ${period}`;
 };
+
+
+export function calculateTimeLeft({ startTime, endTime, date }) {
+
+	// Combine the date with start and end times
+	const startDateTime = new Date(`${date}T${startTime}`);
+	const endDateTime = new Date(`${date}T${endTime}`);
+	const now = new Date();
+
+	// Calculate the time difference
+	let timeDifference = endDateTime - now;
+
+	if (timeDifference < 0) {
+		return "The event has already ended.";
+	}
+
+	// Calculate days, hours, and minutes
+	const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+	timeDifference %= (1000 * 60 * 60 * 24);
+
+	const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+	timeDifference %= (1000 * 60 * 60);
+
+	const minutes = Math.floor(timeDifference / (1000 * 60));
+
+	return { days, hours, minutes };
+}

@@ -3,12 +3,14 @@ import { UseAdminUsersContext } from "../../../context/admin-users-context";
 import { Staff } from "./staff";
 
 export function AdminUsersListPage() {
-	const { activeTab } = UseAdminUsersContext();
+    const { activeTab } = UseAdminUsersContext();
 
-	return (
-		<>
-			{activeTab === "pro" && <OrdinaryUsersPage />}
-			{activeTab === "staff" && <Staff />}
-		</>
-	);
+    return (
+        <>
+            {(activeTab === "pro" || activeTab === "business") && (
+                <OrdinaryUsersPage />
+            )}
+            {activeTab === "staff" && <Staff />}
+        </>
+    );
 }
