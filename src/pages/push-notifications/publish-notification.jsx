@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { useState } from "react";
 import { SideWrapper } from "../../component/side-wrapper";
 import { useForm } from "react-hook-form";
 import { checkIfFileIsImage, generateArray } from "../../helpers/function";
