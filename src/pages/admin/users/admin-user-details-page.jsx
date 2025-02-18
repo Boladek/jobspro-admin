@@ -1,4 +1,4 @@
-import { useState, useContext, createContext } from "react";
+import { useState, useContext, createContext, useMemo } from "react";
 import { UserDetailsSection } from "./user-details-section";
 import { UserActions } from "./actions";
 import { JobsSection } from "./jobs";

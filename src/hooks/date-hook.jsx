@@ -1,15 +1,17 @@
-import { useQuery } from "@tanstack/react-query";
-import customAxios from "../config/customAxios";
 import { useState } from "react";
+import { formatDateToStandard } from "../helpers/function";
 
 export function DateHook() {
-  const today = new Date();
-  today.setMonth(today.getMonth() + 1);
-  today.setDate(0);
-  const [startDate, setStartDate] = useState(
-    new Date(today.getFullYear(), today.getMonth(), 1)
-  );
-  const [endDate, setEndDate] = useState(new Date(today));
+    const today = new Date();
 
-  return { startDate, endDate, setEndDate, setStartDate };
+    // Get first day of the current month
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+    // Get today's date (endDate)
+    const [startDate, setStartDate] = useState(
+        formatDateToStandard(firstDayOfMonth)
+    );
+    const [endDate, setEndDate] = useState(formatDateToStandard(today));
+
+    return { startDate, endDate, setEndDate, setStartDate };
 }
